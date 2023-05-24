@@ -16,7 +16,7 @@ WHERE {
   }
   UNION
   {
-    SELECT
+    SELECT DISTINCT
       (2 AS ?order)
       ("Number of characters" AS ?description)
       (COUNT(*) AS ?value)
