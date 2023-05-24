@@ -45,6 +45,8 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 		convertedRow[key] = '<img src="' + data[i][key] + '">';
 
 	    } else if (key + 'Label' in data[i]) {
+		console.log(((linkPrefixes[key] || "") + 
+		    detectCorrectParameter(data[i][key].substr(31))).replace("_index",""))
 		convertedRow[key] = '<a href="' +
 		    ((linkPrefixes[key] || "") + 
 		    detectCorrectParameter(data[i][key].substr(31))).replace("_index","") +
