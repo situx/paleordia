@@ -11,7 +11,7 @@ WHERE {
   {
     BIND(1 AS ?order)
 	?chara wdt:P282 ?script .
-    ?script rdfs:label ?description .
+    ?chara rdfs:label ?description .
     FILTER (LANG(?description) = 'en')
     BIND(COALESCE(?description, ?q) AS ?value)
   }
