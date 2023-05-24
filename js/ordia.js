@@ -46,8 +46,8 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
-		    (linkPrefixes[key] || "") + 
-		    detectCorrectParameter(data[i][key].substr(31)).replace("_index","") +
+		    ((linkPrefixes[key] || "") + 
+		    detectCorrectParameter(data[i][key].substr(31))).replace("_index","") +
 		    '">' + data[i][key + 'Label'] + '</a>';
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
