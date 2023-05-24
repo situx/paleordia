@@ -61,7 +61,7 @@ WHERE {
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = "en")
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
-	FILTER (?compound != wd:${ c })
+	FILTER (?value != wd:${ c })
   }
   UNION 
   {
@@ -119,26 +119,16 @@ ORDER BY ?order
 
 
  compoundsSparql = `
-SELECT
-  ?lexeme ?lexemeLabel
-  ?lexical_category ?lexical_categoryLabel
-  ?other_compounds
-WHERE {
-  {
-    SELECT
-      ?lexeme
-      (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
+SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
       wd:${ c } wdt:P527 ?compound.
       OPTIONAL {
         ?compound rdfs:label ?compoundLabel .
-        FILTER (?compound != wd:${ c })
+        FILTER (LANG(?compoundLabel) = "en")
+        FILTER (?compound != wd:Q87556731)
       }
     }
-    GROUP BY ?lexeme
-  }    
-  ?lexeme rdfs:label ?lexemeLabel .
-}
+    GROUP BY ?lexeme ?compound  
 `
 
 
@@ -174,7 +164,7 @@ WHERE {
 	 <a title="View and edit lexeme in Wikidata"
 	    role="button"
 	    class="btn btn-outline-dark btn-sm"
-	    href="https://www.wikidata.org/wiki/Lexeme:${ c }">Wikidata ↗</a>
+	    href="https://www.wikidata.org/wiki/${ c }">Wikidata ↗</a>
      </p>
      
      <table class="table table-hover" id="lexeme"></table>
