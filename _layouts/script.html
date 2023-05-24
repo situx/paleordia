@@ -10,12 +10,10 @@ WHERE {
   BIND(wd:${ q } AS ?script)
   {
     BIND(1 AS ?order)
-	?valueUrl wdt:P282 ?script .
-	?valueUrl wdt:P31 ?theclass .
-	?theclass wdt:P279* wd:Q3241972 .
-    ?valueUrl rdfs:label ?description .
-    FILTER (LANG(?description) = 'en')
-    BIND(COALESCE(?description, ?q) AS ?value)
+    BIND("Script" AS ?description)
+    ?script rdfs:label ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
   }
   UNION
   {
@@ -24,7 +22,9 @@ WHERE {
       ("Number of characters" AS ?description)
       (COUNT(*) AS ?value)
     {
-      [] dct:language wd:${ q } .
+	?value wdt:P282 ?script .
+	?value wdt:P31 ?theclass .
+	?theclass wdt:P279* wd:Q3241972 .
       BIND(1 AS ?dummy)
     }
     GROUP BY ?dummy
@@ -48,76 +48,17 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT
-  ?lexeme ?lexemeLabel
-  ?lexical_category ?lexical_categoryLabel
-WITH {
-  SELECT ?lexeme ?lexemeLabel ?lexical_category WHERE {
-    ?lexeme a ontolex:LexicalEntry ;
-            dct:language wd:${ q } ; 
-            wikibase:lemma ?lexemeLabel .
-    OPTIONAL {
-      ?lexeme wikibase:lexicalCategory ?lexical_category .
-    }
+  SELECT ?character ?characterLabel WHERE {
+	?character wdt:P282 ?script .
+	?character wdt:P31 ?theclass .
+	?theclass wdt:P279* wd:Q3241972 .
+    ?character rdfs:label ?characterLabel .
+    FILTER (LANG(?characterLabel) = 'en')
+    BIND(COALESCE(?characterLabel, ?q) AS ?value)
   }
   LIMIT 10000
-} AS %results
-WHERE {
-  INCLUDE %results
-  OPTIONAL {        
-    ?lexical_category rdfs:label ?lexical_categoryLabel .
-    FILTER (LANG(?lexical_categoryLabel) = "en")
-  }
-  # SERVICE does not work!?
-  # SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
-  `
-
-  lexicalCategoriesSparql = `
-# tool: ordia
-# title: Statistics for word class for a specific language
-SELECT
-  ?count
-    ?lexical_category ?lexical_categoryLabel
-    ?zoom ?zoomUrl
-    ?lexical_categoryDescription
-WITH {
-  SELECT
-    (COUNT(*) AS ?count)
-    ?lexical_category
-  {
-    [] a ontolex:LexicalEntry ;
-       dct:language wd:${ q } ; 
-       wikibase:lexicalCategory ?lexical_category .
-  }
-    GROUP BY ?lexical_category
-} AS %results
-WHERE {
-  INCLUDE %results
-  BIND("→" AS ?zoom)
-  BIND(CONCAT("../lexical-category/", SUBSTR(STR(?lexical_category), 32) ,"/language/${ q }") AS ?zoomUrl)
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" . }
-}
-ORDER BY DESC(?count)
 `
-
-
- longestWordsAndPhrasesSparql = `
-# tool: ordia
-# title: List of longest words for a language
-# https://lists.wikimedia.org/pipermail/wikidata/2018-October/012545.html
-SELECT DISTINCT ?length ?form ?formLabel ?lexeme ?lexemeLabel WHERE {
-  ?lexeme a ontolex:LexicalEntry ;
-          dct:language wd:${ q } ;
-          wikibase:lemma ?lexemeLabel .
-  ?lexeme ontolex:lexicalForm ?form .
-  ?form ontolex:representation ?formLabel
-  BIND(STRLEN(?formLabel) AS ?length)  
-} 
-ORDER BY DESC(?length) 
-LIMIT 200
-  `
-
 
  $(document).ready(function() {
      sparqlToDataTable(dataSparql, "#data");
@@ -125,15 +66,6 @@ LIMIT 200
 	 'linkPrefixes': {
 	     'lexeme': '../',
 	     'lexical_category': '../'}});
-     sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
-	 'linkPrefixes': {
-	     'lexical_category': '../lexical-category/',
-	 }});
-     sparqlToDataTable(longestWordsAndPhrasesSparql,
-		       "#longest-words-and-phrases", {
-			   'linkPrefixes': {
-			       'form': '../',
-			       'lexeme': '../'}});
  });
 
 </script>
