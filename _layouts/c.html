@@ -14,14 +14,14 @@ WHERE {
   {
     BIND(1 AS ?order)
     BIND("Lemma" AS ?description)
-    ?lexeme wikibase:lemma ?value .
+    ?character wikibase:lemma ?value .
     BIND(?value AS ?valueLabel)
   }
   UNION 
   {
     BIND(2 AS ?order)
     BIND("Script" AS ?description)
-    ?lexeme wdt:P282 ?value .
+    ?character wdt:P282 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
     BIND(CONCAT("script/", SUBSTR(STR(?value), 32))  AS ?value_Url)
@@ -30,7 +30,7 @@ WHERE {
   {
     BIND(3 AS ?order)
     BIND("depicts" AS ?description)
-    ?lexeme wdt:P180 ?value .
+    ?character wdt:P180 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
     BIND(CONCAT("lexical-category/", SUBSTR(STR(?value), 32))  AS ?value_Url)
@@ -39,7 +39,7 @@ WHERE {
   {
     BIND(4 AS ?order)
     BIND("Instance of" AS ?description)
-    ?lexeme p:P31 ?value_statement .
+    ?character p:P31 ?value_statement .
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
@@ -56,7 +56,7 @@ WHERE {
     # Homographs
     BIND(16 AS ?order)
     BIND("Time Periods" AS ?description)
-    wd:${ c } wdt:P2348 ?value .
+    ?character wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
@@ -65,7 +65,7 @@ WHERE {
   {
     BIND(18 AS ?order)
     BIND("Compound" AS ?description)
-    wd:${ c } wdt:P527+ ?value .
+    ?character wdt:P527+ ?value .
     ?value wikibase:lemma ?valueLabel .
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
   }
@@ -73,7 +73,7 @@ WHERE {
   {
     BIND(20 AS ?order)
     BIND("Described in" AS ?description)
-    ?lexeme ontolex:lexicalForm? / p:P1343 ?value_statement .
+    ?character ontolex:lexicalForm? / p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
