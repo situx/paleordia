@@ -3,6 +3,15 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function detectCorrectParameter(url){
+	if url.startsWith("Q"):
+		return "?q="+url.replaceAll("/","")
+	if url.startsWith("L"):
+		return "?l="+url.replaceAll("/","")
+	if url.startsWith("P"):
+		return "?p="+url.replaceAll("/","")
+	return url
+}
 
 function convertDataTableData(data, columns, linkPrefixes={}) {
     // Handle 'Label' columns.
@@ -35,7 +44,7 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
 		    (linkPrefixes[key] || "") + 
-		    data[i][key].substr(31) +
+		    detectCorrectParameter(data[i][key].substr(31)) +
 		    '">' + data[i][key + 'Label'] + '</a>';
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
