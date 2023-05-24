@@ -65,7 +65,7 @@ WHERE {
   {
     BIND(18 AS ?order)
     BIND("Compound" AS ?description)
-    ?character wdt:P527+ ?value .
+    ?character wdt:P361+ ?value .
     ?value wikibase:lemma ?valueLabel .
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
   }
@@ -117,10 +117,7 @@ ORDER BY ?order
  WHERE {
    wd:${ c } wdt:P180 ?sense .
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
-   ?sense skos:definition ?gloss .
-   OPTIONAL {
-     ?sense wdt:P18 ?images
-   }
+   ?sense rdfs:label ?gloss .
  }
  GROUP BY ?sense ?senseLabel
  ORDER BY (STR(?sense))
