@@ -10,7 +10,7 @@ SELECT DISTINCT
   (?valueLabel AS ?value_) ?value_Url
   ?source ?sourceUrl
 WHERE {
-  VALUES ?lexeme { wd:{{ l }} }
+  VALUES ?lexeme { wd:${ l } }
   {
     BIND(1 AS ?order)
     BIND("Lemma" AS ?description)
@@ -92,7 +92,7 @@ WHERE {
     # Characterized by
     BIND(13 AS ?order)
     BIND("Characterized by" AS ?description)
-    wd:{{ l }} wdt:P1552 ?value .
+    wd:${ l } wdt:P1552 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
     BIND(CONCAT("property/P1552/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
@@ -113,15 +113,24 @@ WHERE {
     # Homographs
     BIND(15 AS ?order)
     BIND("Homographs" AS ?description)
-    wd:{{ l }} wdt:P5402 ?value .
+    wd:${ l } wdt:P5402 ?value .
     ?value wikibase:lemma ?valueLabel .
+    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+  }
+  UNION 
+  {
+    # Homographs
+    BIND(16 AS ?order)
+    BIND("Time Periods" AS ?description)
+    wd:${ l } wdt:P2348 ?value .
+    ?value rdfs:label ?valueLabel .
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
   }
   UNION 
   {
     BIND(18 AS ?order)
     BIND("Compound" AS ?description)
-    wd:{{ l }} wdt:P5238+ ?value .
+    wd:${ l } wdt:P5238+ ?value .
     ?value wikibase:lemma ?valueLabel .
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
   }
@@ -208,7 +217,7 @@ ORDER BY ?order
    (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
-   wd:{{ l }} ontolex:lexicalForm ?form .
+   wd:${ l } ontolex:lexicalForm ?form .
    ?form ontolex:representation ?formLabel .
    OPTIONAL {
      ?form wikibase:grammaticalFeature ?feature .
@@ -231,7 +240,7 @@ ORDER BY ?order
   (IRI(CONCAT("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file&width=200&wpvalue=", 
           SUBSTR(STR(SAMPLE(?images)), 52))) AS ?sense_image)
  WHERE {
-   wd:{{ l }} ontolex:sense ?sense .
+   wd:${ l } ontolex:sense ?sense .
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
    ?sense skos:definition ?gloss .
    OPTIONAL {
@@ -254,11 +263,11 @@ WHERE {
       ?lexeme
       (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      ?lexeme wdt:P5238+ wd:{{ l }} .
+      ?lexeme wdt:P5238+ wd:${ l } .
       OPTIONAL {
         ?lexeme wdt:P5238 ?compound .
         ?compound wikibase:lemma ?compoundLabel .
-        FILTER (?compound != wd:{{ l }})
+        FILTER (?compound != wd:${ l })
       }
     }
     GROUP BY ?lexeme
@@ -294,7 +303,7 @@ WHERE {
 
  <div class="l-entry">
 
-     <h1>Lexeme: {{ l }}</h1>
+     <h1>Lexeme: ${ l }</h1>
      
      
      <p>
@@ -305,7 +314,7 @@ WHERE {
 	 <a title="View and edit lexeme in Wikidata"
 	    role="button"
 	    class="btn btn-outline-dark btn-sm"
-	    href="https://www.wikidata.org/wiki/Lexeme:{{ l }}">Wikidata ↗</a>
+	    href="https://www.wikidata.org/wiki/Lexeme:${ l }">Wikidata ↗</a>
      </p>
      
      <table class="table table-hover" id="lexeme"></table>
@@ -330,7 +339,7 @@ WHERE {
     <h2>Compound and derivation graph</h2>
     
     <div class="embed-responsive embed-responsive-4by3">
-      <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23%20Show%20compound%20and%20derivation%20hierarchy%0A%23defaultView%3AGraph%0ASELECT%20DISTINCT%0A%20%20%3Flexeme1%20%3Flexeme1Label%20%3Flexeme1Image%0A%20%20%3Flexeme2%20%3Flexeme2Label%20%3Flexeme2Image%0A%7B%0A%20%20hint%3AQuery%20hint%3Aoptimizer%20%22None%22.%0A%20%20VALUES%20%3Flexeme%20%7B%20wd%3A{{ l }}%20%7D%0A%20%20%7B%0A%20%20%20%20%3Flexeme%20%28wdt%3AP5238%20%7C%20wdt%3AP5191%29%2B%20%7C%20%28%5Ewdt%3AP5238%20%7C%20%5Ewdt%3AP5191%29%2B%20%3Flexeme1%20%2C%20%3Flexeme2%20.%20%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme1%29%0A%20%20%20%20%3Flexeme%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme2%29%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme%20.%0A%20%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme1%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme1Image%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme2%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme2Image%20%7D%0A%20%20%3Flexeme1%20wikibase%3Alemma%20%3Flexeme1Label%20.%0A%20%20%3Flexeme2%20wikibase%3Alemma%20%3Flexeme2Label%20.%0A%7D%0ALIMIT%20500"></iframe>
+      <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23%20Show%20compound%20and%20derivation%20hierarchy%0A%23defaultView%3AGraph%0ASELECT%20DISTINCT%0A%20%20%3Flexeme1%20%3Flexeme1Label%20%3Flexeme1Image%0A%20%20%3Flexeme2%20%3Flexeme2Label%20%3Flexeme2Image%0A%7B%0A%20%20hint%3AQuery%20hint%3Aoptimizer%20%22None%22.%0A%20%20VALUES%20%3Flexeme%20%7B%20wd%3A${ l }%20%7D%0A%20%20%7B%0A%20%20%20%20%3Flexeme%20%28wdt%3AP5238%20%7C%20wdt%3AP5191%29%2B%20%7C%20%28%5Ewdt%3AP5238%20%7C%20%5Ewdt%3AP5191%29%2B%20%3Flexeme1%20%2C%20%3Flexeme2%20.%20%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme1%29%0A%20%20%20%20%3Flexeme%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme2%29%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme%20.%0A%20%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme1%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme1Image%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme2%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme2Image%20%7D%0A%20%20%3Flexeme1%20wikibase%3Alemma%20%3Flexeme1Label%20.%0A%20%20%3Flexeme2%20wikibase%3Alemma%20%3Flexeme2Label%20.%0A%7D%0ALIMIT%20500"></iframe>
   </div>
 
 
