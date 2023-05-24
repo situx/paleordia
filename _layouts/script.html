@@ -54,7 +54,6 @@ ORDER BY ?order
 	?theclass wdt:P279* wd:Q3241972 .
     ?character rdfs:label ?characterLabel .
     FILTER (LANG(?characterLabel) = 'en')
-    BIND(COALESCE(?characterLabel, ?q) AS ?value)
   }
   LIMIT 10000
 }
