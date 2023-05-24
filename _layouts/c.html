@@ -57,7 +57,7 @@ WHERE {
   {
     BIND(18 AS ?order)
     BIND("Compound" AS ?description)
-    ?character wdt:P361 ?value .
+    ?character wdt:P527 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = "en")
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
@@ -129,7 +129,7 @@ WHERE {
       ?lexeme
       (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      wd:${ c } wdt:P361 ?compound.
+      wd:${ c } wdt:P527 ?compound.
       OPTIONAL {
         ?compound rdfs:label ?compoundLabel .
         FILTER (?compound != wd:${ c })
