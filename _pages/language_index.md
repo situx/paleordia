@@ -1,4 +1,4 @@
 ---
-layout: language
+layout: language_index
 title: Language
 ---
