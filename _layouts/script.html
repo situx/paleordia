@@ -47,7 +47,7 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT ?character ?characterLabel WHERE {
+  SELECT DISTINCT ?character ?characterLabel WHERE {
 	?character wdt:P282 wd:${ q } .
 	?character wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .

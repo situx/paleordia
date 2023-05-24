@@ -46,7 +46,7 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
-		    window.location.protocol + '//' + window.location.host+"/"+window.location.pathname.replace("_index","")+(linkPrefixes[key] || "") + 
+		    window.location.protocol + '//' + window.location.host+"/"+window.location.pathname.replace("/script/","/c/").replace("_index","")+(linkPrefixes[key] || "") + 
 		    detectCorrectParameter(data[i][key].substr(31)) +
 		    '">' + data[i][key + 'Label'] + '</a>';
 	    } else if (key.substr(-5) == 'Label') {
