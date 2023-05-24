@@ -4,12 +4,15 @@ function capitalizeFirstLetter(string) {
 }
 
 function detectCorrectParameter(url){
-	if url.startsWith("Q"):
+	if(url.startsWith("Q")){
 		return "?q="+url.replaceAll("/","")
-	if url.startsWith("L"):
+	}
+	if(url.startsWith("L")){
 		return "?l="+url.replaceAll("/","")
-	if url.startsWith("P"):
+	}
+	if(url.startsWith("P")){
 		return "?p="+url.replaceAll("/","")
+	}
 	return url
 }
 
