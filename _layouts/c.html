@@ -15,6 +15,7 @@ WHERE {
     BIND(1 AS ?order)
     BIND("Lemma" AS ?description)
     ?character rdfs:label ?value .
+	FILTER (LANG(?value) = 'en')
     BIND(?value AS ?valueLabel)
   }
   UNION 
