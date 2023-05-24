@@ -22,7 +22,7 @@ WHERE {
       ("Number of characters" AS ?description)
       (COUNT(*) AS ?value)
     {
-	?value wdt:P282 ?script .
+	?value wdt:P282 wd:${ q } .
 	?value wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
       BIND(1 AS ?dummy)
@@ -49,7 +49,7 @@ ORDER BY ?order
 # tool: ordia
 # title: List of characters for a script
   SELECT ?character ?characterLabel WHERE {
-	?character wdt:P282 ?script .
+	?character wdt:P282 wd:${ q } .
 	?character wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
     ?character rdfs:label ?characterLabel .
