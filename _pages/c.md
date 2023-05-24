@@ -1,0 +1,4 @@
+---
+layout: c
+title: Character
+---
