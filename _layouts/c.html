@@ -14,7 +14,7 @@ WHERE {
   {
     BIND(1 AS ?order)
     BIND("Lemma" AS ?description)
-    ?character wikibase:lemma ?value .
+    ?character rdfs:label ?value .
     BIND(?value AS ?valueLabel)
   }
   UNION 
