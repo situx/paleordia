@@ -124,6 +124,7 @@ WHERE {
     BIND("Time Periods" AS ?description)
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
+	FILTER (LANG(?valueLabel) = 'en')
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
   }
   UNION 
