@@ -28,15 +28,6 @@ WHERE {
   }
   UNION 
   {
-    BIND(3 AS ?order)
-    BIND("depicts" AS ?description)
-    ?character wdt:P180 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("lexical-category/", SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
     BIND(4 AS ?order)
     BIND("Instance of" AS ?description)
     ?character p:P31 ?value_statement .

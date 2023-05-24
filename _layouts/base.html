@@ -24,6 +24,23 @@ title: PaleOrdia
 	</div>
 	{% include footer.html %}
   </body>
+	<script>
+	if(typeof(q)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replace('${ q }', q);
+	}
+	if(typeof(l)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replace('${ l }', l);
+	}
+	if(typeof(p)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replace('${ p }', p);
+	}
+	if(typeof(c)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replace('${ c }', c);
+	}
+	if(typeof(f)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replace('${ f }', f);
+	}
+	</script>
 </html>
 
 
