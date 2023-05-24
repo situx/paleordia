@@ -45,11 +45,9 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 		convertedRow[key] = '<img src="' + data[i][key] + '">';
 
 	    } else if (key + 'Label' in data[i]) {
-		console.log(((linkPrefixes[key] || "") + 
-		    detectCorrectParameter(data[i][key].substr(31))).replace("_index",""))
 		convertedRow[key] = '<a href="' +
-		    ((linkPrefixes[key] || "") + 
-		    detectCorrectParameter(data[i][key].substr(31))).replace("_index","") +
+		    window.location.protocol + '//' + window.location.host+"/"+window.location.pathname.replace("_index","")+(linkPrefixes[key] || "") + 
+		    detectCorrectParameter(data[i][key].substr(31)) +
 		    '">' + data[i][key + 'Label'] + '</a>';
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
