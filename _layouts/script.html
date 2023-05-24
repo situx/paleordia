@@ -10,8 +10,8 @@ WHERE {
   BIND(wd:${ q } AS ?script)
   {
     BIND(1 AS ?order)
-	?chara wdt:P282 ?script .
-    ?chara rdfs:label ?description .
+	?valueUrl wdt:P282 ?script .
+    ?valueUrl rdfs:label ?description .
     FILTER (LANG(?description) = 'en')
     BIND(COALESCE(?description, ?q) AS ?value)
   }
@@ -157,12 +157,12 @@ LIMIT 200
      href="https://scholia.toolforge.org/topic/${ q }">Scholia ↗</a>
 
 
-  <h2>Data</h2>
+  <h2>Characters</h2>
 
   <table class="table table-hover" id="data"></table>
   
 
-  <h2>Characters</h2>
+  <h2>Characters in Lexemes</h2>
 
   <table class="table table-hover" id="lexemes"></table>
 
