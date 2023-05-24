@@ -1,0 +1,154 @@
+---
+layout: base.html
+---
+
+<script type="text/javascript">
+ lexemesByLanguageSparql = `
+SELECT
+  ?count
+  ?language ?languageLabel
+  ?example_lexeme ?example_lexemeLabel
+WITH {
+  SELECT 
+    (COUNT(?lexeme) AS ?count)
+    ?language
+    (SAMPLE(?lexeme) AS ?example_lexeme)
+  {
+    ?lexeme wdt:${ p } wd:${ q } ;
+            dct:language ?language
+  }
+  GROUP BY ?language
+} AS %counts
+WHERE {
+  INCLUDE %counts
+  
+  ?example_lexeme wikibase:lemma ?example_lexemeLabel .
+  ?language rdfs:label ?languageLabel .
+  FILTER (LANG(?languageLabel) = 'en')
+}
+ORDER BY DESC(?count)
+`
+
+
+ lexemesSparql = `
+SELECT
+  ?lexeme ?lexemeLabel
+  ?language ?languageLabel
+  ?value ?valueLabel
+WHERE {
+  BIND(wd:${ q } AS ?value)
+  ?lexeme wikibase:lemma ?lexemeLabel .
+  ?lexeme a ontolex:LexicalEntry .
+  ?lexeme wdt:${ p } ?value .
+  ?lexeme dct:language ?language
+  OPTIONAL {
+    ?language rdfs:label ?languageLabel .
+    FILTER (LANG(?languageLabel) = 'en')
+  }
+  OPTIONAL {
+    { ?value wikibase:lemma ?valueLabel1 . }
+    UNION
+    { ?value rdfs:label ?valueLabel2 . FILTER (LANG(?valueLabel2) = 'en') }
+    BIND(COALESCE(?valueLabel1, ?valueLabel2) AS ?valueLabel)
+  }
+}
+LIMIT 1000
+  `
+
+ formsByLanguageSparql = `
+SELECT
+  ?count
+  ?language ?languageLabel
+  ?example_lexeme ?example_lexemeLabel
+WITH {
+  SELECT 
+    (COUNT(?lexeme) AS ?count)
+    ?language
+    (SAMPLE(?lexeme) AS ?example_lexeme)
+  {
+    ?lexeme ontolex:lexicalForm / wdt:${ p } wd:${ q } ;
+            dct:language ?language
+  }
+  GROUP BY ?language
+} AS %counts
+WHERE {
+  INCLUDE %counts
+  
+  ?example_lexeme wikibase:lemma ?example_lexemeLabel .
+  ?language rdfs:label ?languageLabel .
+  FILTER (LANG(?languageLabel) = 'en')
+}
+ORDER BY DESC(?count)
+   `; 
+ 
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesByLanguageSparql, "#lexemes-by-language", {
+	 linkPrefixes: {
+	     example_lexeme: '../../../',
+	     language: '../../../language/', 
+	 }});
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 linkPrefixes: {
+	     lexeme: '../../../',
+	     language: '../../../language/', 
+	     value: '../../../'}});
+     sparqlToDataTable(formsByLanguageSparql, "#forms-by-language", {
+	 linkPrefixes: {
+	     example_lexeme: '../../../',
+	     language: '../../../language/', 
+	 }});
+ });
+
+</script>
+
+<div class="property-entries">
+  <h1>Property/value: {{ p }}/{{ q }}</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="../../{{ p }}">←</a>
+  
+  <a title="View and edit property on Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/Property:{{ p }}">Wikidata for property</a>
+  <a title="View and edit item on Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/{{ q }}">Wikidata for value</a>
+
+  <a title="View property in Scholia"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/{{ p }}">Scholia for property</a>
+  <a title="View item in Scholia"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/topic/{{ q }}">Scholia for value</a>
+
+  <hr/>
+
+  <h2>Lexemes</h2>
+
+
+  <h3>Lexemes by language</h3>
+  
+  <table class="table table-hover" id="lexemes-by-language"></table>
+  
+
+  <h3>Lexemes by language and value</h3>
+  
+  <table class="table table-hover" id="lexemes"></table>
+
+  <hr/>
+  
+  <h2>Forms</h2>
+  
+  <h3>Forms by language</h3>
+  
+  <table class="table table-hover" id="forms-by-language"></table>
+
+</div>
+
+

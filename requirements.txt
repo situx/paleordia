@@ -1,8 +1,0 @@
-certifi>=2022.12.7
-docopt
-flask
-functools32 ; python_version < '3'
-regex
-requests
-six
-werkzeug>=0.9

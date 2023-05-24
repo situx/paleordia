@@ -1,0 +1,67 @@
+---
+layout: base.html
+---
+
+<script type="text/javascript">
+    formsSparql = `
+
+  SELECT
+    ?form (SUBSTR(STR(?form), 32) AS ?formLabel)
+    ?lexeme ?lexemeLabel
+    ?lexical_category ?lexical_categoryLabel
+    ?gloss ?glossUrl
+    ?language ?languageLabel    
+{
+    VALUES ?representation {
+	    {% for language in languages %}"{{ representation }}"@${ lang } {% endfor %}
+  }	  
+  ?form ontolex:representation ?representation .
+  ?lexeme ontolex:lexicalForm ?form .
+  ?lexeme wikibase:lemma ?lexemeLabel .
+	
+  ?lexeme dct:language ?language .
+  ?language rdfs:label ?languageLabel .
+  FILTER (LANG(?languageLabel) = 'en')
+
+  ?lexeme wikibase:lexicalCategory ?lexical_category .
+  ?lexical_category rdfs:label ?lexical_categoryLabel .
+  FILTER (LANG(?lexical_categoryLabel) = 'en')
+  
+  OPTIONAL {
+    ?lexeme ontolex:sense / skos:definition ?gloss
+    FILTER (LANG(?gloss) = 'en')
+      BIND(CONCAT("../text-to-lexemes?text-language=en&text=", ENCODE_FOR_URI(?gloss)) AS ?glossUrl)
+
+  }
+}
+ORDER BY ?form
+`
+
+
+ $(document).ready(function() {
+     sparqlToDataTable(formsSparql, "#forms",
+		       options={
+			   linkPrefixes: {
+			       form: '../',
+			       lexeme: '../',
+			       lexical_category: '../lexical-category/',
+			       language: '../language/',
+			   },
+			   paging: false
+		       });
+  });
+
+</script>
+
+<div class="representation">
+  
+  <h1>Representation</h1>
+
+  <h2>Forms</h2>
+  
+  <table class="table table-hover" id="forms"></table>
+
+  
+</div>
+
+

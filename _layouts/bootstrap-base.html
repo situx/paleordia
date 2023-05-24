@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <body{% block body_attribs %}{% endblock body_attribs %}>
+    {% block navbar %}
+    {%- endblock navbar %}
+	{{content}}
+    {% block scripts %}
+    <script src="{{site.baseurl}}/js/jquery.min.js"></script>
+    <script src="{{site.baseurl}}/js/bootstrap.min.js"></script>
+  </body>
+</html>

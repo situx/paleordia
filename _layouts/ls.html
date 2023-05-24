@@ -1,0 +1,251 @@
+---
+layout: base.html
+---
+
+<script type="text/javascript">
+ senseDataSparql = `
+
+# Data for a specific sense
+SELECT DISTINCT 
+  ?description ?descriptionUrl
+  ?value ?valueLabel ?valueUrl
+  ?source ?sourceLabel ?sourceUrl
+WHERE {
+  BIND(wd:${ l }-${ s } AS ?sense)
+  ?lexeme ontolex:sense ?sense ;
+          dct:language ?language . 
+  {
+    BIND(1 AS ?order)
+    BIND("Lexeme" AS ?description)
+    ?value ontolex:sense ?sense .
+    ?value wikibase:lemma ?valueLabel .
+  }
+  UNION
+  {
+    BIND(2 AS ?order)
+    BIND("Language" AS ?description)
+    ?sense ^ontolex:sense / dct:language ?value .
+    ?value rdfs:label ?valueLabel FILTER (LANG(?valueLabel) = "en")
+  }  
+  UNION
+  {
+    BIND(3 AS ?order)
+    BIND("Concept" AS ?description)
+    ?sense wdt:P5137 | wdt:P9970 ?value .
+    ?value rdfs:label ?valueLabel FILTER (LANG(?valueLabel) = "en")
+  }  
+  UNION
+  {
+    BIND(4 AS ?order)
+    BIND("Gloss" AS ?description)
+    ?sense skos:definition ?value_ . 
+    BIND(LANG(?value_) AS ?language_code)
+    BIND(CONCAT(?value_, " (", LANG(?value_), ")") AS ?value)
+    BIND(CONCAT("./text-to-lexemes?text-language=",
+      ENCODE_FOR_URI(?language_code),
+        "&text=",
+   	ENCODE_FOR_URI(?value_)) AS ?valueUrl)
+  }  
+  UNION
+  {
+    BIND(5 AS ?order)
+    BIND("Gloss quote" AS ?description)
+    ?sense p:P8394 ?value_statement .
+    ?value_statement ps:P8394 ?value_ . 
+    BIND(LANG(?value_) AS ?language_code)
+    BIND(CONCAT(?value_, " (", LANG(?value_), ")") AS ?value)
+    BIND(CONCAT("./text-to-lexemes?text-language=",
+      ENCODE_FOR_URI(?language_code),
+        "&text=",
+   	ENCODE_FOR_URI(?value_)) AS ?valueUrl)
+    OPTIONAL {
+      ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
+      ?source_ rdfs:label ?source .
+      FILTER (LANG(?source) = 'en')
+      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+    }
+  }  
+  UNION
+  {
+    BIND(6 AS ?order)
+    BIND("Usage style" AS ?description)
+    ?sense wdt:P6191 ?value .
+    ?value rdfs:label ?valueLabel FILTER (LANG(?valueLabel) = "en")
+  }  
+  UNION
+  {
+    BIND(10 AS ?order)
+    BIND("Synonym" AS ?description)
+    { ?sense wdt:P5973 ?value . }
+    UNION 
+    {
+      ?sense wdt:P5137 / ^wdt:P5137 ?value .
+      FILTER (?value != ?sense)
+    }
+    ?value ^ontolex:sense / wikibase:lemma ?valueLabel .
+    ?value ^ontolex:sense / dct:language ?language .
+  }
+  UNION
+  {
+    BIND(11 AS ?order)
+    BIND("Hypernym" AS ?description)
+    { ?sense wdt:P6593 ?value . }
+    UNION
+    {
+      ?sense wdt:P5137 / wdt:P279 / ^wdt:P5137 ?value .
+      ?value ^ontolex:sense / dct:language ?language .
+    }
+    ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+  }  
+  UNION
+  {
+    BIND(12 AS ?order)
+    BIND("Hyponym" AS ?description)
+    { ?sense ^wdt:P6593 ?value . }
+    UNION
+    {
+      ?sense wdt:P5137 / ^wdt:P279 / ^wdt:P5137 ?value .
+      ?value ^ontolex:sense / dct:language ?language .
+    }
+    ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+  }  
+  UNION
+  {
+    BIND(13 AS ?order)
+    BIND("Antonym" AS ?description)
+    { ?sense wdt:P5974 ?value . }
+    UNION
+    {
+      ?sense wdt:P5137 / wdt:P461 / ^wdt:P5137 ?value .
+      ?value ^ontolex:sense / dct:language ?language .
+    }
+    ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+  }  
+  UNION
+  {
+    BIND(14 AS ?order)
+    BIND("Pertainym" AS ?description)
+    { ?sense wdt:P8471 ?value . }
+    ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+  }  
+  UNION
+  {
+    BIND(15 AS ?order)
+    BIND("False friend" AS ?description)
+    BIND("../property/P5976" AS ?descriptionUrl)
+    ?sense p:P5976 ?value_statement .
+    ?value_statement ps:P5976 ?value .
+    ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+    OPTIONAL {
+      ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
+      ?source_ rdfs:label ?source .
+      FILTER (LANG(?source) = 'en')
+      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+    }
+  }  
+  UNION
+  {
+    BIND(20 AS ?order)
+    BIND("Usage example" AS ?description)
+    ?sense ^ontolex:sense / p:P5831 ?value_statement .
+    ?value_statement ps:P5831 ?value .
+    ?value_statement pq:P6072 ?sense .
+    ?language wdt:P424 ?language_code .
+    BIND(CONCAT("./text-to-lexemes?text-language=",
+      ENCODE_FOR_URI(?language_code),
+        "&text=",
+   	ENCODE_FOR_URI(?value)) AS ?valueUrl)
+  }  
+}
+ORDER BY ?order
+`
+
+ translationsSparql = `
+SELECT DISTINCT
+  ?sense ?senseLabel
+  ?gloss
+  ?lexeme ?lexemeLabel ?language ?languageLabel
+  ?item ?itemLabel
+WHERE {
+  VALUES ?query_sense { wd:${ l }-${ s } }
+  { ?query_sense wdt:P5137 / ^wdt:P5137 ?sense . }
+  UNION
+  { ?query_sense (wdt:P5972 | ^wdt:P5972)+ ?sense . }
+  UNION
+  { ?query_sense (wdt:P6271 | ^wdt:P6271)+ ?sense . }
+  UNION
+  { ?query_sense wdt:P9970 / ^wdt:P9970 ?sense . }
+
+  # Do not show senses from the query language
+  ?query_sense ^ontolex:sense / dct:language ?query_language .
+  FILTER (?query_language != ?language)
+
+  BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
+    
+  ?lexeme ontolex:sense ?sense .
+  FILTER (wd:{{ l }}-{{ s }} != ?sense)
+  ?lexeme wikibase:lemma ?lexemeLabel .
+  ?lexeme dct:language ?language .
+  ?language rdfs:label ?languageLabel . 
+  FILTER (LANG(?languageLabel) = 'en')
+
+  OPTIONAL {
+    ?sense skos:definition ?gloss .
+    FILTER (LANG(?gloss) = 'en')
+  }
+
+  OPTIONAL {
+    wd:{{ l }}-{{ s }} wdt:P5137 ?item .
+    ?item rdfs:label ?itemLabel .
+    FILTER (LANG(?itemLabel) = 'en')
+  }
+}
+ORDER BY ?languageLabel
+`
+
+ $(document).ready(function() {
+     sparqlToDataTable(senseDataSparql, "#sense-data",
+		       options={
+			   paging: false
+		       });
+     sparqlToDataTable(translationsSparql, "#translations",
+		       options={
+			   linkPrefixes: {
+			       'language': 'language/'
+			   },
+			   paging: false,
+			   
+		       });
+ });
+
+</script>
+
+<div class="ls-entity">
+  <h1>Sense: {{ l }}-{{ s }}</h1>
+
+  <p>
+    <a title="Back"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="./">←</a>
+    
+    <a title="View and edit the lexeme sense on Wikidata"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="https://www.wikidata.org/wiki/Lexeme:{{ l }}#{{ s }}">Wikidata ↗</a>
+    </p>
+  
+    <table class="table table-hover" id="sense-data"></table>
+
+    
+    <hr/>
+    
+    <h2>Translations</h2>
+
+    <table class="table table-hover" id="translations"></table>
+    
+    
+</div>
+
+
+

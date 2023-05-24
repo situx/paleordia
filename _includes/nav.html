@@ -1,0 +1,76 @@
+<div class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <form class="form-inline" action="{{ url_for('app.show_search') }}">
+	<div class="input-group">
+            <input type="text" class="form-control"
+		   name="q" id="searchterm" value="{{ query }}"
+		   placeholder="Search after lemma or form"/>
+            <span class="input-group-btn">
+		<button class="btn btn-primary" type="submit">
+		    PaleOrdia
+		</button>
+            </span>
+
+	    <button class="navbar-toggler" type="button"
+		    data-toggle="collapse" data-target="#navbarToogle">
+		<span class="navbar-toggler-icon"></span>
+	    </button>
+	</div>
+	
+    </form>
+    
+
+    <div class="collapse navbar-collapse" id="navbarToogle">
+	<ul class="nav navbar-nav">
+	  <li class="nav-item">
+	    <a class="nav-link" href="{{ site.baseurl }}/show_language_index.html">Languages</a>
+	  </li>
+	    <li class="nav-item">
+		<a class="nav-link" data-toggle="collapse" data-target="#nav-aspects">Aspects</a>
+	    </li>
+
+	    <div id="nav-aspects" class="collapse">
+		<ul class="nav navbar-nav">
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_lexical_category_index.html">Lexical categories</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_grammatical_feature_index.html">Grammatical features</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_numeral_index.html">Numerals</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_property_index.html">Properties</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_hyphenation_index.html">Hyphenation</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_reference_index.html">References</a>
+		    </li>
+		</ul>
+	    </div>
+	    
+	    <li class="nav-item">
+		<a class="nav-link" data-toggle="collapse" data-target="#nav-tools">Tools</a>
+	    </li>
+
+	    <div id="nav-tools" class="collapse">
+		<ul class="nav navbar-nav">
+		    <li class="nav-item">
+			<a class="nav-link" href="{{ site.baseurl }}/show_text_to_lexemes.html">Text to lexemes</a>
+		    </li>
+		    <li>
+			<a class="nav-link" href="{{ site.baseurl }}/show_text_to_languages.html">Text to languages</a>
+		    </li>
+		</ul>
+	    </div>
+	    
+	    <li class="nav-item">
+		<a class="nav-link" href="{{ site.baseurl }}/show_statistics.html">Statistics</a>
+	    </li>
+
+	</ul>
+    </div>
+
+</div>

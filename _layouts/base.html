@@ -1,0 +1,53 @@
+---
+title: PaleOrdia
+---
+
+<!DOCTYPE html>
+<html>
+	{% include head.html %}
+  <body>
+    {% include nav.html %}
+	<script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const l = urlParams.get('l');
+	const f = urlParams.get('f');
+	const s = urlParams.get('s');
+	const p = urlParams.get('p');
+	const q = urlParams.get('q');
+	const q1 = urlParams.get('q1');
+	const q2 = urlParams.get('q2');
+	const lang = urlParams.get('language');
+	</script>
+	<div class="container">
+    {{content}}
+	</div>
+
+	<div class="container">
+		<hr>
+		Data from <a href="https://www.wikidata.org">Wikidata</a>
+		|
+		Code from
+		<a href="https://github.com/fnielsen/ordia">GitHub repository</a>
+		|
+		Hosted on   <a href="https://wikitech.wikimedia.org/wiki/Portal:Toolforge">Wikimedia Toolforge</a>,
+		a <a href="https://wikimediafoundation.org">Wikimedia Foundation</a> service
+		|
+		License for content: CC0 for data, CC-BY-SA for text and media
+		|
+		Report technical problems at Ordia's
+		<a href="https://github.com/fnielsen/ordia/issues">Issues</a> GitHub page.
+	</div>
+	
+    <script src="{{site.baseurl}}/js/jquery.min.js"></script>
+    <script src="{{site.baseurl}}/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+{% endblock %}
+
+
+
+

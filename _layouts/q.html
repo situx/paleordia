@@ -1,0 +1,130 @@
+---
+layout: base.html
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: Ordia
+SELECT
+  ?lexeme ?lexemeLabel
+  ?lexical_category ?lexical_categoryLabel
+  ?language ?languageLabel
+  ?sense ?senseLabel
+  (GROUP_CONCAT(?gloss; separator=" // ") AS ?glosses)
+WHERE {
+  ?lexeme ontolex:sense ?sense ; 
+	      dct:language ?language ;
+          wikibase:lexicalCategory ?lexical_category .
+  
+  OPTIONAL {
+    ?language rdfs:label ?languageLabel .
+    FILTER (LANG(?languageLabel) = "en")
+  }
+  # Exclude British sign language
+  FILTER (?language != wd:Q33000) 
+    
+  ?lexeme wikibase:lemma ?lexemeLabel .
+  ?sense wdt:P5137 wd:${ q } .
+  BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
+  ?sense skos:definition ?gloss .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,[AUTO_LANGUAGE]". }
+}
+GROUP BY
+  ?lexeme ?lexemeLabel
+  ?lexical_category ?lexical_categoryLabel
+  ?language ?languageLabel
+  ?sense ?senseLabel
+  `
+
+  var wembedderSparql = `
+# tool: Ordia
+  SELECT
+    ((ROUND(1000 * ?similarity) / 1000) AS ?similarity)
+    ?concept ?conceptLabel
+    (GROUP_CONCAT(?lemmaLabel; separator=" // ") AS ?lexemes)
+  WHERE {
+    VALUES (?concept ?similarity) {
+      #VALUES
+    }
+    OPTIONAL {
+      ?concept rdfs:label ?conceptLabel .
+      FILTER (LANG(?conceptLabel) = "en")
+    }
+      
+    OPTIONAL {
+      ?sense wdt:P5137 ?concept .
+      ?lemma ontolex:sense ?sense .
+	    ?lemma wikibase:lemma ?lemmaLabel .
+	    ?lemma dct:language ?language .
+
+	    # Filter British sign language
+	FILTER (wd:Q33000 != ?language)
+    }
+  }
+  GROUP BY ?concept ?conceptLabel ?similarity
+  ORDER BY DESC(?similarity)
+  `
+
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 'linkPrefixes': {
+	     'lexical_category': 'lexical-category/',
+	     'language': 'language/'
+	 }
+     });
+     qToWembedderToDataTable(q, wembedderSparql, "#most-similar", options={})
+ });
+
+</script>
+
+<div class="q-entry">
+  <h1>{{ q }}</h1>
+ 
+  <hr/>
+
+  <p>
+    <a title="Back"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="./">←</a>
+    <a title="View and edit the item in Wikidata"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="https://www.wikidata.org/wiki/{{ q }}">Wikidata ↗</a>
+    <a title="View the item in the SQID class and property browser"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="https://sqid.toolforge.org/#/view?id={{ q }}">SQID ↗</a>
+    <a title="Magnus Manske's Reasonator with pretty display of the Wikidata item"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="https://reasonator.toolforge.org/?q={{ q }}">Reasonator ↗</a>
+    <a title="View the Wikidata item with Scholia - Scholarly profiles from Wikidata data"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="https://scholia.toolforge.org/topic/{{ q }}">Scholia ↗</a>
+  </p>
+  
+    <h2>Lexemes</h2>
+
+    <table class="table table-hover" id="lexemes"></table>
+
+
+    <h2 title="Most similar items based on Wembedder knowledge graph embedding"   
+       >Most similar items</h2>
+
+    <table class="table table-hover" id="most-similar"></table>
+
+    
+    <h2>Images for associated senses</h2>
+
+      <div class="embed-responsive embed-responsive-4by3">
+    <iframe class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23defaultView%3AImageGrid%0ASELECT%0A%20%20%3Fimage%0A%20%20%3Flexeme%20%3FlexemeLabel%0A%20%20%3Flanguage%20%3FlanguageLabel%0A%20%20%3Fsense%20%3FsenseLabel%0AWHERE%20%7B%0A%20%20%3Flexeme%20ontolex%3Asense%20%3Fsense%20.%0A%20%20%3Flexeme%20dct%3Alanguage%20%3Flanguage%20.%0A%20%20OPTIONAL%20%7B%0A%20%20%20%20%3Flanguage%20rdfs%3Alabel%20%3FlanguageLabel%20.%0A%20%20%20%20FILTER%20%28LANG%28%3FlanguageLabel%29%20%3D%20%22en%22%29%0A%20%20%7D%0A%20%20%3Flexeme%20wikibase%3Alemma%20%3FlexemeLabel%20.%0A%20%20%3Fsense%20wdt%3AP5137%20wd%3A{{ q }}%20.%0A%20%20OPTIONAL%20%7B%0A%20%20%20%20%3Fsense%20skos%3Adefinition%20%3FsenseLabel%20.%0A%20%20%20%20%23%20FILTER%20%28LANG%28%3FsenseLabel%29%20%3D%20%22en%22%29%0A%20%20%7D%0A%20%20%3Fsense%20wdt%3AP18%20%3Fimage%20.%0A%7D%20%0A%20%20"></iframe>
+  </div>
+
+
+    
+
+</div>
+
