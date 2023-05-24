@@ -2,8 +2,6 @@ title: PaleOrdia
 email: your-email@domain.com
 description: > # this means to ignore newlines until "baseurl:"
   This is the Homepage of the GigaMesh software framework.
-baseurl: "/" # the subpath of your site, e.g. /blog
-url: "/"
 collections:
   pages:
     output: true
