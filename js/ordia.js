@@ -127,7 +127,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    columns.push(column)
 	}
 
-	table = $(element).dataTable({ 
+	table = $(element).DataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
 	    lengthMenu: [[10, 25, 100, -1], [10, 25, 100, "All"]],
