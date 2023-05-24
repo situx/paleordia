@@ -11,9 +11,8 @@ WHERE {
   {
     BIND(1 AS ?order)
     BIND("Script" AS ?description)
-    ??valueUrl rdfs:label ?value_string .
+    ?valueUrl rdfs:label ?value_string .
     FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
   }
   UNION
   {
