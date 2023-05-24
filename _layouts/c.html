@@ -13,7 +13,7 @@ WHERE {
   VALUES ?character { wd:${ c } }
   {
     BIND(1 AS ?order)
-    BIND("Lemma" AS ?description)
+    BIND("Label" AS ?description)
     ?character rdfs:label ?value .
 	FILTER (LANG(?value) = 'en')
     BIND(?value AS ?valueLabel)
@@ -127,9 +127,8 @@ WHERE {
       ?lexeme
       (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      ?lexeme wdt:P361+ wd:${ c } .
+      wd:${ c } wdt:P361+ ?compound.
       OPTIONAL {
-        ?lexeme wdt:P361 ?compound .
         ?compound wikibase:lemma ?compoundLabel .
         FILTER (?compound != wd:${ c })
       }
