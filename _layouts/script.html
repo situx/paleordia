@@ -5,12 +5,14 @@ layout: base
 <script type="text/javascript">
   dataSparql = `
 # tool: ordia
-SELECT ?description ?value ?valueUrl
+SELECT DISTINCT ?description ?value ?valueUrl
 WHERE {
   BIND(wd:${ q } AS ?script)
   {
     BIND(1 AS ?order)
 	?valueUrl wdt:P282 ?script .
+	?valueUrl wdt:P31 ?theclass .
+	?theclass wdt:P279* wd:Q3241972 .
     ?valueUrl rdfs:label ?description .
     FILTER (LANG(?description) = 'en')
     BIND(COALESCE(?description, ?q) AS ?value)
