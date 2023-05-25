@@ -24,7 +24,7 @@ WHERE {
     ?lexeme dct:language ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("language/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../language?", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -33,7 +33,7 @@ WHERE {
     ?lexeme wikibase:lexicalCategory ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("lexical-category/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../lexical-category?", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -43,12 +43,12 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
       FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference?", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
     }
   }
   UNION 
@@ -106,7 +106,7 @@ WHERE {
      ?lexeme wdt:P5191 ?value .
      ?value wikibase:lemma ?valueLabel .	  
     }
-    BIND(CONCAT("../l",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../l?",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -115,7 +115,7 @@ WHERE {
     BIND("Homographs" AS ?description)
     wd:${ l } wdt:P5402 ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(CONCAT("../l",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../l?",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -125,7 +125,7 @@ WHERE {
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../q",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../q?",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
