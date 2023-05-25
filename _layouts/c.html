@@ -136,7 +136,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
      sparqlToDataTable(lexemeSparql, "#lexeme",
 		       options={
 			   linkPrefixes: {
-			       source: 'reference/'
+			       source: '../reference?'
 			   },
 			   paging: false,
 			   sDom: 'rt',
