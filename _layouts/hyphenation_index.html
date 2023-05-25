@@ -31,11 +31,11 @@ LIMIT 500
 
  $(document).ready(function() {
      sparqlToDataTable(languagesSparql, "#languages",
-		       {'linkPrefixes': {'language': '../language/'}});
+		       {'linkPrefixes': {'language': '../language?'}});
      sparqlToDataTable(hyphenationPointsSparql, "#hyphenation-points",
 		       {'linkPrefixes': {
-			   'lexeme': '../',
-			   'language': '../language/'}});
+			   'lexeme': '../l?',
+			   'language': '../language?'}});
   });
 
 </script>

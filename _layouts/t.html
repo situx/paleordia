@@ -25,7 +25,7 @@ WHERE {
     ?character wdt:P282 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../script?q=", SUBSTR(STR(?value), 32)) AS ?value_Url)
+    BIND(CONCAT("script?q=", SUBSTR(STR(?value), 32)) AS ?value_Url)
   }
   UNION 
   {
@@ -35,12 +35,12 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
       FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      BIND(CONCAT("reference?q=", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
     }
   }
   UNION 
@@ -51,7 +51,7 @@ WHERE {
     ?character wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
   }
   UNION 
   {
@@ -60,7 +60,7 @@ WHERE {
     ?character wdt:P527 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../c?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
 	FILTER (?value != wd:${ q })
   }
   UNION 
@@ -71,7 +71,7 @@ WHERE {
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
@@ -120,12 +120,11 @@ ORDER BY ?order
  compoundsSparql = `
 SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-	  BIND(wd:${ q } AS ?lexeme)
-      ?lexeme wdt:P527 ?compound.
+      wd:${ q } wdt:P527 ?compound.
       OPTIONAL {
         ?compound rdfs:label ?compoundLabel .
         FILTER (LANG(?compoundLabel) = "en")
-        FILTER (?compound != ${ q })
+        FILTER (?compound != wd:Q87556731)
       }
     }
     GROUP BY ?lexeme ?compound  
@@ -154,7 +153,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
 
  <div class="l-entry">
 
-     <h1>Character: ${ q }</h1>
+     <h1>Time Period: ${ q }</h1>
      
      
      <p>
@@ -190,7 +189,8 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
     <h2>Compound and derivation graph</h2>
     
     <div class="embed-responsive embed-responsive-4by3">
-      <iframe style="width: 80vw; height: 50vh; border: none;" src="https://query.wikidata.org/embed.html#SELECT%20%3Flexeme%20%3FlexemeLabel%20%3Fcompound%20%3FcompoundLabel%0A%20%20%20%20WHERE%20%7B%0A%09%20%20BIND(${ q }%20AS%20%3Flexeme)%0A%20%20%20%20%20%20%3Flexeme%20wdt%3AP527%20%3Fcompound%20.%0A%20%20%20%20%20%20%3Flexeme%20rdfs%3Alabel%20%3FlexemeLabel%20.%0A%20%20%20%20%20%20FILTER%20(LANG(%3FlexemeLabel)%20%3D%20%22en%22)%0A%20%20%20%20%20%20OPTIONAL%20%7B%0A%20%20%20%20%20%20%20%20%3Fcompound%20rdfs%3Alabel%20%3FcompoundLabel%20.%0A%20%20%20%20%20%20%20%20FILTER%20(LANG(%3FcompoundLabel)%20%3D%20%22en%22)%0A%20%20%20%20%20%20%20%20FILTER%20(%3Fcompound%20!%3D%20${ q })%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>  </div>
+      <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23%20Show%20compound%20and%20derivation%20hierarchy%0A%23defaultView%3AGraph%0ASELECT%20DISTINCT%0A%20%20%3Flexeme1%20%3Flexeme1Label%20%3Flexeme1Image%0A%20%20%3Flexeme2%20%3Flexeme2Label%20%3Flexeme2Image%0A%7B%0A%20%20hint%3AQuery%20hint%3Aoptimizer%20%22None%22.%0A%20%20VALUES%20%3Flexeme%20%7B%20wd%3A${ q }%20%7D%0A%20%20%7B%0A%20%20%20%20%3Flexeme%20%28wdt%3AP5238%20%7C%20wdt%3AP5191%29%2B%20%7C%20%28%5Ewdt%3AP5238%20%7C%20%5Ewdt%3AP5191%29%2B%20%3Flexeme1%20%2C%20%3Flexeme2%20.%20%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme1%29%0A%20%20%20%20%3Flexeme%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme2%29%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme%20.%0A%20%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme1%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme1Image%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme2%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme2Image%20%7D%0A%20%20%3Flexeme1%20wikibase%3Alemma%20%3Flexeme1Label%20.%0A%20%20%3Flexeme2%20wikibase%3Alemma%20%3Flexeme2Label%20.%0A%7D%0ALIMIT%20500"></iframe>
+  </div>
 
 
     

@@ -46,10 +46,10 @@ ORDER BY DESC(?total_number_of_statements)
   
 
  $(document).ready(function() {
-     sparqlToDataTable(languagesSparql, "#languages");
-		      //  {'linkPrefixes': {'language': '/language/'}});
-     sparqlToDataTable(numberOfStatementsSparql, "#number-of-statements");
-		      //  {'linkPrefixes': {'language': '/language/'}});
+     sparqlToDataTable(languagesSparql, "#languages",
+		        {'linkPrefixes': {'language': '../language'}});
+     sparqlToDataTable(numberOfStatementsSparql, "#number-of-statements",
+		        {'linkPrefixes': {'language': '../language'}});
  });
 
 </script>

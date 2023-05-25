@@ -19,23 +19,11 @@ WHERE {
     SELECT DISTINCT
       (2 AS ?order)
       ("Number of characters" AS ?description)
-      (COUNT(*) AS ?value)
+      (COUNT(?valuee) AS ?value)
     {
-	?value wdt:P282 wd:${ q } .
-	?value wdt:P31 ?theclass .
+	?valuee wdt:P282 wd:${ q } .
+	?valuee wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
-      BIND(1 AS ?dummy)
-    }
-    GROUP BY ?dummy
-  }
-  UNION
-  {
-    SELECT
-      (3 AS ?order)
-      ("Number of forms" AS ?description)
-      (COUNT(*) AS ?value)
-    {
-      [] ^ontolex:lexicalForm / dct:language wd:${ q } .
       BIND(1 AS ?dummy)
     }
     GROUP BY ?dummy
@@ -61,8 +49,8 @@ ORDER BY ?order
      sparqlToDataTable(dataSparql, "#data");
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
-	     'lexeme': '../',
-	     'lexical_category': '../'}});
+	 'character': '../c'
+	 }});
  });
 
 </script>
@@ -73,7 +61,7 @@ ORDER BY ?order
   <a title="Back"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="./">←</a>
+     href="../script_index/index.html">←</a>
   <a title="View and edit item in Wikidata"
      role="button"
      class="btn btn-outline-dark btn-sm"

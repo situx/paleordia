@@ -13,7 +13,7 @@ layout: base
     ?language ?languageLabel    
 {
     VALUES ?representation {
-	    {% for language in languages %}"{{ representation }}"@${ lang } {% endfor %}
+	    {% for language in languages %}"${ representation }"@${ lang } {% endfor %}
   }	  
   ?form ontolex:representation ?representation .
   ?lexeme ontolex:lexicalForm ?form .
@@ -42,10 +42,10 @@ ORDER BY ?form
      sparqlToDataTable(formsSparql, "#forms",
 		       options={
 			   linkPrefixes: {
-			       form: '../',
-			       lexeme: '../',
-			       lexical_category: '../lexical-category/',
-			       language: '../language/',
+			       form: '../lf',
+			       lexeme: '../l',
+			       lexical_category: '../lexical-category',
+			       language: '../language',
 			   },
 			   paging: false
 		       });

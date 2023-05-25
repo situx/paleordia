@@ -24,7 +24,7 @@ WHERE {
     ?lexeme dct:language ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("language/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -33,7 +33,7 @@ WHERE {
     ?lexeme wikibase:lexicalCategory ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("lexical-category/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -43,12 +43,12 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("property/P31/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
       FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
     }
   }
   UNION 
@@ -75,7 +75,7 @@ WHERE {
     ?lexeme wdt:P5186 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("property/P5186/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P5186&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
 
   }
   UNION 
@@ -84,7 +84,7 @@ WHERE {
     BIND("Auxiliary verb" AS ?description)
     ?lexeme wdt:P5401 ?value .
     ?value wikibase:lemma ?valueLabel .
-    # BIND(CONCAT("property/P5401/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    # BIND(CONCAT("../property_value?p=P5401&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     BIND(SUBSTR(STR(?value), 32) AS ?value_Url)
   }
   UNION 
@@ -95,7 +95,7 @@ WHERE {
     wd:${ l } wdt:P1552 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("property/P1552/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -106,7 +106,7 @@ WHERE {
      ?lexeme wdt:P5191 ?value .
      ?value wikibase:lemma ?valueLabel .	  
     }
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -115,17 +115,17 @@ WHERE {
     BIND("Homographs" AS ?description)
     wd:${ l } wdt:P5402 ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
     # Homographs
     BIND(16 AS ?order)
-    BIND("Time Periods" AS ?description)
+    BIND("Time Period" AS ?description)
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -143,7 +143,7 @@ WHERE {
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference?", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
@@ -157,7 +157,7 @@ WHERE {
     ?value_statement ps:P6684 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       OPTIONAL { ?value_statement pq:P577 ?date }
@@ -174,7 +174,7 @@ WHERE {
     ?value_statement ps:P5323 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       OPTIONAL { ?value_statement pq:P577 ?date }
@@ -203,7 +203,7 @@ WHERE {
         FILTER (LANG(?title) = "en")     
       }
       BIND(COALESCE(?title, "Ref.") AS ?source)
-      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
+      BIND(CONCAT("reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
     }   
   }
 }
@@ -287,15 +287,22 @@ WHERE {
      sparqlToDataTable(lexemeSparql, "#lexeme",
 		       options={
 			   linkPrefixes: {
-			       source: 'reference/'
+			       source: '../reference',
+				   value_Url: '../'
 			   },
 			   paging: false,
 			   sDom: 'rt',
 		       });
      sparqlToDataTable(formsSparql, "#forms",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',
+			   linkPrefixes: {
+			       form: '../lf'
+			   }});
      sparqlToDataTable(sensesSparql, "#senses",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',
+			   linkPrefixes: {
+			       sense: '../ls'
+			   }});
      sparqlToDataTable(compoundsSparql, "#compounds",
 		       options={paging: false, sDom: 'rt',});
  });
@@ -311,7 +318,7 @@ WHERE {
          <a title="Back"
 	    role="button"
 	    class="btn btn-outline-dark btn-sm"
-	    href="./">←</a>
+	    href="../l?l=${ l }">←</a>
 	 <a title="View and edit lexeme in Wikidata"
 	    role="button"
 	    class="btn btn-outline-dark btn-sm"
