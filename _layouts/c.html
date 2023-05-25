@@ -120,7 +120,8 @@ ORDER BY ?order
  compoundsSparql = `
 SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      wd:${ q } wdt:P527 ?compound.
+	  BIND(wd:${ q } AS ?lexeme)
+      ?lexeme wdt:P527 ?compound.
       OPTIONAL {
         ?compound rdfs:label ?compoundLabel .
         FILTER (LANG(?compoundLabel) = "en")

@@ -125,7 +125,7 @@ WHERE {
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../l",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../q",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
