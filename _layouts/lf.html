@@ -1,5 +1,6 @@
 ---
 layout: base
+---
 
 <script type="text/javascript">
  formDataSparql = `
@@ -181,9 +182,9 @@ SELECT
   ?form (SUBSTR(STR(?form), 32) AS ?formLabel)
   (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
 WHERE {
-  wd:{{ l }}-{{ f }} ontolex:representation / ^ontolex:representation ?form .
+  wd:${ l }-${ f } ontolex:representation / ^ontolex:representation ?form .
 
-  FILTER (wd:{{ l }}-{{ f }} != ?form)
+  FILTER (wd:${ l }-${ f } != ?form)
 
   ?lexeme ontolex:lexicalForm ?form ;
           wikibase:lemma ?lemma ;
@@ -274,7 +275,7 @@ LIMIT 50
 </script>
 
 <div class="l-entity">
-    <h1>Form: {{ l }}-{{ f }}</h1>
+    <h1>Form: ${ l }-${ f }</h1>
 
     <a title="Back"
        role="button"
@@ -283,7 +284,7 @@ LIMIT 50
     <a title="View and edit form in Wikidata"
        role="button"
        class="btn btn-outline-dark btn-sm"
-       href="https://www.wikidata.org/wiki/Lexeme:{{ l }}#{{ f }}">Wikidata ↗</a>
+       href="https://www.wikidata.org/wiki/Lexeme:${ l }#${ f }">Wikidata ↗</a>
 
     
     <table class="table table-hover" id="form-data"></table>
