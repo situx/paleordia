@@ -19,23 +19,11 @@ WHERE {
     SELECT DISTINCT
       (2 AS ?order)
       ("Number of characters" AS ?description)
-      (COUNT(*) AS ?value)
+      (COUNT(?valuee) AS ?value)
     {
-	?value wdt:P282 wd:${ q } .
-	?value wdt:P31 ?theclass .
+	?valuee wdt:P282 wd:${ q } .
+	?valuee wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
-      BIND(1 AS ?dummy)
-    }
-    GROUP BY ?dummy
-  }
-  UNION
-  {
-    SELECT
-      (3 AS ?order)
-      ("Number of forms" AS ?description)
-      (COUNT(*) AS ?value)
-    {
-      [] ^ontolex:lexicalForm / dct:language wd:${ q } .
       BIND(1 AS ?dummy)
     }
     GROUP BY ?dummy
