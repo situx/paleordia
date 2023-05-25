@@ -70,7 +70,9 @@ GROUP BY
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
 	     'lexical_category': '../lexical-category',
-	     'language': '../language'
+	     'language': '../language',
+	     'sense': '../ls',
+	     'form': '../lf'
 	 }
      });
      qToWembedderToDataTable(q, wembedderSparql, "#most-similar", options={})
