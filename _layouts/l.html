@@ -121,7 +121,7 @@ WHERE {
   {
     # Homographs
     BIND(16 AS ?order)
-    BIND("Time Periods" AS ?description)
+    BIND("Time Period" AS ?description)
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
