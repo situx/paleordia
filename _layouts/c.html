@@ -25,7 +25,7 @@ WHERE {
     ?character wdt:P282 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("script?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("script?q=", SUBSTR(STR(?value), 32)) AS ?value_Url)
   }
   UNION 
   {
@@ -136,7 +136,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
 		       options={
 			   linkPrefixes: {
 			       source: '../reference',
-				   value_url: '../'
+				   value_Url: '../'
 			   },
 			   paging: false,
 			   sDom: 'rt',
