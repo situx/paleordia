@@ -190,8 +190,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
     <h2>Compound and derivation graph</h2>
     
     <div class="embed-responsive embed-responsive-4by3">
-      <iframe style="width: 80vw; height: 50vh; border: none;" src="https://query.wikidata.org/embed.html#SELECT%20%3Flexeme%20%3FlexemeLabel%20%3Fcompound%20%3FcompoundLabel%0A%20%20%20%20WHERE%20%7B%0A%09%20%20BIND(wd%3A${ q }%20AS%20%3Flexeme)%0A%20%20%20%20%20%20%3Flexeme%20wdt%3AP527%20%3Fcompound%20.%0A%20%20%20%20%20%20%3Flexeme%20rdfs%3Alabel%20%3FlexemeLabel%20.%0A%20%20%20%20%20%20FILTER%20(LANG(%3FlexemeLabel)%20%3D%20%22en%22)%0A%20%20%20%20%20%20OPTIONAL%20%7B%0A%20%20%20%20%20%20%20%20%3Fcompound%20rdfs%3Alabel%20%3FcompoundLabel%20.%0A%20%20%20%20%20%20%20%20FILTER%20(LANG(%3FcompoundLabel)%20%3D%20%22en%22)%0A%20%20%20%20%20%20%20%20FILTER%20(%3Fcompound%20!%3D%20wd%3A${ q })%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>  </div>
-
+<iframe style="width: 80vw; height: 50vh; border: none;" src="https://query.wikidata.org/embed.html#SELECT%20%3Flexeme%20%3FlexemeLabel%20%3Fcompound%20%3FcompoundLabel%0A%20%20%20%20WHERE%20%7B%0A%09%20%20BIND%28wd%3A${ q }%20AS%20%3Flexeme%29%0A%20%20%20%20%20%20%3Flexeme%20wdt%3AP527%20%3Fcompound%20.%0A%20%20%20%20%20%20%3Flexeme%20rdfs%3Alabel%20%3FlexemeLabel%20.%0A%20%20%20%20%20%20FILTER%20%28LANG%28%3FlexemeLabel%29%20%3D%20%22en%22%29%0A%20%20%20%20%20%20OPTIONAL%20%7B%0A%20%20%20%20%20%20%20%20%3Fcompound%20rdfs%3Alabel%20%3FcompoundLabel%20.%0A%20%20%20%20%20%20%20%20FILTER%20%28LANG%28%3FcompoundLabel%29%20%3D%20%22en%22%29%0A%20%20%20%20%20%20%20%20FILTER%20%28%3Fcompound%20%21%3D%20wd%3A${ q }%29%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups" ></iframe>
 
     
 </div>
