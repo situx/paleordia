@@ -25,7 +25,7 @@ WHERE {
     ?character wdt:P282 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("script?q=", SUBSTR(STR(?value), 32)) AS ?value_Url)
+    BIND(CONCAT("../script?q=", SUBSTR(STR(?value), 32)) AS ?value_Url)
   }
   UNION 
   {
@@ -35,12 +35,12 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
       FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("reference?q=", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
     }
   }
   UNION 
@@ -51,7 +51,7 @@ WHERE {
     ?character wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -60,7 +60,7 @@ WHERE {
     ?character wdt:P527 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = "en")
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../c?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
 	FILTER (?value != wd:${ q })
   }
   UNION 
@@ -71,7 +71,7 @@ WHERE {
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)

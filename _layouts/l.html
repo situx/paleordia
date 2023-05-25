@@ -75,7 +75,7 @@ WHERE {
     ?lexeme wdt:P5186 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("property_value?p=P5186&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P5186&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
 
   }
   UNION 
@@ -84,7 +84,7 @@ WHERE {
     BIND("Auxiliary verb" AS ?description)
     ?lexeme wdt:P5401 ?value .
     ?value wikibase:lemma ?valueLabel .
-    # BIND(CONCAT("property_value?p=P5401&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    # BIND(CONCAT("../property_value?p=P5401&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     BIND(SUBSTR(STR(?value), 32) AS ?value_Url)
   }
   UNION 
@@ -95,7 +95,7 @@ WHERE {
     wd:${ l } wdt:P1552 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -106,7 +106,7 @@ WHERE {
      ?lexeme wdt:P5191 ?value .
      ?value wikibase:lemma ?valueLabel .	  
     }
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../l",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -115,7 +115,7 @@ WHERE {
     BIND("Homographs" AS ?description)
     wd:${ l } wdt:P5402 ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../l",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -125,7 +125,7 @@ WHERE {
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../l",SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION 
   {
@@ -143,7 +143,7 @@ WHERE {
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference?", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
