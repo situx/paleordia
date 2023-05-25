@@ -7,6 +7,14 @@ function detectCorrectParameter(url){
 	if(url.startsWith("Q")){
 		return "?q="+url.replaceAll("/","")
 	}
+	if(url.startsWith("L") && url.includes("-F"){
+		newurl=url.replaceAll("/","")
+		return "?l="+newurl.substring(0,newurl.lastIndexOf('-'))+"&f="+newurl.substring(newurl.lastIndexOf('-')+1)
+	}
+	if(url.startsWith("L") && url.includes("-S"){
+		newurl=url.replaceAll("/","")
+		return "?l="+newurl.substring(0,newurl.lastIndexOf('-'))+"&s="+newurl.substring(newurl.lastIndexOf('-')+1)
+	}
 	if(url.startsWith("L")){
 		return "?l="+url.replaceAll("/","")
 	}
