@@ -44,7 +44,7 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("property/P31/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
@@ -60,7 +60,7 @@ WHERE {
     ?form wdt:P1552 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("property/P1552/value/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION
   {
@@ -92,7 +92,7 @@ WHERE {
     BIND(13 AS ?order)
 
     BIND("homophone form" AS ?description)
-    BIND("../property/P10822" AS ?descriptionUrl)
+    BIND("../property?p=P10822" AS ?descriptionUrl)
 
     ?form wdt:P10822 ?value .
     ?value ontolex:representation ?valueLabel .
@@ -102,7 +102,7 @@ WHERE {
     BIND(20 AS ?order)
 
     BIND("Described in" AS ?description)
-    BIND("../property/P1343" AS ?descriptionUrl)
+    BIND("../property?=p=P1343" AS ?descriptionUrl)
 
     ?form p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
@@ -257,10 +257,18 @@ LIMIT 50
      sparqlToDataTable(
 	 formDataSparql, "#form-data",
 	 options={
-	     paging: false
+	     paging: false,
+		 linkPrefixes: {
+			value_: '../representation'
+		 }
 	 });
      sparqlToDataTable(
-	 homographsSparql, "#homographs");
+	 homographsSparql, "#homographs",options={
+		 linkPrefixes: {
+			lexeme: '../l',
+			form: '../lf'
+		 }
+	 });
 
      sparqlToDataTable(
 	 wikisourceSparql, "#wikisource-table");

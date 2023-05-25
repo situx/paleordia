@@ -13,7 +13,7 @@ layout: base
     ?language ?languageLabel    
 {
     VALUES ?representation {
-	    {% for language in languages %}"{{ representation }}"@${ lang } {% endfor %}
+	    {% for language in languages %}"${ representation }"@${ lang } {% endfor %}
   }	  
   ?form ontolex:representation ?representation .
   ?lexeme ontolex:lexicalForm ?form .
