@@ -7,7 +7,7 @@ layout: base
 # Data for a specific character
 SELECT DISTINCT
   ?description
-  (?valueLabel AS ?value) ?value_Url
+  (?valueLabel AS ?value_) ?value_Url
   ?source ?sourceUrl
 WHERE {
   VALUES ?character { wd:${ q } }
