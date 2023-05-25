@@ -100,7 +100,7 @@ WHERE {
   BIND(SUBSTR(STR(?sense_), 32) AS ?sense)
   BIND(CONCAT("../", ?sense) AS ?senseUrl)
 
-  ?sense_ wdt:{{ p }} ?value_ .
+  ?sense_ wdt:${ p } ?value_ .
   BIND(SUBSTR(STR(?value_), 32) AS ?value)
   BIND(CONCAT("../", ?value) AS ?valueUrl)
   ?lexeme dct:language ?language
@@ -118,33 +118,33 @@ LIMIT 10000
  $(document).ready(function() {
      sparqlToDataTable(valuesForLexemesByValueSparql, "#values-for-lexemes-by-value", {
 	 linkPrefixes: {
-	     example_lexeme: '../',
-	     value: '../'
+	     example_lexeme: '../l',
+	     value: '../property_value'
 	 }});
      sparqlToDataTable(valuesForLexemesByLanguageAndValueSparql, "#values-for-lexemes-by-language-and-value", {
 	 linkPrefixes: {
-	     lexeme: '../',
-	     language: '../language/', 
-	     value: '../'}});
+	     lexeme: '../l',
+	     language: '../language', 
+	     value: '../property_value'}});
      sparqlToDataTable(formSparql, "#forms", {
 	 linkPrefixes: {
-	     lexeme: '../',
-	     form: '../',
-	     language: '../language/', 
-	     value: '../'}});
+	     lexeme: '../l',
+	     form: '../lf',
+	     language: '../language', 
+	     value: '../property_value'}});
      sparqlToDataTable(senseSparql, "#senses", {
 	 linkPrefixes: {
-	     lexeme: '../',
-	     form: '../',
-	     language: '../language/', 
-	     value: '../'}});
+	     lexeme: '../l',
+	     form: '../lf',
+	     language: '../language', 
+	     value: '../property_value'}});
  });
 
 
 </script>
 
 <div class="property-entries">
-  <h1>Property: {{ p }}</h1>
+  <h1>Property: ${ p }</h1>
 
   <a title="Back"
      role="button"
@@ -153,11 +153,11 @@ LIMIT 10000
   <a title="View and edit property on Wikidata"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="https://www.wikidata.org/wiki/Property:{{ p }}">Wikidata ↗</a>
+     href="https://www.wikidata.org/wiki/Property:${ p }">Wikidata ↗</a>
   <a title="View property in Scholia"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="https://scholia.toolforge.org/{{ p }}">Scholia ↗</a>
+     href="https://scholia.toolforge.org/${ p }">Scholia ↗</a>
 
   <hr/>
 

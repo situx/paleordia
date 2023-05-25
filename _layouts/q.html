@@ -69,8 +69,8 @@ GROUP BY
  $(document).ready(function() {
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
-	     'lexical_category': 'lexical-category/',
-	     'language': 'language/'
+	     'lexical_category': '../lexical-category',
+	     'language': '../language'
 	 }
      });
      qToWembedderToDataTable(q, wembedderSparql, "#most-similar", options={})
