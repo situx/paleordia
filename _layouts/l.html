@@ -294,9 +294,15 @@ WHERE {
 			   sDom: 'rt',
 		       });
      sparqlToDataTable(formsSparql, "#forms",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',
+			   linkPrefixes: {
+			       form: '../lf'
+			   }});
      sparqlToDataTable(sensesSparql, "#senses",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',
+			   linkPrefixes: {
+			       sense: '../ls'
+			   }});
      sparqlToDataTable(compoundsSparql, "#compounds",
 		       options={paging: false, sDom: 'rt',});
  });
