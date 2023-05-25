@@ -63,7 +63,7 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 	    } else if (key + 'Url' in data[i]) {
 		if (data[i][key + 'Url']) {
 		    convertedRow[key] = '<a href="' +
-			data[i][key + 'Url'] +
+			(linkPrefixes[key] || "") data[i][key + 'Url'] +
 			'">' + data[i][key] + '</a>';
 		}
 		else {
