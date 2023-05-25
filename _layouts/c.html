@@ -118,30 +118,17 @@ ORDER BY ?order
 
 
  compoundsSparql = `
-SELECT
-  ?lexeme ?lexemeLabel
-  ?lexical_category ?lexical_categoryLabel
-  ?other_compounds
-WHERE {
-  {
-    SELECT
-      ?lexeme
-      (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
+SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      ?lexeme wdt:P527+ wd:${ q } .
+	  BIND(wd:${ q } AS ?lexeme)
+      ?lexeme wdt:P527 ?compound.
       OPTIONAL {
-        ?lexeme wdt:P527 ?compound .
         ?compound rdfs:label ?compoundLabel .
-        FILTER (LANG(?compoundLabel) = 'en')
+        FILTER (LANG(?compoundLabel) = "en")
+        FILTER (?compound != ${ q })
       }
     }
-    GROUP BY ?lexeme
-  }    
-  ?lexeme rdfs:label ?lexemeLabel .
-  OPTIONAL {
-    FILTER (LANG(?lexemeLabel) = 'en')
-  }
-}
+    GROUP BY ?lexeme ?compound  
 `
 
 
