@@ -144,20 +144,6 @@ WHERE {
 }
 `
 
- compoundsSparql = `
-SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
-    WHERE {
-	  BIND(wd:${ q } AS ?lexeme)
-      ?lexeme wdt:P527 ?compound.
-      OPTIONAL {
-        ?compound rdfs:label ?compoundLabel .
-        FILTER (LANG(?compoundLabel) = "en")
-        FILTER (?compound != wd:Q87556731)
-      }
-    }
-    GROUP BY ?lexeme ?compound  
-`
-
 
  $(document).ready(function() {
      sparqlToDataTable(lexemeSparql, "#lexeme",
