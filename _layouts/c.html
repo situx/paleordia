@@ -84,15 +84,17 @@ ORDER BY ?order
  formsSparql = `
  # List of variants for a specific character
  SELECT
-  ?form ?formLabel
-   (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
+  ?form ?timeperiod ?image
+   (GROUP_CONCAT(DISTINCT ?formLabel; separator=" // ") AS ?features)
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
-   wd:${ q } wdt:P8530 ?form .
-   ?form rdfs:label ?formLabel .
+   ?form wdt:P180 wd:${ q } .
+   ?form wdt:P31 wd:Q118867680 .
+   ?form wdt:P31 wd:Q118867680 .
+   OPTIONAL {?form wdt:P18 ?image .}
+   OPTIONAL {?form wdt:P2348 ?timeperiod .}
    OPTIONAL {
-     ?form wikibase:grammaticalFeature ?feature .
-     ?feature rdfs:label ?featureLabel .
+     ?feature rdfs:label ?formLabel .
      FILTER (LANG(?featureLabel) = "en")
    }
  }
