@@ -113,7 +113,7 @@ ORDER BY ?order
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLab)
    ?sense rdfs:label ?gloss .
  }
- GROUP BY ?sense ?senseLabel
+ GROUP BY ?sense ?senseLab
  ORDER BY (STR(?sense))
 `
 
