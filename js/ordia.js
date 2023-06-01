@@ -50,7 +50,7 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 		convertedRow['description'] = data[i][key];
 
 	    } else if (key.substr(-5) == 'image') {
-		convertedRow[key] = '<img src="' + data[i][key] + '">';
+		convertedRow[key] = '<img src="' + data[i][key] + '" width="50" height="50">';
 
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
