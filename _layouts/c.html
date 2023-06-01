@@ -85,16 +85,16 @@ ORDER BY ?order
  # List of variants for a specific character
  SELECT
   ?image ?form ?timeperiodLabel
-   (GROUP_CONCAT(DISTINCT ?formLabel; separator=" // ") AS ?features)
+   ?formLabel 
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
-   ?form wdt:P180 wd:${ q } .
+   ?form wdt:P180 wd:Q87555087 .
    ?form wdt:P31 wd:Q118867680 .
    OPTIONAL {?form wdt:P18 ?image .}
    OPTIONAL {?form wdt:P2348 ?timeperiod . ?timeperiod rdfs:label ?timeperiodLabel . FILTER (LANG(?timeperiodLabel) = "en")}
    OPTIONAL {
-     ?feature rdfs:label ?formLabel .
-     FILTER (LANG(?featureLabel) = "en")
+     ?form rdfs:label ?formLabel .
+     FILTER (LANG(?formLabel) = "en")
    }
  }
  GROUP BY ?form ?formLabel ?timeperiodLabel ?image
