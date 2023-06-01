@@ -141,7 +141,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
     GROUP BY ?lexeme ?compound  
 `
 
-lexemeSparql=`
+usedinLexemeSparql=`
 SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) WHERE {		       
   wd:${ q } rdfs:label ?charlabel .
   ?lexeme rdf:type ontolex:LexicalEntry ;          
@@ -177,7 +177,7 @@ ORDER BY ?lexeme
 		       options={paging: false, sDom: 'rt',});
      sparqlToDataTable(compoundsSparql, "#compounds",
 		       options={paging: false, sDom: 'rt',});
-     sparqlToDataTable(lexemeSparql, "#usedlexemes",
+     sparqlToDataTable(usedinLexemeSparql, "#usedlexemes",
 		       options={paging: false, sDom: 'rt',});
  });
 
