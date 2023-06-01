@@ -126,7 +126,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
       OPTIONAL {
         ?compound rdfs:label ?compoundLabel .
         FILTER (LANG(?compoundLabel) = "en")
-        FILTER (?compound != ${ q })
+        FILTER (?compound != wd:${ q })
       }
     }
     GROUP BY ?lexeme ?compound  
