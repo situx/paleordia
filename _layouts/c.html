@@ -119,7 +119,7 @@ ORDER BY ?order
 
 
  compoundsSparql = `
-SELECT ?lexeme ?lexemeLabel ?compound ?compoundLabel
+SELECT DISTINCT ?lexeme ?lexemeLabel ?compound ?compoundLabel
     WHERE {
 	  BIND(wd:${ q } AS ?lexeme)
 	  ?lexeme rdfs:label ?lexemeLabel .
