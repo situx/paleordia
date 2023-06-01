@@ -88,7 +88,7 @@ ORDER BY ?order
    ?formLabel ?image
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
-   ?form wdt:P180 wd:Q87555087 .
+   ?form wdt:P180 wd:${ q } .
    ?form wdt:P31 wd:Q118867680 .
    OPTIONAL {?form wdt:P18 ?image .}
    OPTIONAL {?form wdt:P2348 ?timeperiod . ?timeperiod rdfs:label ?timeperiodLabel . FILTER (LANG(?timeperiodLabel) = "en")}
