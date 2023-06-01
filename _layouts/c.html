@@ -133,11 +133,11 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
 `
 
 lexemeSparql=`
-SELECT ?l ?lemmaa WHERE {		       
+SELECT ?lexeme ?lexemeLabel WHERE {		       
   ?l rdf:type ontolex:LexicalEntry ;          
      dct:language ?lang ;		   
-     wikibase:lemma ?lemmaa  .    
-   FILTER(contains("𒀭",?lemmaa))
+     wikibase:lemma ?lexemeLabel  .    
+   FILTER(contains("𒀭",?lexemeLabel))
 }
 `
 
