@@ -90,7 +90,6 @@ ORDER BY ?order
  WHERE {
    ?form wdt:P180 wd:${ q } .
    ?form wdt:P31 wd:Q118867680 .
-   ?form wdt:P31 wd:Q118867680 .
    OPTIONAL {?form wdt:P18 ?image .}
    OPTIONAL {?form wdt:P2348 ?timeperiod .}
    OPTIONAL {
@@ -98,7 +97,7 @@ ORDER BY ?order
      FILTER (LANG(?featureLabel) = "en")
    }
  }
- GROUP BY ?form ?formLabel
+ GROUP BY ?form ?formLabel ?timeperiod ?image
  ORDER BY (STR(?form))
  `
 
