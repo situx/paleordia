@@ -6,7 +6,7 @@ layout: base
  formDataSparql = `
 # Data for a specific sense
 SELECT
-  ?description ?descriptionUrl
+  ?description ?descriptionUrl ?image
   (?valueLabel AS ?value_) ?value_Url
   ?source ?sourceUrl
 WHERE {
@@ -21,20 +21,7 @@ WHERE {
   UNION
   {
     BIND(2 AS ?order)
-    ?value ontolex:lexicalForm ?form .
-    ?value wikibase:lemma ?valueLabel .
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
-    BIND("lexeme" AS ?description)
-  }
-  UNION
-  {
-    # Language	
-    BIND(3 AS ?order)
-    ?form ^ontolex:lexicalForm / dct:language ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("language/", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    BIND("language" AS ?description)
+    ?form wdt:P18?image .
   }
   UNION 
   {
@@ -61,14 +48,6 @@ WHERE {
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
     BIND(CONCAT("property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION
-  {
-    # Hyphenation
-    BIND(10 AS ?order)
-    ?form wdt:P5279 ?value .
-    BIND(?value AS ?valueLabel)
-    BIND("hyphenation" AS ?description)
   }
   UNION  
   {   
