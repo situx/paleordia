@@ -84,20 +84,20 @@ ORDER BY ?order
  formsSparql = `
  # List of variants for a specific character
  SELECT
-  ?form ?timeperiod ?image
+  ?image ?form ?timeperiodLabel
    (GROUP_CONCAT(DISTINCT ?formLabel; separator=" // ") AS ?features)
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
    ?form wdt:P180 wd:${ q } .
    ?form wdt:P31 wd:Q118867680 .
    OPTIONAL {?form wdt:P18 ?image .}
-   OPTIONAL {?form wdt:P2348 ?timeperiod .}
+   OPTIONAL {?form wdt:P2348 ?timeperiod . ?timeperiod rdfs:label ?timeperiodLabel . FILTER (LANG(?timeperiodLabel) = "en")}
    OPTIONAL {
      ?feature rdfs:label ?formLabel .
      FILTER (LANG(?featureLabel) = "en")
    }
  }
- GROUP BY ?form ?formLabel ?timeperiod ?image
+ GROUP BY ?form ?formLabel ?timeperiodLabel ?image
  ORDER BY (STR(?form))
  `
 
