@@ -84,8 +84,8 @@ ORDER BY ?order
  formsSparql = `
  # List of variants for a specific character
  SELECT
-  ?image ?form ?timeperiod ?timeperiodLabel
-   ?formLabel 
+   ?form ?timeperiod ?timeperiodLabel
+   ?formLabel ?image
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
    ?form wdt:P180 wd:Q87555087 .
