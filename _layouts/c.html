@@ -134,12 +134,13 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
 
 lexemeSparql=`
 SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) WHERE {		       
+  wd:${ q } rdfs:label ?charlabel .
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language ?lang ;		   
      wikibase:lemma ?lexemeLabel  .  
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
    OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER((LANG(?senselabel))= "en") }}	 
-   FILTER(contains("𒀭",?lexemeLabel))
+   FILTER(contains(?lexemeLabel,?charlabel))
    ORDER BY ?lexeme
 }
 `
