@@ -119,9 +119,10 @@ ORDER BY ?order
 
 
  compoundsSparql = `
-SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
+SELECT ?lexeme ?lexemeLabel ?compound ?compoundLabel
     WHERE {
 	  BIND(wd:${ q } AS ?lexeme)
+	  ?lexeme rdfs:label ?lexemeLabel .
 	  {
         ?lexeme wdt:P527 ?compound.
         OPTIONAL {
@@ -178,7 +179,9 @@ ORDER BY ?lexeme
      sparqlToDataTable(compoundsSparql, "#compounds",
 		       options={paging: false, sDom: 'rt',});
      sparqlToDataTable(usedinLexemeSparql, "#usedlexemes",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',linkPrefixes: {
+			       lexeme: '../l'
+			   }});
  });
 
 </script>
