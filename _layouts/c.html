@@ -104,13 +104,13 @@ ORDER BY ?order
  sensesSparql = `
 # List of senses for a specific lexeme
  SELECT
-  ?sense ?senseLabel
-  (GROUP_CONCAT(?gloss; separator=" // ") AS ?glosses)
+  ?sense ?senseLab
+  (GROUP_CONCAT(?gloss; separator=" // ") AS ?senseLabel)
   (IRI(CONCAT("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file&width=200&wpvalue=", 
           SUBSTR(STR(SAMPLE(?images)), 52))) AS ?sense_image)
  WHERE {
    wd:${ q } wdt:P180 ?sense .
-   BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
+   BIND(SUBSTR(STR(?sense), 32) AS ?senseLab)
    ?sense rdfs:label ?gloss .
  }
  GROUP BY ?sense ?senseLabel
@@ -133,7 +133,7 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
 `
 
 lexemeSparql=`
-SELECT ?lexeme ?lexemeLabel ?sense ?senseLabel WHERE {		       
+SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) WHERE {		       
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language ?lang ;		   
      wikibase:lemma ?lexemeLabel  .  
