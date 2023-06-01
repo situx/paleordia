@@ -9,13 +9,6 @@ SELECT DISTINCT ?description ?value ?valueUrl
 WHERE {
   BIND(wd:${ q } AS ?valueUrl)
   {
-    BIND(1 AS ?order)
-    BIND("Script" AS ?description)
-    ?valueUrl rdfs:label ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-  }
-  UNION
-  {
     SELECT DISTINCT
       (2 AS ?order)
       ("Number of characters" AS ?description)
@@ -27,7 +20,6 @@ WHERE {
       BIND(1 AS ?dummy)
     }
     GROUP BY ?dummy
-  }
 } 
 ORDER BY ?order
 `;
@@ -39,6 +31,7 @@ ORDER BY ?order
 	?character wdt:P282 wd:${ q } .
 	?character wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
+	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     ?character rdfs:label ?characterLabel .
     FILTER (LANG(?characterLabel) = 'en')
   }
