@@ -122,11 +122,20 @@ ORDER BY ?order
 SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
 	  BIND(wd:${ q } AS ?lexeme)
-      ?lexeme wdt:P527 ?compound.
-      OPTIONAL {
-        ?compound rdfs:label ?compoundLabel .
-        FILTER (LANG(?compoundLabel) = "en")
-        FILTER (?compound != wd:${ q })
+	  {
+        ?lexeme wdt:P527 ?compound.
+        OPTIONAL {
+          ?compound rdfs:label ?compoundLabel .
+          FILTER (LANG(?compoundLabel) = "en")
+          FILTER (?compound != wd:${ q })
+        }
+      }UNION {
+        ?compound wdt:P527 ?lexeme .
+        OPTIONAL {
+          ?compound rdfs:label ?compoundLabel .
+          FILTER (LANG(?compoundLabel) = "en")
+          FILTER (?compound != wd:${ q })
+        }
       }
     }
     GROUP BY ?lexeme ?compound  
