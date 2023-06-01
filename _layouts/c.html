@@ -144,7 +144,11 @@ SELECT ?lexeme ?compound (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?oth
 			   sDom: 'rt',
 		       });
      sparqlToDataTable(formsSparql, "#forms",
-		       options={paging: false, sDom: 'rt',});
+		       options={			   
+			   linkPrefixes: {
+			       form: '../cf'
+			   },
+			   paging: false, sDom: 'rt',});
      sparqlToDataTable(sensesSparql, "#senses",
 		       options={paging: false, sDom: 'rt',});
      sparqlToDataTable(compoundsSparql, "#compounds",
