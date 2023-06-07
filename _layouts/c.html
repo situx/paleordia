@@ -148,11 +148,7 @@ SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") 
      dct:language wd:Q36790 ;		   
      wikibase:lemma ?lexemeLabel  .  
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
-<<<<<<< HEAD
-   OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER((LANG(?senselabel))= "en") }}	 
-=======
    OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
->>>>>>> 3f66e7aabe4ce06063853bf6e009944018c4bdea
    FILTER(lang(?charlabel)="en")
    FILTER(contains(?lexemeLabel,?charlabel))
 }
