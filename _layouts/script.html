@@ -39,7 +39,6 @@ ORDER BY ?order
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
   }
-  GROUP BY ?character ?characterLabel 
   LIMIT 10000
 `
 
