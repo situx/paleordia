@@ -28,24 +28,27 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?unicodename WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?unicode WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P9382 ?unicodename .
+	?character wdt:P4213 ?unicodepoint .
+	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
 	?character wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
   }
+  GROUP BY ?character ?characterLabel 
   LIMIT 10000
 `
 
  $(document).ready(function() {
-     sparqlToDataTable(dataSparql, "#data");
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
 	 'character': '../c'
 	 }});
+	 sparqlToDataTable(dataSparql, "#data");
  });
 
 </script>
