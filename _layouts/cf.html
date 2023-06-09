@@ -149,9 +149,6 @@ WHERE {
 ORDER BY ?order
 `
 
-
-   
-
  $(document).ready(function() {
      sparqlToDataTable(
 	 formDataSparql, "#form-data",
@@ -182,16 +179,16 @@ ORDER BY ?order
 </script>
 
 <div class="l-entity">
-    <h1>Form: ${ q }</h1>
+    <h1>Paleographic Sign Variant: ${ q }</h1>
 
     <a title="Back"
        role="button"
        class="btn btn-outline-dark btn-sm"
-       href="../c?c=${ qo }">←</a>
+       href="../c?c=${ qb }">←</a>
     <a title="View and edit form in Wikidata"
        role="button"
        class="btn btn-outline-dark btn-sm"
-       href="https://www.wikidata.org/wiki/${ q }#${ f }">Wikidata ↗</a>
+       href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
 
     
     <table class="table table-hover" id="form-data"></table>

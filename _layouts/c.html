@@ -172,6 +172,9 @@ ORDER BY ?lexeme
 			   linkPrefixes: {
 			       form: '../cf'
 			   },
+			   linkParams: {
+			       form: '&qb=${ q }'
+			   },
 			   paging: false, sDom: 'rt',});
      sparqlToDataTable(sensesSparql, "#senses",
 		       options={paging: false, sDom: 'rt',});

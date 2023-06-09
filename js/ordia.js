@@ -24,7 +24,14 @@ function detectCorrectParameter(url){
 	return url
 }
 
-function convertDataTableData(data, columns, linkPrefixes={}) {
+function addParamsToLink(url,key,linkParams){
+	if(key in linkParams){
+		url+=linkParams[key]
+	}
+	return url
+}
+
+function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     // Handle 'Label' columns.
 
     // var linkPrefixes = (options && options.linkPrefixes) || {};
@@ -55,7 +62,7 @@ function convertDataTableData(data, columns, linkPrefixes={}) {
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
 		    (linkPrefixes[key] || "") + 
-		    detectCorrectParameter(data[i][key].substr(31)) +
+		    addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),linkParams) +
 		    '">' + data[i][key + 'Label'] + '</a>';
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
@@ -127,6 +134,7 @@ function sparqlDataToSimpleData(response) {
 function sparqlToDataTable(sparql, element, options={}) {
     // Options: linkPrefixes={}, paging=true
     var linkPrefixes = (typeof options.linkPrefixes === 'undefined') ? {} : options.linkPrefixes;
+	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
     
@@ -136,7 +144,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     $.post(post_url, post_data, function(response) {
 	var simpleData = sparqlDataToSimpleData(response);
 
-	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes);
+	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
 	columns = [];
 	for ( i = 0 ; i < convertedData.columns.length ; i++ ) {
 	    var column = {
