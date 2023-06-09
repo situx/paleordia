@@ -112,6 +112,7 @@ ORDER BY ?order
    wd:${ q } wdt:P180 ?sense .
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLab)
    ?sense rdfs:label ?gloss .
+   FILTER(LANG(?gloss)="en")
  }
  GROUP BY ?sense ?senseLab
  ORDER BY (STR(?sense))
