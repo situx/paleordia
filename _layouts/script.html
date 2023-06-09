@@ -92,7 +92,7 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(?referenceLab; separator=" // ") AS ?referenceLabel) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?referenceLabel) WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P9382 ?unicodename .
@@ -104,9 +104,10 @@ ORDER BY ?order
 	?theclass wdt:P279* wd:Q3241972 .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
-	FILTER (LANG(?referenceLabel) = 'en')
+	FILTER (LANG(?referenceLab) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?unicode ?reference
+  GROUP BY ?character ?characterLabel ?unicode
+  ORDER BY ?characterLabel
   LIMIT 10000
 `
 
