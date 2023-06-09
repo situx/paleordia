@@ -92,20 +92,21 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?unicode ?reference ?referenceLabel WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(?referenceLab; separator=" // ") AS ?referenceLabel) WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P9382 ?unicodename .
 	?character wdt:P4213 ?unicodepoint .
 	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
 	?character wdt:P1343 ?reference .
-	?reference rdfs:label ?referenceLabel .
+	?reference rdfs:label ?referenceLab .
 	?character wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	FILTER (LANG(?referenceLabel) = 'en')
   }
+  GROUP BY ?character ?characterLabel ?unicode ?reference
   LIMIT 10000
 `
 
@@ -124,7 +125,7 @@ ORDER BY ?order
 </script>
 
 <div class="language-entries">
-  <h1>${ q }</h1>
+  <h1>Script: ${ q }</h1>
 
   <a title="Back"
      role="button"
