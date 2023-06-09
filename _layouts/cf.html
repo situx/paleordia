@@ -49,21 +49,14 @@ WHERE {
     FILTER (LANG(?valueLabel) = "en")
     BIND(CONCAT("property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
-  UNION  
-  {   
-    BIND(11 AS ?order)
-    ?form wdt:P2859 ?value .
-    BIND(?value AS ?valueLabel)
-    BIND("X-SAMPA" AS ?description)
-  }
   UNION
   {
     # Alternative form
     BIND(12 AS ?order)
-    ?form wdt:P8530 ?value .
-    ?value ontolex:representation ?valueLabel .
+    ?form wdt:P2348 ?value .
+    ?value rdfs:label ?valueLabel .
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
-    BIND("alternative form" AS ?description)
+    BIND("time period" AS ?description)
   }
   UNION
   {
@@ -153,83 +146,7 @@ WHERE {
 ORDER BY ?order
 `
 
- homographsSparql = `
-# Homographs for a lexeme form
-SELECT
-  ?lexeme (SUBSTR(STR(?lexeme), 32) AS ?lexemeLabel)
-  ?lemma ?lexical_category ?lexical_categoryLabel
-  ?form (SUBSTR(STR(?form), 32) AS ?formLabel)
-  (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
-WHERE {
-  wd:${ q } ontolex:representation / ^ontolex:representation ?form .
 
-  FILTER (wd:${ q } != ?form)
-
-  ?lexeme ontolex:lexicalForm ?form ;
-          wikibase:lemma ?lemma ;
-          wikibase:lexicalCategory ?lexical_category .
-  OPTIONAL {
-    ?form wikibase:grammaticalFeature ?feature .
-    ?feature rdfs:label ?featureLabel .
-    FILTER (LANG(?featureLabel) = "en")
-  }
-    
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-  }
-GROUP BY ?lexeme ?lemma ?lexical_category ?lexical_categoryLabel
-  ?form ?formLabel
-`
-
- wikisourceSparql = `
- SELECT ?title ?titleUrl ?snippet WHERE {
-  SERVICE wikibase:mwapi {
-      bd:serviceParam wikibase:api "Search" .
-      bd:serviceParam wikibase:endpoint "{{ iso639 }}.wikisource.org" .
-      bd:serviceParam mwapi:srsearch "\\"{{ representation }}\\"" .
-      bd:serviceParam mwapi:language "{{ iso639 }}" .
-      ?title wikibase:apiOutput mwapi:title .
-      ?snippet_ wikibase:apiOutput "@snippet" .
-  }
-  hint:Prior hint:runFirst "true" .
-  BIND(CONCAT("https://{{ iso639 }}.wikisource.org/wiki/", ENCODE_FOR_URI(?title)) AS ?titleUrl)
-  BIND(REPLACE(REPLACE(?snippet_, '</span>', ''), '<span class="searchmatch">', '') AS ?snippet)
-}
-LIMIT 50
-`
-
- wiktionarySparql = `
- SELECT ?title ?titleUrl ?snippet WHERE {
-  SERVICE wikibase:mwapi {
-      bd:serviceParam wikibase:api "Search" .
-      bd:serviceParam wikibase:endpoint "{{ iso639 }}.wiktionary.org" .
-      bd:serviceParam mwapi:srsearch "\\"{{ representation }}\\"" .
-      bd:serviceParam mwapi:language "{{ iso639 }}" .
-      ?title wikibase:apiOutput mwapi:title .
-      ?snippet_ wikibase:apiOutput "@snippet" .
-  }
-  hint:Prior hint:runFirst "true" .
-  BIND(CONCAT("https://{{ iso639 }}.wiktionary.org/wiki/", ENCODE_FOR_URI(?title)) AS ?titleUrl)
-  BIND(REPLACE(REPLACE(?snippet_, '</span>', ''), '<span class="searchmatch">', '') AS ?snippet)
-}
-LIMIT 200
-`
-
- wikiquoteSparql = `
- SELECT ?title ?titleUrl ?snippet WHERE {
-  SERVICE wikibase:mwapi {
-      bd:serviceParam wikibase:api "Search" .
-      bd:serviceParam wikibase:endpoint "{{ iso639 }}.wikiquote.org" .
-      bd:serviceParam mwapi:srsearch "\\"{{ representation }}\\"" .
-      bd:serviceParam mwapi:language "{{ iso639 }}" .
-      ?title wikibase:apiOutput mwapi:title .
-      ?snippet_ wikibase:apiOutput "@snippet" .
-  }
-  hint:Prior hint:runFirst "true" .
-  BIND(CONCAT("https://{{ iso639 }}.wikiquote.org/wiki/", ENCODE_FOR_URI(?title)) AS ?titleUrl)
-  BIND(REPLACE(REPLACE(?snippet_, '</span>', ''), '<span class="searchmatch">', '') AS ?snippet)
-}
-LIMIT 50
-`
    
 
  $(document).ready(function() {
@@ -271,7 +188,7 @@ LIMIT 50
     <a title="View and edit form in Wikidata"
        role="button"
        class="btn btn-outline-dark btn-sm"
-       href="https://www.wikidata.org/wiki/Lexeme:${ q }#${ f }">Wikidata ↗</a>
+       href="https://www.wikidata.org/wiki/${ q }#${ f }">Wikidata ↗</a>
 
     
     <table class="table table-hover" id="form-data"></table>
