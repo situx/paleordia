@@ -3,41 +3,107 @@ layout: base
 ---
 
 <script type="text/javascript">
-  dataSparql = `
-# tool: ordia
-SELECT DISTINCT ?description ?value ?valueUrl
+scriptSparql = `
+SELECT ?description ?value ?valueUrl
 WHERE {
-  BIND(wd:${ q } AS ?valueUrl)
+  BIND(wd:${ q } AS ?language)
   {
-    SELECT DISTINCT
+    BIND(1 AS ?order)
+    BIND("Script" AS ?description)
+    ?language rdfs:label ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }
+  UNION
+  {
+    BIND(2 AS ?order)
+    BIND("Instance Of" AS ?description)
+    ?language wdt:P31 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }
+  UNION
+  {
+    BIND(3 AS ?order)
+    BIND("Subclass Of" AS ?description)
+    ?language wdt:P279 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }  
+  UNION
+  {
+    BIND(4 AS ?order)
+    BIND("Inception" AS ?description)
+    ?language wdt:P579 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }  
+  UNION
+  {
+    BIND(5 AS ?order)
+    BIND("Invented by" AS ?description)
+    ?language wdt:P61 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }  
+  UNION
+  {
+    BIND(6 AS ?order)
+    BIND("Location" AS ?description)
+    ?language wdt:P276 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }
+  UNION
+  {
+    BIND(7 AS ?order)
+    BIND("Languages using this script" AS ?description)
+    ?language wdt:P407 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  }  
+  UNION
+  {
+    BIND(8 AS ?order)
+    BIND("Unicode Range" AS ?description)
+    ?language wdt:P5949 ?value_string .
+    FILTER (LANG(?value_string) = 'en')
+    BIND(COALESCE(?value_string, ?q) AS ?value)
+  } 
+  UNION
+  {
+    SELECT
       (2 AS ?order)
       ("Number of characters" AS ?description)
-      (COUNT(?valuee) AS ?value)
+      (COUNT(?chars) AS ?value)
     {
-	?valuee wdt:P282 wd:${ q } .
-	?valuee wdt:P31 ?theclass .
-	?theclass wdt:P279* wd:Q3241972 .
+      wd:${ q } wdt:P31 wd:Q8192 .
+	  ?chars wdt:P282 wd:${ q } .
+	  FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }[] dct:language wd:${ q } .
       BIND(1 AS ?dummy)
     }
     GROUP BY ?dummy
-  } 
-}
+  }
+} 
 ORDER BY ?order
 `;
   
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?unicode WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?unicode ?reference WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P9382 ?unicodename .
 	?character wdt:P4213 ?unicodepoint .
 	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
+	?character wdt:P1343 ?reference .
+	?reference rdfs:label ?referenceLabel .
 	?character wdt:P31 ?theclass .
 	?theclass wdt:P279* wd:Q3241972 .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
+	FILTER (LANG(?referenceLabel) = 'en')
   }
   LIMIT 10000
 `

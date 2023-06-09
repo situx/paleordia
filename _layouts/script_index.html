@@ -12,6 +12,7 @@ WITH {
   SELECT ?script (COUNT(?chars) AS ?number_of_characters) WHERE {
     ?script wdt:P31 wd:Q8192 .
 	?chars wdt:P282 ?script .
+	FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }
   }
   GROUP BY ?script
 } AS %languages
