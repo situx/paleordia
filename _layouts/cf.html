@@ -66,11 +66,11 @@ WHERE {
     # Homofon form
     BIND(13 AS ?order)
 
-    BIND("homophone form" AS ?description)
-    BIND("../property?p=P10822" AS ?descriptionUrl)
-
-    ?form wdt:P10822 ?value .
-    ?value ontolex:representation ?valueLabel .
+    BIND("depicts" AS ?description)
+    BIND("../c?" AS ?descriptionUrl)
+    ?form wdt:P180 ?value .
+    ?value rdfs:label ?valueLabel .
+	FILTER (LANG(?valueLabel) = 'en')
   }
   UNION 
   {
@@ -89,24 +89,6 @@ WHERE {
       BIND("↗" AS ?source)
     }
   }
-  UNION 
-  {
-    BIND(21 AS ?order)
-
-    BIND("Not described in" AS ?description)
-    BIND("../property/P9660" AS ?descriptionUrl)
-
-    ?form p:P9660 ?value_statement .
-    ?value_statement ps:P9660 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
-      BIND("↗" AS ?source)
-    }
-  }
-
   UNION 
   {
     BIND(25 AS ?order)
