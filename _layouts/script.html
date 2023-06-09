@@ -20,7 +20,7 @@ WHERE {
     BIND(2 AS ?order)
     BIND("Instance Of" AS ?description)
     ?language wdt:P31 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   }
   UNION
@@ -28,7 +28,7 @@ WHERE {
     BIND(3 AS ?order)
     BIND("Subclass Of" AS ?description)
     ?language wdt:P279 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   }  
   UNION
@@ -36,7 +36,7 @@ WHERE {
     BIND(4 AS ?order)
     BIND("Inception" AS ?description)
     ?language wdt:P579 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   }  
   UNION
@@ -44,7 +44,7 @@ WHERE {
     BIND(5 AS ?order)
     BIND("Invented by" AS ?description)
     ?language wdt:P61 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   }  
   UNION
@@ -52,7 +52,7 @@ WHERE {
     BIND(6 AS ?order)
     BIND("Location" AS ?description)
     ?language wdt:P276 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   }
   UNION
@@ -60,7 +60,7 @@ WHERE {
     BIND(7 AS ?order)
     BIND("Languages using this script" AS ?description)
     ?language wdt:P407 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   }  
   UNION
@@ -68,7 +68,7 @@ WHERE {
     BIND(8 AS ?order)
     BIND("Unicode Range" AS ?description)
     ?language wdt:P5949 ?valueUrl .
-    ?language rdfs:label ?value .
+    ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
   } 
   UNION
@@ -92,7 +92,7 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?unicode ?reference WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?unicode ?reference ?referenceLabel WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P9382 ?unicodename .
