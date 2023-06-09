@@ -4,9 +4,10 @@ layout: base
 
 <script type="text/javascript">
 dataSparql = `
+
 SELECT ?description ?value ?valueUrl
 WHERE {
-  BIND(wd:${ q } AS ?language)
+  BIND(wd:Q401 AS ?language)
   {
     BIND(1 AS ?order)
     BIND("Script" AS ?description)
@@ -18,57 +19,57 @@ WHERE {
   {
     BIND(2 AS ?order)
     BIND("Instance Of" AS ?description)
-    ?language wdt:P31 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P31 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   }
   UNION
   {
     BIND(3 AS ?order)
     BIND("Subclass Of" AS ?description)
-    ?language wdt:P279 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P279 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   }  
   UNION
   {
     BIND(4 AS ?order)
     BIND("Inception" AS ?description)
-    ?language wdt:P579 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P579 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   }  
   UNION
   {
     BIND(5 AS ?order)
     BIND("Invented by" AS ?description)
-    ?language wdt:P61 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P61 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   }  
   UNION
   {
     BIND(6 AS ?order)
     BIND("Location" AS ?description)
-    ?language wdt:P276 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P276 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   }
   UNION
   {
     BIND(7 AS ?order)
     BIND("Languages using this script" AS ?description)
-    ?language wdt:P407 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P407 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   }  
   UNION
   {
     BIND(8 AS ?order)
     BIND("Unicode Range" AS ?description)
-    ?language wdt:P5949 ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
+    ?language wdt:P5949 ?valueUrl .
+    ?language rdfs:label ?value .
+    FILTER (LANG(?value) = 'en')
   } 
   UNION
   {
@@ -77,9 +78,9 @@ WHERE {
       ("Number of characters" AS ?description)
       (COUNT(?chars) AS ?value)
     {
-      wd:${ q } wdt:P31 wd:Q8192 .
-	  ?chars wdt:P282 wd:${ q } .
-	  FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }[] dct:language wd:${ q } .
+      wd:Q401 wdt:P31 wd:Q8192 .
+	  ?chars wdt:P282 wd:Q401 .
+	  FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }[] dct:language wd:Q401 .
       BIND(1 AS ?dummy)
     }
     GROUP BY ?dummy
