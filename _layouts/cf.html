@@ -67,7 +67,7 @@ WHERE {
     BIND(13 AS ?order)
 
     BIND("depicts" AS ?description)
-    BIND("../c?" AS ?descriptionUrl)
+    BIND("../c?q=" AS ?value_Url)
     ?form wdt:P180 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
@@ -77,7 +77,7 @@ WHERE {
     BIND(20 AS ?order)
 
     BIND("Described in" AS ?description)
-    BIND("../property?=p=P1343" AS ?descriptionUrl)
+    BIND("../property?p=P1343" AS ?descriptionUrl)
 
     ?form p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
@@ -166,7 +166,7 @@ ORDER BY ?order
     <a title="Back"
        role="button"
        class="btn btn-outline-dark btn-sm"
-       href="../c?c=${ qb }">←</a>
+       href="../c?q=${ qb }">←</a>
     <a title="View and edit form in Wikidata"
        role="button"
        class="btn btn-outline-dark btn-sm"

@@ -58,7 +58,7 @@ WHERE {
   UNION
   {
     BIND(7 AS ?order)
-    BIND("Languages using this script" AS ?description)
+    BIND("Language using this script" AS ?description)
     ?language wdt:P407 ?valueUrl .
     ?valueUrl rdfs:label ?value .
     FILTER (LANG(?value) = 'en')
