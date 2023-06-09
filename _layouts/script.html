@@ -113,7 +113,11 @@ ORDER BY ?order
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
 		'character': '../c'
-	 }});
+	 },
+	 linkParams: {
+		form: '&qb='+q
+	 }
+	 });
 	 sparqlToDataTable(dataSparql, "#data");
  });
 
