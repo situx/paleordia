@@ -21,7 +21,9 @@ WHERE {
   UNION
   {
     BIND(2 AS ?order)
-    ?form wdt:P18?image .
+    ?form wdt:P18 ?image .
+	BIND("Image" AS ?description)
+	BIND(?image AS ?value)
   }
   UNION 
   {
@@ -57,6 +59,7 @@ WHERE {
     ?value rdfs:label ?valueLabel .
     BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
     BIND("time period" AS ?description)
+	 FILTER (LANG(?valueLabel) = 'en')
   }
   UNION
   {
