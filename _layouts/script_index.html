@@ -6,13 +6,13 @@ layout: base
     languagesSparql = `
 # List of scripts with count of the number of characters
 SELECT
-  ?number_of_characters
+  ?number_of_characters_and_variants
   ?script ?scriptLabel ?scriptDescription
 WITH {
-  SELECT ?script (COUNT(?chars) AS ?number_of_characters) WHERE {
+  SELECT ?script (COUNT(?chars) AS ?number_of_characters_and_variants) WHERE {
     ?script wdt:P31 wd:Q8192 .
 	?chars wdt:P282 ?script .
-	FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }
+	#FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }
   }
   GROUP BY ?script
 } AS %languages
