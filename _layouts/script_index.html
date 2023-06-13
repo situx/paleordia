@@ -20,7 +20,7 @@ WHERE {
   INCLUDE %languages
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
-ORDER BY DESC(?number_of_characters)
+ORDER BY DESC(?number_of_characters_and_variants)
   `
 
   numberOfStatementsSparql = `
