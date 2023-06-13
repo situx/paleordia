@@ -7,7 +7,7 @@ dataSparql = `
 
 SELECT ?description ?value ?valueUrl
 WHERE {
-  BIND(wd:Q401 AS ?language)
+  BIND(wd:${ q } AS ?language)
   {
     BIND(1 AS ?order)
     BIND("Script" AS ?description)
