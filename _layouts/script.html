@@ -100,8 +100,6 @@ ORDER BY ?order
 	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
 	?character wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLab .
-	?character wdt:P31 ?theclass .
-	?theclass wdt:P279* wd:Q3241972 .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	FILTER (LANG(?referenceLab) = 'en')
