@@ -120,18 +120,17 @@ ORDER BY ?order
 
 
 readingsSparql = `
-SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHERE {		       
+SELECT ?lexeme ?lexemeLabel (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHERE {		       
   wd:${ q } rdfs:label ?charlabel .
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language wd:Q36790 ;		   
      wikibase:lemma ?lexemeLabel  .  
-   OPTIONAL {?lexeme ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}           
-   OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
+  
    OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
    FILTER(lang(?charlabel)="en")
    FILTER(STR(?lexemeLabel)=STR(?charlabel))
 }
- GROUP BY ?lexeme ?lexemeLabel ?sense
+ GROUP BY ?lexeme ?lexemeLabel
 ORDER BY ?lexeme
 `
 
@@ -173,7 +172,7 @@ ORDER BY ?lexeme
      sparqlToDataTable(sensesSparql, "#senses",
 		       options={paging: false, sDom: 'rt',});
      sparqlToDataTable(readingsSparql, "#readings",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: true, sDom: 'rt',});
      sparqlToDataTable(usedinLexemeSparql, "#usedlexemes",
 		       options={paging: true, sDom: 'rt',linkPrefixes: {
 			       lexeme: '../l',
