@@ -125,12 +125,11 @@ SELECT ?lexeme ?lexemeLabel (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHER
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language wd:Q36790 ;		   
      wikibase:lemma ?lexemeLabel  .  
-  
-   OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
+   OPTIONAL {?lexeme ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}           
    FILTER(lang(?charlabel)="en")
    FILTER(STR(?lexemeLabel)=STR(?charlabel))
 }
- GROUP BY ?lexeme ?lexemeLabel
+GROUP BY ?lexeme ?lexemeLabel
 ORDER BY ?lexeme
 `
 
