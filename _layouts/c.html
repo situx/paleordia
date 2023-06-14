@@ -119,35 +119,29 @@ ORDER BY ?order
 `
 
 
- compoundsSparql = `
-SELECT DISTINCT ?lexeme ?lexemeLabel ?compound ?compoundLabel
-    WHERE {
-	  BIND(wd:${ q } AS ?lexeme)
-	  ?lexeme rdfs:label ?lexemeLabel .
-	  {
-        ?lexeme wdt:P527 ?compound.
-        OPTIONAL {
-          ?compound rdfs:label ?compoundLabel .
-          FILTER (LANG(?compoundLabel) = "en")
-          FILTER (?compound != wd:${ q })
-        }
-      }UNION {
-        ?compound wdt:P527 ?lexeme .
-        OPTIONAL {
-          ?compound rdfs:label ?compoundLabel .
-          FILTER (LANG(?compoundLabel) = "en")
-          FILTER (?compound != wd:${ q })
-        }
-      }
-    }
-`
-
-usedinLexemeSparql=`
-SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) WHERE {		       
+ readingsSparql = `
+SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHERE {		       
   wd:${ q } rdfs:label ?charlabel .
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language wd:Q36790 ;		   
      wikibase:lemma ?lexemeLabel  .  
+   OPTIONAL {?l ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}           
+   OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
+   OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
+   FILTER(lang(?charlabel)="en")
+   FILTER(?lexemeLabel=?charlabel)
+}
+ GROUP BY ?lexeme ?lexemeLabel ?sense
+ORDER BY ?lexeme
+`
+
+usedinLexemeSparql=`
+SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHERE {		       
+  wd:${ q } rdfs:label ?charlabel .
+  ?lexeme rdf:type ontolex:LexicalEntry ;          
+     dct:language wd:Q36790 ;		   
+     wikibase:lemma ?lexemeLabel  .  
+   OPTIONAL {?l ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}   
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
    OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
    FILTER(lang(?charlabel)="en")
@@ -179,10 +173,10 @@ ORDER BY ?lexeme
 			   paging: false, sDom: 'rt',});
      sparqlToDataTable(sensesSparql, "#senses",
 		       options={paging: false, sDom: 'rt',});
-     /*sparqlToDataTable(compoundsSparql, "#compounds",
-		       options={paging: false, sDom: 'rt',});*/
+     sparqlToDataTable(readingsSparql, "#readings",
+		       options={paging: false, sDom: 'rt',});
      sparqlToDataTable(usedinLexemeSparql, "#usedlexemes",
-		       options={paging: false, sDom: 'rt',linkPrefixes: {
+		       options={paging: true, sDom: 'rt',linkPrefixes: {
 			       lexeme: '../l',
 			       sense: '../ls'
 			   }});
@@ -235,6 +229,10 @@ ORDER BY ?lexeme
 <iframe style="width: 80vw; height: 75vh; border: none;" src="https://query.wikidata.org/embed.html#%23%20Show%20compound%20hierarchy%0A%23defaultView%3AGraph%0ASELECT%20%3Flexeme%20%3FlexemeLabel%20%3Fcompound%20(GROUP_CONCAT(%3FcompoundLab%3B%20separator%3D%22%20%2F%2F%20%22)%20AS%20%3FcompoundLabel)%0A%20%20%20%20WHERE%20%7B%0A%09%20%20BIND(wd%3A${ q }%20AS%20%3Flexeme)%0A%20%20%20%20%20%20%3Flexeme%20rdfs%3Alabel%20%3FlexemeLabel%20.%0A%09%20%20%7B%0A%20%20%20%20%20%20%20%20%3Flexeme%20wdt%3AP527%20%3Fcompound.%0A%20%20%20%20%20%20%20%20OPTIONAL%20%7B%0A%20%20%20%20%20%20%20%20%20%20%3Fcompound%20rdfs%3Alabel%20%3FcompoundLab%20.%0A%20%20%20%20%20%20%20%20%20%20FILTER%20(LANG(%3FcompoundLab)%20%3D%20%22en%22)%0A%20%20%20%20%20%20%20%20%20%20FILTER%20(%3Fcompound%20!%3D%20wd%3A${ q })%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7DUNION%20%7B%0A%20%20%20%20%20%20%20%20%3Fcompound%20wdt%3AP527%20%3Flexeme%20.%0A%20%20%20%20%20%20%20%20OPTIONAL%20%7B%0A%20%20%20%20%20%20%20%20%20%20%3Fcompound%20rdfs%3Alabel%20%3FcompoundLab%20.%0A%20%20%20%20%20%20%20%20%20%20FILTER%20(LANG(%3FcompoundLab)%20%3D%20%22en%22)%0A%20%20%20%20%20%20%20%20%20%20FILTER%20(%3Fcompound%20!%3D%20wd%3A${ q })%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%20%20GROUP%20BY%20%3Flexeme%20%3Fcompound%20%3FlexemeLabel" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups" ></iframe>
 
 </div>
+    <h2>Readings</h2>
+
+    <table class="table table-hover" id="usedlexemes"></table>
+
     <h2>Used in lexemes</h2>
 
     <table class="table table-hover" id="usedlexemes"></table>
