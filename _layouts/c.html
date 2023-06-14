@@ -136,12 +136,11 @@ ORDER BY ?lexeme
 `
 
 usedinLexemeSparql=`
-SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHERE {		       
+SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) WHERE {		       
   wd:${ q } rdfs:label ?charlabel .
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language wd:Q36790 ;		   
-     wikibase:lemma ?lexemeLabel  .  
-   OPTIONAL {?lexeme ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}   
+     wikibase:lemma ?lexemeLabel  .   
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
    OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
    FILTER(lang(?charlabel)="en")
