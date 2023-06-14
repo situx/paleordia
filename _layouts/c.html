@@ -125,7 +125,7 @@ SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") 
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language wd:Q36790 ;		   
      wikibase:lemma ?lexemeLabel  .  
-   OPTIONAL {?l ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}           
+   OPTIONAL {?lexeme ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}           
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
    OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
    FILTER(lang(?charlabel)="en")
@@ -141,7 +141,7 @@ SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") 
   ?lexeme rdf:type ontolex:LexicalEntry ;          
      dct:language wd:Q36790 ;		   
      wikibase:lemma ?lexemeLabel  .  
-   OPTIONAL {?l ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}   
+   OPTIONAL {?lexeme ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep .}   
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
    OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
    FILTER(lang(?charlabel)="en")
