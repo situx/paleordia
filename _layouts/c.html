@@ -119,7 +119,7 @@ ORDER BY ?order
 `
 
 
- readingsSparql = `
+readingsSparql = `
 SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) (GROUP_CONCAT(?rep; separator=" // ") AS ?reps) WHERE {		       
   wd:${ q } rdfs:label ?charlabel .
   ?lexeme rdf:type ontolex:LexicalEntry ;          
@@ -129,7 +129,7 @@ SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") 
    OPTIONAL {?lexeme ontolex:sense ?sense . ?sense wdt:P5137 ?senseval . 
    OPTIONAL {?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}	 
    FILTER(lang(?charlabel)="en")
-   FILTER(?lexemeLabel!=?charlabel)
+   FILTER(STR(?lexemeLabel)!=STR(?charlabel))
 }
  GROUP BY ?lexeme ?lexemeLabel ?sense
 ORDER BY ?lexeme
@@ -146,7 +146,7 @@ SELECT ?lexeme ?lexemeLabel ?sense (GROUP_CONCAT(?senselabel; separator=" // ") 
    FILTER(lang(?charlabel)="en")
    FILTER(contains(?lexemeLabel,?charlabel))
 }
- GROUP BY ?lexeme ?lexemeLabel ?sense
+GROUP BY ?lexeme ?lexemeLabel ?sense
 ORDER BY ?lexeme
 `
 
