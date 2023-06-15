@@ -41,6 +41,8 @@ function reloadSignlist(){
 }
 
  $(document).ready(function() {
+    var post_url = "https://query.wikidata.org/sparql";
+    var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
      $.post(post_url, post_data, function(response) {
         var simpleData = sparqlDataToSimpleData(response);
         res=""
