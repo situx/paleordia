@@ -1,0 +1,46 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+	?character wdt:P282 wd:${ q } .
+    ?character rdfs:label ?characterLabel .
+	?reference rdfs:label ?referenceLab .
+	?character wdt:P31 wd:Q118867680 .
+	?character wdt:P2348 wd:${tp} .
+	?character wdt:P18 ?image .
+    FILTER (LANG(?characterLabel) = 'en')
+	FILTER (LANG(?referenceLab) = 'en')
+  }
+  GROUP BY ?character ?characterLabel ?unicode
+  ORDER BY ?characterLabel
+  LIMIT 10000
+`
+
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     lexical_category: '../lexical-category'
+	 }
+     });
+ });
+
+</script>
+
+<h1>Lexical categories</h1>
+
+<hr/>
+
+
+<div class="lexical-categories">
+
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+
+
