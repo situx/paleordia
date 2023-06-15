@@ -9,12 +9,10 @@ layout: base
   SELECT DISTINCT ?character ?characterLabel ?image WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
-	?reference rdfs:label ?referenceLab .
 	?character wdt:P31 wd:Q118867680 .
 	?character wdt:P2348 wd:${ tp } .
 	?character wdt:P18 ?image .
     FILTER (LANG(?characterLabel) = 'en')
-	FILTER (LANG(?referenceLab) = 'en')
   }
   ORDER BY ?characterLabel
   LIMIT 10000
