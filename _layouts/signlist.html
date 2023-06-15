@@ -16,7 +16,6 @@ layout: base
     FILTER (LANG(?characterLabel) = 'en')
 	FILTER (LANG(?referenceLab) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?unicode
   ORDER BY ?characterLabel
   LIMIT 10000
 `
