@@ -158,6 +158,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	table = $(element).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
+		bDestroy: true,
 	    lengthMenu: [[10, 25, 100, -1], [10, 25, 100, "All"]],
 	    ordering: true,
 	    order: [], 

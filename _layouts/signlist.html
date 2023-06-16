@@ -3,353 +3,73 @@ layout: base
 ---
 
 <script type="text/javascript">
- lexemeSparql = `
-# Data for a specific lexeme
-SELECT DISTINCT
-  ?description
-  (?valueLabel AS ?value_) ?value_Url
-  ?source ?sourceUrl
-WHERE {
-  VALUES ?lexeme { wd:${ l } }
-  {
-    BIND(1 AS ?order)
-    BIND("Lemma" AS ?description)
-    ?lexeme wikibase:lemma ?value .
-    BIND(?value AS ?valueLabel)
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+	?character wdt:P282 wd:${ q } .
+    ?character rdfs:label ?characterLabel .
+	?character wdt:P31 wd:Q118867680 .
+	?character wdt:P2348 wd:${ tp } .
+	?character wdt:P18 ?image .
+    FILTER (LANG(?characterLabel) = 'en')
   }
-  UNION 
-  {
-    BIND(2 AS ?order)
-    BIND("Language" AS ?description)
-    ?lexeme dct:language ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
-    BIND(3 AS ?order)
-    BIND("Lexical category" AS ?description)
-    ?lexeme wikibase:lexicalCategory ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
-    BIND(4 AS ?order)
-    BIND("Instance of" AS ?description)
-    ?lexeme p:P31 ?value_statement .
-    ?value_statement ps:P31 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
-      ?source_ rdfs:label ?source .
-      FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
-    }
-  }
-  UNION 
-  {
-    BIND(6 AS ?order)
-    BIND("Word stem" AS ?description)
-    OPTIONAL {
-      ?lexeme wdt:P5187 ?value .
-    }
-    BIND(?value AS ?valueLabel)
-  }
-  UNION 
-  {
-    BIND(10 AS ?order)
-    BIND("Grammatical gender" AS ?description)
-    ?lexeme wdt:P5185 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-  }
-  UNION 
-  {
-    BIND(11 AS ?order)
-    BIND("Conjugation class" AS ?description)
-    ?lexeme wdt:P5186 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P5186&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+  ORDER BY ?characterLabel
+  LIMIT 10000
+`
 
+ timeperiodsSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?tp ?tpLabel WHERE {
+	?character wdt:P282 wd:${ q } .
+	?character wdt:P31 wd:Q118867680 .
+	?character wdt:P2348 ?tp .
+	?tp rdfs:label ?tpLabel .
+    FILTER (LANG(?tpLabel) = 'en')
   }
-  UNION 
-  {
-    BIND(12 AS ?order)
-    BIND("Auxiliary verb" AS ?description)
-    ?lexeme wdt:P5401 ?value .
-    ?value wikibase:lemma ?valueLabel .
-    # BIND(CONCAT("../property_value?p=P5401&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    BIND(SUBSTR(STR(?value), 32) AS ?value_Url)
-  }
-  UNION 
-  {
-    # Characterized by
-    BIND(13 AS ?order)
-    BIND("Characterized by" AS ?description)
-    wd:${ l } wdt:P1552 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
-    # Derived from
-    BIND(14 AS ?order)
-    BIND("Derived from" AS ?description)
-    OPTIONAL {
-     ?lexeme wdt:P5191 ?value .
-     ?value wikibase:lemma ?valueLabel .	  
-    }
-    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
-    # Homographs
-    BIND(15 AS ?order)
-    BIND("Homographs" AS ?description)
-    wd:${ l } wdt:P5402 ?value .
-    ?value wikibase:lemma ?valueLabel .
-    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
-    # Homographs
-    BIND(16 AS ?order)
-    BIND("Time Period" AS ?description)
-    wd:${ l } wdt:P2348 ?value .
-    ?value rdfs:label ?valueLabel .
-	FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
-  }
-  UNION 
-  {
-    BIND(18 AS ?order)
-    BIND("Compound" AS ?description)
-    wd:${ l } wdt:P5238+ ?value .
-    ?value wikibase:lemma ?valueLabel .
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
-  }
-  UNION 
-  {
-    BIND(20 AS ?order)
-    BIND("Described in" AS ?description)
-    ?lexeme ontolex:lexicalForm? / p:P1343 ?value_statement .
-    ?value_statement ps:P1343 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../reference?", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
-      BIND("↗" AS ?source)
-    }
-  }
-  UNION 
-  {
-    BIND(30 AS ?order)
-    BIND("First attested from" AS ?description)
-    ?lexeme p:P6684 ?value_statement .
-    ?value_statement ps:P6684 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
-      OPTIONAL { ?value_statement pq:P577 ?date }
-      BIND(COALESCE(
-        CONCAT(STR(YEAR(?date)), "-", STR(MONTH(?date)), "-", STR(DAY(?date))),
-        "↗") AS ?source)
-    }
-  }
-  UNION 
-  {
-    BIND(31 AS ?order)
-    BIND("Attested in" AS ?description)
-    ?lexeme ontolex:lexicalForm? / p:P5323 ?value_statement .
-    ?value_statement ps:P5323 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
-    OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
-      OPTIONAL { ?value_statement pq:P577 ?date }
-      BIND(COALESCE(
-	  CONCAT(STR(YEAR(?date)), "-", STR(MONTH(?date)), "-", STR(DAY(?date)), " ↗"),
-        "↗") AS ?source)
-    }
-    OPTIONAL {
-      ?value wdt:P577 ?date . 
-      BIND(CONCAT(STR(YEAR(?date)), "-", STR(MONTH(?date)), "-", STR(DAY(?date))) AS ?source)
-    }
-
-  }
-  UNION 
-  {
-    BIND(32 AS ?order)
-    BIND("Usage example" AS ?description)
-    ?lexeme p:P5831 ?value_statement .
-    ?value_statement ps:P5831 ?value .
-    BIND(?value AS ?valueLabel)
-    BIND(CONCAT("text-to-lexemes?text=", ENCODE_FOR_URI(?value), "&text-language=", LANG(?value)) AS ?value_Url)
-    OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ . 
-      OPTIONAL {
-        ?source_ rdfs:label ?title .
-        FILTER (LANG(?title) = "en")     
-      }
-      BIND(COALESCE(?title, "Ref.") AS ?source)
-      BIND(CONCAT("reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
-    }   
-  }
+  ORDER BY ?tpLabel
+  LIMIT 10000
+`
+function reloadSignlist(){
+     tp=$('#timeperiods').val()
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
 }
-ORDER BY ?order
-`
-
-
- formsSparql = `
- # List of forms for a specific lexeme
- SELECT
-  ?form ?formLabel
-   (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
-   # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
- WHERE {
-   wd:${ l } ontolex:lexicalForm ?form .
-   ?form ontolex:representation ?formLabel .
-   OPTIONAL {
-     ?form wikibase:grammaticalFeature ?feature .
-     ?feature rdfs:label ?featureLabel .
-     FILTER (LANG(?featureLabel) = "en")
-   }
-   OPTIONAL {
-    ?form wdt:P5279 ?hyphenation
-   }
- }
- GROUP BY ?form ?formLabel
- ORDER BY (STR(?form))
- `
-
- sensesSparql = `
-# List of senses for a specific lexeme
- SELECT
-  ?sense ?senseLabel
-  (GROUP_CONCAT(?gloss; separator=" // ") AS ?glosses)
-  (IRI(CONCAT("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file&width=200&wpvalue=", 
-          SUBSTR(STR(SAMPLE(?images)), 52))) AS ?sense_image)
- WHERE {
-   wd:${ l } ontolex:sense ?sense .
-   BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
-   ?sense skos:definition ?gloss .
-   OPTIONAL {
-     ?sense wdt:P18 ?images
-   }
- }
- GROUP BY ?sense ?senseLabel
- ORDER BY (STR(?sense))
-`
-
-
- compoundsSparql = `
-SELECT
-  ?lexeme ?lexemeLabel
-  ?lexical_category ?lexical_categoryLabel
-  ?other_compounds
-WHERE {
-  {
-    SELECT
-      ?lexeme
-      (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
-    WHERE {
-      ?lexeme wdt:P5238+ wd:${ l } .
-      OPTIONAL {
-        ?lexeme wdt:P5238 ?compound .
-        ?compound wikibase:lemma ?compoundLabel .
-        FILTER (?compound != wd:${ l })
-      }
-    }
-    GROUP BY ?lexeme
-  }    
-  ?lexeme wikibase:lemma ?lexemeLabel .
-  OPTIONAL {
-    ?lexeme wikibase:lexicalCategory ?lexical_category .
-    ?lexical_category rdfs:label ?lexical_categoryLabel .
-    FILTER (LANG(?lexical_categoryLabel) = 'en')
-  }
-}
-`
-
 
  $(document).ready(function() {
-     sparqlToDataTable(lexemeSparql, "#lexeme",
-		       options={
-			   linkPrefixes: {
-			       source: '../reference',
-				   value_Url: '../'
-			   },
-			   paging: false,
-			   sDom: 'rt',
-		       });
-     sparqlToDataTable(formsSparql, "#forms",
-		       options={paging: false, sDom: 'rt',
-			   linkPrefixes: {
-			       form: '../lf'
-			   }});
-     sparqlToDataTable(sensesSparql, "#senses",
-		       options={paging: false, sDom: 'rt',
-			   linkPrefixes: {
-			       sense: '../ls'
-			   }});
-     sparqlToDataTable(compoundsSparql, "#compounds",
-		       options={paging: false, sDom: 'rt',});
+    var post_url = "https://query.wikidata.org/sparql";
+    var post_data = "query=" + encodeURIComponent(timeperiodsSparql) + '&format=json'
+     $.post(post_url, post_data, function(response) {
+        var simpleData = sparqlDataToSimpleData(response);
+        res=""
+        for(elem in simpleData.data){
+            res+="<option value=\""+simpleData.data[elem]["tp"]+"\">"+simpleData.data[elem]["tpLabel"]+"</option>"
+        }
+        $('#timeperiods').html(res)
+	})
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+
  });
 
 </script>
 
- <div class="l-entry">
+<h1>Signlists for ${ q }</h1>
 
-     <h1>Lexeme: ${ l }</h1>
-     
-     
-     <p>
-         <a title="Back"
-	    role="button"
-	    class="btn btn-outline-dark btn-sm"
-	    href="../l?l=${ l }">←</a>
-	 <a title="View and edit lexeme in Wikidata"
-	    role="button"
-	    class="btn btn-outline-dark btn-sm"
-	    href="https://www.wikidata.org/wiki/Lexeme:${ l }">Wikidata ↗</a>
-     </p>
-     
-     <table class="table table-hover" id="lexeme"></table>
-     
-     <div class="container">
-	 <div class="row">
-	      <div class="col-12 col-lg-6">
-		  <table class="table table-hover" id="forms"></table>
-	      </div>
-	      <div class="col-12 col-lg-6">
-		  <table class="table table-hover" id="senses"></table>
-	      </div>
-	 </div>
-     </div>
+<hr/>
 
-    <hr/>
-    
-    <h2>Compounds</h2>
+Time Periods:<select id="timeperiods" onchange="reloadSignlist()"></select>
 
-    <table class="table table-hover" id="compounds"></table>
+<div class="lexical-categories">
 
-    <h2>Compound and derivation graph</h2>
-    
-    <div class="embed-responsive embed-responsive-4by3">
-      <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23%20Show%20compound%20and%20derivation%20hierarchy%0A%23defaultView%3AGraph%0ASELECT%20DISTINCT%0A%20%20%3Flexeme1%20%3Flexeme1Label%20%3Flexeme1Image%0A%20%20%3Flexeme2%20%3Flexeme2Label%20%3Flexeme2Image%0A%7B%0A%20%20hint%3AQuery%20hint%3Aoptimizer%20%22None%22.%0A%20%20VALUES%20%3Flexeme%20%7B%20wd%3A${ l }%20%7D%0A%20%20%7B%0A%20%20%20%20%3Flexeme%20%28wdt%3AP5238%20%7C%20wdt%3AP5191%29%2B%20%7C%20%28%5Ewdt%3AP5238%20%7C%20%5Ewdt%3AP5191%29%2B%20%3Flexeme1%20%2C%20%3Flexeme2%20.%20%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme1%29%0A%20%20%20%20%3Flexeme%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme2%20.%0A%20%20%7D%0A%20%20UNION%0A%20%20%7B%0A%20%20%20%20BIND%28%3Flexeme%20AS%20%3Flexeme2%29%0A%20%20%20%20%3Flexeme1%20wdt%3AP5238%20%7C%20wdt%3AP5191%20%3Flexeme%20.%0A%20%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme1%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme1Image%20%7D%0A%20%20OPTIONAL%20%7B%20%3Flexeme2%20ontolex%3Asense%20%2F%20wdt%3AP5137%3F%20%2F%20wdt%3AP18%20%3Flexeme2Image%20%7D%0A%20%20%3Flexeme1%20wikibase%3Alemma%20%3Flexeme1Label%20.%0A%20%20%3Flexeme2%20wikibase%3Alemma%20%3Flexeme2Label%20.%0A%7D%0ALIMIT%20500"></iframe>
-  </div>
+    <table class="table table-hover" id="lexical-categories"></table>
 
-
-    
 </div>
+
