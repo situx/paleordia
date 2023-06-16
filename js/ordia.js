@@ -4,7 +4,9 @@ function capitalizeFirstLetter(string) {
 }
 
 function detectCorrectParameter(url){
-	if(url.startsWith("Q")){
+	if(url.startsWith("Q") && url.includes("signlist")){
+		return "?tp="+url.replaceAll("/","")
+	}else if(url.startsWith("Q")){
 		return "?q="+url.replaceAll("/","")
 	}
 	if(url.startsWith("L") && url.includes("-F")){
