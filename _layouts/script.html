@@ -109,6 +109,20 @@ ORDER BY ?order
   LIMIT 10000
 `
 
+signlistSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?timeperiod ?timeperiodLabel WHERE {
+	?character wdt:P282 wd:${ q } .
+	?charvar wdt:P180 ?character .
+	?charvar wdt:P31 wd:Q118867680 .
+	?charvar wdt:P282 wd:${ q } .
+	?charvar wdt:P2348 ?timeperiod .
+	?timeperiod rdfs:label ?timeperiodLabel .
+	FILTER (LANG(?timeperiodLabel) = 'en')
+  }
+`
+
  $(document).ready(function() {
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
@@ -116,6 +130,14 @@ ORDER BY ?order
 	 },
 	 linkParams: {
 		form: '&qb='+q
+	 }
+	 });
+	 sparqlToDataTable(signlistSparql, "#signlists",{
+	 'linkPrefixes': {
+		'timeperiod': '../signlist'
+	 },
+	 linkParams: {
+		timeperiod: '&q='+q+'&tp='
 	 }
 	 });
 	 sparqlToDataTable(dataSparql, "#data");
@@ -147,7 +169,10 @@ ORDER BY ?order
   <h2>Character Data</h2>
 
   <table class="table table-hover" id="data"></table>
-  
+ 
+  <h2>Time period specific signlists</h2>
+
+  <table class="table table-hover" id="signlists"></table> 
 
   <h2>Characters</h2>
 
