@@ -7,10 +7,10 @@ layout: base
 # tool: ordia
 # title: List of characters for a script
   SELECT DISTINCT ?character ?characterLabel ?image WHERE {
-	?character wdt:P282 wd:${ q } .
+	?character wdt:P282 wd:${ s } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P31 wd:Q118867680 .
-	?character wdt:P2348 wd:${ tp } .
+	?character wdt:P2348 wd:${ q } .
 	?character wdt:P18 ?image .
     FILTER (LANG(?characterLabel) = 'en')
   }
@@ -22,7 +22,7 @@ layout: base
 # tool: ordia
 # title: List of characters for a script
   SELECT DISTINCT ?tp ?tpLabel WHERE {
-	?character wdt:P282 wd:${ q } .
+	?character wdt:P282 wd:${ s } .
 	?character wdt:P31 wd:Q118867680 .
 	?character wdt:P2348 ?tp .
 	?tp rdfs:label ?tpLabel .
@@ -61,7 +61,7 @@ function reloadSignlist(){
 
 </script>
 
-<h1>Signlists for ${ q }</h1>
+<h1>Signlists for ${ s }</h1>
 
 <hr/>
 

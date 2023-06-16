@@ -112,7 +112,7 @@ ORDER BY ?order
 signlistSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?timeperiod ?timeperiodLabel WHERE {
+  SELECT DISTINCT ?timeperiod ?timeperiodLabel (COUNT(?charvar) AS ?charvars) WHERE {
 	?character wdt:P282 wd:${ q } .
 	?charvar wdt:P180 ?character .
 	?charvar wdt:P31 wd:Q118867680 .
@@ -137,7 +137,7 @@ signlistSparql = `
 		'timeperiod': '../signlist'
 	 },
 	 linkParams: {
-		timeperiod: '&q='+q
+		timeperiod: '&s='+q
 	 }
 	 });
 	 sparqlToDataTable(dataSparql, "#data");
