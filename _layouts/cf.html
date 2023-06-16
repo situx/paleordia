@@ -43,13 +43,13 @@ WHERE {
   }
   UNION 
   {
-    # Characterized by
+    # writing system
     BIND(5 AS ?order)
-    BIND("characterized by" AS ?description)
-    ?form wdt:P1552 ?value .
+    BIND("writing system" AS ?description)
+    ?form wdt:P282 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../script?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
   }
   UNION
   {
@@ -65,12 +65,11 @@ WHERE {
   {
     # Homofon form
     BIND(13 AS ?order)
-
     BIND("depicts" AS ?description)
-    BIND("../c?q=" AS ?value_Url)
     ?form wdt:P180 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
+	BIND(CONCAT("../c?q=", SUBSTR(STR(?value), 32)) AS ?value_Url)
   }
   UNION 
   {
