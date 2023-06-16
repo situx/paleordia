@@ -121,6 +121,7 @@ signlistSparql = `
 	?timeperiod rdfs:label ?timeperiodLabel .
 	FILTER (LANG(?timeperiodLabel) = 'en')
   }
+  GROUP BY ?timeperiod ?timeperiodLabel
 `
 
  $(document).ready(function() {
