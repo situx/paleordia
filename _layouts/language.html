@@ -123,8 +123,7 @@ lexemestimeperiodsSparql=`
 # title: Time periods per lexeme
   SELECT DISTINCT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?amountlexemes) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
-		dct:language wd:${ q } ; 
-		wikibase:lemma ?lexemeLabel .
+		dct:language wd:${ q } .
 	?lexeme wdt:P2348 ?timeperiod .
 	?timeperiod rdfs:label ?timeperiodLab .
 	FILTER (LANG(?timeperiodLab) = "en")
