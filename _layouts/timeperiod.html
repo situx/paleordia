@@ -12,6 +12,7 @@ layout: base
 		wikibase:lemma ?lexemeLab .
 	?lexeme wdt:P2348 wd:${ q } .
   }
+  GROUP BY ?lexeme
   LIMIT 10000
 `
 
