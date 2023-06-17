@@ -129,7 +129,7 @@ lexemestimeperiodsSparql=`
 	FILTER (LANG(?timeperiodLabel) = "en")
   }
   GROUP BY ?timeperiod ?timeperiodLabel
-  ORDER BY ?timeperiodLabel
+  ORDER BY ?amountlexemes
   LIMIT 10000
 `
 
@@ -162,7 +162,7 @@ LIMIT 200
 	 }});
 	sparqlToDataTable(lexemestimeperiodsSparql, "#lexemestimeperiods", {
 	 'linkPrefixes': {
-	     'lexical_category': '../lexical-category',
+	     'timeperiod': '../timeperiod',
 	 }});
      sparqlToDataTable(longestWordsAndPhrasesSparql,
 		       "#longest-words-and-phrases", {
