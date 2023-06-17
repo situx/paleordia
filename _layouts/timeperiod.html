@@ -6,20 +6,19 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+  SELECT DISTINCT ?lexeme ?lexemeLabel ?image WHERE {
 	?lexeme a ontolex:LexicalEntry ;
 		dct:language wd:${ l } ; 
 		wikibase:lemma ?lexemeLabel .
-	?character wdt:P2348 wd:${ q } .
+	?lexeme wdt:P2348 wd:${ q } .
   }
-  ORDER BY ?characterLabel
   LIMIT 10000
 `
 
  $(document).ready(function() {
      sparqlToDataTable(lexemesSparql, "#lexical-categories", {
 	 linkPrefixes: {
-	     character: '../cf'
+	     lexeme: '../l'
 	 }
      });
  });
