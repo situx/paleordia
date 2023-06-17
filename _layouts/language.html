@@ -163,6 +163,8 @@ LIMIT 200
 	sparqlToDataTable(lexemestimeperiodsSparql, "#lexemestimeperiods", {
 	 'linkPrefixes': {
 	     'timeperiod': '../timeperiod',
+	 },linkParams: {
+		timeperiod: '&l='+q
 	 }});
      sparqlToDataTable(longestWordsAndPhrasesSparql,
 		       "#longest-words-and-phrases", {
