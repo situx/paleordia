@@ -6,7 +6,7 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?lexemeLabel) WHERE {
+  SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
 		dct:language wd:${ l } ; 
 		wikibase:lemma ?lexemeLab .
