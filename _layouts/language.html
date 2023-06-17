@@ -117,7 +117,7 @@ WHERE {
 ORDER BY DESC(?count)
 `
 
-lexemestimeperiodSparql=`
+lexemestimeperiodsSparql=`
 # tool: ordia
 # title: Time periods per lexeme
   SELECT DISTINCT ?timeperiod ?timeperiodLabel (COUNT(?lexeme) as ?amountlexemes) WHERE {
