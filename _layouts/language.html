@@ -129,7 +129,7 @@ lexemestimeperiodsSparql=`
 	FILTER (LANG(?timeperiodLabel) = "en")
   }
   GROUP BY ?timeperiod ?timeperiodLabel
-  ORDER BY ?amountlexemes
+  ORDER BY DESC(?amountlexemes)
   LIMIT 10000
 `
 
