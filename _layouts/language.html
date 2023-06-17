@@ -118,13 +118,17 @@ ORDER BY DESC(?count)
 `
 
 lexemestimeperiodsparql=`
-  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+# tool: ordia
+# title: Time periods per lexeme
+  SELECT DISTINCT ?timeperiod ?timeperiodLabel (COUNT(?lexeme) as ?amountlexemes) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
-		dct:language wd:${ l } ; 
+		dct:language wd:${ q } ; 
 		wikibase:lemma ?lexemeLabel .
-	?character wdt:P2348 wd:${ q } .
+	?lexeme wdt:P2348 ?timeperiod .
+	?timeperiod rdfs:label ?timeperiodLabel .
+	FILTER (LANG(?timeperiodLabel) = "en")
   }
-  ORDER BY ?characterLabel
+  ORDER BY ?timeperiodLabel
   LIMIT 10000
 `
 
