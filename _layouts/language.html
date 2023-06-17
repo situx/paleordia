@@ -65,13 +65,13 @@ ORDER BY ?order
 # tool: ordia
 # title: List of lexemes for a language
 SELECT
-  ?lexeme ?lexemeLabel
+  ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel)
   ?lexical_category ?lexical_categoryLabel
 WITH {
-  SELECT ?lexeme ?lexemeLabel ?lexical_category WHERE {
+  SELECT ?lexeme ?lexemeLab ?lexical_category WHERE {
     ?lexeme a ontolex:LexicalEntry ;
             dct:language wd:${ q } ; 
-            wikibase:lemma ?lexemeLabel .
+            wikibase:lemma ?lexemeLab .
     OPTIONAL {
       ?lexeme wikibase:lexicalCategory ?lexical_category .
     }
@@ -87,6 +87,7 @@ WHERE {
   # SERVICE does not work!?
   # SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
   `
 
   lexicalCategoriesSparql = `
