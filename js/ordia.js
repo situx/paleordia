@@ -26,10 +26,11 @@ function detectCorrectParameter(url){
 	return url
 }
 
-function addParamsToLink(url,key,linkParams){
+function addParamsToLink(url,key,linkParams,label=""){
 	if(key in linkParams){
 		url+=linkParams[key]
 	}
+	url+="&qLabel="+label
 	return url
 }
 
@@ -64,7 +65,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
 		    (linkPrefixes[key] || "") + 
-		    addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams) +
+		    addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key + 'Label']) +
 		    '">' + data[i][key + 'Label'] + '</a>';
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
