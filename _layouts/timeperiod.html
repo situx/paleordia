@@ -1,0 +1,38 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+	?lexeme a ontolex:LexicalEntry ;
+		dct:language wd:${ l } ; 
+		wikibase:lemma ?lexemeLabel .
+	?character wdt:P2348 wd:${ q } .
+  }
+  ORDER BY ?characterLabel
+  LIMIT 10000
+`
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+ });
+
+</script>
+
+<h1>Lexemes for ${ q }</h1>
+
+<hr/>
+
+<div class="lexical-categories">
+
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+

@@ -117,6 +117,17 @@ WHERE {
 ORDER BY DESC(?count)
 `
 
+lexemestimeperiodsparql=`
+  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+	?lexeme a ontolex:LexicalEntry ;
+		dct:language wd:${ l } ; 
+		wikibase:lemma ?lexemeLabel .
+	?character wdt:P2348 wd:${ q } .
+  }
+  ORDER BY ?characterLabel
+  LIMIT 10000
+`
+`
 
  longestWordsAndPhrasesSparql = `
 # tool: ordia
@@ -142,6 +153,10 @@ LIMIT 200
 	     'lexeme': '../l',
 	     'lexical_category': '../lexical_category'}});
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
+	 'linkPrefixes': {
+	     'lexical_category': '../lexical-category',
+	 }});
+	sparqlToDataTable(lexemestimeperiodsSparql, "#lexemestimeperiods", {
 	 'linkPrefixes': {
 	     'lexical_category': '../lexical-category',
 	 }});
@@ -178,11 +193,17 @@ LIMIT 200
   <h2>Data</h2>
 
   <table class="table table-hover" id="data"></table>
-  
+
+	<h2>Lexemes by time period</h2>
+
+	<table class="table table-hover" id="lexemestimeperiods"></table>  
 
   <h2>Lexemes</h2>
 
   <table class="table table-hover" id="lexemes"></table>
+
+
+
 
 </div>
 
@@ -194,8 +215,6 @@ LIMIT 200
   </div>
 
   <table class="table table-hover" id="lexical-categories"></table>
-
-
 
   
 <h2>Longest words and phrases</h2>

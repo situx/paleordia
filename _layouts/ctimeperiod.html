@@ -1,0 +1,74 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+	?lexeme a ontolex:LexicalEntry ;
+		dct:language wd:${ l } ; 
+		wikibase:lemma ?lexemeLabel .
+	?character wdt:P2348 wd:${ q } .
+    FILTER (LANG(?characterLabel) = 'en')
+  }
+  ORDER BY ?characterLabel
+  LIMIT 10000
+`
+
+ timeperiodsSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT DISTINCT ?tp ?tpLabel WHERE {
+	?character wdt:P282 wd:${ s } .
+	?character wdt:P31 wd:Q118867680 .
+	?character wdt:P2348 ?tp .
+	?tp rdfs:label ?tpLabel .
+    FILTER (LANG(?tpLabel) = 'en')
+  }
+  ORDER BY ?tpLabel
+  LIMIT 10000
+`
+function reloadSignlist(){
+     tp=$('#timeperiods').val()
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+}
+
+ $(document).ready(function() {
+    var post_url = "https://query.wikidata.org/sparql";
+    var post_data = "query=" + encodeURIComponent(timeperiodsSparql) + '&format=json'
+     $.post(post_url, post_data, function(response) {
+        var simpleData = sparqlDataToSimpleData(response);
+        res=""
+        for(elem in simpleData.data){
+            res+="<option value=\""+simpleData.data[elem]["tp"]+"\">"+simpleData.data[elem]["tpLabel"]+"</option>"
+        }
+        $('#timeperiods').html(res)
+	})
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+
+ });
+
+</script>
+
+<h1>Signlists for ${ s }</h1>
+
+<hr/>
+
+Time Periods:<select id="timeperiods" onchange="reloadSignlist()"></select>
+
+<div class="lexical-categories">
+
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+
