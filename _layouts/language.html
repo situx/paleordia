@@ -176,7 +176,8 @@ LIMIT 200
 </script>
 
 <div class="language-entries">
-  <h1>{{ q }}</h1>
+  
+  <h1>${ qLabel } (${ q })</h1>
 
   <a title="Back"
      role="button"
@@ -185,15 +186,15 @@ LIMIT 200
   <a title="View and edit item in Wikidata"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="https://www.wikidata.org/wiki/{{ q }}">Wikidata ↗</a>
+     href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
   <a title="View item in Reasonator"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="https://reasonator.toolforge.org/?&q={{ q }}">Reasonator ↗</a>
+     href="https://reasonator.toolforge.org/?&q=${ q }">Reasonator ↗</a>
   <a title="View item as a Scholia topic"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="https://scholia.toolforge.org/topic/{{ q }}">Scholia ↗</a>
+     href="https://scholia.toolforge.org/topic/${ q }">Scholia ↗</a>
 
 
   <h2>Data</h2>
