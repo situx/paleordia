@@ -33,7 +33,7 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32)+"&qLabel="+STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
@@ -49,7 +49,7 @@ WHERE {
     ?form wdt:P282 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../script?q=", SUBSTR(STR(?value), 32)+"&qLabel="+STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../script?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
   }
   UNION
   {
@@ -69,7 +69,7 @@ WHERE {
     ?form wdt:P180 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-	BIND(CONCAT("../c?q=", SUBSTR(STR(?value), 32)+"&qLabel="+STR(?valueLabel)) AS ?value_Url)
+	BIND(CONCAT("../c?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel)) AS ?value_Url)
   }
   UNION 
   {
