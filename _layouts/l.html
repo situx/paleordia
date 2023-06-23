@@ -133,7 +133,7 @@ WHERE {
     BIND("Compound" AS ?description)
     wd:${ l } wdt:P5238+ ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(CONCAT("../l?l="SUBSTR(STR(?value), 32),"&qLabel",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
