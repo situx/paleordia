@@ -24,7 +24,7 @@ WHERE {
     ?lexeme dct:language ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -33,7 +33,7 @@ WHERE {
     ?lexeme wikibase:lexicalCategory ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -43,7 +43,7 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
@@ -75,7 +75,7 @@ WHERE {
     ?lexeme wdt:P5186 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P5186&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P5186&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
 
   }
   UNION 
@@ -84,7 +84,7 @@ WHERE {
     BIND("Auxiliary verb" AS ?description)
     ?lexeme wdt:P5401 ?value .
     ?value wikibase:lemma ?valueLabel .
-    # BIND(CONCAT("../property_value?p=P5401&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    # BIND(CONCAT("../property_value?p=P5401&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
     BIND(SUBSTR(STR(?value), 32) AS ?value_Url)
   }
   UNION 
@@ -95,7 +95,7 @@ WHERE {
     wd:${ l } wdt:P1552 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -133,7 +133,7 @@ WHERE {
     BIND("Compound" AS ?description)
     wd:${ l } wdt:P5238+ ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
+    BIND(CONCAT("../l?l="SUBSTR(STR(?value), 32),"&qLabel",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
