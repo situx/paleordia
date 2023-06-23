@@ -106,7 +106,7 @@ WHERE {
      ?lexeme wdt:P5191 ?value .
      ?value wikibase:lemma ?valueLabel .	  
     }
-    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -115,7 +115,7 @@ WHERE {
     BIND("Homographs" AS ?description)
     wd:${ l } wdt:P5402 ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -125,7 +125,7 @@ WHERE {
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -133,7 +133,7 @@ WHERE {
     BIND("Compound" AS ?description)
     wd:${ l } wdt:P5238+ ?value .
     ?value wikibase:lemma ?valueLabel .
-    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
