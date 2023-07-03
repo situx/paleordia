@@ -95,7 +95,7 @@ ORDER BY ?order
   SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?references) WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
-	?charvar wdt:P31 ?cls .
+	?character wdt:P31 ?cls .
 	?cls wdt:P279 wd:Q3241972 .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
