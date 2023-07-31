@@ -8,7 +8,7 @@ lexemesSparql =`
     #?character wdt:P1343 ?lex .
     ?character p:P1343 ?lex .
     ?lex ps:P1343 wd:${ q } .
-    ?lex pq:P1810 ?refnumber .
+    OPTIONAL{?lex pq:P1810 ?refnumber .}
 	?character rdfs:label ?characterLabel .
     ?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
