@@ -158,7 +158,16 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    columns.push(column)
 	}
 
-	table = $(element).dataTable({ 
+	table = $(element).on( 'draw.dt', function () {
+            console.log( 'Loading' );
+          //Here show the loader.
+          $("#MessageContainer").html("Loading data table...");
+        } )
+        .on( 'init.dt', function () {
+            console.log( 'Loaded' );
+           //Here hide the loader.
+           $("#MessageContainer").html("Loding completed!");
+        } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
 		bDestroy: true,
