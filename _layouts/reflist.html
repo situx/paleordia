@@ -6,11 +6,14 @@ layout: base
 lexemesSparql =`
   SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
     ?character p:P1343 ?lex .
-	OPTIONAL{?character wdt:P9382 ?charname .}
+	OPTIONAL{
+		?character wdt:P9382 ?unicodename .
+		?character wdt:P4213 ?unicodepoint .
+	}
     ?lex ps:P1343 wd:Q118402324 .
     OPTIONAL{?lex pq:P1810 ?refnumber .}
 	?character rdfs:label ?characterLab .
-	BIND(CONCAT(?characterLab," (",?charname,")") AS ?characterLabel)
+	BIND(CONCAT(?characterLab," ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
     ?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
