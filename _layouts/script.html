@@ -137,6 +137,19 @@ lexemesSparql =`
   LIMIT 10000
 `
 
+reflistSparql=`
+  SELECT DISTINCT ?reference ?referenceLabel (COUNT(?reference) AS ?refvars) WHERE {
+	?character wdt:P282 wd:Q401 .
+
+    ?character wdt:P1343 ?reference .
+	?reference rdfs:label ?referenceLabel .
+    FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
+    FILTER (LANG(?referenceLabel) = 'en')
+  }
+  GROUP BY ?reference ?referenceLabel
+  ORDER BY ?referenceLabel
+`
+
 signlistSparql = `
 # tool: ordia
 # title: List of characters for a script
@@ -169,6 +182,14 @@ signlistSparql = `
 		timeperiod: '&s='+q
 	 }
 	 });
+	sparqlToDataTable(reflistSparql, "#references",{
+	 'linkPrefixes': {
+		'reference': '../reflist'
+	 },
+	 linkParams: {
+		timeperiod: '&q='+q
+	 }
+	 });
 	 sparqlToDataTable(dataSparql, "#data");
  });
 
@@ -198,11 +219,16 @@ signlistSparql = `
   <h2>Character Data</h2>
 
   <table class="table table-hover" id="data"></table>
+
  
   <h2>Time period specific signlists</h2>
 
   <table class="table table-hover" id="signlists"></table> 
 
+  <h2>References</h2>
+
+  <table class="table table-hover" id="references"></table>
+  
   <h2>Characters</h2>
 
   <table class="table table-hover" id="lexemes"></table>
