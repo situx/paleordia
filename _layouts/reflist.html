@@ -7,13 +7,15 @@ lexemesSparql =`
   SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
     #?character wdt:P1343 ?lex .
     ?character p:P1343 ?lex .
+	OPTIONAL{?character wdt:P9382 ?charname .}
     ?lex ps:P1343 wd:${ q } .
     OPTIONAL{?lex pq:P1810 ?refnumber .}
-	?character rdfs:label ?characterLabel .
+	?character rdfs:label ?characterLab .
     ?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
+	BIND(CONCAT(?characterLab," (U+",?charname,")") AS ?characterLabel)
   }
   GROUP BY ?character ?characterLabel ?refnumber
   ORDER BY ?refnumber
