@@ -89,7 +89,7 @@ WHERE {
 ORDER BY ?order
 `;
   
- lexemesSparql = `
+ /*lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
   SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?references) WHERE {
@@ -103,6 +103,30 @@ ORDER BY ?order
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	FILTER (LANG(?referenceLab) = 'en')
+  }
+  GROUP BY ?character ?characterLabel ?unicode
+  ORDER BY ?characterLabel
+  LIMIT 10000
+`*/
+
+lexemesSparql =`
+  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?image; separator=" ") AS ?images) WHERE {
+	?character wdt:P282 wd:Q401 .
+    ?character rdfs:label ?characterLabel .
+	?character wdt:P31 ?cls .
+	?cls wdt:P279 wd:Q3241972 .
+	OPTIONAL{
+		?character wdt:P9382 ?unicodename .
+		?character wdt:P4213 ?unicodepoint .
+	}
+	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
+    ?depiction wdt:P180 ?character .
+    ?depiction wdt:P18 ?image .
+	#?character wdt:P1343 ?reference .
+	#?reference rdfs:label ?referenceLab .
+	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
+    FILTER (LANG(?characterLabel) = 'en')
+	#FILTER (LANG(?referenceLab) = 'en')
   }
   GROUP BY ?character ?characterLabel ?unicode
   ORDER BY ?characterLabel
