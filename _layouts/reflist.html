@@ -7,7 +7,7 @@ lexemesSparql =`
   SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
     #?character wdt:P1343 ?lex .
     ?character p:P1343 ?lex .
-    ?lex ps:P1343 wd:Q115762193 .
+    ?lex ps:P1343 wd:${ q } .
     ?lex pq:P1810 ?refnumber .
 	?character rdfs:label ?characterLabel .
     ?depiction wdt:P180 ?character .
