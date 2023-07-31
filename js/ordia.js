@@ -62,7 +62,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key.substr(-5) == 'image') {
 			if(data[i][key].includes(" ")){
 				colval=""
-				for(itme of data[i][key].split(" ")){
+				for(item of data[i][key].split(" ")){
 					colval+='<img src="' + item + '" height="50">&nbsp;'
 				}
 				convertedRow[key]=colval
