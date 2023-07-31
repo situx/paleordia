@@ -63,11 +63,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if(data[i][key].includes(" ")){
 				colval=""
 				for(item of data[i][key].split(" ")){
-					colval+='<img src="' + item + '" height="50">&nbsp;'
+					colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
 				}
 				convertedRow[key]=colval
 			}else{
-				convertedRow[key] = '<img src="' + data[i][key] + '" height="50">';			
+				convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';			
 			}
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
