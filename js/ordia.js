@@ -60,8 +60,15 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 		convertedRow['description'] = data[i][key];
 
 	    } else if (key.substr(-5) == 'image') {
-		convertedRow[key] = '<img src="' + data[i][key] + '" height="50">';
-
+			if(data[i][key].includes(" ")){
+				colval=""
+				for(data[i][key].split(" ")){
+					colval+='<img src="' + data[i][key] + '" height="50">&nbsp;'
+				}
+				convertedRow[key]=colval
+			}else{
+				convertedRow[key] = '<img src="' + data[i][key] + '" height="50">';			
+			}
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
 		    (linkPrefixes[key] || "") + 

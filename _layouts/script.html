@@ -114,7 +114,7 @@ ORDER BY ?order
 `*/
 
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?image; separator=" ") AS ?images) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?image; separator=" ") AS ?_char_image) WHERE {
 	?character wdt:P282 wd:Q401 .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P31 ?cls .
