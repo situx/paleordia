@@ -5,7 +5,8 @@ layout: base
 <script type="text/javascript">
 lexemesSparql =`
   SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
-    ?character p:P1343 ?lex .
+    ?character wdt:P31 wd:Q23017336 .
+	?character p:P1343 ?lex .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
