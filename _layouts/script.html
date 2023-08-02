@@ -139,15 +139,15 @@ lexemesSparql =`
 
 reflistSparql=`
   SELECT DISTINCT ?reference ?referenceLabel (COUNT(?reference) AS ?refvars) WHERE {
+	?character wdt:P31 wd:Q23017336 .
 	?character wdt:P282 wd:Q401 .
-
     ?character wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLabel .
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?referenceLabel) = 'en')
   }
   GROUP BY ?reference ?referenceLabel
-  ORDER BY ?referenceLabel
+  ORDER BY ?referenceLabel   
 `
 
 signlistSparql = `
