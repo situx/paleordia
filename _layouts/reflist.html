@@ -15,8 +15,10 @@ lexemesSparql =`
     OPTIONAL{?lex pq:P1810 ?refnumber .}
 	?character rdfs:label ?characterLab .
 	BIND(CONCAT(?characterLab," ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
-    ?depiction wdt:P180 ?character .
-    OPTIONAL {?depiction wdt:P18 ?image .}
+    OPTIONAL {
+	?depiction wdt:P180 ?character .
+    ?depiction wdt:P18 ?image .
+	}
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLab) = 'en')
   }
