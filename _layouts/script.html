@@ -114,9 +114,9 @@ ORDER BY ?order
 `*/
 
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLab; separator=" ") AS ?references) ?unicode (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
+  SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLab; separator=" ") AS ?references) (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
 	?character wdt:P282 wd:Q401 .
-    ?character rdfs:label ?characterLabel .
+    ?character rdfs:label ?characterLab .
 	?character wdt:P31 ?cls .
 	?cls wdt:P279 wd:Q3241972 .
 	OPTIONAL{
@@ -131,11 +131,12 @@ lexemesSparql =`
     ?ref pq:P1810 ?refnum .
 	?reference rdfs:label ?referenceL .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
-    FILTER (LANG(?characterLabel) = 'en')
+    FILTER (LANG(?characterLab) = 'en')
 	FILTER (LANG(?referenceL) = 'en')
     BIND(CONCAT(?referenceL," (",?refnum,")") AS ?referenceLab)
+	BIND(CONCAT(?characterLab,?unicode) AS ?characterLabel)
   }
-  GROUP BY ?character ?characterLabel ?unicode
+  GROUP BY ?character ?characterLabel
   ORDER BY ?characterLabel
   LIMIT 10000
 
