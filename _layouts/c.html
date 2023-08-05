@@ -69,8 +69,10 @@ WHERE {
     BIND("Described in" AS ?description)
     ?character ontolex:lexicalForm? / p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
+    ?value rdfs:label ?valueLab .
+	OPTIONAL{ ?value_statement pq:P1810 ?valuenum .}
+    FILTER (LANG(?valueLab) = 'en')
+    BIND(CONCAT(?valueLab," [",?valuenum,"]") AS ?valueLabel)
     BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
