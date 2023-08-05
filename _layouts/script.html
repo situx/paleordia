@@ -114,7 +114,7 @@ ORDER BY ?order
 `*/
 
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?image; separator=" ") AS ?_char_image) WHERE {
+  SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLab; separator=" ") AS ?references) ?unicode (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
 	?character wdt:P282 wd:Q401 .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P31 ?cls .
@@ -126,15 +126,19 @@ lexemesSparql =`
 	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
     ?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
-	#?character wdt:P1343 ?reference .
-	#?reference rdfs:label ?referenceLab .
+	?character p:P1343 ?ref .
+    ?ref ps:P1343 ?reference .
+    ?ref pq:P1810 ?refnum .
+	?reference rdfs:label ?referenceL .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
-	#FILTER (LANG(?referenceLab) = 'en')
+	FILTER (LANG(?referenceL) = 'en')
+    BIND(CONCAT(?referenceL," (",?refnum,")") AS ?referenceLab)
   }
   GROUP BY ?character ?characterLabel ?unicode
   ORDER BY ?characterLabel
   LIMIT 10000
+
 `
 
 reflistSparql=`
