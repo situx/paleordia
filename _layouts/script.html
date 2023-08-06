@@ -134,7 +134,7 @@ lexemesSparql =`
     FILTER (LANG(?characterLab) = 'en')
 	FILTER (LANG(?referenceL) = 'en')
     BIND(CONCAT(?referenceL," (",?refnum,")") AS ?referenceLab)
-	BIND(CONCAT(?characterLab,?unicode) AS ?characterLabel)
+	BIND(CONCAT(?characterLab," ",?unicode) AS ?characterLabel)
   }
   GROUP BY ?character ?characterLabel
   ORDER BY ?characterLabel
@@ -143,7 +143,7 @@ lexemesSparql =`
 `
 
 reflistSparql=`
-  SELECT DISTINCT ?reference ?referenceLabel (COUNT(?reference) AS ?refvars) WHERE {
+  SELECT DISTINCT ?reference ?referenceLabel (COUNT(?reference) AS ?amount) WHERE {
 	?character wdt:P31 wd:Q23017336 .
 	?character wdt:P282 wd:Q401 .
     ?character wdt:P1343 ?reference .
