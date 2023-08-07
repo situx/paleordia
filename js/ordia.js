@@ -48,7 +48,7 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 					splitted=data[i][col].split(sepchar)
 					console.log(splitted)
 					for(var j=0;j<splitted.length;j+=2){
-						if(!(isNumeric(splitted[j]))){
+						if(!(isNumeric(splitted[j])) && !(splitted[j].includes("LAK"))){
 							aggcols[splitted[j]]=true
 						}
 					}
@@ -70,7 +70,7 @@ function isNumeric(value) {
 
 function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     // Handle 'Label' columns.
-	sepchar="_"
+	sepchar="###"
     // var linkPrefixes = (options && options.linkPrefixes) || {};
     columns=extendColumnsFromCombinedCols(data,columns,sepchar)
     var convertedData = [];
