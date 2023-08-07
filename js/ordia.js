@@ -34,6 +34,31 @@ function addParamsToLink(url,key,linkParams,label=""){
 	return url
 }
 
+function extendColumnsFromCombinedCols(data,columns,sepchar){
+	newcols=[]
+	for(col of columns){
+		if(!col.includes("cols")){
+			newcols.push(col)
+		}else{
+			aggcols={}
+			for (var i = 0 ; i < data.length ; i++) {
+				if(col in data[i]){
+					splitted=data[i][col].split(sepchar)
+					for(var j=0;j<splitted.length;j+=2){
+						aggcols[splitted[j]]=true
+					}
+				}
+			}
+			for(agcol in aggcols){
+				newcols.push(agcol)
+			}
+		}
+		
+	}
+	return newcols
+}
+
+
 function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     // Handle 'Label' columns.
 
