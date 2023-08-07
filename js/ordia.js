@@ -218,7 +218,12 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    data: convertedData.data,
 	    columns: columns,
 		dom: 'Bfrtip',
-		buttons: ['copy','csv', 'excel', 'pdf'],
+		buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
 		bDestroy: true,
 	    lengthMenu: [[10, 25, 100, -1], [10, 25, 100, "All"]],
 	    ordering: true,
