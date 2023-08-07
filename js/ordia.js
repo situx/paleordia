@@ -48,13 +48,15 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 					splitted=data[i][col].split(sepchar)
 					console.log(splitted)
 					for(var j=0;j<splitted.length;j+=2){
-						aggcols[splitted[j]]=true
+						if(!(isNumeric(splitted[j])){
+							aggcols[splitted[j]]=true
+						}
 					}
 					console.log(aggcols)
 				}
 			}
 			for(agcol in aggcols){
-				newcols.push(col+"_extracted_"+agcol)
+				newcols.push(agcol)
 			}
 		}
 		
@@ -62,6 +64,9 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 	return newcols
 }
 
+function isNumeric(value) {
+    return /^-?\d+$/.test(value);
+}
 
 function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     // Handle 'Label' columns.
