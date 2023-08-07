@@ -217,6 +217,7 @@ function sparqlToDataTable(sparql, element, options={}) {
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
+		dom: 'Bfrtip',
 		buttons: ['copy','csv', 'excel', 'pdf'],
 		bDestroy: true,
 	    lengthMenu: [[10, 25, 100, -1], [10, 25, 100, "All"]],
