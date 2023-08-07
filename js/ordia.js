@@ -50,6 +50,7 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 					for(var j=0;j<splitted.length;j+=2){
 						aggcols[splitted[j]]=true
 					}
+					console.log(aggcols)
 				}
 			}
 			for(agcol in aggcols){
