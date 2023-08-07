@@ -50,7 +50,7 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 				}
 			}
 			for(agcol in aggcols){
-				newcols.push(agcol)
+				newcols.push(col+"_extracted_"+agcol)
 			}
 		}
 		
@@ -61,9 +61,9 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 
 function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     // Handle 'Label' columns.
-
+	sepchar="_"
     // var linkPrefixes = (options && options.linkPrefixes) || {};
-    
+    columns=extendColumnsFromCombinedCols(data,columns,sepchar)
     var convertedData = [];
     var convertedColumns = [];
     for (var i = 0 ; i < columns.length ; i++) {
@@ -81,6 +81,12 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     for (var i = 0 ; i < data.length ; i++) {
 	var convertedRow = {};
 	for (var key in data[i]) {
+		if(key.includes("_cols")){
+			splitted=data[i][key].split(sepchar)
+			for(var j=0;j<splitted.length;j+=2){
+				convertedRow[splitted[j]]=splitted[j+1]
+			}
+		}
 	    if (key.substr(-11) == 'Description') {
 		convertedRow['description'] = data[i][key];
 
