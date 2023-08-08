@@ -81,6 +81,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    convertedColumns.push('description');
 	} else if (column.substr(-5) == 'Label') {
 	    // pass
+	} else if (column.substr(-6) == 'Label2') {
+	    // pass
 	} else if (column.substr(-3) == 'Url') {
 	    // pass
 	} else {
