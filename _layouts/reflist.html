@@ -4,25 +4,26 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
     ?character wdt:P31 wd:Q23017336 .
 	?character p:P1343 ?lex .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
-	}
-    ?lex ps:P1343 wd:${ q } .
+	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
+    }
+    ?lex ps:P1343 wd:Q121176787 .
     OPTIONAL{?lex pq:P1810 ?refnumber .}
-	?character rdfs:label ?characterLab .
-	BIND(CONCAT(?characterLab," ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
+	?character rdfs:label ?characterLabel .
+
     OPTIONAL {
 	?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
 	}
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
-    FILTER (LANG(?characterLab) = 'en')
+    FILTER (LANG(?characterLabel) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?refnumber
+  GROUP BY ?character ?characterLabel ?characterLabel2 ?refnumber
   ORDER BY ?refnumber
 `
 
