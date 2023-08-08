@@ -117,6 +117,9 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
 		
+	    } else if (key.substr(-5) == 'Label2') {
+		// pass
+		
 	    } else if (key + 'Url' in data[i]) {
 		if (data[i][key + 'Url']) {
 		    convertedRow[key] = '<a href="' +
