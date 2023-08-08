@@ -117,7 +117,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
 		
-	    } else if (key.substr(-5) == 'Label2') {
+	    } else if (key.substr(-6) == 'Label2') {
 		// pass
 		
 	    } else if (key + 'Url' in data[i]) {
