@@ -83,6 +83,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    // pass
 	} else if (column.substr(-6) == 'Label2') {
 	    // pass
+	} else if (column.substr(-10) == 'image_link') {
+	    // pass
 	} else if (column.substr(-3) == 'Url') {
 	    // pass
 	} else {
@@ -102,14 +104,30 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 		convertedRow['description'] = data[i][key];
 
 	    } else if (key.substr(-5) == 'image') {
+			linkarray=[]
+			if(key+"_link" in data[i]){
+				linkarray=data[i][key+"_link"]
+				if(data[i][key+"_link"].includes(" ")){
+					linkarray=data[i][key+"_link"].split(" ")
+				}
+			}
 			if(data[i][key].includes(" ")){
 				colval=""
 				for(item of data[i][key].split(" ")){
-					colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
+					if(i<linkarray.length){
+						colval+='<a href="'+linkarray[i]+'><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
+					}else{
+						colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
+					}
 				}
 				convertedRow[key]=colval
 			}else{
-				convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';			
+				if(linkarray.length==1){
+					convertedRow[key] = '<a href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
+				}else{
+					convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';
+				}
+							
 			}
 	    } else if (key + 'Label' in data[i]) {
 		convertedRow[key] = '<a href="' +
@@ -119,7 +137,10 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
 		
-	    } else if (key.substr(-6) == 'Label2') {
+	    } else if (key.substr(-6) == 'image_link') {
+		// pass
+		
+	    }else if (key.substr(-6) == 'Label2') {
 		// pass
 		
 	    } else if (key + 'Url' in data[i]) {
