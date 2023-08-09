@@ -111,14 +111,14 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					linkarray=data[i][key+"_link"].split(" ")
 				}
 			}
-			console.log(key+" "+linkarray)
+			//console.log(key+" "+linkarray)
 			if(data[i][key].includes(" ")){
 				colval=""
 				counter=0
 				for(item of data[i][key].split(" ")){
-					console.log(counter+" "+linkarray.length)
+					//console.log(counter+" "+linkarray.length)
 					if(counter<linkarray.length){
-						colval+='<a href="'+linkarray[counter]+'><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
+						colval+='<a href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
 					}else{
 						colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
 					}
