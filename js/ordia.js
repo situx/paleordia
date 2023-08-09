@@ -117,7 +117,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				counter=0
 				for(item of data[i][key].split(" ")){
 					if(counter<linkarray.length){
-						colval+='<a href="'+linkarray[i]+'><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
+						colval+='<a href="'+linkarray[counter]+'><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
 					}else{
 						colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
 					}
