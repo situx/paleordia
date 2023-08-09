@@ -111,6 +111,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					linkarray=data[i][key+"_link"].split(" ")
 				}
 			}
+			console.log(key+" "+linkarray)
 			if(data[i][key].includes(" ")){
 				colval=""
 				counter=0
