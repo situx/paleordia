@@ -106,7 +106,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key.substr(-5) == 'image') {
 			linkarray=[]
 			if(key+"_link" in data[i]){
-				linkarray=data[i][key+"_link"]
+				linkarray=[data[i][key+"_link"]]
 				if(data[i][key+"_link"].includes(" ")){
 					linkarray=data[i][key+"_link"].split(" ")
 				}
@@ -118,7 +118,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				for(item of data[i][key].split(" ")){
 					//console.log(counter+" "+linkarray.length)
 					if(counter<linkarray.length){
-						colval+='<a href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
+						colval+='<a target="_blank" href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
 					}else{
 						colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
 					}
@@ -127,7 +127,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				convertedRow[key]=colval
 			}else{
 				if(linkarray.length==1){
-					convertedRow[key] = '<a href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
+					convertedRow[key] = '<a target="_blank" href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
 				}else{
 					convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';
 				}
