@@ -12,7 +12,7 @@ lexemesSparql =`
 		?character wdt:P4213 ?unicodepoint .
 	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
     }
-    ?lex ps:P1343 wd:Q121176787 .
+    ?lex ps:P1343 $ { q } .
     OPTIONAL{?lex pq:P1810 ?refnumber .}
 	?character rdfs:label ?characterLabel .
 
