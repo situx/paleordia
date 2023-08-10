@@ -155,7 +155,7 @@ SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) A
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?referenceLabel) = 'en')
   }
-  GROUP BY ?reference ?referenceLabel
+  GROUP BY ?reference ?referenceLabel ?referenceLabel2
   ORDER BY ?referenceLabel   
 `
 
