@@ -148,7 +148,7 @@ lexemesSparql =`
 reflistSparql=`
 SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) AS ?amount) WHERE {
 	?character wdt:P31 wd:Q23017336 .
-	?character wdt:P282 wd:Q401 .
+	?character wdt:P282 wd:${ q } .
     ?character wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLabel .
     OPTIONAL { ?reference wdt:P1813 ?referenceSN . BIND(CONCAT(" (",?referenceSN, ")") AS ?referenceLabel2)}
