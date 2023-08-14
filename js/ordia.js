@@ -247,6 +247,7 @@ function sparqlToDataTable(sparql, element, options={}) {
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
+		responsive: true,
 		colReorder: true,
 		dom: 'Bfrtip',
 		buttons: [
