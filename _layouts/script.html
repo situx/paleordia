@@ -136,7 +136,7 @@ lexemesSparql =`
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
-	FILTER (LANG(?referenceL) = 'en')
+	#FILTER (LANG(?referenceL) = 'en')
     BIND(CONCAT(?referenceL,"###",?refnum) AS ?referenceLab)
   }
   GROUP BY ?character ?characterLabel ?characterLabel2
