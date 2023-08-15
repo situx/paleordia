@@ -115,6 +115,7 @@ WHERE {
   UNION  
   {   
     BIND(26 AS ?order)
+	BIND("Gottstein Code" AS ?description)
     ?form wdt:P11957 ?valueLabel .
 	BIND(STR(?valueLabel) AS ?value_Url)
   }
