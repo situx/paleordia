@@ -115,17 +115,8 @@ WHERE {
   UNION  
   {   
     BIND(26 AS ?order)
-    ?lexeme ontolex:lexicalForm ?form .
-    ?lexeme p:P5831 ?value_statement .
-    ?value_statement ps:P5831 ?value .
-    ?value_statement pq:P5830 ?form .
-    ?lexeme dct:language / wdt:P424 ?language_code .
-    BIND(CONCAT("./text-to-lexemes?text-language=",
-		ENCODE_FOR_URI(?language_code),
-		"&text=",
-		ENCODE_FOR_URI(?value)) AS ?value_Url)
-    BIND("example use" AS ?description)
-  }
+    ?form wdt:P11957 ?valueLabel .
+	BIND(STR(?valueLabel) AS ?value_Url)
 }
 ORDER BY ?order
 `
