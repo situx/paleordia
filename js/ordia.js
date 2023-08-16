@@ -55,12 +55,12 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 					console.log(aggcols)
 				}
 			}
-			console.log("Aggcols: "+aggcols)
-			for(agcol in aggcols){
+			
+			for(agcol in Object.keys(aggcols).sort()){
 				newcols.push(agcol)
 			}
 		}
-		console.log("NewCols: "+newcols)
+		
 	}
 	return newcols
 }
@@ -248,17 +248,12 @@ function sparqlToDataTable(sparql, element, options={}) {
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
-		responsive: false,
-		colReorder: true,
 		dom: 'Bfrtip',
 		buttons: [
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
-			{
-                extend: 'pdfHtml5',
-                orientation: 'landscape'
-            }
+            'pdfHtml5'
         ],
 		bDestroy: true,
 	    lengthMenu: [[10, 25, 100, -1], [10, 25, 100, "All"]],
