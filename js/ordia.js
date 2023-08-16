@@ -56,7 +56,7 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 				}
 			}
 			
-			for(agcol in Object.keys(aggcols).sort()){
+			for(agcol of Object.keys(aggcols).sort()){
 				newcols.push(agcol)
 			}
 		}
