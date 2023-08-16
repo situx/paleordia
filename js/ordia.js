@@ -253,7 +253,10 @@ function sparqlToDataTable(sparql, element, options={}) {
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
-            'pdfHtml5'
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape'
+            }
         ],
 		bDestroy: true,
 	    lengthMenu: [[10, 25, 100, -1], [10, 25, 100, "All"]],
