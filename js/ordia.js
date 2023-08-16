@@ -55,11 +55,12 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 					console.log(aggcols)
 				}
 			}
+			console.log("Aggcols: "+aggcols)
 			for(agcol in aggcols){
 				newcols.push(agcol)
 			}
 		}
-		
+		console.log("NewCols: "+newcols)
 	}
 	return newcols
 }
