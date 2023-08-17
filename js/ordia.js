@@ -216,7 +216,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     // Options: linkPrefixes={}, paging=true
     var linkPrefixes = (typeof options.linkPrefixes === 'undefined') ? {} : options.linkPrefixes;
 	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
-    var paging = (typeof options.paging === 'undefined') ? true : true;
+    var paging = (typeof options.paging === 'undefined') ? true : trueoptions.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
     
     var post_url = "https://query.wikidata.org/sparql";
