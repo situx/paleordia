@@ -1,0 +1,67 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ formDataSparql = `
+ formsSparql = `
+ # List of variants for a specific script
+ SELECT
+   ?form (GROUP_CONCAT(?timeperiodLab; separator=" // ") AS ?timeperiod)
+   ?formLabel ?gottstein_code ?image
+   # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
+ WHERE {
+   ?chara wdt:P282 wd:${ q } .
+   ?form wdt:P180 ?chara .
+   ?form wdt:P31 wd:Q118867680 .
+   OPTIONAL {?form wdt:P18 ?image .}
+   OPTIONAL {?form wdt:P2348 ?timeperiod . ?timeperiod rdfs:label ?timeperiodLab . FILTER (LANG(?timeperiodLab) = "en")}
+   OPTIONAL {?form wdt:P11957 ?gottstein_code .}
+   OPTIONAL {
+     ?form rdfs:label ?formLabel .
+     FILTER (LANG(?formLabel) = "en")
+   }
+ }
+ GROUP BY ?form ?formLabel ?image ?gottstein_code
+ ORDER BY (STR(?form))
+ `
+
+ $(document).ready(function() {
+     sparqlToDataTable(
+	 formDataSparql, "#form-data",
+	 options={
+	     paging: false,
+		 linkPrefixes: {
+			value: '../representation'
+		 }
+	 });
+ });
+
+</script>
+
+<div class="l-entity">
+    <h1>Paleographic Sign Variants for script: ${ qLabel } (${ q })</h1>
+
+    <a title="Back"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="../c?q=${ qb }">←</a>
+    <a title="View and edit form in Wikidata"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
+
+    
+    <table class="table table-hover" id="form-data"></table>
+
+    <h2>Paleographic sign variants</h2>
+         <div class="container">
+	 <div class="row">
+	    <div class="col-12 col-lg-12">
+		  <table class="table table-hover" id="forms"></table>
+	    </div>
+
+	 </div>
+	</div>
+  
+</div>
