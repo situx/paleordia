@@ -30,9 +30,12 @@ layout: base
 	 formDataSparql, "#form-data",
 	 options={
 	     paging: true,
-		 linkPrefixes: {
-			value: '../representation'
-		 }
+		linkPrefixes: {
+		   form: '../cf'
+		},
+	    linkParams: {
+		   form: '&qb='+q
+	    }
 	 });
  });
 
