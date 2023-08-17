@@ -7,8 +7,8 @@ layout: base
  # List of variants for a specific script
  SELECT
    ?form (GROUP_CONCAT(?timeperiodLab; separator=" // ") AS ?timeperiod)
-   ?formLabel ?gottstein_code ?image
-   # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
+   ?formLabel ?gottstein_code ?image 
+   (GROUP_CONCAT(distinct ?form; separator=" ") AS ?image_link)
  WHERE {
    ?chara wdt:P282 wd:${ q } .
    ?form wdt:P180 ?chara .
