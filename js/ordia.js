@@ -248,6 +248,7 @@ function sparqlToDataTable(sparql, element, options={}) {
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
+	    pagingType: input,
 		columnDefs: [{ type: 'natural', targets: '_all' }],
 		dom: 'Bfrtip',
 		buttons: [
