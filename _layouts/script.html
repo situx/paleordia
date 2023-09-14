@@ -132,13 +132,17 @@ lexemesSparql =`
 	?character p:P1343 ?ref .
     ?ref ps:P1343 ?reference .
     ?ref pq:P1810 ?refnum .
-	OPTIONAL {?ref pq:P304 ?refpage .}
 	?reference wdt:P1813 ?referenceL .
+	}
+	OPTIONAL {
+	?character p:P1343 ?ref .
+    ?ref ps:P1343 ?reference .
+	?ref pq:P304 ?refpage .
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	BIND(COALESCE(?refnum, "") As ?thenum)
-	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
+	BIND(COALESCE(CONCAT(" [p ",?refpage,"]"), "") As ?thepage)
     BIND(CONCAT(?referenceL,"###",?thenum,?thepage) AS ?referenceLab)
   }
   GROUP BY ?character ?characterLabel ?characterLabel2
