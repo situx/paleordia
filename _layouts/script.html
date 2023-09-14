@@ -132,7 +132,7 @@ lexemesSparql =`
 	?character p:P1343 ?ref .
     ?ref ps:P1343 ?reference .
     ?ref pq:P1810 ?refnum .
-	?ref pq:P304 ?refpage .
+	OPTIONAL {?ref pq:P304 ?refpage .}
 	?reference wdt:P1813 ?referenceL .
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
