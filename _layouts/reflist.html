@@ -4,26 +4,30 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?refnumber ?refpage (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
     ?character wdt:P31 wd:Q23017336 .
 	?character p:P1343 ?lex .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
-	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
-    }
+		BIND(CONCAT(?characterLab," ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
+	}
     ?lex ps:P1343 wd:${ q } .
-    OPTIONAL{?lex pq:P1810 ?refnumber .}
-	?character rdfs:label ?characterLabel .
+    OPTIONAL{?lex pq:P1810 ?refnum .}
+	OPTIONAL{?lex pq:P304 ?refpage .}
+	?character rdfs:label ?characterLab .
 
     OPTIONAL {
 	?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
 	}
+	BIND(COALESCE(?refnum, "") As ?thenum)
+	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
+	BIND(CONCAT(?referenceL,"###",?thenum,?thepage) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
-    FILTER (LANG(?characterLabel) = 'en')
+    FILTER (LANG(?characterLab) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?characterLabel2 ?refnumber
+  GROUP BY ?character ?characterLabel ?refnumber
   ORDER BY ?refnumber
 `
 
