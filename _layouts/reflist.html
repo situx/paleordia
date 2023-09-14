@@ -21,7 +21,7 @@ lexemesSparql =`
     ?depiction wdt:P18 ?image .
 	}
 	BIND(COALESCE(?refnum, "") As ?thenum)
-	BIND(COALESCE(CONCAT(" [page(s) ",?refpage,"]"), "") As ?thepage)
+	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
 	BIND(CONCAT(?thenum,?thepage) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
