@@ -130,13 +130,15 @@ lexemesSparql =`
 	}
 	OPTIONAL {
 	?character p:P1343 ?ref .
-    ?ref ps:P1343 ?reference .
-    ?ref pq:P1810 ?refnum .
+	?ref ps:P1343 ?reference .
 	?reference wdt:P1813 ?referenceL .
 	}
 	OPTIONAL {
+	?character p:P1343 ?ref .  
+    ?ref pq:P1810 ?refnum .
+	}
+	OPTIONAL {
 	?character p:P1343 ?ref .
-    ?ref ps:P1343 ?reference .
 	?ref pq:P304 ?refpage .
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
