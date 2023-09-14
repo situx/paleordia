@@ -138,7 +138,7 @@ lexemesSparql =`
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
-    BIND(CONCAT(?refnum,"###",?thepage) AS ?referenceLab)
+    BIND(CONCAT(?thepage,"###",?refnum) AS ?referenceLab)
   }
   GROUP BY ?character ?characterLabel ?characterLabel2
   ORDER BY ?characterLabel
