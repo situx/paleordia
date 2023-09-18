@@ -138,14 +138,19 @@ lexemesSparql =`
     ?ref pq:P1810 ?refnum .
 	}
 	OPTIONAL {
+	?character p:P1343 ?ref .  
+    ?ref pq:P7421 ?refline .
+	}
+	OPTIONAL {
 	?character p:P1343 ?ref .
 	?ref pq:P304 ?refpage .
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	BIND(COALESCE(?refnum, "") As ?thenum)
+	BIND(COALESCE(CONCAT("[l ",?refline,"]"), "") As ?theline)
 	BIND(COALESCE(CONCAT(" [p ",?refpage,"]"), "") As ?thepage)
-    BIND(CONCAT(?referenceL,"###",?thenum,?thepage) AS ?referenceLab)
+    BIND(CONCAT(?referenceL,"###",?thenum,?thepage,?theline) AS ?referenceLab)
   }
   GROUP BY ?character ?characterLabel ?characterLabel2
   ORDER BY ?characterLabel
