@@ -15,6 +15,7 @@ lexemesSparql =`
 	}
     ?lex ps:P1343 wd:${ q } .
     OPTIONAL{?lex pq:P1810 ?refnum .}
+	OPTIONAL{?lex pq:P7421 ?refline .}
 	OPTIONAL{?lex pq:P304 ?refpage .}
     OPTIONAL {
 	?depiction wdt:P180 ?character .
@@ -22,7 +23,8 @@ lexemesSparql =`
 	}
 	BIND(COALESCE(?refnum, "") As ?thenum)
 	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
-	BIND(CONCAT(?thenum,?thepage) AS ?refnumber)
+	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
+	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
   }
