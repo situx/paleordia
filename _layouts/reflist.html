@@ -4,7 +4,7 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?refnumber (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?refnumber (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?form; separator=" ") AS ?image_link) WHERE {
     ?character wdt:P31 wd:Q23017336 .
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
@@ -19,7 +19,7 @@ lexemesSparql =`
 	OPTIONAL{?lex pq:P304 ?refpage .}
     OPTIONAL {
 	?depiction wdt:P180 ?character .
-    ?depiction wdt:P18 ?image .
+    ?depiction wdt:P18 ?imagee .
 	}
 	BIND(COALESCE(?refnum, "") As ?thenum)
 	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
