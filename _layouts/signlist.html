@@ -6,12 +6,13 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?image WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?image ?image_link WHERE {
 	?character wdt:P282 wd:${ s } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P31 wd:Q118867680 .
 	?character wdt:P2348 wd:${ q } .
 	?character wdt:P18 ?image .
+	BIND(?character AS ?image_link)
     FILTER (LANG(?characterLabel) = 'en')
   }
   ORDER BY ?characterLabel
