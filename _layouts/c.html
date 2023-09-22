@@ -87,7 +87,7 @@ ORDER BY ?order
  # List of variants for a specific character
  SELECT
    ?form (GROUP_CONCAT(?timeperiodLab; separator=" // ") AS ?timeperiod)
-   ?formLabel ?gottstein_code ?image
+   ?formLabel ?gottstein_code ?image (GROUP_CONCAT(distinct ?form; separator=" ") AS ?image_link)
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
    ?form wdt:P180 wd:${ q } .
