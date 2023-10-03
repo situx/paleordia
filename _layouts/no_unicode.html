@@ -35,16 +35,6 @@ SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?im
 `
 
  $(document).ready(function() {
-    var post_url = "https://query.wikidata.org/sparql";
-    var post_data = "query=" + encodeURIComponent(timeperiodsSparql) + '&format=json'
-     $.post(post_url, post_data, function(response) {
-        var simpleData = sparqlDataToSimpleData(response);
-        res=""
-        for(elem in simpleData.data){
-            res+="<option value=\""+simpleData.data[elem]["tp"]+"\">"+simpleData.data[elem]["tpLabel"]+"</option>"
-        }
-        $('#timeperiods').html(res)
-	})
      sparqlToDataTable(lexemesSparql, "#lexical-categories", {
 	 linkPrefixes: {
 	     character: '../cf'
