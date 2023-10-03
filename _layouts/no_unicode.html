@@ -1,0 +1,69 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+    ?character wdt:P31 wd:Q23017336 .
+	?character p:P1343 ?lex .
+	?character rdfs:label ?characterLabel .
+	FILTER NOT EXISTS{
+		?character wdt:P9382 ?unicodename .
+		?character wdt:P4213 ?unicodepoint .
+		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
+	}
+    ?lex ps:P1343 wd:Q1854531 .
+    OPTIONAL{?lex pq:P1810 ?refnum .}
+	OPTIONAL{?lex pq:P7421 ?refline .}
+	OPTIONAL{?lex pq:P304 ?refpage .}
+    OPTIONAL {
+	?depiction wdt:P180 ?character .
+    ?depiction wdt:P18 ?imagee .
+	}
+	BIND(COALESCE(?refnum, "") As ?thenum)
+	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
+	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
+	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
+    FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
+    FILTER (LANG(?characterLabel) = 'en')
+  }
+  GROUP BY ?character ?characterLabel ?refnumber
+  ORDER BY ?refnumber
+`
+
+ $(document).ready(function() {
+    var post_url = "https://query.wikidata.org/sparql";
+    var post_data = "query=" + encodeURIComponent(timeperiodsSparql) + '&format=json'
+     $.post(post_url, post_data, function(response) {
+        var simpleData = sparqlDataToSimpleData(response);
+        res=""
+        for(elem in simpleData.data){
+            res+="<option value=\""+simpleData.data[elem]["tp"]+"\">"+simpleData.data[elem]["tpLabel"]+"</option>"
+        }
+        $('#timeperiods').html(res)
+	})
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+
+ });
+
+</script>
+
+<h1>Signs without Unicode codepoint for ${ qLabel } (${ q }) for script ${ s }</h1>
+
+<hr/>
+
+<!--Time Periods:<select id="timeperiods" onchange="reloadSignlist()"></select>-->
+
+<div class="lexical-categories">
+
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+
