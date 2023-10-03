@@ -6,7 +6,7 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
     ?character wdt:P31 wd:Q23017336 .
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
@@ -15,7 +15,7 @@ SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?im
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
-    ?lex ps:P1343 wd:Q1854531 .
+    ?lex ps:P1343 ?ref .
     OPTIONAL{?lex pq:P1810 ?refnum .}
 	OPTIONAL{?lex pq:P7421 ?refline .}
 	OPTIONAL{?lex pq:P304 ?refpage .}
@@ -30,8 +30,8 @@ SELECT DISTINCT ?character ?characterLabel ?refnumber (GROUP_CONCAT(distinct ?im
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?refnumber
-  ORDER BY ?refnumber
+  GROUP BY ?character ?characterLabel
+  ORDER BY ?characterLabel
 `
 
  $(document).ready(function() {
