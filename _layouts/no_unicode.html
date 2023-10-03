@@ -6,8 +6,10 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
     ?character wdt:P31 wd:Q23017336 .
+    ?character wdt:P31 ?chartype .
+    ?chartype rdfs:label ?chartypeLabell . 
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
 	FILTER NOT EXISTS{
@@ -24,11 +26,13 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?imagee; separ
     ?depiction wdt:P18 ?imagee .
 	}
 	BIND(COALESCE(?refnum, "") As ?thenum)
+    BIND(COALESCE(?chartypeLabell, "") As ?chartypeLabel)
 	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
 	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
+    FILTER (LANG(?chartypeLabell) = 'en')
   }
   GROUP BY ?character ?characterLabel
   ORDER BY ?characterLabel
