@@ -52,6 +52,11 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
 
 <h1>Characters w/o single Unicode codepoint for script ${ qLabel } (${ q })</h1>
 
+    <a title="Back"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="../script?q=${ qb }&qLabel=${ qLabel }">←</a>
+
 <hr/>
 
 <!--Time Periods:<select id="timeperiods" onchange="reloadSignlist()"></select>-->
