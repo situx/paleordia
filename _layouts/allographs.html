@@ -1,0 +1,63 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+    ?charclass wdt:P361 wd:${ q } .
+	?character wdt:P31 ?charclass .
+	?character wdt:P31 wd:Q2118549 .
+    ?character wdt:P31 ?chartype .
+    ?chartype rdfs:label ?chartypeLabell . 
+	?character p:P1343 ?lex .
+	?character rdfs:label ?characterLabel .
+	FILTER NOT EXISTS{
+		?character wdt:P9382 ?unicodename .
+		?character wdt:P4213 ?unicodepoint .
+		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
+	}
+    ?lex ps:P1343 ?ref .
+    OPTIONAL{?lex pq:P1810 ?refnum .}
+	OPTIONAL{?lex pq:P7421 ?refline .}
+	OPTIONAL{?lex pq:P304 ?refpage .}
+    OPTIONAL {
+	?depiction wdt:P180 ?character .
+    ?depiction wdt:P18 ?imagee .
+	}
+	BIND(COALESCE(?refnum, "") As ?thenum)
+    BIND(COALESCE(?chartypeLabell, "") As ?chartypeLabel)
+	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
+	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
+	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
+    FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
+    FILTER (LANG(?characterLabel) = 'en')
+    FILTER (LANG(?chartypeLabell) = 'en')
+  }
+  GROUP BY ?character ?characterLabel
+  ORDER BY ?characterLabel
+`
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+
+ });
+
+</script>
+
+<h1>Allographs for script ${ qLabel } (${ q })</h1>
+
+<hr/>
+
+<div class="lexical-categories">
+
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+

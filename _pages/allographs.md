@@ -1,0 +1,4 @@
+---
+layout: allographs
+title: Allographs
+---
