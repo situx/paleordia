@@ -6,7 +6,7 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT DISTINCT ?character ?characterLabel ?basedon ?basedonLabel (GROUP_CONCAT(distinct ?chartypeLabel; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?basedon ?basedonLabel (GROUP_CONCAT(distinct ?chartypeLabel; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
     ?charclass wdt:P361 wd:${ q } .
 	?character wdt:P31 ?charclass .
 	?character wdt:P31 wd:Q2118549 .
@@ -41,7 +41,7 @@ SELECT DISTINCT ?character ?characterLabel ?basedon ?basedonLabel (GROUP_CONCAT(
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?basedon ?basedonLabel
+  GROUP BY ?character ?characterLabel ?characterLabel2 ?basedon ?basedonLabel
   ORDER BY ?characterLabel
 `
 
