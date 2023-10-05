@@ -11,8 +11,11 @@ SELECT DISTINCT ?character ?characterLabel ?basedon ?basedonLabel (GROUP_CONCAT(
 	?character wdt:P31 ?charclass .
 	?character wdt:P31 wd:Q2118549 .
     ?character wdt:P31 ?chartype .
-	OPTIONAL {?character wdt:P144 ?basedon .
-	?basedon rdfs:label ?basedonLabel .}
+	OPTIONAL {
+    ?character wdt:P144 ?basedon .
+	?basedon rdfs:label ?basedonLabel .
+    FILTER (LANG(?basedonLabel) = 'en')
+    }
     ?chartype rdfs:label ?chartypeLabell . 
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
@@ -37,7 +40,6 @@ SELECT DISTINCT ?character ?characterLabel ?basedon ?basedonLabel (GROUP_CONCAT(
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
-	FILTER (LANG(?basedonLabel) = 'en')
   }
   GROUP BY ?character ?characterLabel ?basedon ?basedonLabel
   ORDER BY ?characterLabel
