@@ -19,7 +19,7 @@ SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?basedon ?basedonLab
     ?chartype rdfs:label ?chartypeLabell . 
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
-	FILTER NOT EXISTS{
+	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
