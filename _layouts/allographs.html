@@ -39,7 +39,7 @@ SELECT DISTINCT ?character ?characterLabel ?basedon ?basedonLabel (GROUP_CONCAT(
     FILTER (LANG(?chartypeLabell) = 'en')
 	FILTER (LANG(?basedonLabel) = 'en')
   }
-  GROUP BY ?character ?characterLabel
+  GROUP BY ?character ?characterLabel ?basedon ?basedonLabel
   ORDER BY ?characterLabel
 `
 
