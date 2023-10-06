@@ -22,6 +22,7 @@ SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(DISTIN
     ?depiction wdt:P180 ?character;
       wdt:P18 ?imagee.
   }
+  FILTER(NOT EXISTS { ?character wdt:P31 wd:Q2118549. })
   FILTER(NOT EXISTS { ?character wdt:P31 wd:Q118867680. })
   FILTER((LANG(?characterLabel)) = "en")
 }
