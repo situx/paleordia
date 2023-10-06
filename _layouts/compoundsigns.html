@@ -6,7 +6,7 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(DISTINCT ?haspartssLabel; SEPARATOR = " / ") AS ?hasParts) (GROUP_CONCAT(DISTINCT ?haspartss; SEPARATOR = " ") AS ?hasParts_link) (GROUP_CONCAT(DISTINCT ?imagee; SEPARATOR = " ") AS ?image) (GROUP_CONCAT(DISTINCT ?depiction; SEPARATOR = " ") AS ?image_link) WHERE {
+SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(DISTINCT ?haspartssLabel; SEPARATOR = " / ") AS ?hasPartsLabel) (GROUP_CONCAT(DISTINCT ?haspartss; SEPARATOR = " ") AS ?hasParts) (GROUP_CONCAT(DISTINCT ?imagee; SEPARATOR = " ") AS ?image) (GROUP_CONCAT(DISTINCT ?depiction; SEPARATOR = " ") AS ?image_link) WHERE {
   ?charclass wdt:P361 wd:Q401.
   ?character wdt:P31 ?charclass .
   ?character wdt:P527 ?haspartss.
