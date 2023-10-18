@@ -31,6 +31,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
 	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
 	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
+	FILTER NOT EXISTS {?character wdt:P31 wd:Q188725 .}
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
