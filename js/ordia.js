@@ -99,7 +99,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			splitted=data[i][key].split(sepchar)
 			for(var j=0;j<splitted.length;j+=2){
 				if(splitted[j] in convertedRow){
-					convertedRow[splitted[j]]=convertedRow[splitted[j]]+" "+splitted[j+1]
+					convertedRow[splitted[j]]=convertedRow[splitted[j]]+" / "+splitted[j+1]
 				}else{
 					convertedRow[splitted[j]]=splitted[j+1]				
 				}
