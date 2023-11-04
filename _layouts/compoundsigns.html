@@ -1,0 +1,59 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(DISTINCT ?haspartssLabel; SEPARATOR = " / ") AS ?hasPartsLabel) (GROUP_CONCAT(DISTINCT ?haspartss; SEPARATOR = " ") AS ?hasParts) (GROUP_CONCAT(DISTINCT ?imagee; SEPARATOR = " ") AS ?image) (GROUP_CONCAT(DISTINCT ?depiction; SEPARATOR = " ") AS ?image_link) WHERE {
+  ?charclass wdt:P361 wd:Q401.
+  ?character wdt:P31 ?charclass .
+  ?character wdt:P527 ?haspartss.
+  ?haspartss rdfs:label ?haspartssLabel.
+  FILTER((LANG(?haspartssLabel)) = "en")
+  ?character rdfs:label ?characterLabel.
+  OPTIONAL {
+    ?character wdt:P9382 ?unicodename;
+      wdt:P4213 ?unicodepoint.
+    BIND(CONCAT(?unicodename, " (U+", ?unicodepoint, ")") AS ?characterLabel2)
+  }
+  OPTIONAL {
+    ?depiction wdt:P180 ?character;
+      wdt:P18 ?imagee.
+  } 
+  FILTER(NOT EXISTS { ?character wdt:P31 wd:Q188725. })
+  FILTER(NOT EXISTS { ?character wdt:P31 wd:Q2118549. })
+  FILTER(NOT EXISTS { ?character wdt:P31 wd:Q118867680. })
+  FILTER((LANG(?characterLabel)) = "en")
+}
+GROUP BY ?character ?characterLabel ?characterLabel2
+ORDER BY (?characterLabel)
+`
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 linkPrefixes: {
+	     character: '../cf'
+	 }
+     });
+
+ });
+
+</script>
+
+<h1>Compounds signs for script ${ qLabel } (${ q })</h1>
+
+    <a title="Back"
+       role="button"
+       class="btn btn-outline-dark btn-sm"
+       href="../script?q=${ qb }&qLabel=${ qLabel }">←</a>
+
+<hr/>
+
+<div class="lexical-categories">
+
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+

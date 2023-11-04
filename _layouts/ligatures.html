@@ -9,6 +9,7 @@ layout: base
 SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
     ?charclass wdt:P361 wd:${ q } .
 	?character wdt:P31 ?charclass .
+	?character wdt:P31 wd:Q188725 .
     ?character wdt:P31 ?chartype .
     ?chartype rdfs:label ?chartypeLabell . 
 	?character p:P1343 ?lex .
@@ -31,7 +32,6 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
 	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
 	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
-	FILTER NOT EXISTS {?character wdt:P31 wd:Q188725 .}
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
@@ -51,7 +51,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
 
 </script>
 
-<h1>Characters w/o single Unicode codepoint for script ${ qLabel } (${ q })</h1>
+<h1>Ligatures for script ${ qLabel } (${ q })</h1>
 
     <a title="Back"
        role="button"
@@ -59,8 +59,6 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
        href="../script?q=${ qb }&qLabel=${ qLabel }">←</a>
 
 <hr/>
-
-<!--Time Periods:<select id="timeperiods" onchange="reloadSignlist()"></select>-->
 
 <div class="lexical-categories">
 
