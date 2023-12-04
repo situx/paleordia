@@ -1,4 +1,4 @@
 ---
-layout: langreflist
+layout: reflistlang
 title: Lexemes by reference
 ---
