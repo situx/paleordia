@@ -166,13 +166,13 @@ ORDER BY ?referenceLabel
 	 'linkPrefixes': {
 	     'timeperiod': '../timeperiod',
 	 },linkParams: {
-		timeperiod: '&l='+q
+		timeperiod: '&l='+q+'&lLabel='+qLabel
 	 }});
 	 sparqlToDataTable(refsSPARQL, "#lexemesreference", {
 	 'linkPrefixes': {
-	     'lex': '../reflistlang',
+	     'reference': '../reflistlang',
 	 },linkParams: {
-		lex: '&l='+q
+		reference: '&l='+q+'&lLabel='+qLabel
 	 }});
      sparqlToDataTable(longestWordsAndPhrasesSparql,
 		       "#longest-words-and-phrases", {
