@@ -112,7 +112,7 @@ ORDER BY DESC(?count)
 lexemestimeperiodsSparql=`
 # tool: ordia
 # title: Time periods per lexeme
-  SELECT DISTINCT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?amountlexemes) WHERE {
+  SELECT DISTINCT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
 		dct:language wd:${ q } .
 	?lexeme wdt:P2348 ?timeperiod .
@@ -120,7 +120,7 @@ lexemestimeperiodsSparql=`
 	FILTER (LANG(?timeperiodLab) = "en")
   }
   GROUP BY ?timeperiod
-  ORDER BY DESC(?amountlexemes)
+  ORDER BY DESC(?number_of_lexemes)
   LIMIT 10000
 `
 
