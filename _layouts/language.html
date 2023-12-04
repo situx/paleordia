@@ -67,27 +67,18 @@ ORDER BY ?order
 SELECT
   ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel)
   ?lexical_category ?lexical_categoryLabel
-WITH {
-  SELECT ?lexeme ?lexemeLab ?lexical_category WHERE {
+WHERE {
     ?lexeme a ontolex:LexicalEntry ;
-            dct:language wd:${ q } ; 
+            dct:language wd:Q36790 ; 
             wikibase:lemma ?lexemeLab .
     OPTIONAL {
       ?lexeme wikibase:lexicalCategory ?lexical_category .
+      ?lexical_category rdfs:label ?lexical_categoryLabel .
+      FILTER (LANG(?lexical_categoryLabel) = "en")
     }
-  }
-  LIMIT 10000
-} AS %results
-WHERE {
-  INCLUDE %results
-  OPTIONAL {        
-    ?lexical_category rdfs:label ?lexical_categoryLabel .
-    FILTER (LANG(?lexical_categoryLabel) = "en")
-  }
-  # SERVICE does not work!?
-  # SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+LIMIT 10000
   `
 
   lexicalCategoriesSparql = `
