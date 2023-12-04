@@ -152,7 +152,7 @@ LIMIT 200
 refsSPARQL=`
 SELECT DISTINCT ?lex ?lexLabel (COUNT(?lexeme) AS ?lexcount) WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-    dct:language wd:Q35518;    
+    dct:language wd:${ q } ;    
     wdt:P1343 ?lex.
   ?lex rdfs:label ?lexLabel .
   FILTER(lang(?lexLabel)="en")
