@@ -148,8 +148,8 @@ SELECT DISTINCT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes
   ?reference rdfs:label ?referenceLabel .
   FILTER(lang(?referenceLabel)="en")
 }
-GROUP BY ?lex ?lexLabel
-ORDER BY ?lexLabel
+GROUP BY ?reference ?referenceLabel
+ORDER BY ?referenceLabel
 `
 
  $(document).ready(function() {
