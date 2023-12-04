@@ -4,11 +4,16 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?refnumber WHERE {
+	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel ?refnumber WHERE {
 	  ?lexeme rdf:type ontolex:LexicalEntry;
 		dct:language wd:${ l };
 		wikibase:lemma ?lexemeLab ;      
 		p:P1343 ?lex.
+	  OPTIONAL {
+       ?lexeme wikibase:lexicalCategory ?lexical_category .
+       ?lexical_category rdfs:label ?lexical_categoryLabel .
+       FILTER (LANG(?lexical_categoryLabel) = "en")
+	  }
 	  ?lex ps:P1343 wd:${ q } .
 	  OPTIONAL { ?lex pq:P1810 ?refnum. }
 	  OPTIONAL { ?lex pq:P7421 ?refline. }
@@ -18,7 +23,7 @@ lexemesSparql =`
 	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
 	  BIND(CONCAT(?thenum, ?thepage, ?theline) AS ?refnumber)
 	}
-	GROUP BY ?lexeme ?lexemeLabel ?refnumber
+	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel
 	ORDER BY (?refnumber)
 `
 
