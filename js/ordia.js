@@ -98,7 +98,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 		if(key.includes("_cols")){
 			splitted=data[i][key].split(sepchar)
 			for(var j=0;j<splitted.length;j+=2){
-				convertedRow[splitted[j]]=splitted[j+1]
+				if(splitted[j] in convertedRow){
+					convertedRow[splitted[j]]=convertedRow[splitted[j]]+" / "+splitted[j+1]
+				}else{
+					convertedRow[splitted[j]]=splitted[j+1]				
+				}
 			}
 		}
 	    if (key.substr(-11) == 'Description') {

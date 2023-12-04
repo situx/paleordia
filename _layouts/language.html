@@ -67,27 +67,18 @@ ORDER BY ?order
 SELECT
   ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel)
   ?lexical_category ?lexical_categoryLabel
-WITH {
-  SELECT ?lexeme ?lexemeLab ?lexical_category WHERE {
+WHERE {
     ?lexeme a ontolex:LexicalEntry ;
             dct:language wd:${ q } ; 
             wikibase:lemma ?lexemeLab .
     OPTIONAL {
       ?lexeme wikibase:lexicalCategory ?lexical_category .
+      ?lexical_category rdfs:label ?lexical_categoryLabel .
+      FILTER (LANG(?lexical_categoryLabel) = "en")
     }
-  }
-  LIMIT 10000
-} AS %results
-WHERE {
-  INCLUDE %results
-  OPTIONAL {        
-    ?lexical_category rdfs:label ?lexical_categoryLabel .
-    FILTER (LANG(?lexical_categoryLabel) = "en")
-  }
-  # SERVICE does not work!?
-  # SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+LIMIT 10000
   `
 
   lexicalCategoriesSparql = `
@@ -121,7 +112,7 @@ ORDER BY DESC(?count)
 lexemestimeperiodsSparql=`
 # tool: ordia
 # title: Time periods per lexeme
-  SELECT DISTINCT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?amountlexemes) WHERE {
+  SELECT DISTINCT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
 		dct:language wd:${ q } .
 	?lexeme wdt:P2348 ?timeperiod .
@@ -129,7 +120,7 @@ lexemestimeperiodsSparql=`
 	FILTER (LANG(?timeperiodLab) = "en")
   }
   GROUP BY ?timeperiod
-  ORDER BY DESC(?amountlexemes)
+  ORDER BY DESC(?number_of_lexemes)
   LIMIT 10000
 `
 
@@ -149,6 +140,17 @@ ORDER BY DESC(?length)
 LIMIT 200
   `
 
+refsSPARQL=`
+SELECT DISTINCT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes) WHERE {
+  ?lexeme rdf:type ontolex:LexicalEntry;
+    dct:language wd:${ q } ;    
+    wdt:P1343 ?reference.
+  ?reference rdfs:label ?referenceLabel .
+  FILTER(lang(?referenceLabel)="en")
+}
+GROUP BY ?reference ?referenceLabel
+ORDER BY ?referenceLabel
+`
 
  $(document).ready(function() {
      sparqlToDataTable(dataSparql, "#data");
@@ -164,7 +166,13 @@ LIMIT 200
 	 'linkPrefixes': {
 	     'timeperiod': '../timeperiod',
 	 },linkParams: {
-		timeperiod: '&l='+q
+		timeperiod: '&l='+q+'&lLabel='+qLabel
+	 }});
+	 sparqlToDataTable(refsSPARQL, "#lexemesreference", {
+	 'linkPrefixes': {
+	     'reference': '../reflistlang',
+	 },linkParams: {
+		reference: '&l='+q+'&lLabel='+qLabel
 	 }});
      sparqlToDataTable(longestWordsAndPhrasesSparql,
 		       "#longest-words-and-phrases", {
@@ -219,9 +227,13 @@ LIMIT 200
 
   <table class="table table-hover" id="lexical-categories"></table>
 
-	<h2>Lexemes by time period</h2>
+<h2>Lexemes by time period</h2>
 
-	<table class="table table-hover" id="lexemestimeperiods"></table>  
+<table class="table table-hover" id="lexemestimeperiods"></table>  
+
+<h2>Lexemes by reference</h2>
+
+<table class="table table-hover" id="lexemesreference"></table>  
   
 <h2>Longest words and phrases</h2>
 
