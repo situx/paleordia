@@ -1,0 +1,68 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+lexemesSparql =`
+	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?refnumber WHERE {
+	  ?lexeme rdf:type ontolex:LexicalEntry;
+		dct:language wd:${ l };
+		wikibase:lemma ?lexemeLab ;      
+		p:P1343 ?lex.
+	  ?lex ps:P1343 wd:${ q } .
+	  OPTIONAL { ?lex pq:P1810 ?refnum. }
+	  OPTIONAL { ?lex pq:P7421 ?refline. }
+	  OPTIONAL { ?lex pq:P304 ?refpage. }
+	  BIND(COALESCE(?refnum, "") AS ?thenum)
+	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, "]"), "") AS ?thepage)
+	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
+	  BIND(CONCAT(?thenum, ?thepage, ?theline) AS ?refnumber)
+	}
+	GROUP BY ?lexeme ?lexemeLabel ?refnumber
+	ORDER BY (?refnumber)
+`
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 'linkPrefixes': {
+		'lexeme': '../l'
+	 },
+	 linkParams: {
+		form: '&qb='+q
+	 }
+	 });
+ });
+
+</script>
+
+<div class="language-entries">
+  <h1>Lexemes by reference: ${ qLabel } (${ q })</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="../language?q=${ qb }&qLabel=${ lLabel }">←</a>
+  <a title="View and edit item in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
+  <a title="View item in Reasonator"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://reasonator.toolforge.org/?&q=${ q }">Reasonator ↗</a>
+  <a title="View item as a Scholia topic"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/topic/${ q }">Scholia ↗</a>
+
+
+  <h2>Lexemes referenced by this resource</h2>
+
+  <table class="table table-hover" id="lexemes"></table>
+  
+
+</div>
+
+
+
+

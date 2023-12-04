@@ -149,6 +149,17 @@ ORDER BY DESC(?length)
 LIMIT 200
   `
 
+refsSPARQL=`
+SELECT DISTINCT ?lex ?lexLabel (COUNT(?lexeme) AS ?lexcount) WHERE {
+  ?lexeme rdf:type ontolex:LexicalEntry;
+    dct:language wd:Q35518;    
+    wdt:P1343 ?lex.
+  ?lex rdfs:label ?lexLabel .
+  FILTER(lang(?lexLabel)="en")
+}
+GROUP BY ?lex ?lexLabel
+ORDER BY ?lexLabel
+`
 
  $(document).ready(function() {
      sparqlToDataTable(dataSparql, "#data");
@@ -165,6 +176,12 @@ LIMIT 200
 	     'timeperiod': '../timeperiod',
 	 },linkParams: {
 		timeperiod: '&l='+q
+	 }});
+	 sparqlToDataTable(lexemestimeperiodsSparql, "#lexemesreference", {
+	 'linkPrefixes': {
+	     'lex': '../reflistlang',
+	 },linkParams: {
+		lex: '&l='+q
 	 }});
      sparqlToDataTable(longestWordsAndPhrasesSparql,
 		       "#longest-words-and-phrases", {
@@ -219,9 +236,13 @@ LIMIT 200
 
   <table class="table table-hover" id="lexical-categories"></table>
 
-	<h2>Lexemes by time period</h2>
+<h2>Lexemes by time period</h2>
 
-	<table class="table table-hover" id="lexemestimeperiods"></table>  
+<table class="table table-hover" id="lexemestimeperiods"></table>  
+
+<h2>Lexemes by reference</h2>
+
+<table class="table table-hover" id="lexemesreference"></table>  
   
 <h2>Longest words and phrases</h2>
 
