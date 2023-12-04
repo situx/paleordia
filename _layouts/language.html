@@ -69,7 +69,7 @@ SELECT
   ?lexical_category ?lexical_categoryLabel
 WHERE {
     ?lexeme a ontolex:LexicalEntry ;
-            dct:language wd:Q36790 ; 
+            dct:language wd:${ q } ; 
             wikibase:lemma ?lexemeLab .
     OPTIONAL {
       ?lexeme wikibase:lexicalCategory ?lexical_category .
