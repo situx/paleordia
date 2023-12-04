@@ -119,7 +119,7 @@ WHERE {
   }
   UNION 
   {
-    # Homographs
+    # Time Period
     BIND(16 AS ?order)
     BIND("Time Period" AS ?description)
     wd:${ l } wdt:P2348 ?value .
@@ -141,9 +141,17 @@ WHERE {
     BIND("Described in" AS ?description)
     ?lexeme ontolex:lexicalForm? / p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../reference?", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    ?value rdfs:label ?valueLab .
+	OPTIONAL{?value_statement pq:P1810 ?valuenum .}
+	OPTIONAL{?value_statement pq:P7421 ?refline .}
+	OPTIONAL{?value_statement pq:P304 ?refpage .}
+	BIND(COALESCE(?valuenum, "") As ?thenum)
+	BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
+	BIND(COALESCE(CONCAT("l. ",?refline), "") As ?theline)
+	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
+    FILTER (LANG(?valueLab) = 'en')
+    BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
+    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
