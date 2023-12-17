@@ -150,9 +150,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				try{
 					secondocc=data[i][key].indexOf(7,"http")
 					firsturl=data[i][key].substring(0,secondocc)
+					console.log("FIRSTURL: "+firsturl)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
 					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
+					console.log("LASTNUMBERINDEX: "+lastNumberIndex)
 					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
 					console.log("DETECTED SEPCHAR: "+sepchar)
 				}catch(err){
