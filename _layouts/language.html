@@ -66,7 +66,7 @@ ORDER BY ?order
 # title: List of lexemes for a language
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-    dct:language wd:Q35518;
+    dct:language wd:${ q };
     wikibase:lemma ?lexemeLab.
   OPTIONAL {
     ?lexeme wikibase:lexicalCategory ?lexical_category.
