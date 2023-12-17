@@ -146,7 +146,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
 				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 			}else if(linkcount>1){
-				sepchar="//"
+				sepchar=" // "
 				try{
 					secondocc=data[i][key].indexOf(7,"http")
 					firsturl=data[i][key].substring(0,secondocc)
@@ -155,7 +155,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
 					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
 				}catch(err){
-				
+					console.log("ERROR: "+err)
 				}
 				urls=data[i][key].split(sepchar)
 				labs=data[i][key+'Label'].split(sepchar)	
