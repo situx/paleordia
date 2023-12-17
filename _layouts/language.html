@@ -77,12 +77,13 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
     ?lexeme ontolex:sense ?senseitem.
     ?senseitem skos:definition ?gloss.
     OPTIONAL {
-      ?senseitem wdt:P5137 ?sense.
-      ?sense rdfs:label ?senseLab.
-      BIND(REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") AS ?senseitemid)
+      ?senseitem wdt:P5137 ?sensee.
+      ?sensee rdfs:label ?senseLab.
+      BIND(REPLACE(STR(?sensee), "^.*/([^/]*)$", "$1") AS ?senseitemid)
       FILTER((LANG(?senseLab)) = "en")
     }
     FILTER((LANG(?gloss)) = "en")
+    BIND(COALESCE(?sensee, "") AS ?sense)
     BIND(CONCAT(?gloss, " [", COALESCE(?senseLab, "N/A"), " (", COALESCE(?senseitemid, "N/A"), ")", "]") AS ?senseLabel)
   }
 }
