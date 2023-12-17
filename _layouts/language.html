@@ -88,7 +88,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
     BIND(CONCAT(?gloss, COALESCE(?sensedesc, "")) AS ?senseLabell)
   }
 }
-GROUP BY ?lexeme ?sensse ?senseLabell ?lexical_category ?lexical_categoryLabel
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 LIMIT 10000
   `
 
