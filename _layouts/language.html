@@ -83,7 +83,7 @@ WHERE {
       ?sense rdfs:label ?senseLab .
       BIND (REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") as ?senseitemid)
       FILTER (LANG(?gloss) = "en")
-      FILTER (LANG(?senseitemLab) = "en")
+      FILTER (LANG(?senseLab) = "en")
       BIND(CONCAT(?gloss," [",?senseLab," (",?senseitemid,")","]") AS ?senseLabel)
     }
 }
