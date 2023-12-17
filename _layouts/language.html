@@ -79,12 +79,14 @@ WHERE {
     OPTIONAL {
       ?lexeme ontolex:sense ?senseitem .
       ?senseitem skos:definition ?gloss .
-      ?senseitem wdt:P5137 ?sense .
-      ?sense rdfs:label ?senseLab .
-      BIND (REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") as ?senseitemid)
-      FILTER (LANG(?gloss) = "en")
-      FILTER (LANG(?senseLab) = "en")
-      BIND(CONCAT(?gloss," [",?senseLab," (",?senseitemid,")","]") AS ?senseLabel)
+	  OPTIONAL{
+		  ?senseitem wdt:P5137 ?sense .
+		  ?sense rdfs:label ?senseLab .
+		  BIND (REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") as ?senseitemid)
+		  FILTER (LANG(?gloss) = "en")
+		  FILTER (LANG(?senseLab) = "en")
+	  }
+      BIND(CONCAT(?gloss," [",coalesce (?senseLab,"")," (",coalesce (?senseitemid,""),")","]") AS ?senseLabel)
     }
 }
 GROUP BY ?lexeme ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel
