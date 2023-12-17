@@ -125,7 +125,7 @@ WHERE {
     wd:${ l } wdt:P2348 ?value .
     ?value rdfs:label ?valueLabel .
 	FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../q?q=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../timeperiod?q=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -151,7 +151,7 @@ WHERE {
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
-    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../reflistlang?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
