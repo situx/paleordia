@@ -64,7 +64,7 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of lexemes for a language
-SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel WHERE {
+SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?sense) (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?senseLabel) ?lexical_category ?lexical_categoryLabel WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
     dct:language wd:${ q };
     wikibase:lemma ?lexemeLab.
@@ -84,11 +84,11 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 	  BIND(CONCAT(" [", ?senseLab, " (", ?senseitemid, ")", "]") AS ?sensedesc)
     }
     FILTER((LANG(?gloss)) = "en")
-    BIND(COALESCE(?sensee, "") AS ?sense)
-    BIND(CONCAT(?gloss, COALESCE(?sensedesc, "")) AS ?senseLabel)
+    BIND(COALESCE(?sensee, "") AS ?sensse)
+    BIND(CONCAT(?gloss, COALESCE(?sensedesc, "")) AS ?senseLabell)
   }
 }
-GROUP BY ?lexeme ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel
+GROUP BY ?lexeme ?sensse ?senseLabell ?lexical_category ?lexical_categoryLabel
 LIMIT 10000
   `
 

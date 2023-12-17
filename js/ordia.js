@@ -139,10 +139,33 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							
 			}
 	    } else if (key + 'Label' in data[i]) {
-		convertedRow[key] = '<a href="' +
-		    (linkPrefixes[key] || "") + 
-		    addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
-		    '">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
+			var linkcount = (data[i][key].match(/http/g) || []).length;
+			if(linkcount==1){
+				convertedRow[key] = '<a href="' +
+				(linkPrefixes[key] || "") + 
+				addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
+				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
+			}else if(linkcount>1){
+				sepchar="//"
+				try{
+					secondocc=data[i][key].indexOf(7,"http")
+					firsturl=data[i][key].substring(0,secondocc)
+					var onlyNumbers = firsturl.replace(/\D/g,'');
+					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
+					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
+					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
+				}catch(err){
+				
+				}
+				urls=data[i][key].split(sepchar)
+				labs=data[i][key+'Label'].split(sepchar)	
+				res=""
+				for(let i = 0; i < urls.length; i++){
+					res+="<a href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
+				}
+				res=res.substring(0,res.length-sepchar.length-2)
+				convertedRow[key]=res
+			}
 	    } else if (key.substr(-5) == 'Label') {
 		// pass
 		
