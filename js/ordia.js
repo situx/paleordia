@@ -150,7 +150,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				console.log(linkcount)
 				sepchar=" // "
 				try{
-					secondocc=data[i][key].indexOf(7,"http")
+					secondocc=data[i][key].indexOf("http",7)
 					firsturl=data[i][key].substring(0,secondocc)
 					console.log("FIRSTURL: "+firsturl)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
