@@ -140,6 +140,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}
 	    } else if (key + 'Label' in data[i]) {
 			var linkcount = (data[i][key].match(/http/g) || []).length;
+			console.log(data[i][key])
+			console.log(linkcount)
 			if(linkcount==1){
 				convertedRow[key] = '<a href="' +
 				(linkPrefixes[key] || "") + 
