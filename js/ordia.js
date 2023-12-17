@@ -140,7 +140,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}
 	    } else if (key + 'Label' in data[i]) {
 			var linkcount = (data[i][key].match(/http/g) || []).length;
-			if(linkcount==1){
+			if(linkcount<=1){
 				convertedRow[key] = '<a href="' +
 				(linkPrefixes[key] || "") + 
 				addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
