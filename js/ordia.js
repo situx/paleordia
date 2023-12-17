@@ -156,6 +156,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
 					console.log("LASTNUMBER: "+lastNumber)
 					console.log("LASTNUMBERINDEX: "+lastNumberIndex)
+					console.log("SECONDOCC: "+secondocc)
 					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
 					console.log("DETECTED SEPCHAR: "+sepchar)
 				}catch(err){
