@@ -66,18 +66,28 @@ ORDER BY ?order
 # title: List of lexemes for a language
 SELECT
   ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel)
-  ?lexical_category ?lexical_categoryLabel
+  ?senseitem ?senseitemLabel ?lexical_category ?lexical_categoryLabel
 WHERE {
     ?lexeme a ontolex:LexicalEntry ;
-            dct:language wd:${ q } ; 
+            dct:language wd:Q35518 ; 
             wikibase:lemma ?lexemeLab .
     OPTIONAL {
       ?lexeme wikibase:lexicalCategory ?lexical_category .
       ?lexical_category rdfs:label ?lexical_categoryLabel .
       FILTER (LANG(?lexical_categoryLabel) = "en")
     }
+    OPTIONAL {
+      ?lexeme ontolex:sense ?sense .
+      ?sense skos:definition ?gloss .
+      ?sense wdt:P5137 ?senseitem .
+      ?senseitem rdfs:label ?senseitemLab .
+      BIND (REPLACE(STR(?senseitem), "^.*/([^/]*)$", "$1") as ?senseitemid)
+      FILTER (LANG(?gloss) = "en")
+      FILTER (LANG(?senseitemLab) = "en")
+      BIND(CONCAT(?gloss," [",?senseitemLab," (",?senseitemid,")","]") AS ?senseitemLabel)
+    }
 }
-GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+GROUP BY ?lexeme ?senseitem ?senseitemLabel ?lexical_category ?lexical_categoryLabel
 LIMIT 10000
   `
 
