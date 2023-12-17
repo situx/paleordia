@@ -152,15 +152,10 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				try{
 					secondocc=data[i][key].indexOf("http",7)
 					firsturl=data[i][key].substring(0,secondocc)
-					console.log("FIRSTURL: "+firsturl)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
 					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
-					console.log("LASTNUMBER: "+lastNumber)
-					console.log("LASTNUMBERINDEX: "+lastNumberIndex)
-					console.log("SECONDOCC: "+secondocc)
 					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
-					console.log("DETECTED SEPCHAR: "+sepchar)
 				}catch(err){
 					console.log("ERROR: "+err)
 				}
@@ -168,7 +163,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				labs=data[i][key+'Label'].split(sepchar)	
 				res=""
 				for(let i = 0; i < urls.length; i++){
-					res+="<a href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
+					res+="<a href=\""+urls[i]+"\" target=\"_blank\">"+labs[i]+"</a> "+sepchar+" "
 				}
 				res=res.substring(0,res.length-sepchar.length-2)
 				convertedRow[key]=res
