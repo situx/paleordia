@@ -64,30 +64,27 @@ ORDER BY ?order
  lexemesSparql = `
 # tool: ordia
 # title: List of lexemes for a language
-SELECT
-  ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel)
-  ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel
-WHERE {
-    ?lexeme a ontolex:LexicalEntry ;
-            dct:language wd:${ q } ; 
-            wikibase:lemma ?lexemeLab .
+SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel WHERE {
+  ?lexeme rdf:type ontolex:LexicalEntry;
+    dct:language wd:Q35518;
+    wikibase:lemma ?lexemeLab.
+  OPTIONAL {
+    ?lexeme wikibase:lexicalCategory ?lexical_category.
+    ?lexical_category rdfs:label ?lexical_categoryLabel.
+    FILTER((LANG(?lexical_categoryLabel)) = "en")
+  }
+  OPTIONAL {
+    ?lexeme ontolex:sense ?senseitem.
+    ?senseitem skos:definition ?gloss.
     OPTIONAL {
-      ?lexeme wikibase:lexicalCategory ?lexical_category .
-      ?lexical_category rdfs:label ?lexical_categoryLabel .
-      FILTER (LANG(?lexical_categoryLabel) = "en")
+      ?senseitem wdt:P5137 ?sense.
+      ?sense rdfs:label ?senseLab.
+      BIND(REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") AS ?senseitemid)
+      FILTER((LANG(?senseLab)) = "en")
     }
-    OPTIONAL {
-      ?lexeme ontolex:sense ?senseitem .
-      ?senseitem skos:definition ?gloss .
-	  OPTIONAL{
-		  ?senseitem wdt:P5137 ?sense .
-		  ?sense rdfs:label ?senseLab .
-		  BIND (REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") as ?senseitemid)
-		  FILTER (LANG(?gloss) = "en")
-		  FILTER (LANG(?senseLab) = "en")
-	  }
-      BIND(CONCAT(?gloss," [",coalesce (?senseLab,"")," (",coalesce (?senseitemid,""),")","]") AS ?senseLabel)
-    }
+    FILTER((LANG(?gloss)) = "en")
+    BIND(CONCAT(?gloss, " [", COALESCE(?senseLab, "N/A"), " (", COALESCE(?senseitemid, "N/A"), ")", "]") AS ?senseLabel)
+  }
 }
 GROUP BY ?lexeme ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel
 LIMIT 10000
