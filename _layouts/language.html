@@ -81,7 +81,7 @@ WHERE {
       ?senseitem skos:definition ?gloss .
       ?senseitem wdt:P5137 ?sense .
       ?sense rdfs:label ?senseLab .
-      BIND (REPLACE(STR(?senseitem), "^.*/([^/]*)$", "$1") as ?senseitemid)
+      BIND (REPLACE(STR(?sense), "^.*/([^/]*)$", "$1") as ?senseitemid)
       FILTER (LANG(?gloss) = "en")
       FILTER (LANG(?senseitemLab) = "en")
       BIND(CONCAT(?gloss," [",?senseLab," (",?senseitemid,")","]") AS ?senseLabel)
