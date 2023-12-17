@@ -81,10 +81,11 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
       ?sensee rdfs:label ?senseLab.
       BIND(REPLACE(STR(?sensee), "^.*/([^/]*)$", "$1") AS ?senseitemid)
       FILTER((LANG(?senseLab)) = "en")
+	  BIND(CONCAT(" [", ?senseLab, " (", ?senseitemid, ")", "]") AS ?sensedesc)
     }
     FILTER((LANG(?gloss)) = "en")
     BIND(COALESCE(?sensee, "") AS ?sense)
-    BIND(CONCAT(?gloss, " [", COALESCE(?senseLab, "N/A"), " (", COALESCE(?senseitemid, "N/A"), ")", "]") AS ?senseLabel)
+    BIND(CONCAT(?gloss, COALESCE(?sensedesc, "")) AS ?senseLabel)
   }
 }
 GROUP BY ?lexeme ?sense ?senseLabel ?lexical_category ?lexical_categoryLabel
