@@ -4,7 +4,7 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lemmaa; separator=" / ") as ?lemmaLabel) ?lemma ?lexcat ?lexcatlabel
+	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lemmaa; separator=" / ") as ?lemmaLabel) ?lemma ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?rep; separator=" / ") as ?representations) 
 	(GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)
 	(GROUP_CONCAT(DISTINCT ?combsensedef; separator=" + ") as ?combinationsLabel)
@@ -16,7 +16,7 @@ lexemesSparql =`
 		 wikibase:lemma ?lemmaa  ;
 		 wikibase:lexicalCategory ?lexcat .
 	  OPTIONAL { ?lemma p:P5238 ?comb . ?comb pq:P5548 ?form . ?form ontolex:representation ?formlabel . ?comb pq:P5980 ?combsense . ?combsense wdt:P5137|wdt:P9970 ?combsenseval .?combsense skos:definition ?combsensedeff . FILTER(lang(?combsensedeff)="en") FILTER(lang(?formlabel)="sux-latn") BIND(CONCAT(?combsensedeff," (",?formlabel,")") AS ?combsensedef) }
-	  OPTIONAL { ?lexcat rdfs:label ?lexcatlabel . FILTER((LANG(?lexcatlabel))= "en") }
+	  OPTIONAL { ?lexcat rdfs:label ?lexcatLabel . FILTER((LANG(?lexcatLabel))= "en") }
 	  OPTIONAL { ?lemma ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep . }  
 	  OPTIONAL { ?lemma ontolex:sense ?sense . ?sense wdt:P5137|wdt:P9970 ?senseval . OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER((LANG(?senselabel))= "en") }}     }
 	GROUP BY ?lemma ?lexcat ?lexcatlabel
@@ -36,7 +36,7 @@ lexemesSparql =`
 </script>
 
 <div class="language-entries">
-  <h1>Lexemes by reference: ${ qLabel } (${ q })</h1>
+  <h1>Lexemes combinations: ${ qLabel } (${ q })</h1>
 
   <a title="Back"
      role="button"
@@ -56,7 +56,7 @@ lexemesSparql =`
      href="https://scholia.toolforge.org/topic/${ q }">Scholia ↗</a>
 
 
-  <h2>Lexemes referenced by this resource</h2>
+  <h2>Lexemes with forms, senses and their combinations</h2>
 
   <table class="table table-hover" id="lexemes"></table>
   
