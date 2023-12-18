@@ -19,7 +19,7 @@ lexemesSparql =`
 	  OPTIONAL { ?lexcat rdfs:label ?lexcatLabel . FILTER((LANG(?lexcatLabel))= "en") }
 	  OPTIONAL { ?lemma ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep . }  
 	  OPTIONAL { ?lemma ontolex:sense ?sense . ?sense wdt:P5137|wdt:P9970 ?senseval . OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER((LANG(?senselabel))= "en") }}     }
-	GROUP BY ?lemma ?lexcat ?lexcatlabel
+	GROUP BY ?lemma ?lexcat ?lexcatLabel
 `
 
  $(document).ready(function() {
