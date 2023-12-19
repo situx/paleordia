@@ -81,7 +81,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 	  BIND(COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"") AS ?sensedesc)
     }
     FILTER(LANG(?gloss) = "en")
-    BIND(COALESCE(?sensee, "") AS ?sensse)
+    BIND(COALESCE(?sensee, "#") AS ?sensse)
     BIND(CONCAT(?gloss, ?sensedesc) AS ?senseLabell)
   }
 }
