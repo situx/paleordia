@@ -15,10 +15,10 @@ lexemesSparql =`
 		 dct:language wd:${ q } ;		   
 		 wikibase:lemma ?lemmaa  ;
 		 wikibase:lexicalCategory ?lexcat .
+	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
 	  OPTIONAL { ?lemma p:P5238 ?comb . ?comb pq:P5548 ?form . ?form ontolex:representation ?formlabel . ?comb pq:P5980 ?combsense . ?combsense wdt:P5137|wdt:P9970 ?combsenseval .?combsense skos:definition ?combsensedeff . FILTER(lang(?combsensedeff)="en") FILTER(lang(?formlabel)="sux-latn") BIND(CONCAT(?combsensedeff," (",?formlabel,")") AS ?combsensedef) }
-	  OPTIONAL { ?lexcat rdfs:label ?lexcatLabel . FILTER((LANG(?lexcatLabel))= "en") }
 	  OPTIONAL { ?lemma ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep . }  
-	  OPTIONAL { ?lemma ontolex:sense ?sense . ?sense wdt:P5137|wdt:P9970 ?senseval . OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER((LANG(?senselabel))= "en") }}     }
+	  OPTIONAL { ?lemma ontolex:sense ?sense . ?sense wdt:P5137|wdt:P9970 ?senseval . OPTIONAL { ?senseval rdfs:label ?senselabel . FILTER(LANG(?senselabel)= "en") }}     }
 	GROUP BY ?lemma ?lexcat ?lexcatLabel
 `
 
