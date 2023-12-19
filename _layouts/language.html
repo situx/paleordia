@@ -68,11 +68,9 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
   ?lexeme rdf:type ontolex:LexicalEntry;
     dct:language wd:${ q };
     wikibase:lemma ?lexemeLab.
-  OPTIONAL {
-    ?lexeme wikibase:lexicalCategory ?lexical_category.
-    ?lexical_category rdfs:label ?lexical_categoryLabel.
-    FILTER((LANG(?lexical_categoryLabel)) = "en")
-  }
+	wikibase:lexicalCategory ?lexical_category.
+  ?lexical_category rdfs:label ?lexical_categoryLabel.
+  FILTER((LANG(?lexical_categoryLabel)) = "en")
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.
     ?senseitem skos:definition ?gloss.
