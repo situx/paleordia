@@ -14,7 +14,7 @@ lexemesSparql =`
          wdt:P5191 ?derivedFrom ;
 		 wikibase:lexicalCategory ?lexcat .
     OPTIONAL{ 
-      ?l  wdt:P5920 ?radical . ?radical wikibase:lemma ?radicalLabel .
+      ?lexeme  wdt:P5920 ?radical . ?radical wikibase:lemma ?radicalLabel .
     }
 	  OPTIONAL { ?derivedFrom wikibase:lemma ?derivedFromLabell . ?derivedFrom dct:language ?derivedFromLanguage . ?derivedFromLanguage rdfs:label ?derivedFromLanguageLabel . FILTER(LANG(?derivedFromLanguageLabel)= "en") }
 	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
