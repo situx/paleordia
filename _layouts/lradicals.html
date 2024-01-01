@@ -4,19 +4,19 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel ?derivedFrom  (GROUP_CONCAT(DISTINCT ?derivedFromLabell; separator=" / ") as ?derivedFromLabel) ?derivedFromLanguage ?derivedFromLanguageLabel
+	SELECT DISTINCT ?radical (GROUP_CONCAT(DISTINCT ?radicalLabell; separator=" / ") as ?radicalLabel) (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel 
 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
-		 dct:language wd:${ q } ;		   
+		 dct:language wd:Q35518 ;		   
 		 wikibase:lemma ?lexemea ;
-         wdt:P5191 ?derivedFrom ;
+         wdt:P5920 ?radical ;
 		 wikibase:lexicalCategory ?lexcat .
-	  OPTIONAL { ?derivedFrom wikibase:lemma ?derivedFromLabell . ?derivedFrom dct:language ?derivedFromLanguage . ?derivedFromLanguage rdfs:label ?derivedFromLanguageLabel . FILTER(LANG(?derivedFromLanguageLabel)= "en") }
 	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
+      ?radical wikibase:lemma ?radicalLabell . 
 	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     }
-	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?derivedFrom ?derivedFromLabel ?derivedFromLanguage ?derivedFromLanguageLabel
+	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical ?radicalLabel
 `
 
 
@@ -35,7 +35,7 @@ lexemesSparql =`
 </script>
 
 <div class="language-entries">
-  <h1>Lexemes derivations: ${ qLabel } (${ q })</h1>
+  <h1>Lexemes radicals: ${ qLabel } (${ q })</h1>
 
   <a title="Back"
      role="button"
@@ -55,7 +55,7 @@ lexemesSparql =`
      href="https://scholia.toolforge.org/topic/${ q }">Scholia ↗</a>
 
 
-  <h2>Lexemes derived from other Lexemes</h2>
+  <h2>Radicals encompassed by lexemes</h2>
 
   <table class="table table-hover" id="lexemes"></table>
   
