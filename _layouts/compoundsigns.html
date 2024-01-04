@@ -35,7 +35,9 @@ ORDER BY (?characterLabel)
      sparqlToDataTable(lexemesSparql, "#lexical-categories", {
 	 linkPrefixes: {
 	     character: '../cf'
-	 }
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"
      });
 
  });
@@ -52,7 +54,7 @@ ORDER BY (?characterLabel)
 <hr/>
 
 <div class="lexical-categories">
-
+	<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
     <table class="table table-hover" id="lexical-categories"></table>
 
 </div>
