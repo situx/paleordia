@@ -166,7 +166,12 @@ ORDER BY ?referenceLabel
 	 'pBarLabel':"progress-label",
 	 'linkPrefixes': {
 	     'lexeme': '../l',
-	     'lexical_category': '../lexical_category'}});
+	     'lexical_category': '../lexical_category'
+	  },
+	  'linkParams':{
+		'lexeme': '&qb='+q
+	  }
+	  });
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
 	 'linkPrefixes': {
 	     'lexical_category': '../lexical-category',
