@@ -44,7 +44,9 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
      sparqlToDataTable(lexemesSparql, "#lexical-categories", {
 	 linkPrefixes: {
 	     character: '../cf'
-	 }
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"
      });
 
  });
@@ -63,7 +65,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?chartypeLabel
 <!--Time Periods:<select id="timeperiods" onchange="reloadSignlist()"></select>-->
 
 <div class="lexical-categories">
-
+	<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
     <table class="table table-hover" id="lexical-categories"></table>
 
 </div>

@@ -39,8 +39,10 @@ lexemesSparql =`
 		'character': '../c'
 	 },
 	 linkParams: {
-		form: '&qb='+q
-	 }
+		form: '&qb='+q+'&qbLabel='+qLabel
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"
 	 });
  });
 
@@ -52,7 +54,7 @@ lexemesSparql =`
   <a title="Back"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="../script?q=${ qb }">←</a>
+     href="../script?q=${ qb }&qLabel=${ qbLabel }">←</a>
   <a title="View and edit item in Wikidata"
      role="button"
      class="btn btn-outline-dark btn-sm"
@@ -68,7 +70,7 @@ lexemesSparql =`
 
 
   <h2>Characters referenced by this resource</h2>
-
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="lexemes"></table>
   
 

@@ -192,8 +192,10 @@ signlistSparql = `
 	 'linkPrefixes': {
 		'character': '../c'
 	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label",
 	 linkParams: {
-		form: '&qb='+q
+		form: '&qb='+q+'&qbLabel='+qLabel
 	 }
 	 });
 	 sparqlToDataTable(signlistSparql, "#signlists",{
@@ -209,7 +211,7 @@ signlistSparql = `
 		'reference': '../reflist'
 	 },
 	 linkParams: {
-		reference: '&qb='+q
+		reference: '&qb='+q+'&qbLabel='+qLabel
 	 }
 	 });
 	 sparqlToDataTable(dataSparql, "#data");
@@ -261,7 +263,7 @@ signlistSparql = `
   <table class="table table-hover" id="references"></table>
   
   <h2>Characters</h2>
-
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="lexemes"></table>
   
 

@@ -162,9 +162,16 @@ ORDER BY ?referenceLabel
  $(document).ready(function() {
      sparqlToDataTable(dataSparql, "#data");
      sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 'pBar':"progressbar",
+	 'pBarLabel':"progress-label",
 	 'linkPrefixes': {
 	     'lexeme': '../l',
-	     'lexical_category': '../lexical_category'}});
+	     'lexical_category': '../lexical_category'
+	  },
+	  'linkParams':{
+		'lexeme': '&qb='+q+'&qbLabel='+qLabel
+	  }
+	  });
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
 	 'linkPrefixes': {
 	     'lexical_category': '../lexical-category',
@@ -221,7 +228,7 @@ ORDER BY ?referenceLabel
   <table class="table table-hover" id="data"></table>
 
   <h2>Lexemes</h2>
-
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="lexemes"></table>
 
 

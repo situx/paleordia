@@ -16,6 +16,7 @@ title: PaleOrdia
 	const p = urlParams.get('p');
 	const q = urlParams.get('q');
 	const qLabel = urlParams.get('qLabel');
+	const qbLabel = urlParams.get('qbLabel');
 	const sLabel = urlParams.get('sLabel');
 	const lLabel = urlParams.get('lLabel');
 	const qb = urlParams.get('qb');
@@ -26,6 +27,9 @@ title: PaleOrdia
 	const representation = urlParams.get('representation');
 	if(typeof(qLabel)==='undefined'){
 		qLabel=""
+	}
+	if(typeof(qbLabel)==='undefined'){
+		qbLabel=""
 	}
 	</script>
 	<div class="container">
@@ -48,6 +52,9 @@ title: PaleOrdia
 	}
 	if(typeof(qb)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ qb }', qb);
+	}
+	if(typeof(qbLabel)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replaceAll('${ qbLabel }', qbLabel);
 	}
 	if(typeof(qLabel)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ qLabel }', qLabel);

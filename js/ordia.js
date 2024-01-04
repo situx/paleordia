@@ -149,9 +149,10 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
 				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 			}else if(linkcount>1){
-				console.log(data[i][key])
-				console.log(linkcount)
-				try{
+				//console.log(data[i][key])
+				//console.log(linkcount)
+				sepchar=" // "
+4				try{
 					secondocc=data[i][key].indexOf("http",7)
 					firsturl=data[i][key].substring(0,secondocc)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
@@ -249,6 +250,13 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
+	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
+	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
+	if(pBar!=""){
+		$('#'+pBar).progressbar({
+		  value: false
+		});	
+	}
     
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
@@ -268,14 +276,18 @@ function sparqlToDataTable(sparql, element, options={}) {
 	}
 
 	table = $(element).on( 'draw.dt', function () {
-            console.log( 'Loading' );
+            //console.log( 'Loading' );
           //Here show the loader.
           $("#MessageContainer").html("Loading data table...");
         } )
         .on( 'init.dt', function () {
-            console.log( 'Loaded' );
+            //console.log( 'Loaded' );
            //Here hide the loader.
            $("#MessageContainer").html("Loding completed!");
+		   	if(pBar!=""){
+				$('#'+pBar).progressbar("destroy")
+				$('#'+pBarLabel).html("")
+			}
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
@@ -303,6 +315,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		encodeURIComponent(sparql) +	
 		'">Edit on query.Wikidata.org</a></caption>');
     }, "json");
+
 }
 
 function qToWembedderToDataTable(q, sparql, element, options={}) {
