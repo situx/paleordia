@@ -254,8 +254,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	console.log("PBAR: "+pBar)
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
-		  value: false,
-		  background: "#0000FF"
+		  value: false
 		});	
 	}
     
