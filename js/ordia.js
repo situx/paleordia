@@ -251,7 +251,6 @@ function sparqlToDataTable(sparql, element, options={}) {
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
 	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
-	console.log("PBAR: "+pBar)
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
 		  value: false
