@@ -250,6 +250,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
+	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
 	console.log("PBAR: "+pBar)
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
@@ -285,7 +286,7 @@ function sparqlToDataTable(sparql, element, options={}) {
            $("#MessageContainer").html("Loding completed!");
 		   	if(pBar!=""){
 				$('#'+pBar).progressbar("destroy")
-				$('#progress-label').html("")
+				$('#'+pBarLabel).html("")
 			}
         } ).dataTable({ 
 	    data: convertedData.data,
