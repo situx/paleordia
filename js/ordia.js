@@ -148,8 +148,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
 				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 			}else if(linkcount>1){
-				console.log(data[i][key])
-				console.log(linkcount)
+				//console.log(data[i][key])
+				//console.log(linkcount)
 				sepchar=" // "
 				try{
 					secondocc=data[i][key].indexOf("http",7)
@@ -250,6 +250,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
+	console.log("PBAR: "+pBar)
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
 		  value: false
@@ -274,14 +275,18 @@ function sparqlToDataTable(sparql, element, options={}) {
 	}
 
 	table = $(element).on( 'draw.dt', function () {
-            console.log( 'Loading' );
+            //console.log( 'Loading' );
           //Here show the loader.
           $("#MessageContainer").html("Loading data table...");
         } )
         .on( 'init.dt', function () {
-            console.log( 'Loaded' );
+            //console.log( 'Loaded' );
            //Here hide the loader.
            $("#MessageContainer").html("Loding completed!");
+		   	if(pBar!=""){
+				$('#'+pBar).progressbar("destroy")
+				$('#progress-label').html("")
+			}
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
@@ -309,10 +314,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		encodeURIComponent(sparql) +	
 		'">Edit on query.Wikidata.org</a></caption>');
     }, "json");
-	if(pBar!=""){
-		$('#'+pBar).progressbar("destroy")
-		$('#progress-label').html("")
-	}
+
 }
 
 function qToWembedderToDataTable(q, sparql, element, options={}) {
