@@ -140,6 +140,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}
 	    } else if (key + 'Label' in data[i]) {
 			var linkcount = (data[i][key].match(/http/g) || []).length;
+			sepchar=" // "
 			if(linkcount==0){
 				convertedRow[key] = '<span>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
 			}else if(linkcount==1){
@@ -150,7 +151,6 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}else if(linkcount>1){
 				console.log(data[i][key])
 				console.log(linkcount)
-				sepchar=" // "
 				try{
 					secondocc=data[i][key].indexOf("http",7)
 					firsturl=data[i][key].substring(0,secondocc)
