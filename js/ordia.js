@@ -249,6 +249,12 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
+	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
+	if(pBar!=""){
+		$('#'+pBar).progressbar({
+		  value: false
+		});	
+	}
     
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
@@ -303,6 +309,10 @@ function sparqlToDataTable(sparql, element, options={}) {
 		encodeURIComponent(sparql) +	
 		'">Edit on query.Wikidata.org</a></caption>');
     }, "json");
+	if(pBar!=""){
+		$('#'+pBar).progressbar("destroy")
+		$('#progress-label').html("")
+	}
 }
 
 function qToWembedderToDataTable(q, sparql, element, options={}) {

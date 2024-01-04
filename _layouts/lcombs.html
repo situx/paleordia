@@ -29,7 +29,8 @@ lexemesSparql =`
 	 },
 	 linkParams: {
 		form: '&qb='+q
-	 }
+	 },
+	 pBar:"progressbar"
 	 });
  });
 
@@ -58,6 +59,7 @@ lexemesSparql =`
 
   <h2>Lexemes with forms, senses and their combinations</h2>
 
+  <div id="progressbar"><div class="progress-label">Loading...</div></div>
   <table class="table table-hover" id="lexemes"></table>
   
 
