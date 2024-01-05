@@ -22,6 +22,7 @@ lexemesSparql =`
       ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
 	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     }
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?derivedFrom ?derivedFromLabel ?derivedFromLanguage ?derivedFromLanguageLabel
+	ORDER BY ?lexemeLabel
 `
 
 
