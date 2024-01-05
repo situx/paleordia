@@ -34,7 +34,9 @@ lexemesSparql =`
 	 },
 	 linkParams: {
 		form: '&qb='+q
-	 }
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"
 	 });
  });
 
@@ -62,7 +64,7 @@ lexemesSparql =`
 
 
   <h2>Lexemes referenced by this resource</h2>
-
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="lexemes"></table>
   
 
