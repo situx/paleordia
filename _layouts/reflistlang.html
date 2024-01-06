@@ -12,8 +12,8 @@ lexemesSparql =`
 		p:P1343 ?lex ;
 		wikibase:lexicalCategory ?lexical_category .
       ?lexical_category rdfs:label ?lexical_categoryLabel .
-	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     }
       FILTER (LANG(?lexical_categoryLabel) = "en")
+	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     }
 	  ?lex ps:P1343 wd:${ q } .
 	  OPTIONAL { ?lex pq:P478 ?refvol. }
 	  OPTIONAL { ?lex pq:P1810 ?refnum. }
