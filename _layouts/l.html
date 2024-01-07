@@ -206,6 +206,11 @@ WHERE {
     ?value_statement ps:P5831 ?value .
     BIND(?value AS ?valueLabel)
     BIND(CONCAT("text-to-lexemes?text=", ENCODE_FOR_URI(?value), "&text-language=", LANG(?value)) AS ?value_Url)
+	OPTIONAL{
+      ?value_statement pq:P2441 ?literal_translation .
+      FILTER(lang(?literal_translation)="en")  
+    }
+    BIND(CONCAT(?value,COALESCE(CONCAT(" [\"",?literal_translation,"\"]"),"")) AS ?valueLabel)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ . 
       OPTIONAL {
