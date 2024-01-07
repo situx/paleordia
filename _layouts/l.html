@@ -210,7 +210,7 @@ WHERE {
       ?value_statement pq:P2441 ?literal_translation .
       FILTER(lang(?literal_translation)="en")  
     }
-    BIND(CONCAT(?value,COALESCE(CONCAT(" [\"",?literal_translation,"\"]"),"")) AS ?valueLabel)
+    BIND(CONCAT(?value,COALESCE(CONCAT(" [",?literal_translation,"]"),"")) AS ?valueLabel)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ . 
       OPTIONAL {
