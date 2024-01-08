@@ -265,6 +265,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var simpleData = sparqlDataToSimpleData(response);
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
+	console.log(convertedData)
 	var desc=false
 	var val=false
 	columns = [];
@@ -311,7 +312,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 			convertedDataReduced.push(moddata)
 		}	
 		console.log(convertedDataReduced)
-		convertedData=convertedDataReduced
+		convertedData["data"]=convertedDataReduced
 	}
 	table = $(element).on( 'draw.dt', function () {
             //console.log( 'Loading' );
