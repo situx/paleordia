@@ -331,6 +331,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 		if(accvalue!=""){
 			moddata=$.extend( true, {}, convertedData.data[convertedData.data.length-1] );
 			moddata["value_"]=accvalue
+			if(accsource!=""){
+				moddata["source"]=accsource
+			}
 			convertedDataReduced.push(moddata)
 		}	
 		console.log(convertedDataReduced)
