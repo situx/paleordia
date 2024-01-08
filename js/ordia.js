@@ -307,6 +307,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 				}
 			}else{
 				convertedDataReduced.push(convertedData.data[i])
+				accvalue=""
 			}
 		}
 		if(accvalue!=""){
