@@ -265,6 +265,27 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var simpleData = sparqlDataToSimpleData(response);
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
+	lastlabel=""
+	accvalue=""
+	convertedDataReduced=[]
+	for(i=0;i<convertedData.data.length;i++){
+		if("description" in convertedData.data[i] && "value" in convertedData.data[i]){
+			if(lastlabel=="" || convertedData.data[i]["description"]!=lastlabel){
+				lastlabel=convertedData.data[i]["description"]
+				moddata=convertedData.data[i]
+				moddata["value"]=accvalue
+				convertedDataReduced.push(moddata)
+				accvalue=convertedData.data[i]["value"]+"<br/>"
+			}else{
+				accvalue+=convertedData.data[i]["value"]
+			}
+		}
+	}
+	if(accvalue!=""){
+		moddata=convertedData.data[convertedData.data.length-1]
+		moddata["value"]=accvalue
+		convertedDataReduced.push(moddata)
+	}
 	columns = [];
 	for ( i = 0 ; i < convertedData.columns.length ; i++ ) {
 	    var column = {
