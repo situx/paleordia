@@ -289,6 +289,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		accvalue=""
 		convertedDataReduced=[]
 		for(i=0;i<convertedData.data.length;i++){
+			console.log(convertedData.data[i])
 			if("description" in convertedData.data[i] && "value" in convertedData.data[i]){
 				if(lastlabel=="" || convertedData.data[i]["description"]!=lastlabel){
 					lastlabel=convertedData.data[i]["description"]
