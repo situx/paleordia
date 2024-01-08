@@ -294,14 +294,14 @@ function sparqlToDataTable(sparql, element, options={}) {
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
 				if(lastlabel==""){
 					lastlabel=convertedData.data[i]["description"]
-					accvalue=convertedData.data[i]["value_"]+"<br/>"
+					accvalue=convertedData.data[i]["value_"]+" "
 				}else if(convertedData.data[i]["description"]!=lastlabel){
 					lastlabel=convertedData.data[i]["description"]
 					moddata=convertedData.data[i]
 					moddata["value_"]=accvalue
 					accvalue=""
 					convertedDataReduced.push(moddata)
-					accvalue=convertedData.data[i]["value_"]+"<br/>"
+					accvalue=convertedData.data[i]["value_"]+" "
 				}else{
 					accvalue+=convertedData.data[i]["value_"]
 				}
