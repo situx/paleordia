@@ -306,7 +306,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		}
 		if(accvalue!=""){
 			moddata=convertedData.data[convertedData.data.length-1]
-			moddata["value"]=accvalue
+			moddata["value_"]=accvalue
 			convertedDataReduced.push(moddata)
 		}	
 		convertedData=convertedDataReduced
