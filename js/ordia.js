@@ -269,7 +269,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var val=false
 	columns = [];
 	for ( i = 0 ; i < convertedData.columns.length ; i++ ) {
-		thetitle=capitalizeFirstLetter(convertedData.columns[i]).replace(/_/g, "&nbsp;"),
+		thetitle=capitalizeFirstLetter(convertedData.columns[i]).replace(/_/g, "&nbsp;")
 		if(thetitle=="Description"){
 			desc=true
 		}
