@@ -285,7 +285,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		}
 		columns.push(column)
 	}
-	if(desc && val){
+	if(false && desc && val){
 		lastlabel=""
 		accvalue=""
 		accsource=""
