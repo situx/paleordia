@@ -276,6 +276,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		if(thetitle=="Value"){
 			val=true
 		}
+		console.log("THETITLE: "+thetitle)
 		var column = {
 		data: convertedData.columns[i],
 		title: thetitle,
