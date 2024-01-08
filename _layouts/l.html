@@ -257,10 +257,11 @@ ORDER BY ?order
  WHERE {
    wd:${ l } ontolex:sense ?sense .
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
-   ?sense skos:definition ?gloss .
+   ?sense skos:definition ?glosss .
    OPTIONAL {
      ?sense wdt:P18 ?images
    }
+   BIND(CONCAT(?gloss,"@",lang(?gloss)) AS ?gloss)
  }
  GROUP BY ?sense ?senseLabel
  ORDER BY (STR(?sense))
