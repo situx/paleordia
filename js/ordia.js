@@ -317,7 +317,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 				}else{
 					accvalue+=convertedData.data[i]["value_"]+"<br/>"
 					if("source" in convertedData.data[i]){
-						accsource=convertedData.data[i]["source"]+"<br/>"
+						accsource+=convertedData.data[i]["source"]+"<br/>"
 					}
 				}
 			}else{
