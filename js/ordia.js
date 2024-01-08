@@ -303,7 +303,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 					lastlabel=convertedData.data[i]["description"]
 					accvalue=convertedData.data[i]["value_"]+" "
 				}else{
-					accvalue+=convertedData.data[i]["value_"]
+					accvalue+=convertedData.data[i]["value_"]+" "
 				}
 			}else{
 				convertedDataReduced.push(convertedData.data[i])
