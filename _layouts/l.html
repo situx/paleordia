@@ -200,7 +200,7 @@ WHERE {
   }
   UNION 
   {
-    SELECT ?value ?valueLabel ?value_Url ?sourceUrl ?order ?description GROUP_CONCAT(?sourceee;separator="//") AS ?source) WHERE { 
+    SELECT ?value ?valueLabel ?value_Url ?sourceUrl ?order ?description (GROUP_CONCAT(?sourceee;separator="//") AS ?source) WHERE { 
 		BIND(32 AS ?order)
 		BIND("Usage example" AS ?description)
 		?lexeme p:P5831 ?value_statement .
@@ -221,6 +221,7 @@ WHERE {
 		  BIND(CONCAT("reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
 		}   
 	}
+	GROUP BY ?value ?valueLabel ?value_Url ?sourceUrl ?order ?description
   }
 }
 ORDER BY ?order
