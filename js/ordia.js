@@ -307,10 +307,10 @@ function sparqlToDataTable(sparql, element, options={}) {
 						if(accsource!=""){
 							moddata["source"]=accsource
 						}
+						convertedDataReduced.push(moddata)
 					}
 					accvalue=""
 					accsource=""
-					convertedDataReduced.push(moddata)
 					lastlabel=convertedData.data[i]["description"]
 					accvalue=convertedData.data[i]["value_"]+"<br/>"
 					if("source" in convertedData.data[i]){
