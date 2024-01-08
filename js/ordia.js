@@ -291,10 +291,10 @@ function sparqlToDataTable(sparql, element, options={}) {
 		for(i=0;i<convertedData.data.length;i++){
 			console.log(convertedData.data[i])
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
-				if(lastlabel=="" || convertedData.data[i]["description"]!=lastlabel){
+				if(lastlabel==""){
 					lastlabel=convertedData.data[i]["description"]
 					accvalue=convertedData.data[i]["value_"]+"<br/>"
-				}else if{
+				}else if(convertedData.data[i]["description"]!=lastlabel){
 					lastlabel=convertedData.data[i]["description"]
 					moddata=convertedData.data[i]
 					moddata["value_"]=accvalue
