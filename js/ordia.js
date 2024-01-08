@@ -296,11 +296,11 @@ function sparqlToDataTable(sparql, element, options={}) {
 					lastlabel=convertedData.data[i]["description"]
 					accvalue=convertedData.data[i]["value_"]+" "
 				}else if(convertedData.data[i]["description"]!=lastlabel){
-					lastlabel=convertedData.data[i]["description"]
-					moddata=$.extend( true, {}, convertedData.data[i] );
+					moddata=$.extend( true, {}, convertedData.data[i-1] );
 					moddata["value_"]=accvalue
 					accvalue=""
 					convertedDataReduced.push(moddata)
+					lastlabel=convertedData.data[i]["description"]
 					accvalue=convertedData.data[i]["value_"]+" "
 				}else{
 					accvalue+=convertedData.data[i]["value_"]
