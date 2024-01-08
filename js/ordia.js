@@ -265,17 +265,25 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var simpleData = sparqlDataToSimpleData(response);
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
-	
+	var desc=false
+	var val=false
 	columns = [];
 	for ( i = 0 ; i < convertedData.columns.length ; i++ ) {
+		thetitle=capitalizeFirstLetter(convertedData.columns[i]).replace(/_/g, "&nbsp;"),
+		if(thetitle=="Description"){
+			desc=true
+		}
+		if(thetitle=="Value"){
+			val=true
+		}
 		var column = {
 		data: convertedData.columns[i],
-		title: capitalizeFirstLetter(convertedData.columns[i]).replace(/_/g, "&nbsp;"),
+		title: thetitle,
 		defaultContent: "",
 		}
 		columns.push(column)
 	}
-	if("description" in columns && "value" in columns){
+	if(desc && val){
 		lastlabel=""
 		accvalue=""
 		convertedDataReduced=[]
