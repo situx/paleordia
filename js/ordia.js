@@ -301,10 +301,12 @@ function sparqlToDataTable(sparql, element, options={}) {
 						accsource=convertedData.data[i]["source"]+"<br/>"
 					}
 				}else if(convertedData.data[i]["description"]!=lastlabel){
-					moddata=$.extend( true, {}, convertedData.data[i-1] );
-					moddata["value_"]=accvalue
-					if(accsource!=""){
-						moddata["source"]=accsource
+					if("value_" in convertedData.data[i-1]){
+						moddata=$.extend( true, {}, convertedData.data[i-1] );
+						moddata["value_"]=accvalue
+						if(accsource!=""){
+							moddata["source"]=accsource
+						}
 					}
 					accvalue=""
 					accsource=""
