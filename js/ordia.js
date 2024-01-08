@@ -273,7 +273,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		if(thetitle=="Description"){
 			desc=true
 		}
-		if(thetitle=="Value"){
+		if(thetitle.replace("&nbsp;","")=="Value"){
 			val=true
 		}
 		console.log("THETITLE: "+thetitle)
