@@ -293,6 +293,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
 				if(lastlabel=="" || convertedData.data[i]["description"]!=lastlabel){
 					lastlabel=convertedData.data[i]["description"]
+					accvalue=convertedData.data[i]["value_"]+"<br/>"
+				}else if{
+					lastlabel=convertedData.data[i]["description"]
 					moddata=convertedData.data[i]
 					moddata["value_"]=accvalue
 					convertedDataReduced.push(moddata)
@@ -309,6 +312,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 			moddata["value_"]=accvalue
 			convertedDataReduced.push(moddata)
 		}	
+		console.log(convertedDataReduced)
 		convertedData=convertedDataReduced
 	}
 	table = $(element).on( 'draw.dt', function () {
