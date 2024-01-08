@@ -310,7 +310,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 				$('#'+pBarLabel).html("")
 			}
         } ).dataTable({ 
-	    data: convertedData.data,
+	    data: convertedDataReduced.data,
 	    columns: columns,
 		columnDefs: [{ type: 'natural', targets: '_all' }],
 		dom: 'Bfrtip',
