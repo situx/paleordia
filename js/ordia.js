@@ -303,8 +303,6 @@ function sparqlToDataTable(sparql, element, options={}) {
 				}else{
 					accvalue+=convertedData.data[i]["value_"]
 				}
-			}else{
-				break;
 			}
 		}
 		if(accvalue!=""){
