@@ -288,26 +288,42 @@ function sparqlToDataTable(sparql, element, options={}) {
 	if(desc && val){
 		lastlabel=""
 		accvalue=""
+		accsource=""
 		convertedDataReduced=[]
 		for(i=0;i<convertedData.data.length;i++){
 			console.log(convertedData.data[i])
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
 				if(lastlabel==""){
 					lastlabel=convertedData.data[i]["description"]
-					accvalue=convertedData.data[i]["value_"]+" "
+					accvalue=convertedData.data[i]["value_"]+"<br/>"
+					accsource=""
+					if("source" in convertedData.data[i]){
+						accsource=convertedData.data[i]["source"]+"<br/>"
+					}
 				}else if(convertedData.data[i]["description"]!=lastlabel){
 					moddata=$.extend( true, {}, convertedData.data[i-1] );
 					moddata["value_"]=accvalue
+					if(accsource!=""){
+						moddata["value_"]=accsource
+					}
 					accvalue=""
+					accsource=""
 					convertedDataReduced.push(moddata)
 					lastlabel=convertedData.data[i]["description"]
-					accvalue=convertedData.data[i]["value_"]+" "
+					accvalue=convertedData.data[i]["value_"]+"<br/>"
+					if("source" in convertedData.data[i]){
+						accsource=convertedData.data[i]["source"]+"<br/>"
+					}
 				}else{
-					accvalue+=convertedData.data[i]["value_"]+" "
+					accvalue+=convertedData.data[i]["value_"]+"<br/>"
+					if("source" in convertedData.data[i]){
+						accsource=convertedData.data[i]["source"]+"<br/>"
+					}
 				}
 			}else{
 				convertedDataReduced.push(convertedData.data[i])
 				accvalue=""
+				sourcevalue=""
 			}
 		}
 		if(accvalue!=""){
