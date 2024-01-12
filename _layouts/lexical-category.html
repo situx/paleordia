@@ -6,12 +6,14 @@ layout: base
     lexemesSparql = `
 # List lexemes wrt. a lexical category
 SELECT
-  ?lexeme ?lexemeLabel
+  ?lexeme ?lexemeLabel (COUNT(?compound) AS ?number_of_compounds)
 WHERE {
-  ?lexeme wikibase:lexicalCategory wd:${ q } .
-  ?lexeme wikibase:lemma ?lexemeLabel .
-  ?lexeme dct:language wd:${ l } .
+  ?lexeme wikibase:lexicalCategory wd:${ q } ;
+  wikibase:lemma ?lexemeLabel ;
+  dct:language wd:${ l } .
+  OPTIONAL { ?compound wdt:P5238 ?lexeme }
 }
+GROUP BY ?lexeme ?lexemeLabel
 LIMIT 10000
 `
 
