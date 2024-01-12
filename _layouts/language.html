@@ -111,7 +111,7 @@ WHERE {
   INCLUDE %results
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" . }
   BIND("→" AS ?zoom)
-  BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?lexical_category), 32) ,"&qLabel=",?lexical_categoryLabel,"&l=${ q }&lLabel=${ qLabel }") AS ?zoomUrl)
+  BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?lexical_category), 32) ,"&qLabel=",STR(?lexical_categoryLabel),"&l=${ q }&lLabel=${ qLabel }") AS ?zoomUrl)
 }
 ORDER BY DESC(?count)
 `
