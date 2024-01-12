@@ -11,7 +11,7 @@ SELECT
 WHERE {
   ?lexeme wikibase:lexicalCategory wd:${ q } .
   ?lexeme wikibase:lemma ?lexemeLabel .
-  ?lexeme dct:language ?language .
+  ?lexeme dct:language wd:${ l } .
   OPTIONAL {
     ?language rdfs:label ?languageLabel .
     FILTER (LANG(?languageLabel) = 'en')
@@ -32,7 +32,7 @@ LIMIT 10000
 
 </script>
 
-<h1>Lexical category: ${ q }</h1>
+<h1>Lexical category: ${ qLabel } (${ lLabel })</h1>
 
   <a title="Back"
      role="button"
