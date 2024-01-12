@@ -7,12 +7,12 @@ layout: base
 # List lexemes wrt. a lexical category
 SELECT
   ?lexeme 
-  (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" / ") as ?lexemeLabel)
+  (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
   (COUNT(?compound) AS ?number_of_compounds)
 WHERE {
-  ?lexeme wikibase:lexicalCategory wd:${ q } ;
+  ?lexeme wikibase:lexicalCategory wd:Q34698 ;
   wikibase:lemma ?lexemeLabell ;
-  dct:language wd:${ l } .
+  dct:language wd:Q36790 .
   OPTIONAL { ?compound wdt:P5238 ?lexeme }
 }
 GROUP BY ?lexeme
