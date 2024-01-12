@@ -1,0 +1,59 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+    lexemesSparql = `
+# List lexemess wrt. a lexical category
+SELECT
+  ?lexeme ?lexemeLabel
+  ?language ?languageLabel
+WHERE {
+  ?lexeme wikibase:lexicalCategory wd:${ q } .
+  ?lexeme wikibase:lemma ?lexemeLabel .
+  ?lexeme dct:language ?language .
+  OPTIONAL {
+    ?language rdfs:label ?languageLabel .
+    FILTER (LANG(?languageLabel) = 'en')
+  }
+}
+LIMIT 10000
+`
+
+
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 linkPrefixes: {
+	     lexeme: '../l',
+	     language: '../language',
+	 }});
+ });
+
+</script>
+
+<h1>Lexical category: ${ q }</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="./">←</a>
+  <a title="View and edit item for lexical category in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
+  <a title="View item for lexical category in Sholia"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://tools.wmflabs.org/scholia/topic/${ q }">Scholia ↗</a>
+
+<hr/>
+
+<h2>Lexems:</h2>
+
+<table class="table table-hover" id="lexemes"></table>
+
+
+</div>
+  
+
