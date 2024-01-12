@@ -87,32 +87,27 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 LIMIT 10000
 `
-
   lexicalCategoriesSparql = `
 # tool: ordia
 # title: Statistics for word class for a specific language
-SELECT
-  ?count
-    ?lexical_category ?lexical_categoryLabel
-    ?zoom ?zoomUrl
-    ?lexical_categoryDescription
-WITH {
   SELECT
     (COUNT(*) AS ?count)
     ?lexical_category
-  {
+    ?lexical_categoryLabel
+    ?zoom ?zoomUrl
+    ?lexical_categoryDescription
+  WHERE{
     [] a ontolex:LexicalEntry ;
-       dct:language wd:${ q } ; 
+       dct:language wd:Q36790 ; 
        wikibase:lexicalCategory ?lexical_category .
+    ?lexical_category rdfs:label ?lexical_categoryLabel .
+    ?lexical_category schema:description ?lexical_categoryDescription .
+    FILTER(LANG(?lexical_categoryLabel)="en")
+    FILTER(LANG(?lexical_categoryDescription)="en")
+    BIND("→" AS ?zoom)
+    BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?lexical_category), 32) ,"&qLabel=",?lexical_categoryLabel,"&l=Q36790&lLabel=Sumerian") AS ?zoomUrl)
   }
-    GROUP BY ?lexical_category
-} AS %results
-WHERE {
-  INCLUDE %results
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" . }
-  BIND("→" AS ?zoom)
-  BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?lexical_category), 32) ,"&qLabel=",STR(?lexical_categoryLabel),"&l=${ q }&lLabel=${ qLabel }") AS ?zoomUrl)
-}
+GROUP BY ?lexical_category ?lexical_categoryLabel    ?zoom ?zoomUrl ?lexical_categoryDescription
 ORDER BY DESC(?count)
 `
 
