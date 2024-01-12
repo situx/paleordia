@@ -7,15 +7,10 @@ layout: base
 # List lexemes wrt. a lexical category
 SELECT
   ?lexeme ?lexemeLabel
-  ?language ?languageLabel
 WHERE {
   ?lexeme wikibase:lexicalCategory wd:${ q } .
   ?lexeme wikibase:lemma ?lexemeLabel .
   ?lexeme dct:language wd:${ l } .
-  OPTIONAL {
-    ?language rdfs:label ?languageLabel .
-    FILTER (LANG(?languageLabel) = 'en')
-  }
 }
 LIMIT 10000
 `
@@ -27,7 +22,9 @@ LIMIT 10000
 	 linkPrefixes: {
 	     lexeme: '../l',
 	     language: '../language',
-	 }});
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"});
  });
 
 </script>
@@ -50,7 +47,7 @@ LIMIT 10000
 <hr/>
 
 <h2>Lexemes:</h2>
-
+<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
 <table class="table table-hover" id="lexemes"></table>
 
 
