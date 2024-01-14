@@ -1,4 +1,4 @@
 ---
-layout: lexical_category
+layout: lexical-category
 title: Lexical Category
 ---

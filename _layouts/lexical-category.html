@@ -1,0 +1,60 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+    lexemesSparql = `
+# List lexemes wrt. a lexical category
+SELECT
+  ?lexeme 
+  (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
+  (COUNT(?compound) AS ?number_of_compounds)
+WHERE {
+  ?lexeme wikibase:lexicalCategory wd:Q34698 ;
+  wikibase:lemma ?lexemeLabell ;
+  dct:language wd:Q36790 .
+  OPTIONAL { ?compound wdt:P5238 ?lexeme }
+}
+GROUP BY ?lexeme
+LIMIT 10000
+`
+
+
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 linkPrefixes: {
+	     lexeme: '../l',
+	     language: '../language',
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"});
+ });
+
+</script>
+
+<h1>Lexical category: ${ qLabel } (${ lLabel })</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="./">←</a>
+  <a title="View and edit item for lexical category in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
+  <a title="View item for lexical category in Sholia"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://tools.wmflabs.org/scholia/topic/${ q }">Scholia ↗</a>
+
+<hr/>
+
+<h2>Lexemes:</h2>
+<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
+<table class="table table-hover" id="lexemes"></table>
+
+
+</div>
+  
+
