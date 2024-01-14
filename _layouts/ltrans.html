@@ -8,7 +8,7 @@ lexemesSparql =`
     ?lexeme ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
-    ?translation ?transgloss ?translang ?translangLabel ?lexeme2 
+    ?translation ?translationLabel ?translang ?translangLabel ?lexeme2 
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?lexeme2Label) 
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
@@ -19,7 +19,7 @@ lexemesSparql =`
 	  ?lexeme ontolex:sense ?sense . ?sense wdt:P5972 ?translation . ?translation skos:definition ?translationLabel .  FILTER(LANG(?translationLabel)= "en") ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)    
   	  ?lexeme2 ontolex:sense ?translation .
       ?lexeme2 wikibase:lemma ?lexeme2a .
-      ?lexeme2 dct:language ?translang .	
+      ?lexeme2 dct:language ?translang .	  
       ?translang rdfs:label ?translangLabel .
       FILTER(LANG(?translangLabel)= "en")
       }
