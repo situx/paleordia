@@ -4,7 +4,7 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme  ?lexcat ?lexcatLabel ?ref ?refLabel ?refnumber ?thenum ?thenumfixed
+	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?deviation ?lexcat ?lexcatLabel ?ref ?refLabel ?refnumber 
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
 		 dct:language wd:Q35518 ;		   
@@ -21,15 +21,15 @@ lexemesSparql =`
 	  OPTIONAL{?value_statement pq:P7421 ?refline .}
 	  OPTIONAL{?value_statement pq:P304 ?refpage .}
       BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
-      BIND(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(?thenum,"I","")," A","")," B","")," C","")," V","")," ","") As ?thenumfixed)
+      BIND(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(?thenum,"I","")," A","")," B","")," C","")," V","")," ","") As ?deviation)
       BIND(COALESCE(CONCAT("v. ", ?refvol, " "), "") AS ?thevol)
       BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
       BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
        FILTER (REGEX(STR(?lexemea), "^[a-zA-Z0-9À-ž]+$")). 
-      FILTER(?thenumfixed!=STR(?lexemea))
+      FILTER(?deviation!=STR(?lexemea))
     }
-	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?refnumber ?thenum ?thenumfixed ?ref ?refLabel
+	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?refnumber ?deviation ?ref ?refLabel
 	ORDER BY ?radicalLabel
 `
 
