@@ -4,7 +4,7 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?deviation ?lexcat ?lexcatLabel ?ref ?refLabel ?refnumber 
+	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?deviation ?lexcat ?lexcatLabel ?reference ?referenceLabel ?refnumber 
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
 		 dct:language wd:Q35518 ;		   
@@ -13,9 +13,9 @@ lexemesSparql =`
       ?lexcat rdfs:label ?lexcatLabel .
       FILTER(lang(?lexcatLabel)="en")
       ?lexeme ontolex:lexicalForm? / p:P1343 ?value_statement .
-      ?value_statement ps:P1343 ?ref .
-      ?ref rdfs:label ?refLabel .
-      FILTER(lang(?refLabel)="en")
+      ?value_statement ps:P1343 ?reference .
+      ?reference rdfs:label ?referenceLabel .
+      FILTER(lang(?referenceLabel)="en")
 	  OPTIONAL {?value_statement pq:P478 ?refvol. }
       ?value_statement pq:P1810 ?valuenum .
 	  OPTIONAL{?value_statement pq:P7421 ?refline .}
@@ -29,7 +29,7 @@ lexemesSparql =`
       FILTER(REGEX(STR(?lexemea), "^[a-zA-Z0-9À-ž]+$")). 
       FILTER(?deviation!=STR(?lexemea))
     }
-	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?refnumber ?deviation ?ref ?refLabel
+	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?refnumber ?deviation ?reference ?referenceLabel
 	ORDER BY ?radicalLabel
 `
 
