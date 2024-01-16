@@ -1,0 +1,83 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+lexemesSparql =`
+	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme  ?lexcat ?lexcatLabel ?ref ?refLabel ?refnumber ?thenum ?thenumfixed
+	WHERE {		
+	  ?lexeme rdf:type ontolex:LexicalEntry ;           
+		 dct:language wd:Q35518 ;		   
+		 wikibase:lemma ?lexemea ;
+		 wikibase:lexicalCategory ?lexcat .
+      ?lexcat rdfs:label ?lexcatLabel .
+      FILTER(lang(?lexcatLabel)="en")
+      ?lexeme ontolex:lexicalForm? / p:P1343 ?value_statement .
+      ?value_statement ps:P1343 ?ref .
+      ?ref rdfs:label ?refLabel .
+      FILTER(lang(?refLabel)="en")
+	  OPTIONAL {?value_statement pq:P478 ?refvol. }
+      ?value_statement pq:P1810 ?valuenum .
+	  OPTIONAL{?value_statement pq:P7421 ?refline .}
+	  OPTIONAL{?value_statement pq:P304 ?refpage .}
+      BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
+      BIND(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(?thenum,"I","")," A","")," B","")," C","")," V","")," ","") As ?thenumfixed)
+      BIND(COALESCE(CONCAT("v. ", ?refvol, " "), "") AS ?thevol)
+      BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
+      BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
+	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
+       FILTER (REGEX(STR(?lexemea), "^[a-zA-Z0-9À-ž]+$")). 
+      FILTER(?thenumfixed!=STR(?lexemea))
+    }
+	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?refnumber ?thenum ?thenumfixed ?ref ?refLabel
+	ORDER BY ?radicalLabel
+`
+
+
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 'linkPrefixes': {
+		'lexeme': '../l'
+	 },
+	 linkParams: {
+		form: '&qb='+q
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"
+	 });
+ });
+
+</script>
+
+<div class="language-entries">
+  <h1>Lexemes radicals: ${ qLabel } (${ q })</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="../language?q=${ q }&qLabel=${ qLabel }">←</a>
+  <a title="View and edit item in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }">Wikidata ↗</a>
+  <a title="View item in Reasonator"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://reasonator.toolforge.org/?&q=${ q }">Reasonator ↗</a>
+  <a title="View item as a Scholia topic"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/topic/${ q }">Scholia ↗</a>
+
+
+  <h2>Deviations in dictionary references</h2>
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
+  <table class="table table-hover" id="lexemes"></table>
+  
+
+</div>
+
+
+
+
