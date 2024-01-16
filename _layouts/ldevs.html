@@ -26,7 +26,7 @@ lexemesSparql =`
       BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
       BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
-       FILTER (REGEX(STR(?lexemea), "^[a-zA-Z0-9À-ž]+$")). 
+      FILTER(REGEX(STR(?lexemea), "^[a-zA-Z0-9À-ž]+$")). 
       FILTER(?deviation!=STR(?lexemea))
     }
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?refnumber ?deviation ?ref ?refLabel
@@ -51,7 +51,7 @@ lexemesSparql =`
 </script>
 
 <div class="language-entries">
-  <h1>Lexemes radicals: ${ qLabel } (${ q })</h1>
+  <h1>Lexemes deviations: ${ qLabel } (${ q })</h1>
 
   <a title="Back"
      role="button"
