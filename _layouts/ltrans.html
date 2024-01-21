@@ -12,7 +12,7 @@ lexemesSparql =`
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
-		 dct:language wd:Q35518 ;		   
+		 dct:language wd:${ q } ;		   
 		 wikibase:lemma ?lexemea ;
 		 wikibase:lexicalCategory ?lexcat .
 	    ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
