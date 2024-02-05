@@ -9,7 +9,7 @@ lexemesSparql =`
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
-		 dct:language wd:Q35518 ;		   
+		 dct:language wd:${ q } ;		   
 		 wikibase:lemma ?lexemea ;
          wdt:P5920 ?radical ;
 		 wikibase:lexicalCategory ?lexcat .
