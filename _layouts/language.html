@@ -98,7 +98,7 @@ LIMIT 10000
     ?lexical_categoryDescription
   WHERE{
     [] a ontolex:LexicalEntry ;
-       dct:language wd:Q36790 ; 
+       dct:language wd:${ q } ; 
        wikibase:lexicalCategory ?lexical_category .
     ?lexical_category rdfs:label ?lexical_categoryLabel .
     ?lexical_category schema:description ?lexical_categoryDescription .
