@@ -16,7 +16,8 @@ lexemesSparql =`
 		 wikibase:lemma ?lexemea ;
          wdt:P5191 ?derivedFrom ;
 		 wikibase:lexicalCategory ?lexcat .
-      OPTIONAL {?lexeme p:P5191 ?ders . ?ders pq:P5886 ?derivationMode . ?derivationMode rdfs:label ?derivationModeLabel . ?ders pq:P3831 ?derivationRole . ?derivationRole rdfs:label ?derivationRoleLabel . FILTER(LANG(?derivationModeLabel)= "en")  FILTER(LANG(?derivationRoleLabel)= "en") }
+      OPTIONAL {?lexeme p:P5191 ?ders . ?ders pq:P5886 ?derivationMode . ?derivationMode rdfs:label ?derivationModeLabel . FILTER(LANG(?derivationModeLabel)= "en")} 
+      OPTIONAL {?lexeme p:P5191 ?ders . ?ders pq:P3831 ?derivationRole . ?derivationRole rdfs:label ?derivationRoleLabel . FILTER(LANG(?derivationRoleLabel)= "en")}
 	  OPTIONAL { ?derivedFrom wikibase:lemma ?derivedFromLabell . ?derivedFrom dct:language ?derivedFromLanguage . ?derivedFromLanguage rdfs:label ?derivedFromLanguageLabel . FILTER(LANG(?derivedFromLanguageLabel)= "en") }
 	  OPTIONAL { ?derivedFrom ontolex:sense ?derivedFromSensee . ?derivedFromSensee skos:definition ?dsgloss .  FILTER(LANG(?dsgloss)= "en") OPTIONAL {?derivedFromSensee wdt:P5137|wdt:P9970 ?dsenseval . ?dsenseval rdfs:label ?dsenselab .  FILTER(LANG(?dsenselab)= "en")} BIND(CONCAT(?dsgloss, COALESCE(CONCAT(" [", ?dsenselab, " (", REPLACE(STR(?dsenseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?derivedFromSenseLabell) } 
       ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
