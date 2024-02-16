@@ -277,9 +277,9 @@ ORDER BY ?order
 `
 
 
- compoundsSparql = `
+compoundsSparql = `
 SELECT
-  ?lexeme ?lexemeLabel
+  ?lexeme  (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
   ?lexical_category ?lexical_categoryLabel
   ?other_compounds
 WHERE {
@@ -297,13 +297,14 @@ WHERE {
     }
     GROUP BY ?lexeme
   }    
-  ?lexeme wikibase:lemma ?lexemeLabel .
+  ?lexeme wikibase:lemma ?lexemelabel .
   OPTIONAL {
     ?lexeme wikibase:lexicalCategory ?lexical_category .
     ?lexical_category rdfs:label ?lexical_categoryLabel .
     FILTER (LANG(?lexical_categoryLabel) = 'en')
   }
 }
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?other_compounds
 `
 
 
