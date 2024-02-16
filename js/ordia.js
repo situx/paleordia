@@ -204,7 +204,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						if(data[i][key + 'Url'].includes("http")){
 							secondocc=data[i][key + 'Url'].indexOf("http",7)
 						}else if(data[i][key + 'Url'].includes("../")){
-							secondocc=data[i][key + 'Url'].indexOf("../",3)
+							secondocc=data[i][key + 'Url'].indexOf("../",4)
 						}else{
 							secondocc=data[i][key + 'Url'].indexOf(" ")
 						}
