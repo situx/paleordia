@@ -7,7 +7,7 @@ layout: base
 # Data for a specific lexeme
 SELECT DISTINCT
   ?description
-  ?value_UrlLabel ?value_Url
+  (?valueLabel As ?value_) ?value_Url
   ?source ?sourceUrl
 WHERE {
   VALUES ?lexeme { wd:${ l } }

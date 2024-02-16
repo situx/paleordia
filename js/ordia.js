@@ -189,10 +189,41 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 		// pass
 		
 	    } else if (key + 'Url' in data[i]) {
-		if (data[i][key + 'Url']) {
-		    convertedRow[key] = '<a href="' +
-			(linkPrefixes[key] || "")+ data[i][key + 'Url'] +
-			'">' + data[i][key] + '</a>';
+			var linkcount = (data[i][key + 'Url'].match(/http|\.\.\//g) || []).length;
+			sepchar=" // "
+			console.log(data[i][key + 'Url'])
+			console.log(linkcount)
+			if(linkcount==1){
+				convertedRow[key] = '<a href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
+			}else if(linkcount>1){
+				console.log(data[i][key + 'Url'])
+				console.log(linkcount)
+				sepchar=" // "
+				try{
+					if(data[i][key + 'Url'].includes("http")){
+						secondocc=data[i][key + 'Url'].indexOf("http",7)
+					}else if(data[i][key + 'Url'].includes("../")){
+						secondocc=data[i][key + 'Url'].indexOf("../",3)
+					}else{
+						secondocc=data[i][key + 'Url'].indexOf(" ")
+					}
+					firsturl=data[i][key + 'Url'].substring(0,secondocc)
+					var onlyNumbers = firsturl.replace(/\D/g,'');
+					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
+					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
+					sepchar=data[i][key + 'Url'].substring(lastNumberIndex+1,secondocc)
+				}catch(err){
+					console.log("ERROR: "+err)
+				}
+				urls=data[i][key + 'Url'].split(sepchar)
+				labs=data[i][key].split(sepchar)	
+				res=""
+				for(let i = 0; i < urls.length; i++){
+					res+="<a href=\""+urls[i]+"\" target=\"_blank\">"+labs[i]+"</a> "+sepchar+" "
+				}
+				res=res.substring(0,res.length-sepchar.length-2)
+				convertedRow[key]=res
+			}
 		}
 		else {
 		    // If the URL is empty we do not create a link
