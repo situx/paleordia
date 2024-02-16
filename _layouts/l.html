@@ -286,31 +286,52 @@ ORDER BY ?order
 compoundsSparql = `
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
-  ?lexical_category ?lexical_categoryLabel
-  ?other_compounds
+  ?lexical_category ?lexical_categoryLabel ?other_compounds
+  (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) 
+(GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel)
 WHERE {
   {
     SELECT
       ?lexeme
-      (GROUP_CONCAT(?compoundLabel; separator=" // ") AS ?other_compounds)
+      (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      ?lexeme wdt:P5238+ wd:${ l } .
+      ?lexeme wdt:P5238+ wd:L694282 .
       OPTIONAL {
-        ?lexeme wdt:P5238 ?compound .
-        ?compound wikibase:lemma ?compoundLabel .
-        FILTER (?compound != wd:${ l })
+        ?lexeme p:P5238 ?compoundstat .
+        ?compoundstat ps:P5238 ?compound .
+        ?compound wikibase:lemma ?compoundlabel .
+        FILTER (?compound != wd:L694282)
+        OPTIONAL {
+          ?compoundstat pq:P5980 ?sense .
+          ?sense skos:definition ?sensedeff .        
+        }   
+        BIND(COALESCE(CONCAT(" [",?sensedeff,"]"), "") AS ?sensedef)
+        BIND(CONCAT(?compoundlabel,?sensedef) AS ?compoundLabel)
       }
     }
-    GROUP BY ?lexeme
+    GROUP BY ?lexeme ?sensedefs
   }    
+  
   ?lexeme wikibase:lemma ?lexemelabel .
   OPTIONAL {
 	  ?lexeme wikibase:lexicalCategory ?lexical_category .
 	  ?lexical_category rdfs:label ?lexical_categoryLabel .
 	  FILTER (LANG(?lexical_categoryLabel) = 'en')
   }
+  OPTIONAL {
+    ?lexeme ontolex:sense ?senseitem.
+    ?senseitem skos:definition ?gloss.
+    OPTIONAL {
+      ?senseitem wdt:P5137|wdt:P9970 ?sensee.
+      ?sensee rdfs:label ?senseLab.
+      FILTER(LANG(?senseLab) = "en")
+    }
+    FILTER(LANG(?gloss) = "en")
+    BIND(COALESCE(?sensee, "") AS ?sensse)
+    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
+  }
 }
-GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?other_compounds
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?other_compounds 
 `
 
 
