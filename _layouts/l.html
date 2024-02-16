@@ -237,12 +237,12 @@ ORDER BY ?order
  formsSparql = `
  # List of forms for a specific lexeme
  SELECT
-  ?form ?formLabel
+  ?form (GROUP_CONCAT(?formlabel; separator=" // ") AS ?formLabel)
    (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
    wd:${ l } ontolex:lexicalForm ?form .
-   ?form ontolex:representation ?formLabel .
+   ?form ontolex:representation ?formlabel .
    OPTIONAL {
      ?form wikibase:grammaticalFeature ?feature .
      ?feature rdfs:label ?featureLabel .
@@ -252,7 +252,7 @@ ORDER BY ?order
     ?form wdt:P5279 ?hyphenation
    }
  }
- GROUP BY ?form ?formLabel
+ GROUP BY ?form
  ORDER BY (STR(?form))
  `
 
