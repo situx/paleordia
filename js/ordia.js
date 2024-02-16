@@ -141,6 +141,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key + 'Label' in data[i]) {
 			var linkcount = (data[i][key].match(/http|\.\.\//g) || []).length;
 			sepchar=" // "
+			console.log(data[i][key])
+			console.log(linkcount)
 			if(linkcount==0){
 				convertedRow[key] = '<span>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
 			}else if(linkcount==1){
