@@ -103,7 +103,7 @@ WHERE {
     # Derived from
     BIND(14 AS ?order)
     BIND("Derived from" AS ?description)
-    {SELECT (GROUP_CONCAT(?valueurl; separator=" ### ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+    {SELECT (GROUP_CONCAT(?valueurl; separator=" ### ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" ### ") AS ?valueLabel) WHERE {     
 	  wd:${ l } wdt:P5191 ?value .
 	  ?value wikibase:lemma ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
@@ -115,7 +115,7 @@ WHERE {
     # Homographs
     BIND(15 AS ?order)
     BIND("Homographs" AS ?description)
-    {SELECT (GROUP_CONCAT(?valueurl; separator=" ### ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+    {SELECT (GROUP_CONCAT(?valueurl; separator=" ### ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" ### ") AS ?valueLabel) WHERE {     
       wd:${ l } wdt:P5402 ?value .
       ?value wikibase:lemma ?valuelabel .
       BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
@@ -126,7 +126,7 @@ WHERE {
     # Time Period
     BIND(16 AS ?order)
     BIND("Time Period" AS ?description)
-    {SELECT (GROUP_CONCAT(?valueurl; separator=" ### ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+    {SELECT (GROUP_CONCAT(?valueurl; separator=" ### ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" ### ") AS ?valueLabel) WHERE {     
 	  wd:${ l } wdt:P2348 ?value .
 	  ?value rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
