@@ -106,7 +106,6 @@ WHERE {
     {SELECT (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 	  wd:${ l } wdt:P5191 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  FILTER (LANG(?valuelabel) = 'en')
 	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }}  
   }
@@ -303,7 +302,8 @@ WHERE {
         FILTER (?compound != wd:${ l })
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
-          ?sense skos:definition ?sensedeff .        
+          ?sense skos:definition ?sensedeff .
+		  FILTER (LANG(?sensedeff) = 'en')		  
         }   
         BIND(COALESCE(CONCAT(" [",?sensedeff,"]"), "") AS ?sensedef)
         BIND(CONCAT(?compoundlabel,?sensedef) AS ?compoundLabel)
