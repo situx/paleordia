@@ -153,9 +153,9 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				//console.log(linkcount)
 				sepchar=" // "
 				try{
-					if(data[i][key].includes("http"){
+					if(data[i][key].includes("http")){
 						secondocc=data[i][key].indexOf("http",7)
-					}else if("../" in data[i][key]){
+					}else if(data[i][key].includes("../")){
 						secondocc=data[i][key].indexOf("../",3)
 					}else{
 						secondocc=data[i][key].indexOf(" ")
