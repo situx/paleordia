@@ -232,7 +232,7 @@ WHERE {
 	  FILTER (LANG(?titlee) = 'en')
 	  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 	  BIND(COALESCE(?title, "Ref.") AS ?source)
-	  BIND(CONCAT("reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
+	  BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
 	}    
   }
 }
