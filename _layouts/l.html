@@ -304,9 +304,11 @@ WHERE {
     GROUP BY ?lexeme
   }    
   ?lexeme wikibase:lemma ?lexemelabel .
-  ?lexeme wikibase:lexicalCategory ?lexical_category .
-  ?lexical_category rdfs:label ?lexical_categoryLabel .
-  FILTER (LANG(?lexical_categoryLabel) = 'en')
+  OPTIONAL {
+	  ?lexeme wikibase:lexicalCategory ?lexical_category .
+	  ?lexical_category rdfs:label ?lexical_categoryLabel .
+	  FILTER (LANG(?lexical_categoryLabel) = 'en')
+  }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?other_compounds
 `
