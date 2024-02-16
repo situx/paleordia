@@ -153,10 +153,13 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				//console.log(linkcount)
 				sepchar=" // "
 				try{
-					if "http" in data[i][key]:
+					if(data[i][key].includes("http"){
 						secondocc=data[i][key].indexOf("http",7)
-					else if "../" in data[i][key]:
+					}else if("../" in data[i][key]){
 						secondocc=data[i][key].indexOf("../",3)
+					}else{
+						secondocc=data[i][key].indexOf(" ")
+					}
 					firsturl=data[i][key].substring(0,secondocc)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
