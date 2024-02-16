@@ -200,7 +200,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					console.log(data[i][key + 'Url'])
 					console.log(linkcount)
 					sepchar=" // "
-					try{
+					/*try{
 						if(data[i][key + 'Url'].includes("http")){
 							secondocc=data[i][key + 'Url'].indexOf("http",7)
 						}else if(data[i][key + 'Url'].includes("../")){
@@ -215,7 +215,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						sepchar=data[i][key + 'Url'].substring(lastNumberIndex+1,secondocc)
 					}catch(err){
 						console.log("ERROR: "+err)
-					}
+					}*/
 					urls=data[i][key + 'Url'].split(sepchar)
 					labs=data[i][key].split(sepchar)	
 					res=""
