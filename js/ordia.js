@@ -208,6 +208,13 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     return {data: convertedData, columns: convertedColumns}
 }
 
+function toggleFullScreen(elementid) {
+  if (!document.fullscreenElement) {
+    document.getElementById(elementid).requestFullscreen();
+  } else if (document.exitFullscreen) {
+    document.exitFullscreen();
+  }
+}
 
 function entityToLabel(entity, language='en') {
     if (language in entity['labels']) {
