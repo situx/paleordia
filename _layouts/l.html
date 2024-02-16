@@ -295,12 +295,12 @@ WHERE {
       ?lexeme
       (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?other_compounds)
     WHERE {
-      ?lexeme wdt:P5238+ wd:L694282 .
+      ?lexeme wdt:P5238+ wd:${ l } .
       OPTIONAL {
         ?lexeme p:P5238 ?compoundstat .
         ?compoundstat ps:P5238 ?compound .
         ?compound wikibase:lemma ?compoundlabel .
-        FILTER (?compound != wd:L694282)
+        FILTER (?compound != wd:${ l })
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
           ?sense skos:definition ?sensedeff .        
