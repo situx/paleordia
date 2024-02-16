@@ -237,7 +237,7 @@ ORDER BY ?order
  formsSparql = `
  # List of forms for a specific lexeme
  SELECT
-  ?form (GROUP_CONCAT(?formlabel; separator=" // ") AS ?formLabel)
+  ?form (GROUP_CONCAT(DISTINCT ?formlabel; separator=" // ") AS ?formLabel)
    (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
    # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
@@ -279,7 +279,7 @@ ORDER BY ?order
 
 compoundsSparql = `
 SELECT
-  ?lexeme  (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
+  ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
   ?lexical_category ?lexical_categoryLabel
   ?other_compounds
 WHERE {
