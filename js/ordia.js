@@ -139,7 +139,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							
 			}
 	    } else if (key + 'Label' in data[i]) {
-			var linkcount = (data[i][key].match(/http/g) || []).length;
+			var linkcount = (data[i][key].match(/http|\.\.\//g) || []).length;
 			sepchar=" // "
 			if(linkcount==0){
 				convertedRow[key] = '<span>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
@@ -153,7 +153,10 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				//console.log(linkcount)
 				sepchar=" // "
 				try{
-					secondocc=data[i][key].indexOf("http",7)
+					if "http" in data[i][key]:
+						secondocc=data[i][key].indexOf("http",7)
+					else if "../" in data[i][key]:
+						secondocc=data[i][key].indexOf("../",3)
 					firsturl=data[i][key].substring(0,secondocc)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
