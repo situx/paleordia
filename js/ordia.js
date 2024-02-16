@@ -222,6 +222,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					for(let i = 0; i < urls.length; i++){
 						res+="<a href=\""+urls[i]+"\" target=\"_blank\">"+labs[i]+"</a> "+sepchar+" "
 					}
+					console.log("THERES: "+res)
 					res=res.substring(0,res.length-sepchar.length-2)
 					convertedRow[key]=res	
 				}				
