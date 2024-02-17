@@ -234,7 +234,7 @@ WHERE {
 		  BIND(COALESCE(?title, "Ref.") AS ?source)
 		  BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceurl)
 		}  	
-	}GROUP BY ?valueLabel value_Url
+	}GROUP BY ?valueLabel ?value_Url
   }
   }
 }
