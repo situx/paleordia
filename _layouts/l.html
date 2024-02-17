@@ -285,21 +285,21 @@ ORDER BY ?order
 compoundsSparql = `
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
-  ?lexical_category ?lexical_categoryLabel ?other_compounds
+  ?lexical_category ?lexical_categoryLabel ?compounds
   (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) 
 (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel)
 WHERE {
   {
     SELECT
       ?lexeme
-      (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?other_compounds)
+      (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compounds)
     WHERE {
       ?lexeme wdt:P5238+ wd:${ l } .
       OPTIONAL {
         ?lexeme p:P5238 ?compoundstat .
         ?compoundstat ps:P5238 ?compound .
         ?compound wikibase:lemma ?compoundlabel .
-        FILTER (?compound != wd:${ l })
+        #FILTER (?compound != wd:${ l })
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
           ?sense skos:definition ?sensedeff .
@@ -392,7 +392,7 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?other_compounds
 
     <hr/>
     
-    <h2>Compounds</h2>
+    <h2>Compounds with Lexeme ${ qLabel } (${ l })</h2>
 
     <table class="table table-hover" id="compounds"></table>
 
