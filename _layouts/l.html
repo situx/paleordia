@@ -207,7 +207,7 @@ WHERE {
   {
 	BIND(32 AS ?order)
 	BIND("Usage example" AS ?description)
-	{ SELECT ?valueLabel ?value_Url (GROUP_CONCAT(?source_; separator=" // ") AS ?source) (GROUP_CONCAT(?sourceurl; separator=" // ") AS ?sourceUrl) WHERE {
+	{ SELECT ?valueLabel ?value_Url (GROUP_CONCAT(?sourcee; separator=" // ") AS ?source) (GROUP_CONCAT(?sourceurl; separator=" // ") AS ?sourceUrl) WHERE {
 		wd:${ l } p:P5831 ?value_statement .
 		?value_statement ps:P5831 ?value .
 		BIND(CONCAT("../text-to-lexemes?text=", ENCODE_FOR_URI(?value), "&text-language=", LANG(?value)) AS ?value_Url)
@@ -231,7 +231,7 @@ WHERE {
 		  ?source_ rdfs:label ?titlee .
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
-		  BIND(COALESCE(?title, "Ref.") AS ?source)
+		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
 		  BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceurl)
 		}  	
 	}GROUP BY ?valueLabel ?value_Url
