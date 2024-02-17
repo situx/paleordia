@@ -56,9 +56,7 @@ WHERE {
   {
     BIND(6 AS ?order)
     BIND("Word stem" AS ?description)
-    OPTIONAL {
-      ?lexeme wdt:P5187 ?value .
-    }
+    ?lexeme wdt:P5187 ?value .
     BIND(?value AS ?valueLabel)
   }
   UNION 
