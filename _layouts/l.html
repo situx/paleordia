@@ -65,8 +65,8 @@ WHERE {
   {
     BIND(10 AS ?order)
     BIND("Grammatical gender" AS ?description)
-    ?lexeme wdt:P5185 ?value .
-    ?value rdfs:label ?valueLabel .
+    ?lexeme wdt:P5185 ?value_Url .
+    ?value_Url rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
   }
   UNION 
