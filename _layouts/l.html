@@ -207,32 +207,35 @@ WHERE {
   {
 	BIND(32 AS ?order)
 	BIND("Usage example" AS ?description)
-	?lexeme p:P5831 ?value_statement .
-	?value_statement ps:P5831 ?value .
-	BIND(CONCAT("../text-to-lexemes?text=", ENCODE_FOR_URI(?value), "&text-language=", LANG(?value)) AS ?value_Url)
-	OPTIONAL{
-	  ?value_statement pq:P2441 ?literal_translation .
-	  FILTER(lang(?literal_translation)="en")  
-	}
-	BIND(CONCAT(?value,COALESCE(CONCAT(" [",?literal_translation,"]"),"")) AS ?valueLabel)
-	OPTIONAL {
-	  ?value_statement prov:wasDerivedFrom ?deriv .
-	  ?deriv pr:P248 ?source_ . 
-	  OPTIONAL {?deriv pr:P478 ?refvol. }
-	  OPTIONAL{?deriv pr:P1810 ?valuenum .}
-	  OPTIONAL{?deriv pr:P7421 ?refline .}
-	  OPTIONAL{?deriv pr:P304 ?refpage .}
-	  BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
-	  BIND(COALESCE(CONCAT("v. ", ?refvol, " "), "") AS ?thevol)
-	  BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
-	  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
-	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
-	  ?source_ rdfs:label ?titlee .
-	  FILTER (LANG(?titlee) = 'en')
-	  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
-	  BIND(COALESCE(?title, "Ref.") AS ?source)
-	  BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceUrl)
-	}    
+	{ SELECT ?valueLabel ?value_Url (GROUP_CONCAT(?source_; separator=" // ") AS ?source) (GROUP_CONCAT(?sourceurl; separator=" // ") AS ?sourceUrl) WHERE {
+		${ l } p:P5831 ?value_statement .
+		?value_statement ps:P5831 ?value .
+		BIND(CONCAT("../text-to-lexemes?text=", ENCODE_FOR_URI(?value), "&text-language=", LANG(?value)) AS ?value_Url)
+		OPTIONAL{
+		  ?value_statement pq:P2441 ?literal_translation .
+		  FILTER(lang(?literal_translation)="en")  
+		}
+		BIND(CONCAT(?value,COALESCE(CONCAT(" [",?literal_translation,"]"),"")) AS ?valueLabel)
+		OPTIONAL {
+		  ?value_statement prov:wasDerivedFrom ?deriv .
+		  ?deriv pr:P248 ?source_ . 
+		  OPTIONAL {?deriv pr:P478 ?refvol. }
+		  OPTIONAL{?deriv pr:P1810 ?valuenum .}
+		  OPTIONAL{?deriv pr:P7421 ?refline .}
+		  OPTIONAL{?deriv pr:P304 ?refpage .}
+		  BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
+		  BIND(COALESCE(CONCAT("v. ", ?refvol, " "), "") AS ?thevol)
+		  BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
+		  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
+		  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
+		  ?source_ rdfs:label ?titlee .
+		  FILTER (LANG(?titlee) = 'en')
+		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
+		  BIND(COALESCE(?title, "Ref.") AS ?source)
+		  BIND(CONCAT("../reference?q=", SUBSTR(STR(?source_), 32)) AS ?sourceurl)
+		}  	
+	}GROUP BY ?valueLabel value_Url}
+  
   }
 }
 ORDER BY ?order
