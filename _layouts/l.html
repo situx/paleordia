@@ -135,12 +135,12 @@ WHERE {
   UNION 
   {
     BIND(18 AS ?order)
-    BIND("Compound" AS ?description)
-	{SELECT (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	{SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+		BIND("Compound" AS ?description)
 		wd:${ l } wdt:P5238+ ?value .
 		?value wikibase:lemma ?valuelabel .
 		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
-    }}
+    }GROUP BY ?description}
   }
   UNION 
   {
