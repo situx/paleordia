@@ -96,7 +96,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	var convertedRow = {};
 	for (var key in data[i]) {
 		if(key.includes("_cols")){
-			splitted=data[i][key].split(sepchar)
+			splitted=data[i][key].split("###")
 			for(var j=0;j<splitted.length;j+=2){
 				if(splitted[j] in convertedRow){
 					convertedRow[splitted[j]]=convertedRow[splitted[j]]+" / "+splitted[j+1]
