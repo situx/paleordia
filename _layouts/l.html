@@ -303,7 +303,8 @@ WHERE {
         FILTER (?compound != wd:${ l })
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
-          ?sense skos:definition ?sensedeff .        
+          ?sense skos:definition ?sensedeff .
+		  FILTER(LANG(?sensedeff) = "en")		  
         }   
         BIND(COALESCE(CONCAT(" [",?sensedeff,"]"), "") AS ?sensedef)
         BIND(CONCAT(?compoundlabel,?sensedef) AS ?compoundLabel)
