@@ -145,7 +145,7 @@ lexemesSparql =`
 	?characterr p:P1343 ?ref .
 	?ref pq:P304 ?refpage .
 	}
-	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
+	FILTER NOT EXISTS {?characterr wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
 	BIND(COALESCE(?refnum, "") As ?thenum)
 	BIND(COALESCE(CONCAT("[l ",?refline,"]"), "") As ?theline)
