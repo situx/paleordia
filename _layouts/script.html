@@ -114,7 +114,7 @@ ORDER BY ?order
 `*/
 
 lexemesSparql =`
-  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?referenceLab; separator="###") AS ?references_cols) (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
+  SELECT DISTINCT ?characterr ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?referenceLab; separator="###") AS ?references_cols) (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
 	?character wdt:P282 wd:${ q } .
     ?character rdfs:label ?characterLabel .
 	?character wdt:P31 ?cls .
@@ -125,24 +125,24 @@ lexemesSparql =`
 	    BIND(CONCAT(" ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
 	OPTIONAL {
-    ?depiction wdt:P180 ?character .
+    ?depiction wdt:P180 ?characterr .
     ?depiction wdt:P18 ?image .
 	}
 	OPTIONAL {
-	?character p:P1343 ?ref .
+	?characterr p:P1343 ?ref .
 	?ref ps:P1343 ?reference .
 	?reference wdt:P1813 ?referenceL .
 	}
 	OPTIONAL {
-	?character p:P1343 ?ref .  
+	?characterr p:P1343 ?ref .  
     ?ref pq:P1810 ?refnum .
 	}
 	OPTIONAL {
-	?character p:P1343 ?ref .  
+	?characterr p:P1343 ?ref .  
     ?ref pq:P7421 ?refline .
 	}
 	OPTIONAL {
-	?character p:P1343 ?ref .
+	?characterr p:P1343 ?ref .
 	?ref pq:P304 ?refpage .
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
@@ -152,7 +152,7 @@ lexemesSparql =`
 	BIND(COALESCE(CONCAT(" [p ",?refpage,"]"), "") As ?thepage)
     BIND(CONCAT(?referenceL,"###",?thenum,?thepage,?theline) AS ?referenceLab)
   }
-  GROUP BY ?character ?characterLabel ?characterLabel2
+  GROUP BY ?characterr ?characterLabel ?characterLabel2
   ORDER BY ?characterLabel
   LIMIT 10000
 
