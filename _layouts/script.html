@@ -114,45 +114,46 @@ ORDER BY ?order
 `*/
 
 lexemesSparql =`
-  SELECT DISTINCT ?characterr ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?referenceLab; separator="###") AS ?references_cols) (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
-	?characterr wdt:P282 wd:${ q } .
-    ?characterr rdfs:label ?characterLabel .
-	?characterr wdt:P31 ?cls .
+  SELECT DISTINCT ?characterqid ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?referenceLab; separator="###") AS ?references_cols) (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
+	?character wdt:P282 wd:${ q } .
+    ?character rdfs:label ?characterLabel .
+	?character wdt:P31 ?cls .
 	?cls wdt:P279 wd:Q3241972 .
 	OPTIONAL{
-		?characterr wdt:P9382 ?unicodename .
-		?characterr wdt:P4213 ?unicodepoint .
+		?character wdt:P9382 ?unicodename .
+		?character wdt:P4213 ?unicodepoint .
 	    BIND(CONCAT(" ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
 	OPTIONAL {
-    ?depiction wdt:P180 ?characterr .
+    ?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?image .
 	}
 	OPTIONAL {
-	?characterr p:P1343 ?ref .
+	?character p:P1343 ?ref .
 	?ref ps:P1343 ?reference .
 	?reference wdt:P1813 ?referenceL .
 	}
 	OPTIONAL {
-	?characterr p:P1343 ?ref .  
+	?character p:P1343 ?ref .  
     ?ref pq:P1810 ?refnum .
 	}
 	OPTIONAL {
-	?characterr p:P1343 ?ref .  
+	?character p:P1343 ?ref .  
     ?ref pq:P7421 ?refline .
 	}
 	OPTIONAL {
-	?characterr p:P1343 ?ref .
+	?character p:P1343 ?ref .
 	?ref pq:P304 ?refpage .
 	}
-	FILTER NOT EXISTS {?characterr wdt:P31 wd:Q118867680 . }
+	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
+	BIND(?character AS ?characterqid)
 	BIND(COALESCE(?refnum, "") As ?thenum)
 	BIND(COALESCE(CONCAT("[l ",?refline,"]"), "") As ?theline)
 	BIND(COALESCE(CONCAT(" [p ",?refpage,"]"), "") As ?thepage)
     BIND(CONCAT(?referenceL,"###",?thenum,?thepage,?theline) AS ?referenceLab)
   }
-  GROUP BY ?characterr ?characterLabel ?characterLabel2
+  GROUP BY ?character ?characterLabel ?characterLabel2
   ORDER BY ?characterLabel
   LIMIT 10000
 
