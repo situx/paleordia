@@ -96,7 +96,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	var convertedRow = {};
 	for (var key in data[i]) {
 		if(key.includes("_cols")){
-			splitted=data[i][key].split(sepchar)
+			splitted=data[i][key].split("###")
 			for(var j=0;j<splitted.length;j+=2){
 				if(splitted[j] in convertedRow){
 					convertedRow[splitted[j]]=convertedRow[splitted[j]]+" / "+splitted[j+1]
@@ -300,6 +300,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
 	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
+	var sepcharmap=(typeof options.sepcharmap === 'undefined') ? {} : options.sepcharmap;
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
 		  value: false
@@ -343,10 +344,10 @@ function sparqlToDataTable(sparql, element, options={}) {
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
 				if(lastlabel==""){
 					lastlabel=convertedData.data[i]["description"]
-					accvalue=convertedData.data[i]["value_"]+"<br/>"
+					accvalue=convertedData.data[i]["value_"]+(lastlabel in sepcharmap)?sepcharmap[lastlabel]:"<br/>"
 					accsource=""
 					if("source" in convertedData.data[i]){
-						accsource=convertedData.data[i]["source"]+"<br/>"
+						accsource=convertedData.data[i]["source"]+(lastlabel in sepcharmap)?sepcharmap[lastlabel]:"<br/>"
 					}
 				}else if(convertedData.data[i]["description"]!=lastlabel){
 					if("value_" in convertedData.data[i-1]){
@@ -360,14 +361,14 @@ function sparqlToDataTable(sparql, element, options={}) {
 					accvalue=""
 					accsource=""
 					lastlabel=convertedData.data[i]["description"]
-					accvalue=convertedData.data[i]["value_"]+"<br/>"
+					accvalue=convertedData.data[i]["value_"]+(lastlabel in sepcharmap)?sepcharmap[lastlabel]:"<br/>"
 					if("source" in convertedData.data[i]){
-						accsource=convertedData.data[i]["source"]+"<br/>"
+						accsource=convertedData.data[i]["source"]+(lastlabel in sepcharmap)?sepcharmap[lastlabel]:"<br/>"
 					}
 				}else{
-					accvalue+=convertedData.data[i]["value_"]+"<br/>"
+					accvalue+=convertedData.data[i]["value_"]+(convertedData.data[i]["description"] in sepcharmap)?sepcharmap[convertedData.data[i]["description"]]:"<br/>"
 					if("source" in convertedData.data[i]){
-						accsource+=convertedData.data[i]["source"]+"<br/>"
+						accsource+=convertedData.data[i]["source"]+(lastlabel in sepcharmap)?sepcharmap[lastlabel]:"<br/>"
 					}
 				}
 			}else{
