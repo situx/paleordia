@@ -18,18 +18,24 @@ WHERE {
   UNION
   {
     BIND(2 AS ?order)
-    BIND("Instance Of" AS ?description)
-    ?language wdt:P31 ?valueUrl .
-    ?valueUrl rdfs:label ?value .
-    FILTER (LANG(?value) = 'en')
+	{SELECT ?description (GROUP_CONCAT(?valuee; separator=" // ") AS ?valueUrl) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?value) WHERE {     
+	  BIND("Instance Of" AS ?description)
+	  wd:${ q } wdt:P31 ?valuee .
+	  ?valuee rdfs:label ?valuelabel .
+	  FILTER (LANG(?valuelabel) = 'en')
+	  BIND(CONCAT("../l?l=",SUBSTR(STR(?valuee), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+    }GROUP BY ?description }   
   }
   UNION
   {
-    BIND(3 AS ?order)
-    BIND("Subclass Of" AS ?description)
-    ?language wdt:P279 ?valueUrl .
-    ?valueUrl rdfs:label ?value .
-    FILTER (LANG(?value) = 'en')
+    BIND(3 AS ?order)	
+	{SELECT ?description (GROUP_CONCAT(?valuee; separator=" // ") AS ?valueUrl) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?value) WHERE {     
+	  BIND("Subclass Of" AS ?description)
+	  wd:${ q } wdt:P279 ?valuee .
+	  ?valuee rdfs:label ?valuelabel .
+	  FILTER (LANG(?valuelabel) = 'en')
+	  BIND(CONCAT("../l?l=",SUBSTR(STR(?valuee), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+    }GROUP BY ?description }   
   }  
   UNION
   {
