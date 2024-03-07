@@ -65,9 +65,11 @@ WHERE {
   }
   UNION 
   {
-    BIND(19 AS ?order)
-    BIND("Phonetic value" AS ?description)
-    ?character wdt:P12436 ?valueLabel .
+    BIND(19 AS ?order)    
+	{SELECT ?description (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	  BIND("Phonetic value" AS ?description)
+	  wd:${ q } ?character wdt:P12436 ?valuelabel .
+    }GROUP BY ?description }
   }
   UNION 
   {
