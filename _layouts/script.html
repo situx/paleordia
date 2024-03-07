@@ -62,7 +62,7 @@ WHERE {
 	  BIND("Language using this script" AS ?description)
 	  wd:${ q } wdt:P407 ?value .
 	  ?value rdfs:label ?valuelabel .
-	  FILTER (LANG(?value) = 'en')
+	  FILTER (LANG(?valuelabel) = 'en')
 	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description }    
   }  
