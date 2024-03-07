@@ -68,7 +68,7 @@ WHERE {
     BIND(19 AS ?order)    
 	{SELECT ?description (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 	  BIND("Phonetic value" AS ?description)
-	  wd:${ q } ?character wdt:P12436 ?valuelabel .
+	  wd:${ q } wdt:P12436 ?valuelabel .
     }GROUP BY ?description }
   }
   UNION 
