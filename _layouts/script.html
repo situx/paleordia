@@ -64,7 +64,7 @@ WHERE {
   UNION
   {
     BIND(7 AS ?order)
-	{SELECT ?description (GROUP_CONCAT(?valuee; separator=" // ") AS ?valueUrl) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?value) WHERE {     
+	{SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?valueUrl) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?value) WHERE {     
 	  BIND("Language using this script" AS ?description)
 	  wd:${ q } wdt:P407 ?valuee .
 	  ?valuee rdfs:label ?valuelabel .
