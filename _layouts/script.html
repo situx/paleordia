@@ -58,12 +58,12 @@ WHERE {
   UNION
   {
     BIND(7 AS ?order)
-	{SELECT ?description (GROUP_CONCAT(?value; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	{SELECT ?description (GROUP_CONCAT(?valuee; separator=" // ") AS ?valueUrl) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?value) WHERE {     
 	  BIND("Language using this script" AS ?description)
-	  wd:${ q } wdt:P407 ?value .
-	  ?value rdfs:label ?valuelabel .
+	  wd:${ q } wdt:P407 ?valuee .
+	  ?valuee rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
-	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+	  BIND(CONCAT("../l?l=",SUBSTR(STR(?valuee), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description }    
   }  
   UNION
