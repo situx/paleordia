@@ -69,7 +69,7 @@ WHERE {
 	  wd:${ q } wdt:P407 ?valuee .
 	  ?valuee rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
-	  BIND(CONCAT("../l?l=",SUBSTR(STR(?valuee), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+	  BIND(CONCAT("../language?q=",SUBSTR(STR(?valuee), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description ORDER BY ?valuelabel }    
   }  
   UNION
