@@ -163,6 +163,29 @@ GROUP BY ?lexeme ?lexemeLabel ?sense
 ORDER BY ?lexeme
 `
 
+etymologySparql=`
+SELECT DISTINCT
+   ?form (GROUP_CONCAT(?timeperiodLab; separator=" // ") AS ?timeperiod)
+   ?formLabel ?gottstein_code ?image (GROUP_CONCAT(distinct ?form; separator=" ") AS ?image_link)
+   ?so
+   # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
+ WHERE {
+   wd:Q87554995 wdt:P282 ?script .
+   ?script p:P2348 ?tp . 
+   ?tp ps:P2348 ?timeperiodd . 
+   ?tp pq:P1545 ?so .
+   ?form wdt:P180 wd:Q87554995 .
+   ?form wdt:P31 wd:Q118867680 .
+   ?form rdfs:label ?formLabel .
+   FILTER (LANG(?formLabel) = "en")
+   ?form wdt:P2348 ?timeperiodd . ?timeperiodd rdfs:label ?timeperiodLab . FILTER (LANG(?timeperiodLab) = "en")
+   OPTIONAL {?form wdt:P18 ?image .}
+   OPTIONAL {?form wdt:P11957 ?gottstein_code .}
+ }
+ GROUP BY ?form ?formLabel ?image ?gottstein_code ?so
+ ORDER BY xsd:integer(?so)
+`
+
 
  $(document).ready(function() {
      sparqlToDataTable(lexemeSparql, "#lexeme",
@@ -230,9 +253,10 @@ ORDER BY ?lexeme
 
     <hr/>
     
-    <!--<h2>Compounds</h2>
+    <h2>Etymology</h2>
 
-    <table class="table table-hover" id="compounds"></table>-->
+    <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%0A%20%23%20List%20of%20variants%20for%20a%20specific%20character%0A%20SELECT%20DISTINCT%0A%20%20%20%3Fform%20(GROUP_CONCAT(%3FtimeperiodLab%3B%20separator%3D%22%20%2F%2F%20%22)%20AS%20%3Ftimeperiod)%0A%20%20%20%3FformLabel%20%3Fgottstein_code%20%3Fimage%20(GROUP_CONCAT(distinct%20%3Fform%3B%20separator%3D%22%20%22)%20AS%20%3Fimage_link)%0A%20%20%20%3Fso%0A%20%20%20%23%20(GROUP_CONCAT(DISTINCT%20%3Fhyphenation%3B%20separator%3D%22%20%2F%2F%20%22)%20AS%20%3Fhyphenations)%0A%20WHERE%20%7B%0A%20%20%20wd%3A${ q }%20wdt%3AP282%20%3Fscript%20.%0A%20%20%20%3Fscript%20p%3AP2348%20%3Ftp%20.%20%0A%20%20%20%3Ftp%20ps%3AP2348%20%3Ftimeperiodd%20.%20%0A%20%20%20%3Ftp%20pq%3AP1545%20%3Fso%20.%0A%20%20%20%3Fform%20wdt%3AP180%20wd%3AQ87554995%20.%0A%20%20%20%3Fform%20wdt%3AP31%20wd%3AQ118867680%20.%0A%20%20%20%3Fform%20rdfs%3Alabel%20%3FformLabel%20.%0A%20%20%20FILTER%20(LANG(%3FformLabel)%20%3D%20%22en%22)%0A%20%20%20%3Fform%20wdt%3AP2348%20%3Ftimeperiodd%20.%20%3Ftimeperiodd%20rdfs%3Alabel%20%3FtimeperiodLab%20.%20FILTER%20(LANG(%3FtimeperiodLab)%20%3D%20%22en%22)%0A%20%20%20OPTIONAL%20%7B%3Fform%20wdt%3AP18%20%3Fimage%20.%7D%0A%20%20%20OPTIONAL%20%7B%3Fform%20wdt%3AP11957%20%3Fgottstein_code%20.%7D%0A%20%7D%0A%20GROUP%20BY%20%3Fform%20%3FformLabel%20%3Fimage%20%3Fgottstein_code%20%3Fso%0A%20ORDER%20BY%20xsd%3Ainteger(%3Fso)%0A%20" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups" ></iframe>
+
 
     <h2>Compound and derivation graph</h2>
     
