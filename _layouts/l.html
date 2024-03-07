@@ -288,14 +288,15 @@ ORDER BY ?order
 compoundsSparql = `
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
-  ?lexical_category ?lexical_categoryLabel ?compounds
+  ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsLabel
   (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) 
 (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel)
 WHERE {
   {
     SELECT
       ?lexeme
-      (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compounds)
+      (GROUP_CONCAT(?compound; separator=" // ") AS ?compounds)
+      (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compoundsLabel)
     WHERE {
       ?lexeme wdt:P5238+ wd:${ l } .
       OPTIONAL {
@@ -306,7 +307,7 @@ WHERE {
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
           ?sense skos:definition ?sensedeff .
-		  FILTER (LANG(?sensedeff) = 'en')		  
+		  FILTER(LANG(?sensedeff) = "en")		  
         }   
         BIND(COALESCE(CONCAT(" [",?sensedeff,"]"), "") AS ?sensedef)
         BIND(CONCAT(?compoundlabel,?sensedef) AS ?compoundLabel)
@@ -334,7 +335,7 @@ WHERE {
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
   }
 }
-GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds 
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsLabel
 `
 
 

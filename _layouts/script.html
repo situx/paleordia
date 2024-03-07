@@ -147,12 +147,13 @@ lexemesSparql =`
 	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
+	BIND(?character AS ?characterqid)
 	BIND(COALESCE(?refnum, "") As ?thenum)
 	BIND(COALESCE(CONCAT("[l ",?refline,"]"), "") As ?theline)
 	BIND(COALESCE(CONCAT(" [p ",?refpage,"]"), "") As ?thepage)
     BIND(CONCAT(?referenceL,"###",?thenum,?thepage,?theline) AS ?referenceLab)
   }
-  GROUP BY ?character ?characterLabel ?characterLabel2
+  GROUP BY ?character ?characterqid ?characterLabel ?characterLabel2
   ORDER BY ?characterLabel
   LIMIT 10000
 
