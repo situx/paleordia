@@ -58,12 +58,13 @@ WHERE {
   {
     # Alternative form
     BIND(12 AS ?order)
-    ?form wdt:P2348 ?value .
-    ?value rdfs:label ?valueLabel .
-    BIND(SUBSTR(STR(?value), 32)  AS ?value_Url)
-    BIND("time period" AS ?description)
-	BIND("../property?p=P2348" AS ?descriptionUrl)
-	FILTER(LANG(?valueLabel) = 'en')
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	  BIND("Time Period" AS ?description)
+	  wd:${ l } wdt:P2348 ?value .
+	  ?value rdfs:label ?valuelabel .
+	  FILTER (LANG(?valuelabel) = 'en')
+	  BIND(CONCAT("../timeperiod?q=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+    }GROUP BY ?description } 
   }
   UNION
   {
