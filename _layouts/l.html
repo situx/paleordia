@@ -247,7 +247,7 @@ SELECT DISTINCT
   ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?id) ?idLabel
 WHERE {
   VALUES ?lexeme { wd:${ l } }
-  ?lexeme ?idprop ?idval .
+  ?lexeme ?idprop ?idLabel .
   ?idpropp wikibase:directClaim ?idLabel .
   ?idpropp wdt:P31 wd:Q19847637 .
   OPTIONAL {
