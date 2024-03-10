@@ -248,11 +248,11 @@ SELECT DISTINCT
 WHERE {
   VALUES ?lexeme { wd:${ l } }
   ?lexeme ?idprop ?idLabel .
-  ?idpropp wikibase:directClaim ?idLabel .
+  ?idpropp wikibase:directClaim ?idprop .
   ?idpropp wdt:P31 wd:Q19847637 .
   OPTIONAL {
     ?idpropp wdt:P1630 ?formatur .
-    BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
+    BIND(REPLACE(STR(?formatur), "\\$1", "", "i") AS ?formaturl)
   }
   ?idpropp rdfs:label ?idpropLabel .
   FILTER(lang(?idpropLabel)="en")
