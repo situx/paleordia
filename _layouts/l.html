@@ -244,10 +244,10 @@ ORDER BY ?order
 idSparql= `
 # List of ids for a specific character
 SELECT DISTINCT
-  ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?id) ?idLabel
+  ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?id_Url) ?id
 WHERE {
   VALUES ?lexeme { wd:${ l } }
-  ?lexeme ?idprop ?idLabel .
+  ?lexeme ?idprop ?id .
   ?idpropp wikibase:directClaim ?idprop .
   ?idpropp wdt:P31 wd:Q19847637 .
   OPTIONAL {
