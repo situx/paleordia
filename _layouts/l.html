@@ -241,6 +241,25 @@ WHERE {
 ORDER BY ?order
 `
 
+idSparql= `
+# List of ids for a specific character
+SELECT DISTINCT
+  ?idprop ?idpropLabel ?formaturl ?idval (CONCAT(?formaturl,?idval) AS ?id)
+WHERE {
+  VALUES ?lexeme { wd:${ l } }
+  ?lexeme ?idprop ?idval .
+  ?idpropp wikibase:directClaim ?idprop .
+  ?idpropp wdt:P31 wd:Q19847637 .
+  OPTIONAL {
+    ?idpropp wdt:P1630 ?formatur .
+    BIND(REPLACE(STR(?formatur), "\\$1", "", "i") AS ?formaturl)
+
+  }
+  ?idpropp rdfs:label ?idpropLabel .
+  FILTER(lang(?idpropLabel)="en")
+}
+`
+
 
  formsSparql = `
  # List of forms for a specific lexeme
@@ -349,6 +368,11 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 			   paging: false,
 			   sDom: 'rt',
 		       });
+     sparqlToDataTable(idSparql, "#ids",
+		       options={paging: false, sDom: 'rt',
+			   linkPrefixes: {
+			       form: '../lf'
+			   }});
      sparqlToDataTable(formsSparql, "#forms",
 		       options={paging: false, sDom: 'rt',
 			   linkPrefixes: {
@@ -382,6 +406,8 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
      </p>
      
      <table class="table table-hover" id="lexeme"></table>
+
+     <table class="table table-hover" id="ids"></table>
      
      <div class="container">
 	 <div class="row">
