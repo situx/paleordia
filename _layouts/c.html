@@ -100,16 +100,15 @@ ORDER BY ?order
 idSparql= `
 # List of ids for a specific character
 SELECT DISTINCT
-  ?idprop ?idpropLabel ?formaturl ?idval (CONCAT(?formaturl,?idval) AS ?id)
+  ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?id ?idLabel)
 WHERE {
   VALUES ?character { wd:${ q } }
-  ?character ?idprop ?idval .
+  ?character ?idprop ?idLabel .
   ?idpropp wikibase:directClaim ?idprop .
   ?idpropp wdt:P31 wd:Q19847637 .
   OPTIONAL {
     ?idpropp wdt:P1630 ?formatur .
     BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
-
   }
   ?idpropp rdfs:label ?idpropLabel .
   FILTER(lang(?idpropLabel)="en")
