@@ -314,10 +314,12 @@ function sparqlToDataTable(sparql, element, options={}) {
 		  value: false
 		});	
 	}
-    
+	propertyMapping={}    
+	sparql=applyPropertyMapping(sparql,propertyMapping)
+	
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
-	propertyMapping={}
+
     
     $.post(post_url, post_data, function(response) {
 	var simpleData = sparqlDataToSimpleData(response);
