@@ -3,8 +3,8 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-propertyMapping={}
-function applyPropertyMapping(thequery){
+
+function applyPropertyMapping(thequery,propertyMapping){
 	for(key in propertyMapping){
 		thequery=thequery.replace(key,propertyMapping[key])
 	}
@@ -317,6 +317,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
+	propertyMapping={}
     
     $.post(post_url, post_data, function(response) {
 	var simpleData = sparqlDataToSimpleData(response);
