@@ -100,7 +100,7 @@ ORDER BY ?order
 idSparql= `
 # List of ids for a specific character
 SELECT DISTINCT
-  ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?idUrl) ?id
+  ?idprop ?idpropLabel (CONCAT(?formaturl,?id) AS ?idUrl) ?id
 WHERE {
   VALUES ?character { wd:${ q } }
   ?character ?idprop ?id .
