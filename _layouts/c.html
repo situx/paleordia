@@ -102,7 +102,7 @@ idSparql= `
 SELECT DISTINCT
   ?idprop ?idpropLabel ?formaturl ?idval (CONCAT(?formaturl,?idval) AS ?id)
 WHERE {
-  VALUES ?character { wd:Q87555860 }
+  VALUES ?character { wd:${ q } }
   ?character ?idprop ?idval .
   ?idpropp wikibase:directClaim ?idprop .
   ?idpropp wdt:P31 wd:Q19847637 .
