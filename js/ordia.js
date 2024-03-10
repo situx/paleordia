@@ -3,6 +3,14 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+propertyMapping={}
+function applyPropertyMapping(thequery){
+	for(key in propertyMapping){
+		thequery=thequery.replace(key,propertyMapping[key])
+	}
+	return thequery
+}
+
 function detectCorrectParameter(url){
 	if(url.startsWith("Q") && url.includes("signlist")){
 		return "?tp="+url.replaceAll("/","")
