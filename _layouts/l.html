@@ -244,7 +244,7 @@ ORDER BY ?order
 idSparql= `
 # List of ids for a specific character
 SELECT DISTINCT
-  ?idprop ?idpropLabel (CONCAT(?formaturl,?id) AS ?idUrl) ?id
+  ?idprop ?idpropLabel ?id ?idUrl
 WHERE {
   VALUES ?lexeme { wd:${ l } }
   ?lexeme ?idprop ?id .
@@ -252,7 +252,7 @@ WHERE {
   ?idpropp wdt:P31 wd:Q19847637 .
   OPTIONAL {
     ?idpropp wdt:P1630 ?formatur .
-    BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
+    BIND(REPLACE(STR(?formatur), "\\\\$1", ?id, "i") AS ?idUrl)
   }
   ?idpropp rdfs:label ?idpropLabel .
   FILTER(lang(?idpropLabel)="en")
