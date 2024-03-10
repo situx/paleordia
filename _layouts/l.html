@@ -252,7 +252,7 @@ WHERE {
   ?idpropp wdt:P31 wd:Q19847637 .
   OPTIONAL {
     ?idpropp wdt:P1630 ?formatur .
-    BIND(REPLACE(STR(?formatur), "\\$1", "", "i") AS ?formaturl)
+    BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
 
   }
   ?idpropp rdfs:label ?idpropLabel .
@@ -407,6 +407,7 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
      
      <table class="table table-hover" id="lexeme"></table>
 
+	 <h2>Identifier</h2>
      <table class="table table-hover" id="ids"></table>
      
      <div class="container">
