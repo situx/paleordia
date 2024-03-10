@@ -244,7 +244,7 @@ ORDER BY ?order
 idSparql= `
 # List of ids for a specific character
 SELECT DISTINCT
-  ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?id_Url) ?id
+  ?idprop ?idpropLabel (CONCAT(?formaturl,?idLabel) AS ?idUrl) ?id
 WHERE {
   VALUES ?lexeme { wd:${ l } }
   ?lexeme ?idprop ?id .
