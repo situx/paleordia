@@ -17,26 +17,12 @@ SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?basedon ?basedonLab
     FILTER (LANG(?basedonLabel) = 'en')
     }
     ?chartype rdfs:label ?chartypeLabell . 
-	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
-    ?lex ps:P1343 ?ref .
-    OPTIONAL{?lex pq:P1810 ?refnum .}
-	OPTIONAL{?lex pq:P7421 ?refline .}
-	OPTIONAL{?lex pq:P304 ?refpage .}
-    OPTIONAL {
-	?depiction wdt:P180 ?character .
-    ?depiction wdt:P18 ?imagee .
-	}
-	BIND(COALESCE(?refnum, "") As ?thenum)
-    BIND(COALESCE(?chartypeLabell, "") As ?chartypeLabel)
-	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
-	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
-	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
