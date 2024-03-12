@@ -23,6 +23,10 @@ SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?basedon ?basedonLab
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
+	OPTIONAL {
+	?depiction wdt:P180 ?character .
+	?depiction wdt:P18 ?imagee .
+	}
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
