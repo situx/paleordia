@@ -332,7 +332,11 @@ function sparqlToDataTable(sparql, element, options={}) {
 		"P304":{"label":"page","replacement":""},
 		"P1810":{"label":"subject named as","replacement":""},
 		"P854":{"label":"reference URL","replacement":""},
-		"P478":{"label":"volume","replacement":""}
+		"P478":{"label":"volume","replacement":""},
+		"P5920":{"label":"root","replacement":""},
+		"P5137":{"label":"item for this sense","replacement":""},
+		"P9970":{"label":"predicate for","replacement":""},
+		"P5972":{"label":"translation","replacement":""}
 		}
 		sparql=applyPropertyMapping(sparql,propertyMapping)
 	}
