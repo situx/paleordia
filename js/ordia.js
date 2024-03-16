@@ -6,7 +6,7 @@ function capitalizeFirstLetter(string) {
 
 function applyPropertyMapping(thequery,propertyMapping){
 	for(key in propertyMapping){
-		thequery=thequery.replace(key,propertyMapping[key])
+		thequery=thequery.replace(key,propertyMapping[key]["replacement"])
 	}
 	return thequery
 }
@@ -314,8 +314,28 @@ function sparqlToDataTable(sparql, element, options={}) {
 		  value: false
 		});	
 	}
-	propertyMapping={}    
-	sparql=applyPropertyMapping(sparql,propertyMapping)
+	var usepropertyMapping=false
+	if(usepropertyMapping){
+		propertyMapping={
+		"wdt:":{"label":"Namespace","replacement":""},
+		"P2348":{"label":"timeperiod","replacement":""},
+		"P11957":{"label":"Gottstein code","replacement":""},
+		"P31":{"label":"instance of","replacement":""},
+		"P18":{"label":"image","replacement":""},
+		"P282":{"label":"writing system","replacement":""},
+		"P180":{"label":"depicts","replacement":""},
+		"P1343":{"label":"described by source","replacement":""},
+		"P5323":{"label":"attested in","replacement":""},
+		"P12436":{"label":"phonetic value","replacement":""},
+		"P527":{"label":"has parts","replacement":""},
+		"P7421":{"label":"line","replacement":""},
+		"P304":{"label":"page","replacement":""},
+		"P1810":{"label":"subject named as","replacement":""},
+		"P854":{"label":"reference URL","replacement":""},
+		"P478":{"label":"volume","replacement":""}
+		}
+		sparql=applyPropertyMapping(sparql,propertyMapping)
+	}
 	
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
