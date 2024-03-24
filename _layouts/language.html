@@ -148,9 +148,15 @@ LIMIT 200
 refsSPARQL=`
 SELECT DISTINCT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes) WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-    dct:language wd:${ q } ;    
-    wdt:P1343 ?reference.
-  ?reference rdfs:label ?referenceLabel .
+    dct:language wd:${ q } .
+  {
+	?lexeme wdt:P1343 ?reference .
+	?reference rdfs:label ?referenceLabel .
+  }UNION{
+      ?character ?reference ?id . 
+      ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
+      ?idpropp rdfs:label ?referenceLabel
+  }
   FILTER(lang(?referenceLabel)="en")
 }
 GROUP BY ?reference ?referenceLabel
