@@ -13,6 +13,14 @@ lexemesSparql =`
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
+	{
+		?character wdt:P1343 ?reference .
+		?reference rdfs:label ?referenceLabel .
+	}UNION{
+		?character ?reference ?id . 
+		?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
+		?idpropp rdfs:label ?referenceLabel
+    }	
     ?lex ps:P1343 wd:${ q } .
     OPTIONAL{?lex pq:P1810 ?refnum .}
 	OPTIONAL{?lex pq:P7421 ?refline .}
@@ -32,18 +40,52 @@ lexemesSparql =`
   ORDER BY ?refnumber
 `
 
+lexemesSparqlP=`
+  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?refnumber (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+    ?character wdt:P31 wd:Q23017336 .
+	?character rdfs:label ?characterLabel .
+	OPTIONAL{
+		?character wdt:P9382 ?unicodename .
+		?character wdt:P4213 ?unicodepoint .
+		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
+	}
+	?character wdt:${ p } ?refnumber . 
+    OPTIONAL {
+	?depiction wdt:P180 ?character .
+    ?depiction wdt:P18 ?imagee .
+	}
+    FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
+    FILTER (LANG(?characterLabel) = 'en')
+  }
+  GROUP BY ?character ?characterLabel ?characterLabel2 ?refnumber
+  ORDER BY ?refnumber
+`
 
  $(document).ready(function() {
-     sparqlToDataTable(lexemesSparql, "#lexemes", {
-	 'linkPrefixes': {
-		'character': '../c'
-	 },
-	 linkParams: {
-		form: '&qb='+q+'&qbLabel='+qLabel
-	 },
-	 pBar:"progressbar",
-	 pBarLabel:"progress-label"
-	 });
+     if(typeof(p)!=='undefined') && typeof(q)==='undefined'){
+	 	sparqlToDataTable(lexemesSparqlP, "#lexemes", {
+		 'linkPrefixes': {
+			'character': '../c'
+		 },
+		 linkParams: {
+			form: '&qb='+q+'&qbLabel='+qLabel
+		 },
+		 pBar:"progressbar",
+		 pBarLabel:"progress-label"
+	   });
+	 }else{
+	   sparqlToDataTable(lexemesSparql, "#lexemes", {
+		 'linkPrefixes': {
+			'character': '../c'
+		 },
+		 linkParams: {
+			form: '&qb='+q+'&qbLabel='+qLabel
+		 },
+		 pBar:"progressbar",
+		 pBarLabel:"progress-label"
+	  });
+	 }
+
  });
 
 </script>
