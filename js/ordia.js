@@ -3,7 +3,7 @@ namespaces=[
 	"http://www.wikidata.org/prop/direct/"
 ]
 
-function removeNameSpaces(str):
+function removeNameSpaces(str){
 	for(ns in nemaspaces){
 		str=str.replaceAll(ns,"")
 	}
