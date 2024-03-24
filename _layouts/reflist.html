@@ -61,7 +61,7 @@ lexemesSparqlP=`
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
   }
-  GROUP BY ?character ?characterLabel ?characterLabel2 ?refnumber
+  GROUP BY ?character ?characterLabel ?characterLabel2 ?refnumber ?formaturl
   ORDER BY ?refnumber
 `
 
