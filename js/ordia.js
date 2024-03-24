@@ -3,11 +3,12 @@ namespaces={
 	"http://www.wikidata.org/prop/direct/"
 }
 
-function removeNameSpaces(string):
+function removeNameSpaces(str){
 	for(ns in nemaspaces){
-		string=string.replaceAll(ns,"")
+		str=str.replaceAll(ns,"")
 	}
-	return string
+	return str
+}
 
 // http://stackoverflow.com/questions/1026069/
 function capitalizeFirstLetter(string) {
