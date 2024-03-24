@@ -1,7 +1,7 @@
-namespaces={
+namespaces=[
 	"http://www.wikidata.org/entity/",
 	"http://www.wikidata.org/prop/direct/"
-}
+]
 
 function removeNameSpaces(str):
 	for(ns in nemaspaces){
