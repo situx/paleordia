@@ -172,6 +172,7 @@ reflistSparql=`
 SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) AS ?amount) WHERE {
 	?charclass wdt:P361 wd:${ q } .
 	?character wdt:P31 ?charclass .
+	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .} 
 	{
 	?character wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLabel .
@@ -181,7 +182,6 @@ SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) A
       ?idpropp rdfs:label ?referenceLabel
     }	
 	OPTIONAL { ?reference wdt:P1813 ?referenceSN . BIND(CONCAT(" (",?referenceSN, ")") AS ?referenceLabel2)}
-	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}  
 	FILTER (LANG(?referenceLabel) = 'en')
   }
   GROUP BY ?reference ?referenceLabel ?referenceLabel2
