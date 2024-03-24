@@ -222,6 +222,8 @@ signlistSparql = `
 	 }
 	 });
 	sparqlToDataTable(reflistSparql, "#references",{
+	 pBar: "progressbar-ref",
+	 pBarLabel: "progressbar-label-ref",
 	 'linkPrefixes': {
 		'reference': '../reflist'
 	 },
@@ -274,7 +276,7 @@ signlistSparql = `
   <table class="table table-hover" id="signlists"></table> 
 
   <h2>References</h2>
-
+  <div id="progressbar-ref"><span class="progress-label-ref" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="references"></table>
   
   <h2>Characters</h2>

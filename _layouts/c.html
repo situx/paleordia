@@ -104,8 +104,7 @@ SELECT DISTINCT
 WHERE {
   VALUES ?character { wd:${ q } }
   ?character ?idprop ?id .
-  ?idpropp wikibase:directClaim ?idprop .
-  ?idpropp wdt:P31 wd:Q19847637 .
+  ?idpropp wikibase:directClaim ?idprop ; wikibase:propertyType wikibase:ExternalId .
   OPTIONAL {
     ?idpropp wdt:P1630 ?formatur .
     BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
@@ -258,7 +257,7 @@ SELECT DISTINCT
      </p>
      
      <table class="table table-hover" id="lexeme"></table>
-  
+  	 <h2>Identifier</h2>
 	 <table class="table table-hover" id="lexemeids"></table>
   
      <div class="container">
