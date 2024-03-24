@@ -62,7 +62,7 @@ lexemesSparqlP=`
 `
 
  $(document).ready(function() {
-     if(typeof(p)!=='undefined' && typeof(q)==='undefined' && p!=null && p!="" && q!=null && q!=""){
+     if(typeof(p)!=='undefined'&& p!=null && p!="" && (typeof(q)==='undefined' || q==null || q=="")){
 	 	sparqlToDataTable(lexemesSparqlP, "#lexemes", {
 		 'linkPrefixes': {
 			'character': '../c'
