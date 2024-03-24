@@ -4,7 +4,7 @@ namespaces=[
 ]
 
 function removeNameSpaces(str){
-	for(ns in nemaspaces){
+	for(ns in namespaces){
 		str=str.replaceAll(ns,"")
 	}
 	return str
