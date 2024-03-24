@@ -1,3 +1,14 @@
+namespaces={
+	"http://www.wikidata.org/entity/",
+	"http://www.wikidata.org/prop/direct/"
+}
+
+function removeNameSpaces(string):
+	for(ns in nemaspaces){
+		string=string.replaceAll(ns,"")
+	}
+	return string
+
 // http://stackoverflow.com/questions/1026069/
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -156,7 +167,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}else if(linkcount==1){
 				convertedRow[key] = '<a href="' +
 				(linkPrefixes[key] || "") + 
-				addParamsToLink(detectCorrectParameter(data[i][key].substr(31)),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
+				addParamsToLink(detectCorrectParameter(removeNameSpaces(data[i][key])),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
 				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 			}else if(linkcount>1){
 				console.log(data[i][key])
