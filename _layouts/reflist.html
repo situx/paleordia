@@ -51,7 +51,8 @@ lexemesSparqlP=`
 	}
 	?character wdt:${ p } ?refnumber . 
 	OPTIONAL {
-		?refnumber wdt:P1630 ?formatur .
+	    ?idpropp wikibase:directClaim wdt:${ p } .
+		?idpropp wdt:P1630 ?formatur .
 		BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
 	}
     OPTIONAL {
