@@ -153,7 +153,7 @@ SELECT DISTINCT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes
 	?lexeme wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLabel .
   }UNION{
-      ?character ?reference ?id . 
+      ?lexeme ?reference ?id . 
       ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
       ?idpropp rdfs:label ?referenceLabel
   }
