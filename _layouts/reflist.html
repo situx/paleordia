@@ -62,7 +62,7 @@ lexemesSparqlP=`
 `
 
  $(document).ready(function() {
-     if(typeof(p)!=='undefined' && typeof(q)==='undefined'){
+     if(typeof(p)!=='undefined' && typeof(q)==='undefined' && p!=null && p!="" && q!=null && q!=""){
 	 	sparqlToDataTable(lexemesSparqlP, "#lexemes", {
 		 'linkPrefixes': {
 			'character': '../c'
@@ -91,7 +91,7 @@ lexemesSparqlP=`
 </script>
 
 <div class="language-entries">
-  <h1>Characters by reference: ${ qLabel } (${ q })</h1>
+  <h1>Characters by reference: ${ qLabel } (${ q }${ p })</h1>
 
   <a title="Back"
      role="button"

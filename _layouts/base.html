@@ -25,6 +25,12 @@ title: PaleOrdia
 	const q2 = urlParams.get('q2');
 	const lang = urlParams.get('language');
 	const representation = urlParams.get('representation');
+	if(typeof(q)==='undefined'){
+		q=""
+	}
+	if(typeof(p)==='undefined'){
+		p=""
+	}
 	if(typeof(qLabel)==='undefined'){
 		qLabel=""
 	}
