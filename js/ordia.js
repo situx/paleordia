@@ -1,10 +1,10 @@
-namespaces=[
+namespaces={
 	"http://www.wikidata.org/entity/",
 	"http://www.wikidata.org/prop/direct/"
-]
+}
 
-function removeNameSpaces(str){
-	for(ns in namespaces){
+function removeNameSpaces(str):
+	for(ns in nemaspaces){
 		str=str.replaceAll(ns,"")
 	}
 	return str
@@ -168,7 +168,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}else if(linkcount==1){
 				convertedRow[key] = '<a href="' +
 				(linkPrefixes[key] || "") + 
-				addParamsToLink(detectCorrectParameter(removeNameSpaces(data[i][key])),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
+				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
 				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 			}else if(linkcount>1){
 				console.log(data[i][key])
