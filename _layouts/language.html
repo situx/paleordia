@@ -81,9 +81,9 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
       ?senseitem wdt:P5137|wdt:P9970 ?sensee.
       ?sensee rdfs:label ?senseLab.
       FILTER(LANG(?senseLab) = "en")
+	  BIND(COALESCE(?sensee, "") AS ?sensse)
     }
     FILTER(LANG(?gloss) = "en")
-    BIND(COALESCE(?sensee, "") AS ?sensse)
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
   }
 }
