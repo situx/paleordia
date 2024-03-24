@@ -40,6 +40,9 @@ function detectCorrectParameter(url){
 	if(url.startsWith("L")){
 		return "?l="+url.replaceAll("/","")
 	}
+	if(url.startsWith("P") && url.includes("reflist")){
+	  return "?q="+url.replaceAll("/","")
+	}
 	if(url.startsWith("P")){
 		return "?p="+url.replaceAll("/","")
 	}
