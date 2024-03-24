@@ -41,7 +41,7 @@ lexemesSparql =`
 `
 
 lexemesSparqlP=`
-  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 ?refnumber (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (CONCAT(?formaturl,?refnumber) AS ?refnumberUrl) ??refnumber (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
     ?character wdt:P31 wd:Q23017336 .
 	?character rdfs:label ?characterLabel .
 	OPTIONAL{
@@ -50,6 +50,10 @@ lexemesSparqlP=`
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
 	?character wdt:${ p } ?refnumber . 
+	OPTIONAL {
+		?refnumber wdt:P1630 ?formatur .
+		BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
+	}
     OPTIONAL {
 	?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?imagee .
