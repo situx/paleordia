@@ -35,25 +35,16 @@ lexemesSparqlP=`
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) (CONCAT(?formaturl,?refnumber) AS ?refnumberUrl) ?refnumber WHERE {
 	?lexeme rdf:type ontolex:LexicalEntry;
 		dct:language wd:${ l };
-		wikibase:lemma ?lexemeLab ;      
+		wikibase:lemma ?lexemeLab ;    
+        wdt:${ p } ?refnumber ; 		
 		wikibase:lexicalCategory ?lexical_category .
-      ?lexical_category rdfs:label ?lexical_categoryLabel .
-	?lexeme wdt:${ p } ?refnumber . 
+    ?lexical_category rdfs:label ?lexical_categoryLabel .
 	OPTIONAL {
 	    ?idpropp wikibase:directClaim wdt:${ p } .
 		?idpropp wdt:P1630 ?formatur .
 		BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
 	}
 	  FILTER (LANG(?lexical_categoryLabel) = "en")
-	  OPTIONAL { ?lex pq:P478 ?refvol. }
-	  OPTIONAL { ?lex pq:P1810 ?refnum. }
-	  OPTIONAL { ?lex pq:P7421 ?refline. }
-	  OPTIONAL { ?lex pq:P304 ?refpage. }
-	  BIND(COALESCE(?refnum, "") AS ?thenum)
-	  BIND(COALESCE(CONCAT(" [v. ", ?refvol, "]"), "") AS ?thevol)
-	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, "]"), "") AS ?thepage)
-	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
-	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
 	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     
   }
 	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel ?formaturl
