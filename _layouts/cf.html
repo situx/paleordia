@@ -35,12 +35,12 @@ WHERE {
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("property_value?p=P31&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
       FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
     }
   }
   UNION 
@@ -88,7 +88,7 @@ WHERE {
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference/", SUBSTR(STR(?value), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
@@ -109,7 +109,7 @@ WHERE {
     BIND(COALESCE(?value_label, SUBSTR(STR(?value_), 32)) AS ?value) 
 
 
-    BIND(CONCAT("reference/", SUBSTR(STR(?value_), 32))  AS ?value_Url)
+    BIND(CONCAT("../reference/", SUBSTR(STR(?value_), 32))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       OPTIONAL { ?value_statement pq:P577 ?date }
