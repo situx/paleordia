@@ -114,6 +114,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     }
     for (var i = 0 ; i < data.length ; i++) {
 	var convertedRow = {};
+	console.log("H: "+h)
 	for (var key in data[i]) {
 		if(key.includes("_cols")){
 			splitted=data[i][key].split("###")
@@ -143,7 +144,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				for(item of data[i][key].split(" ")){
 					//console.log(counter+" "+linkarray.length)
 					if(counter<linkarray.length){
-						colval+='<a target="_blank" href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
+						colval+='<a target="_blank"'
+						if(typeof(h)!=="undefined" && linkarray[counter].includes(h)){
+							colval+=' style="color:red"'
+						}
+						colval+=' href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
 					}else{
 						colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
 					}
@@ -152,7 +157,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				convertedRow[key]=colval
 			}else{
 				if(linkarray.length==1){
-					convertedRow[key] = '<a target="_blank" href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
+					colval+='<a target="_blank"'
+					if(typeof(h)!=="undefined" && linkarray[0].includes(h)){
+						colval+=' style="color:red"'
+					}
+					convertedRow[key] = ' href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
 				}else{
 					convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';
 				}
@@ -228,7 +237,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						temp+=' style="color:red"'
 					}
 					temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
-					convertedRow[key]=temp	
+					convertedRow[key]=temp
 				}else if(linkcount>1){
 					console.log(data[i][key + 'Url'])
 					console.log(linkcount)
