@@ -157,11 +157,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				convertedRow[key]=colval
 			}else{
 				if(linkarray.length==1){
-					colval+='<a target="_blank"'
+					colval='<a target="_blank"'
 					if(typeof(h)!=="undefined" && linkarray[0].includes(h)){
 						colval+=' style="color:red"'
 					}
-					convertedRow[key] = ' href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
+					convertedRow[key] = colval+' href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
 				}else{
 					convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';
 				}
