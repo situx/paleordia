@@ -32,7 +32,9 @@ lexemesSparql =`
  $(document).ready(function() {
      sparqlToDataTable(lexemesSparql, "#lexemes", {
 	 'linkPrefixes': {
-		'lexeme': '../l'
+		'lexeme': '../l',
+		'translationlexeme': '../l',
+		'translang': '../language',
 	 },
 	 linkParams: {
 		form: '&qb='+q
