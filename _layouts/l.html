@@ -37,7 +37,7 @@ WHERE {
     FILTER (LANG(?langvalueLabel) = 'en')
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
+    BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
   }
   UNION 
   {
