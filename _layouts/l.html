@@ -75,7 +75,7 @@ WHERE {
     BIND("Root" AS ?description)
     {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 	  BIND("Root" AS ?description)
-	  wd:${ l } wdt:P5191 ?value .
+	  wd:${ l } wdt:P5920 ?value .
 	  ?value wikibase:lemma ?valuelabel .
 	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description }  
