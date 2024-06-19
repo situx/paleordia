@@ -61,6 +61,20 @@ WHERE {
   }
   UNION 
   {
+    BIND(7 AS ?order)
+    BIND("Based on" AS ?description)
+    ?lexeme wdt:P144 ?value .
+    BIND(?value AS ?valueLabel)
+  }
+   UNION 
+  {
+    BIND(8 AS ?order)
+    BIND("Derived from" AS ?description)
+    ?lexeme wdt:P5191 ?value .
+    BIND(?value AS ?valueLabel)
+  }
+  UNION 
+  {
     BIND(10 AS ?order)
     BIND("Grammatical gender" AS ?description)
     ?lexeme wdt:P5185 ?value_Url .
