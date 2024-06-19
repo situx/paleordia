@@ -66,19 +66,16 @@ WHERE {
     ?lexeme wdt:P144 ?value .
     BIND(?value AS ?valueLabel)
   }
-   UNION 
-  {
-    BIND(8 AS ?order)
-    BIND("Derived from" AS ?description)
-    ?lexeme wdt:P5191 ?value .
-    BIND(?value AS ?valueLabel)
-  }
   UNION 
   {
     BIND(9 AS ?order)
     BIND("Root" AS ?description)
-    ?lexeme wdt:P5920 ?value .
-    BIND(?value AS ?valueLabel)
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	  BIND("Root" AS ?description)
+	  wd:${ l } wdt:P5191 ?value .
+	  ?value wikibase:lemma ?valuelabel .
+	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+    }GROUP BY ?description }  
   }
   UNION 
   {
