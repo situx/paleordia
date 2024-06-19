@@ -32,9 +32,12 @@ WHERE {
     BIND(3 AS ?order)
     BIND("Lexical category" AS ?description)
     ?lexeme wikibase:lexicalCategory ?value .
+	?lexeme dct:language ?langvalue .
+	?langvalue rdfs:label ?langvalueLabel .
+    FILTER (LANG(?langvalueLabel) = 'en')
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
   }
   UNION 
   {
