@@ -445,20 +445,8 @@ function sparqlToDataTable(sparql, element, options={}) {
 		console.log(convertedDataReduced)
 		convertedData["data"]=convertedDataReduced
 	}
-	table = $(element).on( 'draw.dt', function () {
-            //console.log( 'Loading' );
-          //Here show the loader.
-          $("#MessageContainer").html("Loading data table...");
-        } )
-        .on( 'init.dt', function () {
-            //console.log( 'Loaded' );
-           //Here hide the loader.
-           $("#MessageContainer").html("Loding completed!");
-		   	if(pBar!=""){
-				$('#'+pBar).progressbar("destroy")
-				$('#'+pBarLabel).html("")
-			}
-        } ).DataTable({ 
+
+	table=new DataTable($(element),{ 
 	    data: convertedData.data,
 	    columns: columns,
 		columnDefs: [{ type: 'natural', targets: '_all' }],
@@ -479,7 +467,20 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    paging: paging,
 	    sDom: sDom,
 	});
-
+	table.on( 'draw.dt', function () {
+            //console.log( 'Loading' );
+          //Here show the loader.
+          $("#MessageContainer").html("Loading data table...");
+        } );
+    table.on( 'init.dt', function () {
+            //console.log( 'Loaded' );
+           //Here hide the loader.
+           $("#MessageContainer").html("Loding completed!");
+		   	if(pBar!=""){
+				$('#'+pBar).progressbar("destroy")
+				$('#'+pBarLabel).html("")
+			}
+        } )
 	$(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
 		encodeURIComponent(sparql) +	
