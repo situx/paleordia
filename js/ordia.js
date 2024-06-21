@@ -458,7 +458,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 				$('#'+pBar).progressbar("destroy")
 				$('#'+pBarLabel).html("")
 			}
-        } ).dataTable({ 
+        } ).DataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
 		columnDefs: [{ type: 'natural', targets: '_all' }],
