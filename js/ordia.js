@@ -63,16 +63,16 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 			aggcols={}
 			for (var i = 0 ; i < data.length ; i++) {
 				if(col in data[i]){
-					console.log(col)
-					console.log(data[i])
+					//console.log(col)
+					//console.log(data[i])
 					splitted=data[i][col].split(sepchar)
-					console.log(splitted)
+					//console.log(splitted)
 					for(var j=0;j<splitted.length;j+=2){
 						if(splitted[j]!="" && !(isNumeric(splitted[j])) && !(splitted[j].length!=3 && splitted[j].includes("LAK"))){
 							aggcols[splitted[j]]=true
 						}
 					}
-					console.log(aggcols)
+					//console.log(aggcols)
 				}
 			}
 			
@@ -114,7 +114,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     }
     for (var i = 0 ; i < data.length ; i++) {
 	var convertedRow = {};
-	console.log("H: "+h)
+	//console.log("H: "+h)
 	for (var key in data[i]) {
 		if(key.includes("_cols")){
 			splitted=data[i][key].split("###")
@@ -170,8 +170,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key + 'Label' in data[i]) {
 			var linkcount = (data[i][key].match(/http|\.\.\//g) || []).length;
 			sepchar=" // "
-			console.log(data[i][key])
-			console.log(linkcount)
+			//console.log(data[i][key])
+			//console.log(linkcount)
 			if(linkcount==0){
 				convertedRow[key] = '<span>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
 			}else if(linkcount==1){
@@ -184,8 +184,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				temp+='>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 				convertedRow[key]=temp
 			}else if(linkcount>1){
-				console.log(data[i][key])
-				console.log(linkcount)
+				//console.log(data[i][key])
+				//console.log(linkcount)
 				sepchar=" // "
 				try{
 					if(data[i][key].includes("http")){
@@ -229,8 +229,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if (data[i][key + 'Url']) {
 				var linkcount = (data[i][key + 'Url'].match(/http|\.\.\//g) || []).length;
 				sepchar=" // "
-				console.log(data[i][key + 'Url'])
-				console.log(linkcount)
+				//console.log(data[i][key + 'Url'])
+				//console.log(linkcount)
 				if(linkcount==1){
 					temp = '<a target="_blank\"'
 					if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
@@ -239,8 +239,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
 					convertedRow[key]=temp
 				}else if(linkcount>1){
-					console.log(data[i][key + 'Url'])
-					console.log(linkcount)
+					//console.log(data[i][key + 'Url'])
+					//console.log(linkcount)
 					sepchar=" // "
 					urls=data[i][key + 'Url'].split(sepchar)
 					labs=data[i][key].split(sepchar)	
@@ -252,7 +252,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
 					}
-					console.log("THERES: "+res)
+					//console.log("THERES: "+res)
 					res=res.substring(0,res.length-sepchar.length-2)
 					convertedRow[key]=res	
 				}				
@@ -383,7 +383,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		if(thetitle.replace("&nbsp;","")=="Value"){
 			val=true
 		}
-		console.log("THETITLE: "+thetitle)
+		//console.log("THETITLE: "+thetitle)
 		var column = {
 		data: convertedData.columns[i],
 		title: thetitle,
@@ -397,7 +397,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		accsource=""
 		convertedDataReduced=[]
 		for(i=0;i<convertedData.data.length;i++){
-			console.log(convertedData.data[i])
+			//console.log(convertedData.data[i])
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
 				if(lastlabel==""){
 					lastlabel=convertedData.data[i]["description"]
@@ -442,7 +442,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 			}
 			convertedDataReduced.push(moddata)
 		}	
-		console.log(convertedDataReduced)
+		//console.log(convertedDataReduced)
 		convertedData["data"]=convertedDataReduced
 	}
 	table = $(element).on( 'draw.dt', function () {
@@ -477,7 +477,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    ordering: true,
 	    order: [], 
 	    paging: paging,
-		pagingType: "bootstrap_input",
+		pagingType: "input",
 	    sDom: sDom,
 	});
 
