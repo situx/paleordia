@@ -72,8 +72,9 @@ WHERE {
   {
     BIND(8 AS ?order)
     BIND("Paradigm" AS ?description)
-    ?lexeme wdt:P5911 ?value .
-    BIND(?value AS ?valueLabel)
+    ?lexeme wdt:P5911 ?value_Url .
+    ?value_Url rdfs:label ?valueLabel .
+    FILTER (LANG(?valueLabel) = 'en')
   }
   UNION 
   {
