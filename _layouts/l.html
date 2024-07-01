@@ -68,6 +68,12 @@ WHERE {
     BIND("Based on" AS ?description)
     ?lexeme wdt:P144 ?value .
     BIND(?value AS ?valueLabel)
+  }UNION 
+  {
+    BIND(8 AS ?order)
+    BIND("Paradigm" AS ?description)
+    ?lexeme wdt:P5911 ?value .
+    BIND(?value AS ?valueLabel)
   }
   UNION 
   {
