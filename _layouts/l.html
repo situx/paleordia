@@ -324,13 +324,13 @@ WHERE {
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
    ?sense skos:definition ?glosss .
    OPTIONAL {
-     ?sense wdt:P5137 ?glossUrl .
+     ?sense wdt:P5137|wdt:P9970 ?glossUrl .
    }
    OPTIONAL {
    {
      ?sense wdt:P18 ?images
    }UNION {
-	?sense wdt:P5137 ?glossUrl .
+	?sense wdt:P5137|wdt:P9970 ?glossUrl .
 	?glossUrl wdt:P18 ?images .
    }
    }
