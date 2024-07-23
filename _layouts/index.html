@@ -14,7 +14,7 @@ layout: base
 	<div class="card mb-4 box-shadow">
 	    
             <div class="card-header">
-		<h4 class="my-0 font-weight-normal">Examples</h4>
+		<h4 class="my-0 font-weight-normal">Examples Lexemes</h4>
             </div>
             <div class="card-body">
 		<dl>
@@ -23,6 +23,10 @@ layout: base
 			German lexeme.
 		    </dd>
 		    
+		    <dt><a href="l/?l=L724464&qb=Q36790&qbLabel=Sumerian&qLabel=𒉆%20//%20nam">nam/𒉆</a></dt>
+		    <dd>
+			Sumerian Lexeme .
+		    </dd>   
 
 		    <dt><a href="l/?l=L43318&qLabel=krænkelsesparat&qb=Q9035&qbLabel=Danish">krænkelsesparat</a></dt>
 		    <dd>
@@ -37,18 +41,19 @@ layout: base
 			being "<a target="_blank" href="https://www.wikidata.org/entity/Q3142">red</a>" and which
 			appears in many different compounds.
 		    </dd>
-		    
-		    <dt><a href="l/?l=L53145&qLabel=dobrý&qb=Q9056&qbLabel=Czech">dobrý</a></dt>
-		    <dd>
-			Czech adjective with many (160+) different forms.
-		    </dd>
-
-		    <dt><a href="l/?l=L189&qLabel=вода&qb=Q7737&qbLabel=Russian">вода</a></dt>
-		    <dd>
-			Russian noun with many (15+) different senses,
-			among others <a target="_blank" href="https://www.wikidata.org/entity/Q29053744">liquid water</a>.
-			
 				
+		</dl>
+		<dl>
+		    <dt><a href="text-to-languages">Special pages</a></dt>
+		    <dd>Pages to list Lexemes by features or language-specific ordering criteria <ul><li>
+			<a href="{{site.baseurl}}/timeperiod/?q=Q114869307&l=Q36790&lLabel=Sumerian&qLabel=Neo%20Babylonian%20Period">Sumerian Lexemes for the Neo Babylonian period</a></li><li>
+			<a href="{{site.baseurl}}/reflistlang/?q=Q115610663&l=Q35518&lLabel=Akkadian&qLabel=A%20Concise%20Dictionary%20Of%20Akkadian">Akkadian Sumerian Lexemes as found in "A Concise Dictionary of Akkadian"</a></li><li>
+			<a href="{{site.baseurl}}/lradicals/?q=Q35518&qLabel=Akkadian&qb=Q35518">Radicals of Akkadian verbs</a></li><li>
+			<a href="{{site.baseurl}}/lderivs/?q=Q35518&qLabel=Akkadian&qb=Q35518">Derived Akkadian lexemes from other languages</a></li><li>
+			<a href="{{site.baseurl}}/lcombs/?q=Q36790&qLabel=Sumerian&qb=Q36790">Compound Lexemes in Sumerian</a></li><li>
+			<a href="{{site.baseurl}}/ldevs/?q=Q35518&qLabel=Akkadian&qb=Q35518">Deviations of transliteration definitions in Akkadian dictionaries</a></li></ul>
+				
+		    </ul></dd>
 		</dl>
             </div>
 
@@ -56,21 +61,31 @@ layout: base
 
         <div class="card mb-4 box-shadow">
 	    <div class="card-header">
-		<h4 class="my-0 font-weight-normal">Tools</h4>
+		<h4 class="my-0 font-weight-normal">Examples Paleography</h4>
 	    </div>
 	    <div class="card-body">
 		<dl>
-		    <dt><a href="text-to-lexemes">Text-to-lexemes</a></dt>
-		    <dd>Convert a text to a list of lexemes:
-			<a href="{{site.baseurl}}/text-to-lexemes?text=Regeringen%20spiser%20gr%C3%B8nne%20%C3%A6bler%20om%20vinteren&text-language=da">Danish example</a> and
-			<a href="{{site.baseurl}}/text-to-lexemes?text=Cars,%20bikes%20and%20motorcycles%20must%20stop%20at%20the%20crossing&text-language=en">English example</a>.</dd>
+		    <dt><a href="text-to-lexemes">Cuneiform Sign SAG</a></dt>
+		    <dd>Show information about Unicode code points linked to paleographic variants or paleographic variants by time period
+			<ul><li><a href="{{site.baseurl}}/c/?q=Q87556308&qLabel=𒊕%20CUNEIFORM%20SIGN%20SAG%20(U+12295)">Unicode representation</a></li><li>
+			<a href="{{site.baseurl}}/cf/?q=Q119251260&qb=Q87556308&qLabel=Cuneiform%20Sign%20Variant%20of%20CUNEIFORM%20SIGN%20SAG%20(Neo%20Assyrian)">Neo-Assyrian Variant</a></li></ul></dd>
 		</dl>
 
 		<dl>
-		    <dt><a href="text-to-languages">Text-to-language</a></dt>
-		    <dd>Count number of matched words across language, &mdash; a form of simple language detection:
-			<a href="{{site.baseurl}}/text-to-languages?text=To murere lo i nat med en banan">Example</a> and
-			<a href="{{site.baseurl}}/text-to-languages?text=to go or not to go">another example</a>.</dd>
+		    <dt><a href="text-to-languages">Sign lists</a></dt>
+		    <dd>List paleographic variants by literature or by time period<ul><li>
+			<a href="{{site.baseurl}}/signlist/?q=Q1471568&s=Q401&qLabel=Old%20Babylonian%20Period">Cuneiform sign variants in the Old Babylonian Period</a></li><li>
+			<a href="{{site.baseurl}}/reflist/?q=Q121502982&qb=Q401&qbLabel=cuneiform&qLabel=Das%20Akkadische%20Syllabar%20(Zweite%20Auflage)%20%20(AKS)">Cuneiform signs described in "Das Akkadische Syllabar"</a></li></ul></dd>
+		</dl>
+		<dl>
+		    <dt><a href="text-to-languages">Special pages</a></dt>
+		    <dd>List paleographic sign variants or Unicode codepoints by specific criteria<ul><li>
+			<a href="{{site.baseurl}}/no_unicode/?q=Q401&qLabel=cuneiform&qb=Q401">Cuneiform sign without a Unicode codepoint</a></li><li>
+			<a href="{{site.baseurl}}/ligatures/?q=Q401&qLabel=cuneiform&qb=Q401">Ligature list of the cuneiform script</a></li><li>
+			<a href="{{site.baseurl}}/compoundsigns/?q=Q401&qLabel=cuneiform&qb=Q401">Compound signs of the cuneiform script</a></li><li>		
+			<a href="{{site.baseurl}}/allographs/?q=Q401&qLabel=cuneiform&qb=Q401">Allograph signs for the cuneiform script</a></li><li>
+		    	<a href="{{site.baseurl}}/cfindex/?q=Q401&qLabel=cuneiform&qb=Q401">Sign variants of the cuneiform script with character description code of Gottstein</a></li>
+		    </ul></dd>
 		</dl>
 
 	    </div>
@@ -78,7 +93,7 @@ layout: base
 	
         <div class="card mb-4 box-shadow">
 	    <div class="card-header">
-		<h4 class="my-0 font-weight-normal">Other</h4>
+		<h4 class="my-0 font-weight-normal">Links</h4>
 	    </div>
 	    <div class="card-body">
 		<dl>

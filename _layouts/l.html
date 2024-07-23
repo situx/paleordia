@@ -32,9 +32,12 @@ WHERE {
     BIND(3 AS ?order)
     BIND("Lexical category" AS ?description)
     ?lexeme wikibase:lexicalCategory ?value .
+	?lexeme dct:language ?langvalue .
+	?langvalue rdfs:label ?langvalueLabel .
+    FILTER (LANG(?langvalueLabel) = 'en')
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical_category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -58,6 +61,31 @@ WHERE {
     BIND("Word stem" AS ?description)
     ?lexeme wdt:P5187 ?value .
     BIND(?value AS ?valueLabel)
+  }
+  UNION 
+  {
+    BIND(7 AS ?order)
+    BIND("Based on" AS ?description)
+    ?lexeme wdt:P144 ?value .
+    BIND(?value AS ?valueLabel)
+  }UNION 
+  {
+    BIND(8 AS ?order)
+    BIND("Paradigm" AS ?description)
+    ?lexeme wdt:P5911 ?value_Url .
+    ?value_Url rdfs:label ?valueLabel .
+    FILTER (LANG(?valueLabel) = 'en')
+  }
+  UNION 
+  {
+    BIND(9 AS ?order)
+    BIND("Root" AS ?description)
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	  BIND("Root" AS ?description)
+	  wd:${ l } wdt:P5920 ?value .
+	  ?value wikibase:lemma ?valuelabel .
+	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+    }GROUP BY ?description }  
   }
   UNION 
   {

@@ -40,9 +40,6 @@ function detectCorrectParameter(url){
 	if(url.startsWith("L")){
 		return "?l="+url.replaceAll("/","")
 	}
-	if(url.startsWith("P") && url.includes("reflist")){
-	  return "?q="+url.replaceAll("/","")
-	}
 	if(url.startsWith("P")){
 		return "?p="+url.replaceAll("/","")
 	}
@@ -66,16 +63,16 @@ function extendColumnsFromCombinedCols(data,columns,sepchar){
 			aggcols={}
 			for (var i = 0 ; i < data.length ; i++) {
 				if(col in data[i]){
-					console.log(col)
-					console.log(data[i])
+					//console.log(col)
+					//console.log(data[i])
 					splitted=data[i][col].split(sepchar)
-					console.log(splitted)
+					//console.log(splitted)
 					for(var j=0;j<splitted.length;j+=2){
 						if(splitted[j]!="" && !(isNumeric(splitted[j])) && !(splitted[j].length!=3 && splitted[j].includes("LAK"))){
 							aggcols[splitted[j]]=true
 						}
 					}
-					console.log(aggcols)
+					//console.log(aggcols)
 				}
 			}
 			
@@ -117,6 +114,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
     }
     for (var i = 0 ; i < data.length ; i++) {
 	var convertedRow = {};
+	//console.log("H: "+h)
 	for (var key in data[i]) {
 		if(key.includes("_cols")){
 			splitted=data[i][key].split("###")
@@ -146,7 +144,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				for(item of data[i][key].split(" ")){
 					//console.log(counter+" "+linkarray.length)
 					if(counter<linkarray.length){
-						colval+='<a target="_blank" href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
+						colval+='<a target="_blank"'
+						if(typeof(h)!=="undefined" && linkarray[counter].includes(h)){
+							colval+=' style="color:red"'
+						}
+						colval+=' href="'+linkarray[counter]+'"><img loading="lazy" src="' + item.replace("http:","https:") + '" height="50"></a>&nbsp;'
 					}else{
 						colval+='<img loading="lazy" src="' + item.replace("http:","https:") + '" height="50">&nbsp;'
 					}
@@ -155,7 +157,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				convertedRow[key]=colval
 			}else{
 				if(linkarray.length==1){
-					convertedRow[key] = '<a target="_blank" href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
+					colval='<a target="_blank"'
+					if(typeof(h)!=="undefined" && linkarray[0].includes(h)){
+						colval+=' style="color:red"'
+					}
+					convertedRow[key] = colval+' href="'+linkarray[0]+'"><img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50"></a>';
 				}else{
 					convertedRow[key] = '<img loading="lazy" src="' + data[i][key].replace("http:","https:") + '" height="50">';
 				}
@@ -164,18 +170,22 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key + 'Label' in data[i]) {
 			var linkcount = (data[i][key].match(/http|\.\.\//g) || []).length;
 			sepchar=" // "
-			console.log(data[i][key])
-			console.log(linkcount)
+			//console.log(data[i][key])
+			//console.log(linkcount)
 			if(linkcount==0){
 				convertedRow[key] = '<span>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
 			}else if(linkcount==1){
-				convertedRow[key] = '<a href="' +
+				temp = '<a href="' +
 				(linkPrefixes[key] || "") + 
-				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +
-				'">' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
+				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +'"'
+				if(typeof(h)!=="undefined" && data[i][key].includes(h)){
+					temp+=' style="color:red"'
+				}
+				temp+='>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
+				convertedRow[key]=temp
 			}else if(linkcount>1){
-				console.log(data[i][key])
-				console.log(linkcount)
+				//console.log(data[i][key])
+				//console.log(linkcount)
 				sepchar=" // "
 				try{
 					if(data[i][key].includes("http")){
@@ -197,7 +207,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				labs=data[i][key+'Label'].split(sepchar)	
 				res=""
 				for(let i = 0; i < urls.length; i++){
-					res+="<a href=\""+urls[i]+"\" target=\"_blank\">"+labs[i]+"</a> "+sepchar+" "
+					res+='<a target="_blank"'
+					if(typeof(h)!=="undefined" && urls[i].includes(h)){
+						res+=' style="color:red"'
+					}
+					res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
 				}
 				res=res.substring(0,res.length-sepchar.length-2)
 				convertedRow[key]=res
@@ -215,37 +229,30 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if (data[i][key + 'Url']) {
 				var linkcount = (data[i][key + 'Url'].match(/http|\.\.\//g) || []).length;
 				sepchar=" // "
-				console.log(data[i][key + 'Url'])
-				console.log(linkcount)
+				//console.log(data[i][key + 'Url'])
+				//console.log(linkcount)
 				if(linkcount==1){
-					convertedRow[key] = '<a target="_blank\" href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
+					temp = '<a target="_blank\"'
+					if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
+						temp+=' style="color:red"'
+					}
+					temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
+					convertedRow[key]=temp
 				}else if(linkcount>1){
-					console.log(data[i][key + 'Url'])
-					console.log(linkcount)
+					//console.log(data[i][key + 'Url'])
+					//console.log(linkcount)
 					sepchar=" // "
-					/*try{
-						if(data[i][key + 'Url'].includes("http")){
-							secondocc=data[i][key + 'Url'].indexOf("http",7)
-						}else if(data[i][key + 'Url'].includes("../")){
-							secondocc=data[i][key + 'Url'].indexOf("../",4)
-						}else{
-							secondocc=data[i][key + 'Url'].indexOf(" ")
-						}
-						firsturl=data[i][key + 'Url'].substring(0,secondocc)
-						var onlyNumbers = firsturl.replace(/\D/g,'');
-						var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
-						var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
-						sepchar=data[i][key + 'Url'].substring(lastNumberIndex+1,secondocc)
-					}catch(err){
-						console.log("ERROR: "+err)
-					}*/
 					urls=data[i][key + 'Url'].split(sepchar)
 					labs=data[i][key].split(sepchar)	
 					res=""
 					for(let i = 0; i < urls.length; i++){
-						res+="<a href=\""+urls[i]+"\" target=\"_blank\">"+labs[i]+"</a> "+sepchar+" "
+						res+='<a target="_blank"'
+						if(typeof(h)!=="undefined" && urls[i].includes(h)){
+							res+=' style="color:red"'
+						}
+						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
 					}
-					console.log("THERES: "+res)
+					//console.log("THERES: "+res)
 					res=res.substring(0,res.length-sepchar.length-2)
 					convertedRow[key]=res	
 				}				
@@ -376,7 +383,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		if(thetitle.replace("&nbsp;","")=="Value"){
 			val=true
 		}
-		console.log("THETITLE: "+thetitle)
+		//console.log("THETITLE: "+thetitle)
 		var column = {
 		data: convertedData.columns[i],
 		title: thetitle,
@@ -390,7 +397,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		accsource=""
 		convertedDataReduced=[]
 		for(i=0;i<convertedData.data.length;i++){
-			console.log(convertedData.data[i])
+			//console.log(convertedData.data[i])
 			if("description" in convertedData.data[i] && "value_" in convertedData.data[i]){
 				if(lastlabel==""){
 					lastlabel=convertedData.data[i]["description"]
@@ -435,7 +442,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 			}
 			convertedDataReduced.push(moddata)
 		}	
-		console.log(convertedDataReduced)
+		//console.log(convertedDataReduced)
 		convertedData["data"]=convertedDataReduced
 	}
 	table = $(element).on( 'draw.dt', function () {
@@ -470,6 +477,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    ordering: true,
 	    order: [], 
 	    paging: paging,
+		pagingType: "input",
 	    sDom: sDom,
 	});
 
