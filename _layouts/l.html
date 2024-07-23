@@ -327,7 +327,12 @@ WHERE {
      ?sense wdt:P5137 ?glossUrl .
    }
    OPTIONAL {
+   {
      ?sense wdt:P18 ?images
+   }UNION {
+	?sense wdt:P5137 ?glossUrl .
+	?glossUrl wdt:P18 ?images .
+   }
    }
    BIND(CONCAT(?glosss,"@",lang(?glosss)) AS ?glloss)
  }
