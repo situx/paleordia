@@ -296,7 +296,7 @@ WHERE {
    (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?featuresLabel)   
 # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
-   wd:L1087080 ontolex:lexicalForm ?form .
+   wd:${ l } ontolex:lexicalForm ?form .
    ?form ontolex:representation ?formlabel .
    BIND(lang(?formlabel) AS ?formlabellang)
    OPTIONAL {
@@ -316,7 +316,7 @@ WHERE {
 # List of senses for a specific lexeme
  SELECT
   ?sense ?senseLabel ?glossUrl
-  (GROUP_CONCAT(?glloss; separator=" // ") AS ?gloss)
+  (GROUP_CONCAT(DISTINCT ?glloss; separator=" // ") AS ?gloss)
   (IRI(CONCAT("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file&width=200&wpvalue=", 
           SUBSTR(STR(SAMPLE(?images)), 52))) AS ?sense_image)
  WHERE {
