@@ -314,8 +314,8 @@ WHERE {
  sensesSparql = `
 # List of senses for a specific lexeme
  SELECT
-  ?sense ?senseLabel ?gloss
-  (GROUP_CONCAT(?glloss; separator=" // ") AS ?glossLabel)
+  ?sense ?senseLabel ?glossUrl
+  (GROUP_CONCAT(?glloss; separator=" // ") AS ?gloss)
   (IRI(CONCAT("https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file&width=200&wpvalue=", 
           SUBSTR(STR(SAMPLE(?images)), 52))) AS ?sense_image)
  WHERE {
@@ -323,7 +323,7 @@ WHERE {
    BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
    ?sense skos:definition ?glosss .
    OPTIONAL {
-     ?sense wdt:P5137 ?gloss .
+     ?sense wdt:P5137 ?glossUrl .
    }
    OPTIONAL {
      ?sense wdt:P18 ?images
