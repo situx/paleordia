@@ -291,11 +291,12 @@ WHERE {
  # List of forms for a specific lexeme
  SELECT
   ?form (GROUP_CONCAT(DISTINCT ?formlabel; separator=" // ") AS ?formLabel)
-   (GROUP_CONCAT(DISTINCT ?formlabellang; separator=" // ") AS ?formLabellang)
-   (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?features)
-   # (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
+   (GROUP_CONCAT(DISTINCT ?formlabellang; separator=" // ") AS ?language)
+   (GROUP_CONCAT(DISTINCT ?feature; separator=" // ") AS ?features)
+   (GROUP_CONCAT(DISTINCT ?featureLabel; separator=" // ") AS ?featuresLabel)   
+# (GROUP_CONCAT(DISTINCT ?hyphenation; separator=" // ") AS ?hyphenations)
  WHERE {
-   wd:${ l } ontolex:lexicalForm ?form .
+   wd:L1087080 ontolex:lexicalForm ?form .
    ?form ontolex:representation ?formlabel .
    BIND(lang(?formlabel) AS ?formlabellang)
    OPTIONAL {
