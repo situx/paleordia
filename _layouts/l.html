@@ -330,7 +330,7 @@ WHERE {
    }
    BIND(CONCAT(?glosss,"@",lang(?glosss)) AS ?glloss)
  }
- GROUP BY ?sense ?senseLabel ?gloss
+ GROUP BY ?sense ?senseLabel ?glossUrl
  ORDER BY (STR(?sense))
 `
 
