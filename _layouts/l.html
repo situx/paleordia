@@ -165,7 +165,7 @@ WHERE {
 		BIND("Compound" AS ?description)
 		wd:${ l } p:P5238 ?comb . 
 		?comb ps:P5238 ?value .
-		OPTIONAL {?comb pq:P5548 ?form . 
+		?comb pq:P5548 ?form . 
 		?form ontolex:representation ?formlabel . 
 		?comb pq:P5980 ?combsense . 
 		?combsense wdt:P5137|wdt:P9970 ?combsenseval . 
