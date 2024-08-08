@@ -172,7 +172,7 @@ WHERE {
 		?combsense skos:definition ?combsensedeff .
 		#wdt:P5238+ ?value .
 		#?value wikibase:lemma ?valuelabel .
-		BIND(CONCAT(?combsensedeff," (",?formlabel,")") AS ?valuelabel)
+		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
 		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description}
   }
