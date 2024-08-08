@@ -164,6 +164,7 @@ WHERE {
 	{SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 		BIND("Compound" AS ?description)
 		wd:${ l } p:P5238 ?comb . 
+		?comb ps:P5238 ?value .
 		?comb pq:P5548 ?form . 
 		?form ontolex:representation ?formlabel . 
 		?comb pq:P5980 ?combsense . 
@@ -171,7 +172,7 @@ WHERE {
 		?combsense skos:definition ?combsensedeff .
 		#wdt:P5238+ ?value .
 		#?value wikibase:lemma ?valuelabel .
-		BIND(CONCAT(?combsensedeff," (",?formlabel,")") AS ?valueLabel)
+		BIND(CONCAT(?combsensedeff," (",?formlabel,")") AS ?valuelabel)
 		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description}
   }
