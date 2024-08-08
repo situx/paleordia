@@ -165,14 +165,14 @@ WHERE {
 		BIND("Compound" AS ?description)
 		wd:${ l } p:P5238 ?comb . 
 		?comb ps:P5238 ?value .
-		?comb pq:P5548 ?form . 
+		OPTIONAL {?comb pq:P5548 ?form . 
 		?form ontolex:representation ?formlabel . 
 		?comb pq:P5980 ?combsense . 
 		?combsense wdt:P5137|wdt:P9970 ?combsenseval . 
 		?combsense skos:definition ?combsensedeff .
 		#wdt:P5238+ ?value .
-		#?value wikibase:lemma ?valuelabel .
-		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
+		?value wikibase:lemma ?valuelab .
+		BIND(IF(isbound(?formlabel),CONCAT(?formlabel," (",?combsensedeff,")"),?valuelab) AS ?valuelabel)
 		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description}
   }
