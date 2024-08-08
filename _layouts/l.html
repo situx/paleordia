@@ -172,7 +172,7 @@ WHERE {
 		?combsense skos:definition ?combsensedeff .
 		#wdt:P5238+ ?value .
 		?value wikibase:lemma ?valuelab .
-		BIND(IF(isbound(?formlabel),CONCAT(?formlabel," (",?combsensedeff,")"),?valuelab) AS ?valuelabel)
+		BIND(IF(bound(?formlabel),CONCAT(?formlabel," (",?combsensedeff,")"),?valuelab) AS ?valuelabel)
 		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
     }GROUP BY ?description}
   }
@@ -430,7 +430,7 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 				   gloss: ''
 			   }});
      sparqlToDataTable(compoundsSparql, "#compounds",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: true, sDom: 'rt',});
  });
 
 </script>
