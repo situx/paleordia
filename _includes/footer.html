@@ -20,5 +20,8 @@
   gtag('js', new Date());
 
   gtag('config', 'G-VXTX7M4VF6');
+  if ('serviceWorker' in navigator) {
+  	navigator.serviceWorker.register('service-worker.js');
+  }
 </script>
 </footer>
