@@ -3,7 +3,7 @@
     "name": "PaleOrdia Web App",
     "short_name": "PaleOrdia",
     "description": "A web app to access Wikidata lexemes and paleography",
-    "start_url": "/",
+    "start_url": "/paleordia/",
     "background_color": "#2f3d58",
     "theme_color": "#2f3d58",
     "orientation": "any",
