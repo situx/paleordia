@@ -374,6 +374,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
 	console.log(convertedData)
 	console.log(convertedData.data.length)
+	console.log(options.divElem)
 	if(convertedData.data.length==0 && options.divElem!=""){
 		console.log(options.divElem)
 		$(options.divElem).hide();
