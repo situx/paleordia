@@ -324,6 +324,7 @@ function sparqlDataToSimpleData(response) {
 
 function sparqlToDataTable(sparql, element, options={}) {
     // Options: linkPrefixes={}, paging=true
+    var divElem = (typeof options.divElem === 'undefined') ? {} : options.divElem;
     var linkPrefixes = (typeof options.linkPrefixes === 'undefined') ? {} : options.linkPrefixes;
 	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
@@ -372,6 +373,10 @@ function sparqlToDataTable(sparql, element, options={}) {
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
 	console.log(convertedData)
+	if(convertedData.columns.length==0 && options.divElem!=""){
+		$(options.divElem).hide();
+		return
+	}
 	var desc=false
 	var val=false
 	columns = [];
