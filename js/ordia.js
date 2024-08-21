@@ -190,6 +190,12 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				try{
 					if(data[i][key].includes("http")){
 						secondocc=data[i][key].indexOf("http",7)
+						if(data[i][key].includes(" # ")){
+							secondocccomp=data[i][key].indexOf(" # ")
+							if(secondocccomp<secondocc){
+								secondocc=secondocccomp
+							}
+						}
 					}else if(data[i][key].includes("../")){
 						secondocc=data[i][key].indexOf("../",3)
 					}else if(data[i][key].includes(" # ")){
@@ -197,6 +203,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					}else{
 						secondocc=data[i][key].indexOf(" ")
 					}
+
 					firsturl=data[i][key].substring(0,secondocc)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
