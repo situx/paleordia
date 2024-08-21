@@ -193,7 +193,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					}else if(data[i][key].includes("../")){
 						secondocc=data[i][key].indexOf("../",3)
 					}else if(data[i][key].includes(" # ")){
-						secondocc=data[i][key].indexOf(" # ")
+						secondocc=data[i][key].indexOf(" # ")+1
 					}else{
 						secondocc=data[i][key].indexOf(" ")
 					}
@@ -202,7 +202,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
 					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
 					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
-					console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") "+firsturl+" | "+onlyNumbers+"\n"+data[i][key])
+					console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") ["+lastNumber+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+data[i][key])
 				}catch(err){
 					console.log("ERROR: "+err)
 				}
