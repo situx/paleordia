@@ -193,7 +193,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					}else if(data[i][key].includes("../")){
 						secondocc=data[i][key].indexOf("../",3)
 					}else if(data[i][key].includes(" # ")){
-						secondocc=data[i][key].indexOf(" # ")
+						secondocc=data[i][key].indexOf(" # ")-3
 					}else{
 						secondocc=data[i][key].indexOf(" ")
 					}
