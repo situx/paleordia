@@ -4,7 +4,7 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel
+SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?rep; separator=" / ") as ?representations) 
 	(GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)
 	(GROUP_CONCAT(DISTINCT ?combsensedef; separator=" + ") as ?combinationsLabel)
@@ -16,7 +16,7 @@ lexemesSparql =`
 		 wikibase:lemma ?lexemea ;
 		 wikibase:lexicalCategory ?lexcat .
 	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
-	  OPTIONAL { ?lexeme p:P5238 ?comb . ?comb pq:P5548 ?form . ?form ontolex:representation ?formlabel . ?comb pq:P5980 ?combsense . ?combsense wdt:P5137|wdt:P9970 ?combsenseval .?combsense skos:definition ?combsensedeff . FILTER(lang(?combsensedeff)="en") FILTER(lang(?formlabel)="sux-latn") BIND(CONCAT(?combsensedeff," (",?formlabel,")") AS ?combsensedef) }
+	  OPTIONAL { ?lexeme p:P5238 ?comb . ?comb pq:P5548 ?form . ?form ontolex:representation ?formlabel . ?comb pq:P5980 ?combsense . ?combsense skos:definition ?combsensedeff . OPTIONAL {?combsense wdt:P5137|wdt:P9970 ?combsenseva .} BIND(COALESCE(?combsenseva,"#") AS ?combsenseval) FILTER(lang(?combsensedeff)="en") FILTER(lang(?formlabel)="sux-latn") BIND(COALESCE(CONCAT(?combsensedeff," (",?formlabel,")"),?combsensedeff) AS ?combsensedef) }
 	  OPTIONAL { ?lexeme ontolex:lexicalForm ?lf . ?lf ontolex:representation ?rep . }  
 	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     }
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel
