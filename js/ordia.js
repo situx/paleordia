@@ -191,7 +191,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(data[i][key].includes("http")){
 						secondocc=data[i][key].indexOf("http",7)
 						if(data[i][key].includes(" # ")){
-							secondocccomp=data[i][key].indexOf(" # ")
+							secondocccomp=data[i][key].indexOf(" # ")+1
 							if(secondocccomp<secondocc){
 								secondocc=secondocccomp
 							}
