@@ -151,6 +151,18 @@ WHERE {
     # Time Period
     BIND(16 AS ?order)
     {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	  BIND("Transitivity AS ?description)
+	  wd:${ l } wdt:P9295 ?value .
+	  ?value rdfs:label ?valuelabel .
+	  FILTER (LANG(?valuelabel) = 'en')
+	  BIND(CONCAT("../property_value?p=P9295&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    }GROUP BY ?description }  
+  }
+  UNION 
+  {
+    # Time Period
+    BIND(17 AS ?order)
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 	  BIND("Time Period" AS ?description)
 	  wd:${ l } wdt:P2348 ?value .
 	  ?value rdfs:label ?valuelabel .
