@@ -150,7 +150,7 @@ WHERE {
   {
     # Transitivity
     BIND(16 AS ?order)   
-	BIND("Transitivity AS ?description)
+	BIND("Transitivity" AS ?description)
     wd:${ l } wdt:P9295 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
