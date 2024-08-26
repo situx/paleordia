@@ -33,6 +33,8 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 
  $(document).ready(function() {
      sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 'pBar':"progressbar",
+	 'pBarLabel':"progress-label",
 	 linkPrefixes: {
 	     lexeme: '../l'
 	 }
@@ -46,7 +48,7 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 <hr/>
 
 <div class="lexical-categories">
-
+	<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
     <table class="table table-hover" id="lexical-categories"></table>
 
 </div>
