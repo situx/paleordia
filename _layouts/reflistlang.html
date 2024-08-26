@@ -33,22 +33,28 @@ lexemesSparql =`
 lexemesSparqlP=`
   SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel (GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) (CONCAT(?formaturl,?refnumber) AS ?refnumberUrl) ?refnumber WHERE {
+	 {
+   SELECT ?lexeme ?lexemeLab ?refnumber ?lexical_category ?lexical_categoryLabel WHERE {
 	?lexeme rdf:type ontolex:LexicalEntry;
 		dct:language wd:${ l };
 		wikibase:lemma ?lexemeLab ;    
         wdt:${ p } ?refnumber ; 		
 		wikibase:lexicalCategory ?lexical_category .
     ?lexical_category rdfs:label ?lexical_categoryLabel .
+    FILTER (LANG(?lexical_categoryLabel) = "en")
+	}}
 	OPTIONAL {
 	    ?idpropp wikibase:directClaim wdt:${ p } .
 		?idpropp wdt:P1630 ?formatur .
 		BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
 	}
-	  FILTER (LANG(?lexical_categoryLabel) = "en")
-	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     
+	OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") 
+	  OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} 
+	  BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) 
+	}     
   }
-	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel ?formaturl
-	ORDER BY (?refnumber)
+  GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel ?formaturl
+  ORDER BY (?refnumber)
 `
 
  $(document).ready(function() {
