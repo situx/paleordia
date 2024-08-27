@@ -363,21 +363,22 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabe
     ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
-    ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme 
+    ?translation ?translationLabel ?language ?translangLabel ?translationlexeme 
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
 	WHERE {	
 	  wd:${ l } rdf:type ontolex:LexicalEntry ;           
 		 dct:language wd:Q36790 ;		   
 		 wikibase:lemma ?lexemea ;
-		 wikibase:lexicalCategory ?lexcat .	
+		 wikibase:lexicalCategory ?lexcat .
+	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")		 
 	  wd:${ l } ontolex:sense ?sense . ?sense wdt:P5972 ?translation . ?translation skos:definition ?translationLabel .  FILTER(LANG(?translationLabel)= "en") ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)    
   	  ?translationlexeme ontolex:sense ?translation .
       ?translationlexeme wikibase:lemma ?lexeme2a .
-      ?translationlexeme dct:language ?translang .	  
-      ?translang rdfs:label ?translangLabel .
-      FILTER(LANG(?translangLabel)= "en")
+      ?translationlexeme dct:language ?language .	  
+      ?language rdfs:label ?languageLabel .
+      FILTER(LANG(?languageLabel)= "en")
       }
-    GROUP BY ?lexeme ?lexcat ?lexcatLabel ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme
+    GROUP BY ?lexeme ?lexcat ?lexcatLabel ?translation ?translationLabel ?language ?translangLabel ?translationlexeme
 	ORDER BY ?lexemeLabel
 `
 
