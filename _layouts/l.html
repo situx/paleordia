@@ -467,7 +467,7 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 				   gloss: ''
 			   }});
      sparqlToDataTable(compoundsSparql, "#compounds",
-		       options={paging: true, sDom: 'rt',});
+		       options={divElem: "#compounds-q", paging: true, sDom: 'rt',});
  });
 
 </script>
@@ -510,11 +510,11 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 	 <h2>Translations of Lexeme ${ qLabel } (${ l })</h2>
      <table class="table table-hover" id="translations"></table>
      </div>
-    
+       <div id="compounds-q">
 	<h2>Compounds with Lexeme ${ qLabel } (${ l })</h2>
 
     <table class="table table-hover" id="compounds"></table>
-
+	</div>
     <h2>Compound and derivation graph</h2>
     <button class="btn btn-outline-dark btn-sm glyphicon glyphicon-fullscreen" onclick="toggleFullScreen('wikidataembed')">FullScreen</button>
     <div class="embed-responsive embed-responsive-4by3">  
