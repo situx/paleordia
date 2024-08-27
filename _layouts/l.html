@@ -363,7 +363,7 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabe
     ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
-    ?translation ?translationLabel ?language ?translangLabel ?translationlexeme 
+    ?translation ?translationLabel ?language ?languageLabel ?translationlexeme 
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
 	WHERE {	
 	  wd:${ l } rdf:type ontolex:LexicalEntry ;           
