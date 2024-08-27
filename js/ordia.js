@@ -198,12 +198,9 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 					}else if(data[i][key].includes("../")){
 						secondocc=data[i][key].indexOf("../",3)
-					}else if(data[i][key].includes(" # ")){
-						secondocc=data[i][key].indexOf(" # ")-3
 					}else{
 						secondocc=data[i][key].indexOf(" ")
 					}
-
 					firsturl=data[i][key].substring(0,secondocc)
 					var onlyNumbers = firsturl.replace(/\D/g,'');
 					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
