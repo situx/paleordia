@@ -367,7 +367,7 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabe
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
 	WHERE {	
 	  wd:${ l } rdf:type ontolex:LexicalEntry ;           
-		 dct:language wd:Q36790 ;		   
+		 dct:language wd:${ qb } ;		   
 		 wikibase:lemma ?lexemea ;
 		 wikibase:lexicalCategory ?lexcat .
 	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")		 
