@@ -46,6 +46,23 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 
 <h1>Lexemes for ${ qLabel } (${ q })</h1>
 
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="../language?q=${ l }&qLabel=${ lLabel }">←</a>
+  <a title="View and edit item in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }${ p }">Wikidata ↗</a>
+  <a title="View item in Reasonator"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://reasonator.toolforge.org/?&q=${ q }${ p }">Reasonator ↗</a>
+  <a title="View item as a Scholia topic"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/topic/${ q }${ p }">Scholia ↗</a>
+
 <hr/>
 
 <div class="lexical-categories">

@@ -378,7 +378,7 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabe
       ?language rdfs:label ?languageLabel .
       FILTER(LANG(?languageLabel)= "en")
       }
-    GROUP BY ?lexeme ?lexcat ?lexcatLabel ?translation ?translationLabel ?language ?translangLabel ?translationlexeme
+    GROUP BY ?lexeme ?lexcat ?lexcatLabel ?translation ?translationLabel ?language ?languageLabel ?translationlexeme
 	ORDER BY ?lexemeLabel
 `
 
