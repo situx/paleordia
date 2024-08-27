@@ -358,6 +358,28 @@ WHERE {
  ORDER BY (STR(?sense))
 `
 
+translationSparql=`
+SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) 
+    ?lexcat ?lexcatLabel
+	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
+	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
+    ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme 
+    (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
+	WHERE {	
+	  wd:${ l } rdf:type ontolex:LexicalEntry ;           
+		 dct:language wd:Q36790 ;		   
+		 wikibase:lemma ?lexemea ;
+		 wikibase:lexicalCategory ?lexcat .	
+	  wd:${ l } ontolex:sense ?sense . ?sense wdt:P5972 ?translation . ?translation skos:definition ?translationLabel .  FILTER(LANG(?translationLabel)= "en") ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)    
+  	  ?translationlexeme ontolex:sense ?translation .
+      ?translationlexeme wikibase:lemma ?lexeme2a .
+      ?translationlexeme dct:language ?translang .	  
+      ?translang rdfs:label ?translangLabel .
+      FILTER(LANG(?translangLabel)= "en")
+      }
+    GROUP BY ?lexeme ?lexcat ?lexcatLabel ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme
+	ORDER BY ?lexemeLabel
+`
 
 compoundsSparql = `
 SELECT
@@ -428,7 +450,12 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 			   linkPrefixes: {
 			       idUrl: ''
 			   }});
-     sparqlToDataTable(formsSparql, "#forms",
+     sparqlToDataTable(idSparql, "#translations",
+		       options={divElem: "#translation-q", paging: false, sDom: 'rt',
+			   linkPrefixes: {
+			       idUrl: ''
+			   }});
+	 sparqlToDataTable(formsSparql, "#forms",
 		       options={paging: false, sDom: 'rt',
 			   linkPrefixes: {
 			       form: '../lf'
@@ -479,8 +506,12 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
      <table class="table table-hover" id="ids"></table>
      </div>
     <hr/>
+    <div id="translation-q">
+	 <h2>Translations of Lexeme ${ qLabel } (${ l })</h2>
+     <table class="table table-hover" id="translations"></table>
+     </div>
     
-    <h2>Compounds with Lexeme ${ qLabel } (${ l })</h2>
+	<h2>Compounds with Lexeme ${ qLabel } (${ l })</h2>
 
     <table class="table table-hover" id="compounds"></table>
 
