@@ -395,6 +395,7 @@ WHERE {
       (GROUP_CONCAT(?compound; separator=" // ") AS ?compounds)
       (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compoundsLabel)
     WHERE {
+	  SELECT ?lexeme ?compound ?compoundLabel ?sensedef WHERE {
       ?lexeme wdt:P5238+ wd:${ l } .
       OPTIONAL {
         ?lexeme p:P5238 ?compoundstat .
@@ -409,6 +410,8 @@ WHERE {
         BIND(COALESCE(CONCAT(" [",?sensedeff,"]"), "") AS ?sensedef)
         BIND(CONCAT(?compoundlabel,?sensedef) AS ?compoundLabel)
       }
+	}
+    ORDER BY xsd:integer(?seriesordinal)
     }
     GROUP BY ?lexeme ?sensedefs
   }    
