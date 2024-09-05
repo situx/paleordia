@@ -408,6 +408,7 @@ WHERE {
         ?compoundstat ps:P5238 ?compound .
         ?compound wikibase:lemma ?compoundlabel .
         #FILTER (?compound != wd:${ l })
+		?compoundstat pq:P1545 ?seriesordinal .
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
           ?sense skos:definition ?sensedeff .
