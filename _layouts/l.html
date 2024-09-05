@@ -84,7 +84,7 @@ WHERE {
 	  BIND("Root" AS ?description)
 	  wd:${ l } wdt:P5920 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -189,7 +189,7 @@ WHERE {
 		#wdt:P5238+ ?value .
 		#?value wikibase:lemma ?valuelabel .
 		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
-		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+		BIND(CONCAT("../l?&qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }
   }
   UNION 
@@ -229,8 +229,7 @@ WHERE {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       OPTIONAL { ?value_statement pq:P577 ?date }
       BIND(COALESCE(
-        CONCAT(STR(YEAR(?date)), "-", STR(MONTH(?date)), "-", STR(DAY(?date))),
-        "↗") AS ?source)
+        CONCAT(STR(YEAR(?date)), "-", STR(MONTH(?date)), "-", STR(DAY(?date))),"↗") AS ?source)
     }
   }
   UNION 
