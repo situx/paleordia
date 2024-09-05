@@ -284,7 +284,7 @@ function determineSepchar(thekey){
 		var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
 		var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
 		sepchar=thekey.substring(lastNumberIndex+1,secondocc)
-		//console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+data[i][key])
+		console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+data[i][key])
 	}catch(err){
 		console.log("ERROR: "+err)
 	}
