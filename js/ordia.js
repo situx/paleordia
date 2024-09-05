@@ -283,6 +283,9 @@ function determineSepchar(thekey){
 		var onlyNumbers = firsturl.replace(/\D/g,'');
 		var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
 		var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
+		if(thekey.indexOf(" ",lastNumberIndex)>lastNumberIndex){
+			lastNumberIndex=thekey.indexOf(" ",lastNumberIndex)
+		}
 		sepchar=thekey.substring(lastNumberIndex+1,secondocc)
 		console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+thekey)
 	}catch(err){
