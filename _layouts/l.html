@@ -190,7 +190,7 @@ WHERE {
 		#?value wikibase:lemma ?valuelabel .
 		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
 		BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
-    }GROUP BY ?description ?formlabel}
+    }GROUP BY ?description }
   }
   UNION 
   {
