@@ -186,30 +186,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}else if(linkcount>1){
 				//console.log(data[i][key])
 				//console.log(linkcount)
-				sepchar=" // "
-				try{
-					if(data[i][key].includes("http")){
-						secondocc=data[i][key].indexOf("http",7)
-						if(data[i][key].includes(" # ")){
-							secondocccomp=data[i][key].indexOf(" # ")+1
-							if(secondocccomp<secondocc){
-								secondocc=secondocccomp
-							}
-						}
-					}else if(data[i][key].includes("../")){
-						secondocc=data[i][key].indexOf("../",3)
-					}else{
-						secondocc=data[i][key].indexOf(" ")
-					}
-					firsturl=data[i][key].substring(0,secondocc)
-					var onlyNumbers = firsturl.replace(/\D/g,'');
-					var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
-					var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
-					sepchar=data[i][key].substring(lastNumberIndex+1,secondocc)
-					//console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+data[i][key])
-				}catch(err){
-					console.log("ERROR: "+err)
-				}
+				sepchar=determineSepchar(data[i][key])
 				urls=data[i][key].split(sepchar)
 				labs=data[i][key+'Label'].split(sepchar)	
 				res=""
@@ -248,7 +225,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				}else if(linkcount>1){
 					//console.log(data[i][key + 'Url'])
 					//console.log(linkcount)
-					sepchar=" // "
+					sepchar=determineSepchar(data[i][key + 'Url'])
 					urls=data[i][key + 'Url'].split(sepchar)
 					labs=data[i][key].split(sepchar)	
 					res=""
@@ -284,6 +261,34 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	convertedData.push(convertedRow);
     }
     return {data: convertedData, columns: convertedColumns}
+}
+
+function determineSepchar(thekey){
+	sepchar=" // "
+	try{
+		if(thekey.includes("http")){
+			secondocc=thekey.indexOf("http",7)
+			if(thekey.includes(" # ")){
+				secondocccomp=thekey.indexOf(" # ")+1
+				if(secondocccomp<secondocc){
+					secondocc=secondocccomp
+				}
+			}
+		}else if(thekey.includes("../")){
+			secondocc=thekey.indexOf("../",3)
+		}else{
+			secondocc=thekey.indexOf(" ")
+		}
+		firsturl=thekey.substring(0,secondocc)
+		var onlyNumbers = firsturl.replace(/\D/g,'');
+		var lastNumber = onlyNumbers.substring(onlyNumbers.length - 1);
+		var lastNumberIndex=firsturl.lastIndexOf(lastNumber)
+		sepchar=thekey.substring(lastNumberIndex+1,secondocc)
+		//console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+data[i][key])
+	}catch(err){
+		console.log("ERROR: "+err)
+	}
+	return sepchar
 }
 
 function toggleFullScreen(elementid) {
