@@ -171,7 +171,7 @@ WHERE {
   UNION 
   {
     BIND(18 AS ?order)
-	{SELECT ?description (GROUP_CONCAT(DISTINCT ?valueurl; separator=" + ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+	{SELECT ?description (GROUP_CONCAT(DISTINCT ?valueurl; separator=" + ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" + ") AS ?valueLabel) WHERE {     
 		BIND("Compound" AS ?description)		
         {SELECT ?value (GROUP_CONCAT(DISTINCT ?forml; separator=" // ") AS ?formlabel) ?comb WHERE {
           wd:${ l } p:P5238 ?comb . 
