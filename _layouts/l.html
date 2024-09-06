@@ -364,12 +364,12 @@ WHERE {
 `
 
 translationSparql=`
-SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) 
+SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" // ") as ?lexemeLabel) 
     ?lexcat ?lexcatLabel
-	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
-	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
+	(GROUP_CONCAT(DISTINCT ?senseval; separator=" // ") as ?sense)
+	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" // ") as ?senseLabel)    
     ?translation ?translationLabel ?language ?languageLabel ?translationlexeme 
-    (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
+    (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" // ") as ?translationlexemeLabel) 
 	WHERE {	
 	  wd:${ l } rdf:type ontolex:LexicalEntry ;           
 		 dct:language ?lexlang ;		   
