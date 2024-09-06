@@ -37,7 +37,7 @@ WHERE {
     FILTER (LANG(?langvalueLabel) = 'en')
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
+    BIND(CONCAT("../lexical-category?q=",?value, 32),"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
   }
   UNION 
   {
@@ -132,7 +132,7 @@ WHERE {
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } wdt:P5191 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -143,7 +143,7 @@ WHERE {
       BIND("Homographs" AS ?description)
 	  wd:${ l } wdt:P5402 ?value .
       ?value wikibase:lemma ?valuelabel .
-      BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+      BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -165,7 +165,7 @@ WHERE {
 	  wd:${ l } wdt:P2348 ?value .
 	  ?value rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
-	  BIND(CONCAT("../timeperiod?q=",SUBSTR(STR(?value), 32),"&qLabel=",?valuelabel)  AS ?valueurl)
+	  BIND(CONCAT("../timeperiod?qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
