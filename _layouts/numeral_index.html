@@ -5,7 +5,7 @@ layout: base
 <script type="text/javascript">
     numeralsPerLanguageSparql = `
 # tool: ordia
-SELECT ?count ?language ?languageLabel ?example_lexeme ?example_lexemeLabel
+SELECT ?count ?language ?languageLabel ?example_lexeme (GROUP_CONCAT(?example_lexemeLabell; separator=" // ") AS ?example_lexemeLabel)
 WITH {
   SELECT
     (COUNT(*) AS ?count)
@@ -19,9 +19,10 @@ WITH {
 } AS %result
 WHERE {
   INCLUDE %result
-  ?example_lexeme wikibase:lemma ?example_lexemeLabel
+  ?example_lexeme wikibase:lemma ?example_lexemeLabell
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
+GROUP BY ?count ?language ?languageLabel ?example_lexeme
 ORDER BY DESC(?count)
   `;
 
