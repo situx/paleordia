@@ -8,12 +8,16 @@ title: PaleOrdia
   <body>
     {% include nav.html %}
 	<script>
+	function selectdisplaylang(){
+		displaylang=document.getElementById("displaylangselect").value
+	}
 	const urlParams = new URLSearchParams(window.location.search);
 	const l = urlParams.get('l');
 	const f = urlParams.get('f');
 	const c = urlParams.get('c');
 	const s = urlParams.get('s');
 	const h = urlParams.get('h');
+	var displaylang="en";
 	var p = urlParams.get('p');
 	var q = urlParams.get('q');
 	var qLabel = urlParams.get('qLabel');
