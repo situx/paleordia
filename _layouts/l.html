@@ -186,6 +186,7 @@ WHERE {
 		?comb pq:P5980 ?combsense . 
 		?combsense wdt:P5137|wdt:P9970 ?combsenseval . 
 		?combsense skos:definition ?combsensedeff .
+		FILTER (LANG(?combsensedeff) = 'en')
 		#wdt:P5238+ ?value .
 		#?value wikibase:lemma ?valuelabel .
 		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
