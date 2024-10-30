@@ -213,8 +213,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if (data[i][key + 'Url']) {
 				var linkcount = (data[i][key + 'Url'].match(/http|\.\.\//g) || []).length;
 				sepchar=" // "
-				//console.log(data[i][key + 'Url'])
-				//console.log(linkcount)
+				console.log(data[i][key + 'Url'])
+				console.log("Linkcount: "+linkcount)
 				if(linkcount==1){
 					temp = '<a target="_blank\"'
 					if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
