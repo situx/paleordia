@@ -117,6 +117,21 @@ GROUP BY ?lexical_category ?lexical_categoryLabel    ?zoom ?zoomUrl ?lexical_cat
 ORDER BY DESC(?count)
 `
 
+lexemesdialectSparql=`
+# tool: ordia
+# title: Dialects per lexeme
+  SELECT DISTINCT ?dialect (GROUP_CONCAT(DISTINCT ?dialectLab; separator=" // ") AS ?dialectLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
+	?lexeme a ontolex:LexicalEntry ;
+		dct:language wd:${ q } .
+	?lexeme wdt:P7481 ?dialect .
+	?dialect rdfs:label ?dialectLab .
+	FILTER (LANG(?dialectLab) = "en")
+  }
+  GROUP BY ?dialect
+  ORDER BY DESC(?number_of_lexemes)
+  LIMIT 10000
+`
+
 lexemestimeperiodsSparql=`
 # tool: ordia
 # title: Time periods per lexeme
@@ -182,6 +197,12 @@ ORDER BY ?referenceLabel
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
 	 'linkPrefixes': {
 	     'lexical_category': '../lexical-category',
+	 }});
+	sparqlToDataTable(lexemesdialectSparql, "#lexemestimeperiods", {
+	 'linkPrefixes': {
+	     'dialect': '../dialect',
+	 },linkParams: {
+		dialect: '&l='+q+'&lLabel='+qLabel
 	 }});
 	sparqlToDataTable(lexemestimeperiodsSparql, "#lexemestimeperiods", {
 	 'linkPrefixes': {
@@ -254,6 +275,10 @@ ORDER BY ?referenceLabel
   </div>
 
   <table class="table table-hover" id="lexical-categories"></table>
+
+<h2>Lexemes by dialect</h2>
+
+<table class="table table-hover" id="lexemesdialect"></table> 
 
 <h2>Lexemes by time period</h2>
 
