@@ -1,0 +1,73 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+ lexemesSparql = `
+# tool: ordia
+# title: List of characters for a script
+  SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
+  {
+   SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
+  ?lexeme rdf:type ontolex:LexicalEntry;
+	dct:language wd:${ l } ; 
+	wdt:P7481 wd:${ q } ;
+	wikibase:lemma ?lexemeLab ;
+	wikibase:lexicalCategory ?lexical_category.
+  ?lexical_category rdfs:label ?lexical_categoryLabel.
+  FILTER(LANG(?lexical_categoryLabel) = "en")}}
+  OPTIONAL {
+    ?lexeme ontolex:sense ?senseitem.
+    ?senseitem skos:definition ?gloss.
+    FILTER(LANG(?gloss) = "en")
+    {} UNION {
+      ?senseitem wdt:P5137|wdt:P9970 ?sensee.
+      ?sensee rdfs:label ?senseLab.
+      FILTER(LANG(?senseLab) = "en")
+	  BIND(COALESCE(?sensee, "") AS ?sensse)
+    }
+    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
+  }
+}
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+`
+
+ $(document).ready(function() {
+     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
+	 'pBar':"progressbar",
+	 'pBarLabel':"progress-label",
+	 linkPrefixes: {
+	     lexeme: '../l'
+	 }
+     });
+ });
+
+</script>
+
+<h1>Lexemes for ${ qLabel } (${ q })</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="../language?q=${ l }&qLabel=${ lLabel }">←</a>
+  <a title="View and edit item in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }${ p }">Wikidata ↗</a>
+  <a title="View item in Reasonator"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://reasonator.toolforge.org/?&q=${ q }${ p }">Reasonator ↗</a>
+  <a title="View item as a Scholia topic"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/topic/${ q }${ p }">Scholia ↗</a>
+
+<hr/>
+
+<div class="lexical-categories">
+	<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
+    <table class="table table-hover" id="lexical-categories"></table>
+
+</div>
+
