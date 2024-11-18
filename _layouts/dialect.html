@@ -6,7 +6,8 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
+  SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) 
+  (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel ?standardForm (GROUP_CONCAT(DISTINCT ?standardFromLabell; SEPARATOR = " // ") AS ?standardFormLabel) WHERE {
   {
    SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
@@ -16,6 +17,10 @@ layout: base
 	wikibase:lexicalCategory ?lexical_category.
   ?lexical_category rdfs:label ?lexical_categoryLabel.
   FILTER(LANG(?lexical_categoryLabel) = "en")}}
+  OPTIONAL { 
+	?lexeme wdt:P11577 ?standardForm .
+	?standardForm wikibase:lemma ?standardFormLabell .
+  }
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.
     ?senseitem skos:definition ?gloss.
