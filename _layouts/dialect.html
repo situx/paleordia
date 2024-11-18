@@ -7,7 +7,7 @@ layout: base
 # tool: ordia
 # title: List of characters for a script
   SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) 
-  (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel ?standardForm (GROUP_CONCAT(DISTINCT ?standardFromLabell; SEPARATOR = " // ") AS ?standardFormLabel) WHERE {
+  (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel ?standardForm (GROUP_CONCAT(DISTINCT ?standardFormLabell; SEPARATOR = " // ") AS ?standardFormLabel) WHERE {
   {
    SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
