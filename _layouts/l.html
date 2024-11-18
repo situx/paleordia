@@ -57,6 +57,14 @@ WHERE {
   }
   UNION 
   {
+    BIND(5 AS ?order)
+    BIND("Dialect" AS ?description)
+    ?lexeme wdt:P7481 ?value_Url .
+    ?value_Url rdfs:label ?valueLabel .
+    FILTER (LANG(?valueLabel) = 'en')
+  }
+  UNION 
+  {
     BIND(6 AS ?order)
     BIND("Word stem" AS ?description)
     ?lexeme wdt:P5187 ?value .
