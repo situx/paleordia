@@ -34,7 +34,7 @@ layout: base
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
   }
 }
-GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?standardForm
 `
 
  $(document).ready(function() {
