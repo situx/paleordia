@@ -213,8 +213,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if (data[i][key + 'Url']) {
 				var linkcount = (data[i][key + 'Url'].match(/http|\.\.\//g) || []).length;
 				sepchar=" // "
-				//console.log(data[i][key + 'Url'])
-				//console.log(linkcount)
+				console.log(data[i][key + 'Url'])
+				console.log("Linkcount: "+linkcount)
 				if(linkcount==1){
 					temp = '<a target="_blank\"'
 					if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
@@ -225,9 +225,12 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				}else if(linkcount>1){
 					//console.log(data[i][key + 'Url'])
 					//console.log(linkcount)
+					console.log("SEPCHAR: "+sepchar)
 					sepchar=determineSepchar(data[i][key + 'Url'])
 					urls=data[i][key + 'Url'].split(sepchar)
-					labs=data[i][key].split(sepchar)	
+					labs=data[i][key].split(sepchar)
+					console.log(urls)
+					console.log(labs)
 					res=""
 					for(let i = 0; i < urls.length; i++){
 						res+='<a target="_blank"'
@@ -236,7 +239,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
 					}
-					//console.log("THERES: "+res)
+					console.log("THERES: "+res)
 					res=res.substring(0,res.length-sepchar.length-2)
 					convertedRow[key]=res	
 				}				
