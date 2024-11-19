@@ -177,11 +177,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			}else if(linkcount==1){
 				temp = '<a href="' +
 				(linkPrefixes[key] || "") + 
-				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;")+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +'"'
+				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +'"'
 				if(typeof(h)!=="undefined" && data[i][key].includes(h)){
 					temp+=' style="color:red"'
 				}
-				temp+='>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
+				temp+='>' + data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;") +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 				convertedRow[key]=temp
 			}else if(linkcount>1){
 				//console.log(data[i][key])
