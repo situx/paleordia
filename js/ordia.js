@@ -173,11 +173,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			//console.log(data[i][key])
 			//console.log(linkcount)
 			if(linkcount==0){
-				convertedRow[key] = '<span>' + data[i][key + 'Label'] +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
+				convertedRow[key] = '<span>' + data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;") +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
 			}else if(linkcount==1){
 				temp = '<a href="' +
 				(linkPrefixes[key] || "") + 
-				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +'"'
+				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;")+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +'"'
 				if(typeof(h)!=="undefined" && data[i][key].includes(h)){
 					temp+=' style="color:red"'
 				}
@@ -195,7 +195,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(typeof(h)!=="undefined" && urls[i].includes(h)){
 						res+=' style="color:red"'
 					}
-					res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
+					res+=" href=\""+urls[i]+"\">"+labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")+"</a> "+sepchar+" "
 				}
 				res=res.substring(0,res.length-sepchar.length-2)
 				convertedRow[key]=res
@@ -213,8 +213,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if (data[i][key + 'Url']) {
 				var linkcount = (data[i][key + 'Url'].match(/http|\.\.\//g) || []).length;
 				sepchar=" // "
-				console.log(data[i][key + 'Url'])
-				console.log("Linkcount: "+linkcount)
+				//console.log(data[i][key + 'Url'])
+				//console.log("Linkcount: "+linkcount)
 				if(linkcount==1){
 					temp = '<a target="_blank\"'
 					if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
@@ -225,12 +225,12 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				}else if(linkcount>1){
 					//console.log(data[i][key + 'Url'])
 					//console.log(linkcount)
-					console.log("SEPCHAR: "+sepchar)
+					//console.log("SEPCHAR: "+sepchar)
 					sepchar=determineSepchar(data[i][key + 'Url'])
 					urls=data[i][key + 'Url'].split(sepchar)
 					labs=data[i][key].split(sepchar)
-					console.log(urls)
-					console.log(labs)
+					//console.log(urls)
+					//console.log(labs)
 					res=""
 					for(let i = 0; i < urls.length; i++){
 						res+='<a target="_blank"'
@@ -239,7 +239,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
 					}
-					console.log("THERES: "+res)
+					//console.log("THERES: "+res)
 					res=res.substring(0,res.length-sepchar.length-2)
 					convertedRow[key]=res	
 				}				
@@ -290,7 +290,7 @@ function determineSepchar(thekey){
 			lastNumberIndex=thekey.indexOf(" ",lastNumberIndex)
 		}*/
 		sepchar=thekey.substring(lastNumberIndex+1,secondocc)
-		console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+thekey)
+		//console.log("found new sepchar: |"+sepchar+"| ("+sepchar.length+") | "+onlyNumbers+" ["+lastNumberIndex+" "+secondocc+"] "+firsturl+" | "+onlyNumbers+"\n"+thekey)
 	}catch(err){
 		console.log("ERROR: "+err)
 	}
@@ -390,7 +390,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var simpleData = sparqlDataToSimpleData(response);
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
-	console.log(convertedData)
+	//console.log(convertedData)
 	if(convertedData.data.length==0 && divElem!=""){
 		$(divElem).hide();
 		return
