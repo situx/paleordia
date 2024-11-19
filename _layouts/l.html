@@ -30,6 +30,14 @@ WHERE {
   UNION 
   {
     BIND(3 AS ?order)
+    BIND("Dialect" AS ?description)
+    ?lexeme wdt:P7481 ?value_Url .
+    ?value_Url rdfs:label ?valueLabel .
+    FILTER (LANG(?valueLabel) = 'en')
+  }
+  UNION 
+  {
+    BIND(4 AS ?order)
     BIND("Lexical category" AS ?description)
     ?lexeme wikibase:lexicalCategory ?value .
 	?lexeme dct:language ?langvalue .
@@ -41,7 +49,7 @@ WHERE {
   }
   UNION 
   {
-    BIND(4 AS ?order)
+    BIND(5 AS ?order)
     BIND("Instance of" AS ?description)
     ?lexeme p:P31 ?value_statement .
     ?value_statement ps:P31 ?value .
