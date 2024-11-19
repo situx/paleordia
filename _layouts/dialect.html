@@ -25,7 +25,7 @@ layout: base
     ?lexeme ontolex:sense ?senseitem.
     ?senseitem skos:definition ?gloss.
     FILTER(LANG(?gloss) = "en")
-    {} UNION {
+    OPTIONAL {
       ?senseitem wdt:P5137|wdt:P9970 ?sensee.
       ?sensee rdfs:label ?senseLab.
       FILTER(LANG(?senseLab) = "en")
