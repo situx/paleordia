@@ -398,9 +398,9 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" // ") as ?lexemeLab
       OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")}
       BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)   
       ?translationlexeme wikibase:lemma ?lexeme2a .
-      ?translationlexeme dct:language ?languagee .	  
+      ?translationlexeme dct:language ?language .	  
       OPTIONAL{?translationlexeme wdt:P7481 ?dialect . ?dialect rdfs:label ?dialectLabel . FILTER(LANG(?dialectLabel)= "en") }
-      ?languagee rdfs:label ?languageeLabel .
+      ?language rdfs:label ?languageeLabel .
       FILTER(LANG(?languageeLabel)= "en")
       BIND(CONCAT(?languageeLabel,COALESCE(CONCAT(" <",?dialectLabel,">"),"")) AS ?languageLabel)
       }
