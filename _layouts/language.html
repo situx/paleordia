@@ -101,10 +101,10 @@ lexicalCategoriesSparql = `
     ?lexical_categoryDescription
   WHERE{
     [] a ontolex:LexicalEntry ;
-       dct:language wd:Q36790 ; 
+       dct:language wd:${ q } ; 
        wikibase:lexicalCategory ?lexical_category ;
        wdt:P31 ?instanceof .
-	BIND("Q36790" AS ?lang)
+	BIND("${ q }" AS ?lang)
 	BIND("Sumerian" AS ?langLabel)
     ?instanceof rdfs:label ?instanceofLabel .
     ?lexical_category rdfs:label ?lexical_categoryLabell .
