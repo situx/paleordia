@@ -10,10 +10,11 @@ SELECT
   (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
   (COUNT(?compound) AS ?number_of_compounds)
 WHERE {
-  ?lexeme wikibase:lexicalCategory wd:Q34698 ;
+  BIND(IF(bound(wd:${ q2 }),wd:${ q2 },""))
+  ?lexeme wikibase:lexicalCategory wd:${ q } ;
   wikibase:lemma ?lexemeLabell ;
   dct:language wd:Q36790 .
-  OPTIONAL { ?compound wdt:P5238 ?lexeme }
+  OPTIONAL { ?lexeme wdt:P5238 ?compound }
 }
 GROUP BY ?lexeme
 LIMIT 10000
