@@ -97,23 +97,27 @@ lexicalCategoriesSparql = `
     (COUNT(*) AS ?count)
     ?lexical_category
     ?lexical_categoryLabel
+    ?instanceof 
     ?zoom ?zoomUrl
     ?lexical_categoryDescription
   WHERE{
     [] a ontolex:LexicalEntry ;
        dct:language wd:${ q } ; 
-       wikibase:lexicalCategory ?lexical_category .
+       wikibase:lexicalCategory ?lexical_category ;
+       wdt:P31 ?instanceof .
 	BIND("${ q }" AS ?lang)
-	BIND("${ qLabel }" AS ?langLabel)
-    ?lexical_category rdfs:label ?lexical_categoryLabel .
+	BIND("Sumerian" AS ?langLabel)
+    ?instanceof rdfs:label ?instanceofLabel .
+    ?lexical_category rdfs:label ?lexical_categoryLabell .
     ?lexical_category schema:description ?lexical_categoryDescription .
-    FILTER(LANG(?lexical_categoryLabel)="en")
-    FILTER(LANG(?lexical_categoryLabel)="en")
+    FILTER(LANG(?lexical_categoryLabell)="en")
+    FILTER(LANG(?instanceofLabel)="en")
     FILTER(LANG(?lexical_categoryDescription)="en")
+    BIND(CONCAT(?lexical_categoryLabell,COALESCE(CONCAT(" [",?instanceofLabel,"] "),"")) AS ?lexical_categoryLabel)
     BIND("→" AS ?zoom)
     BIND(CONCAT("../lexical-category?q=", SUBSTR(STR(?lexical_category), 32) ,"&qLabel=",?lexical_categoryLabel,"&l=",?lang,"&lLabel=",?langLabel) AS ?zoomUrl)
   }
-GROUP BY ?lexical_category ?lexical_categoryLabel    ?zoom ?zoomUrl ?lexical_categoryDescription
+GROUP BY ?lexical_category ?lexical_categoryLabel ?instanceof ?zoom ?zoomUrl ?lexical_categoryDescription
 ORDER BY DESC(?count)
 `
 
