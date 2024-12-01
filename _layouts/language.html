@@ -100,17 +100,15 @@ lexicalCategoriesSparql = `
     ?zoom ?zoomUrl
     ?lexical_categoryDescription
   WHERE{
-    [] a ontolex:LexicalEntry ;
+    ?lexeme a ontolex:LexicalEntry ;
        dct:language wd:${ q } ; 
-       wikibase:lexicalCategory ?lexical_category ;
-       wdt:P31 ?instanceof .
+       wikibase:lexicalCategory ?lexical_category .
+    OPTIONAL {?lexeme wdt:P31 ?instanceof . ?instanceof rdfs:label ?instanceofLabel . FILTER(LANG(?instanceofLabel)="en")}
 	BIND("${ q }" AS ?lang)
 	BIND("Sumerian" AS ?langLabel)
-    ?instanceof rdfs:label ?instanceofLabel .
     ?lexical_category rdfs:label ?lexical_categoryLabell .
     ?lexical_category schema:description ?lexical_categoryDescription .
     FILTER(LANG(?lexical_categoryLabell)="en")
-    FILTER(LANG(?instanceofLabel)="en")
     FILTER(LANG(?lexical_categoryDescription)="en")
     BIND(CONCAT(?lexical_categoryLabell,COALESCE(CONCAT(" [",?instanceofLabel,"] "),"")) AS ?lexical_categoryLabel)
     BIND("→" AS ?zoom)
