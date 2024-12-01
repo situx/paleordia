@@ -97,15 +97,14 @@ lexicalCategoriesSparql = `
     (COUNT(*) AS ?count)
     ?lexical_category
     ?lexical_categoryLabel
-    ?instanceof 
     ?zoom ?zoomUrl
     ?lexical_categoryDescription
   WHERE{
     [] a ontolex:LexicalEntry ;
-       dct:language wd:${ q } ; 
+       dct:language wd:Q36790 ; 
        wikibase:lexicalCategory ?lexical_category ;
        wdt:P31 ?instanceof .
-	BIND("${ q }" AS ?lang)
+	BIND("Q36790" AS ?lang)
 	BIND("Sumerian" AS ?langLabel)
     ?instanceof rdfs:label ?instanceofLabel .
     ?lexical_category rdfs:label ?lexical_categoryLabell .
