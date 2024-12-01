@@ -3,17 +3,33 @@ layout: base
 ---
 
 <script type="text/javascript">
-    lexemesSparql = `
+lexemesSparql = `
 # List lexemes wrt. a lexical category
 SELECT
   ?lexeme 
   (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
   (COUNT(?compound) AS ?number_of_compounds)
 WHERE {
-  BIND(IF(bound(wd:${ q2 }),wd:${ q2 },""))
   ?lexeme wikibase:lexicalCategory wd:${ q } ;
   wikibase:lemma ?lexemeLabell ;
-  dct:language wd:Q36790 .
+  dct:language wd:${ l } .
+  OPTIONAL { ?lexeme wdt:P5238 ?compound }
+}
+GROUP BY ?lexeme
+LIMIT 10000
+`
+
+lexemesSparql2 = `
+# List lexemes wrt. a lexical category
+SELECT
+  ?lexeme 
+  (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
+  (COUNT(?compound) AS ?number_of_compounds)
+WHERE {
+  ?lexeme wikibase:lexicalCategory wd:${ q } ;
+  wikibase:lemma ?lexemeLabell ;
+  wdt:P31 wd:${ q2 } ;
+  dct:language wd:${ l } .
   OPTIONAL { ?lexeme wdt:P5238 ?compound }
 }
 GROUP BY ?lexeme
@@ -23,14 +39,28 @@ LIMIT 10000
 
 
  $(document).ready(function() {
-     sparqlToDataTable(lexemesSparql, "#lexemes", {
+    if(q2!=""){
+     sparqlToDataTable(lexemesSparql2, "#lexemes", {
 	 linkPrefixes: {
-	     lexeme: '../l',
-	     language: '../language',
+		 lexeme: '../l',
+		 language: '../language',
 	 },
 	 pBar:"progressbar",
 	 pBarLabel:"progress-label"});
- });
+	});	
+	
+	}else{
+     sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 linkPrefixes: {
+		 lexeme: '../l',
+		 language: '../language',
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"});
+	});	
+	
+	}
+
 
 </script>
 

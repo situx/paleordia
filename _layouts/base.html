@@ -33,6 +33,9 @@ title: PaleOrdia
 	if(typeof(q)==='undefined' || q==null){
 		q=""
 	}
+	if(typeof(q2)==='undefined' || q2==null){
+		q2=""
+	}
 	if(typeof(p)==='undefined' || p==null){
 		p=""
 	}
@@ -51,6 +54,9 @@ title: PaleOrdia
 	<script>
 	if(typeof(q)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ q }', q);
+	}
+	if(typeof(q2)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replaceAll('${ q2 }', q2);
 	}
 	if(typeof(l)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ l }', l);
