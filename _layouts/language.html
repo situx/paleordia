@@ -90,7 +90,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 LIMIT 10000
 `
-  lexicalCategoriesSparql = `
+lexicalCategoriesSparql = `
 # tool: ordia
 # title: Statistics for word class for a specific language
   SELECT
@@ -271,7 +271,7 @@ ORDER BY ?referenceLabel
 <h2>Lexical categories</h2>
 
   <div class="embed-responsive embed-responsive-4by3">
-    <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23defaultView%3ABubbleChart%0A%23%20Count%20of%20lexemes%20wrt.%20lexical%20category%20for%20a%20language%0ASELECT%0A%20%20%3Fcount%0A%20%20%3Flexical_category%20%3Flexical_categoryLabel%0AWITH%20%7B%0A%20%20SELECT%0A%20%20%20%20(COUNT(%3Flexeme)%20AS%20%3Fcount)%0A%20%20%20%20%3Flexical_category%20%0A%20%20%20WHERE%20%7B%0A%20%20%20%20%3Flexeme%20a%20ontolex%3ALexicalEntry%20%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20dct%3Alanguage%20wd:${ q }%20.%0A%20%20%20%20%3Flexeme%20wikibase%3AlexicalCategory%20%3Flexical_category%20.%0A%20%20%7D%0A%20%20GROUP%20BY%20%3Flexical_category%0A%7D%20AS%20%25results%0AWHERE%20%7B%0A%20%20INCLUDE%20%25results%0A%20%20OPTIONAL%20%7B%20%20%20%20%20%20%20%20%0A%20%20%20%20%3Flexical_category%20rdfs%3Alabel%20%3Flexical_categoryLabell%20.%0A%20%20%20%20FILTER%20(LANG(%3Flexical_categoryLabell)%20%3D%20%22en%22)%0A%20%20%7D%0A%20%20BIND(CONCAT(%3Flexical_categoryLabell%2C%22%20(%22%2CSTR(%3Fcount)%2C%22)%22)%20AS%20%3Flexical_categoryLabel)%0A%7D%0AORDER%20BY%20DESC(%3Fcount)%20%20" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+    <iframe loading="lazy" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23defaultView%3ABubbleChart%0A%23%20Count%20of%20lexemes%20wrt.%20lexical%20category%20for%20a%20language%0ASELECT%0A%20%20%3Fcount%0A%20%20%3Flexical_category%20%3Flexical_categoryLabel%0AWITH%20%7B%0A%20%20SELECT%0A%20%20%20%20(COUNT(%3Flexeme)%20AS%20%3Fcount)%0A%20%20%20%20%3Flexical_category%20%3Finstanceof%0A%20%20%20WHERE%20%7B%0A%20%20%20%20%3Flexeme%20a%20ontolex%3ALexicalEntry%20%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20dct%3Alanguage%20wd%3A${ q }%20.%0A%20%20%20%20%3Flexeme%20wikibase%3AlexicalCategory%20%3Flexical_category%20.%0A%20%20%20%20%3Flexeme%20wdt%3AP31%20%3Finstanceof%20.%0A%20%20%7D%0A%20%20GROUP%20BY%20%3Flexical_category%20%3Finstanceof%0A%7D%20AS%20%25results%0AWHERE%20%7B%0A%20%20INCLUDE%20%25results%20%20%20%20%20%20%20%20%0A%20%20%3Flexical_category%20rdfs%3Alabel%20%3Flexical_categoryLabell%20.%0A%20%20FILTER%20(LANG(%3Flexical_categoryLabell)%20%3D%20%22en%22)%0A%20%20OPTIONAL%7B%0A%20%20%20%20%3Finstanceof%20rdfs%3Alabel%20%3FinstanceofLabel%20.%0A%20%20%20%20FILTER%20(LANG(%3FinstanceofLabel)%20%3D%20%22en%22)%0A%20%20%7D%0A%20%20BIND(CONCAT(%3Flexical_categoryLabell%2CCOALESCE(CONCAT(%22%20%5B%22%2C%3FinstanceofLabel%2C%22%5D%22)%2C%22%22)%2C%22%20(%22%2CSTR(%3Fcount)%2C%22)%22)%20AS%20%3Flexical_categoryLabel)%0A%7D%0AORDER%20BY%20DESC(%3Fcount)%20%20" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
   </div>
 
   <table class="table table-hover" id="lexical-categories"></table>
