@@ -105,7 +105,7 @@ lexicalCategoriesSparql = `
        wikibase:lexicalCategory ?lexical_category .
     OPTIONAL {?lexeme wdt:P31 ?instanceof . ?instanceof rdfs:label ?instanceofLabel . FILTER(LANG(?instanceofLabel)="en")}
 	BIND("${ q }" AS ?lang)
-	BIND("Sumerian" AS ?langLabel)
+	BIND("${ qLabel }" AS ?langLabel)
     ?lexical_category rdfs:label ?lexical_categoryLabell .
     ?lexical_category schema:description ?lexical_categoryDescription .
     FILTER(LANG(?lexical_categoryLabell)="en")
