@@ -196,7 +196,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						res+=' style="color:red"'
 					}
 					res+=" href=\""+urls[i]+"\">"
-					if(typeof(labs)!=='undefined'){
+					if(typeof(labs[i])!=='undefined'){
 						res+=labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")
 					}
 					res+="</a> "+sepchar+" "
