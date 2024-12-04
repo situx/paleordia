@@ -5,7 +5,7 @@ layout: base
 <script type="text/javascript" src="{{ site.baseurl }}/js/lexemeforms.js"></script>
 <script type="text/javascript">
  $(document).ready(function() {
- $.getJSON("https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+q+"&language=en&type=lexeme", function(result){
+ $.getJSON("https://www.wikidata.org/w/api.php?action=wbsearchentities&origin=*&search="+q+"&language=en&type=lexeme", function(result){
     console.log(result)
   });
   });
