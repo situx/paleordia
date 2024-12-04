@@ -1,4 +1,4 @@
-Ordia
+PaleOrdia
 =====
 
 Ordia is a Python package for working with lexicographical data on Wikidata. 
