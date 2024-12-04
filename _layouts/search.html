@@ -9,7 +9,7 @@ layout: base
 	resstr=""
 	if(result.length>0){	
 		for(res of result){
-			resstr+="<li class=\"search-result\"><a href=\"{{site.baseurl}}/l?"+res["id"]+\">"+res["label"]+" ("+res["id"]+")</a> &mdash;"+res["description"]+"<br>"+res["match"]["text"]+" ("+res["match"]["language"]+") &mdash; <a href=\""+res["concepturi"]+"\">Wikidata ↗</a></li>"
+			resstr+="<li class=\"search-result\"><a href=\"{{site.baseurl}}/l?"+res["id"]+"\">"+res["label"]+" ("+res["id"]+")</a> &mdash;"+res["description"]+"<br>"+res["match"]["text"]+" ("+res["match"]["language"]+") &mdash; <a href=\""+res["concepturi"]+"\">Wikidata ↗</a></li>"
 		}
 		$('#searchres').html(resstr)
 	}else{
