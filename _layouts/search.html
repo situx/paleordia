@@ -16,34 +16,33 @@ layout: base
     <h2>Search results</h2>
 
     <ul class="search-results">
-{% for search_result in search_results %}
-        <li class="search-result">
-	    {% if 'match' in search_result %}
 
-	    <a href="{{ search_result['id'] }}">
-                  {{ search_result['label'] }}
-                  ({{ search_result['id'] }})</a>
-            &mdash; {{ search_result['description'] }}
+        <li class="search-result">
+	    
+
+	    <a href="">
+                  label
+                  (lid)</a>
+            &mdash; description
 
 	    <br>
-	    {{ search_result['match']['text'] }}
-	    (<a href='{{ url_for("app.redirect_language", language=search_result["match"]["language"]) }}'>{{ search_result['match']['language'] }}</a>)
+	    matchtext
+	    (<a href='languageurl'>language</a>)
 	    &mdash;
-	    <a href="https://www.wikidata.org/wiki/Lexeme:{{ search_result['id'] }}">Wikidata ↗</a>
+	    <a href="https://www.wikidata.org/wiki/Lexeme:lid">Wikidata ↗</a>
 	    
 	    
 	    {% else %}
 	    
-	    <a href="{{ search_result['id'] }}">
-                  {{ search_result['label'] }}
-                  ({{ search_result['id'] }})</a>
+	    <a href="lid">
+                  label
+                  (lid)</a>
             <br/>
-            {{ search_result['description'] }}
-	    
-	    {% endif %}
+            description
+	
 	</li>
 	    
-{% endfor %}
+
     </ul>
     
 </div>
