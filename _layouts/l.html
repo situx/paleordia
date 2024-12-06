@@ -409,6 +409,7 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" // ") as ?lexemeLab
 `
 
 compoundsSparql = `
+
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
   ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsLabel
@@ -422,12 +423,12 @@ WHERE {
       (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compoundsLabel)
     WHERE {
 	  SELECT ?lexeme ?compound ?compoundLabel ?sensedef WHERE {
-      ?lexeme wdt:P5238+ wd:${ l } .
+      ?lexeme wdt:P5238 wd:L748857 .
       OPTIONAL {
         ?lexeme p:P5238 ?compoundstat .
         ?compoundstat ps:P5238 ?compound .
         ?compound wikibase:lemma ?compoundlabel .
-        #FILTER (?compound != wd:${ l })
+        #FILTER (?compound != wd:L703986)
 		?compoundstat pq:P1545 ?seriesordinal .
         OPTIONAL {
           ?compoundstat pq:P5980 ?sense .
@@ -441,7 +442,20 @@ WHERE {
     ORDER BY xsd:integer(?seriesordinal)
     }
     GROUP BY ?lexeme ?sensedefs
-  }    
+  }UNION{
+    SELECT ?lexeme (GROUP_CONCAT(?lexeme; separator=" // ") AS ?compounds)
+      (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compoundsLabel) WHERE {
+      ?lexeme wdt:P5191 wd:L748857 .
+      ?lexeme wikibase:lemma ?compoundlabel .
+      OPTIONAL {
+          ?lexeme ontolex:sense ?sense .
+          ?sense skos:definition ?sensedeff .
+		  FILTER(LANG(?sensedeff) = "en")		  
+      }  
+      BIND(COALESCE(CONCAT(" [",?sensedeff,"]"), "") AS ?sensedef)
+      BIND(CONCAT(?compoundlabel,?sensedef) AS ?compoundLabel)
+    }GROUP BY ?lexeme
+  }
   
   ?lexeme wikibase:lemma ?lexemelabel .
   OPTIONAL {
@@ -542,7 +556,7 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
      <table class="table table-hover" id="translations"></table>
      </div>
        <div id="compounds-q">
-	<h2>Compounds with Lexeme ${ qLabel } (${ l })</h2>
+	<h2>Compounds or derivations with Lexeme ${ qLabel } (${ l })</h2>
 
     <table class="table table-hover" id="compounds"></table>
 	</div>
