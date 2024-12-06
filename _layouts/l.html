@@ -423,7 +423,7 @@ WHERE {
       (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compoundsLabel)
     WHERE {
 	  SELECT ?lexeme ?compound ?compoundLabel ?sensedef WHERE {
-      ?lexeme wdt:P5238 wd:L748857 .
+      ?lexeme wdt:P5238 wd:${ l } .
       OPTIONAL {
         ?lexeme p:P5238 ?compoundstat .
         ?compoundstat ps:P5238 ?compound .
@@ -445,7 +445,7 @@ WHERE {
   }UNION{
     SELECT ?lexeme (GROUP_CONCAT(?lexeme; separator=" // ") AS ?compounds)
       (GROUP_CONCAT(DISTINCT ?compoundLabel; separator=" // ") AS ?compoundsLabel) WHERE {
-      ?lexeme wdt:P5191 wd:L748857 .
+      ?lexeme wdt:P5191 wd:${ l } .
       ?lexeme wikibase:lemma ?compoundlabel .
       OPTIONAL {
           ?lexeme ontolex:sense ?sense .
