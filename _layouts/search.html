@@ -2,68 +2,38 @@
 layout: base
 ---
 
-<script type="text/javascript" src="{{ site.baseurl }}/lexemeforms.js }}"></script>
 <script type="text/javascript">
  $(document).ready(function() {
-     lexemeTemplateSelection({{ language | tojson }}, {{ query | tojson }}, "#lexeme-templates");
- });
-
+ $.getJSON("https://www.wikidata.org/w/api.php?action=wbsearchentities&origin=*&format=json&search="+q+"&language=en&type=lexeme", function(result){
+    console.log(result)
+	resstr=""
+	if(result["search"].length>0){	
+		for(res of result["search"]){
+			resstr+="<li class=\"search-result\"><a target=\"_blank\" href=\"{{site.baseurl}}/l?l="+res["id"]+"&qLabel="+res["label"]+"\">"+res["label"]+" ("+res["id"]+")</a> &mdash;"+res["description"]+"<br>"+res["match"]["text"]+" ("+res["match"]["language"]+") &mdash; <a target=\"_blank\" href=\""+res["concepturi"]+"\">Wikidata ↗</a></li>"
+		}
+		$('#searchres').html(resstr)
+	}else{
+		$('#searchres').html("<li>No search results found</li>")
+	}
+	
+  });
+  });
 </script>
 
 <div class="search-results">
-
   
     <h2>Search results</h2>
 
-    <ul class="search-results">
-{% for search_result in search_results %}
-        <li class="search-result">
-	    {% if 'match' in search_result %}
+    <ul class="search-results" id="searchres">	    
 
-	    <a href="{{ search_result['id'] }}">
-                  {{ search_result['label'] }}
-                  ({{ search_result['id'] }})</a>
-            &mdash; {{ search_result['description'] }}
-
-	    <br>
-	    {{ search_result['match']['text'] }}
-	    (<a href='{{ url_for("app.redirect_language", language=search_result["match"]["language"]) }}'>{{ search_result['match']['language'] }}</a>)
-	    &mdash;
-	    <a href="https://www.wikidata.org/wiki/Lexeme:{{ search_result['id'] }}">Wikidata ↗</a>
-	    
-	    
-	    {% else %}
-	    
-	    <a href="{{ search_result['id'] }}">
-                  {{ search_result['label'] }}
-                  ({{ search_result['id'] }})</a>
-            <br/>
-            {{ search_result['description'] }}
-	    
-	    {% endif %}
-	</li>
-	    
-{% endfor %}
     </ul>
     
 </div>
 
 
 <div id="new-lexeme">
-  {% if query %}
 
-  <a href="https://www.wikidata.org/wiki/Special:NewLexeme?lemma={{ query }}"><button type="button" class="btn btn-primary">Create new lexeme in Wikidata</button></a>
-  
-  {% endif %}
+  <a href="https://www.wikidata.org/wiki/Special:NewLexeme?lemma=${ q }"><button type="button" class="btn btn-primary">Create new lexeme in Wikidata</button></a>
+
 </div>
 
-  {% if query and language %}
-  <div>
-    <div class="form-group" id="lexeme-templates">
-      <h3><em>Wikidata Lexeme Forms</em> options for <em>${ language }</em>: </h3>
-    </div>
-  </div>
-  {% endif %}
-
-
-{% endblock %}

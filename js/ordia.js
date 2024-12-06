@@ -195,7 +195,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(typeof(h)!=="undefined" && urls[i].includes(h)){
 						res+=' style="color:red"'
 					}
-					res+=" href=\""+urls[i]+"\">"+labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")+"</a> "+sepchar+" "
+					res+=" href=\""+urls[i]+"\">"
+					if(typeof(labs[i])!=='undefined'){
+						res+=labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")
+					}
+					res+="</a> "+sepchar+" "
 				}
 				res=res.substring(0,res.length-sepchar.length-2)
 				convertedRow[key]=res
