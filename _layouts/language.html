@@ -152,7 +152,7 @@ lexemestimeperiodsSparql=`
 # tool: ordia
 # title: List of longest words for a language
 # https://lists.wikimedia.org/pipermail/wikidata/2018-October/012545.html
-SELECT DISTINCT ?length ?form ?formLabel ?lexeme ?lexemeLabel WHERE {
+SELECT DISTINCT ?length ?form ?formLabel ?lexeme  (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") AS ?lexemeLabel) WHERE {
   ?lexeme a ontolex:LexicalEntry ;
           dct:language wd:${ q } ;
           wikibase:lemma ?lexemeLabel .
@@ -160,6 +160,7 @@ SELECT DISTINCT ?length ?form ?formLabel ?lexeme ?lexemeLabel WHERE {
   ?form ontolex:representation ?formLabel
   BIND(STRLEN(?formLabel) AS ?length)  
 } 
+GROUP BY ?length ?form ?formLabel ?lexeme
 ORDER BY DESC(?length) 
 LIMIT 200
   `
