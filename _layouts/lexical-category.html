@@ -8,12 +8,18 @@ lexemesSparql = `
 SELECT
   ?lexeme 
   (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
-  (COUNT(?compound) AS ?number_of_compounds)
+  (GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)
+  (GROUP_CONCAT(DISTINCT ?combsensedef; separator=" + ") as ?combinationsLabel)
+  (GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense) (GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)
 WHERE {
   ?lexeme wikibase:lexicalCategory wd:${ q } ;
   wikibase:lemma ?lexemeLabell ;
   dct:language wd:${ l } .
-  OPTIONAL { ?lexeme wdt:P5238 ?compound }
+  OPTIONAL { ?lexeme p:P5238 ?comb . ?comb pq:P5548 ?form . ?form ontolex:representation ?formlabel . ?comb pq:P5980 ?combsense . ?combsense skos:definition ?combsensedeff . OPTIONAL {?combsense wdt:P5137|wdt:P9970 ?combsenseva .} BIND(COALESCE(?combsenseva,"#") AS ?combsenseval) FILTER(lang(?combsensedeff)="en") FILTER(lang(?formlabel)="sux-latn") BIND(COALESCE(CONCAT(?combsensedeff," (",?formlabel,")"),?combsensedeff) AS ?combsensedef) }
+  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") 
+	  OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} 
+	  BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) 
+  }  
 }
 GROUP BY ?lexeme
 LIMIT 10000
@@ -24,13 +30,19 @@ lexemesSparql2 = `
 SELECT
   ?lexeme 
   (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") as ?lexemeLabel)
-  (COUNT(?compound) AS ?number_of_compounds)
+  (GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)
+  (GROUP_CONCAT(DISTINCT ?combsensedef; separator=" + ") as ?combinationsLabel)
+  (GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense) (GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)
 WHERE {
   ?lexeme wikibase:lexicalCategory wd:${ q } ;
   wikibase:lemma ?lexemeLabell ;
   wdt:P31 wd:${ q2 } ;
   dct:language wd:${ l } .
-  OPTIONAL { ?lexeme wdt:P5238 ?compound }
+  OPTIONAL { ?lexeme p:P5238 ?comb . ?comb pq:P5548 ?form . ?form ontolex:representation ?formlabel . ?comb pq:P5980 ?combsense . ?combsense skos:definition ?combsensedeff . OPTIONAL {?combsense wdt:P5137|wdt:P9970 ?combsenseva .} BIND(COALESCE(?combsenseva,"#") AS ?combsenseval) FILTER(lang(?combsensedeff)="en") FILTER(lang(?formlabel)="sux-latn") BIND(COALESCE(CONCAT(?combsensedeff," (",?formlabel,")"),?combsensedeff) AS ?combsensedef) }
+  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") 
+	  OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} 
+	  BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) 
+  }   
 }
 GROUP BY ?lexeme
 LIMIT 10000
