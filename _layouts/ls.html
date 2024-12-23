@@ -164,7 +164,7 @@ ORDER BY ?order
 SELECT DISTINCT
   ?sense ?senseLabel
   ?gloss
-  ?lexeme ?lexemeLabel ?language ?languageLabel
+  ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") AS ?lexemeLabel) ?language ?languageLabel
   ?item ?itemLabel
 WHERE {
   VALUES ?query_sense { wd:${ l }-${ s } }
@@ -184,7 +184,7 @@ WHERE {
     
   ?lexeme ontolex:sense ?sense .
   FILTER (wd:${ l }-${ s } != ?sense)
-  ?lexeme wikibase:lemma ?lexemeLabel .
+  ?lexeme wikibase:lemma ?lexemeLabell .
   ?lexeme dct:language ?language .
   ?language rdfs:label ?languageLabel . 
   FILTER (LANG(?languageLabel) = 'en')
@@ -200,6 +200,7 @@ WHERE {
     FILTER (LANG(?itemLabel) = 'en')
   }
 }
+GROUP BY ?sense ?senseLabel ?gloss ?lexeme  ?language ?languageLabel ?item ?itemLabel
 ORDER BY ?languageLabel
 `
 
