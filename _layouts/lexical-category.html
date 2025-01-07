@@ -22,7 +22,7 @@ WHERE {
   }  
 }
 GROUP BY ?lexeme
-LIMIT 10000
+ORDER BY ?lexemeLabel
 `
 
 lexemesSparql2 = `
