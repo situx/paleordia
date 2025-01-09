@@ -65,15 +65,15 @@ ORDER BY ?order
 # tool: ordia
 # title: List of lexemes for a language
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
-  #{
-  #SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
+  {
+  SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
     dct:language wd:${ q };
     wikibase:lemma ?lexemeLab ;
 	wikibase:lexicalCategory ?lexical_category.
   ?lexical_category rdfs:label ?lexical_categoryLabel.
   FILTER(LANG(?lexical_categoryLabel) = "en")
-  #}}
+  }}
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.
     ?senseitem skos:definition ?gloss.
@@ -81,10 +81,10 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
       ?senseitem wdt:P5137|wdt:P9970 ?sensee.
       ?sensee rdfs:label ?senseLab.
       FILTER(LANG(?senseLab) = "en")
-	  BIND(COALESCE(?sensee, "") AS ?sensse)
+	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
     }
     FILTER(LANG(?gloss) = "en")
-    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
+    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senseLabell)
   }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
