@@ -8,19 +8,13 @@ lexemesSparql =`
     ?character wdt:P31 wd:Q23017336 .
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
+	?character wdt:P1343 ?reference .
+	?reference rdfs:label ?referenceLabel .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
-	}
-	{
-		?character wdt:P1343 ?reference .
-		?reference rdfs:label ?referenceLabel .
-	}UNION{
-		?character ?reference ?id . 
-		?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
-		?idpropp rdfs:label ?referenceLabel
-    }	
+	}	
     ?lex ps:P1343 wd:${ q } .
     OPTIONAL{?lex pq:P1810 ?refnum .}
 	OPTIONAL{?lex pq:P7421 ?refline .}
