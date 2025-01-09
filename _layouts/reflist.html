@@ -8,8 +8,7 @@ lexemesSparql =`
     ?character wdt:P31 wd:Q23017336 .
 	?character p:P1343 ?lex .
 	?character rdfs:label ?characterLabel .
-	?character wdt:P1343 ?reference .
-	?reference rdfs:label ?referenceLabel .
+	${ q } rdfs:label ?referenceLabel .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
