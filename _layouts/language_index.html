@@ -46,8 +46,9 @@ ORDER BY DESC(?total_number_of_statements)
   
 
  $(document).ready(function() {
-     sparqlToDataTable(languagesSparql, "#languages",
-		        {'linkPrefixes': {'language': '../language'}});
+     sparqlToDataTable(languagesSparql, "#languages",{
+		'pBar':"progressbar",
+		'pBarLabel':"progress-label",'linkPrefixes': {'language': '../language'}});
      sparqlToDataTable(numberOfStatementsSparql, "#number-of-statements",
 		        {'linkPrefixes': {'language': '../language'}});
  });
@@ -56,7 +57,7 @@ ORDER BY DESC(?total_number_of_statements)
 
 <div class="languages">
   <h1>Languages</h1>
-
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="languages"></table>
 
   <hr/>

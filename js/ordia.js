@@ -354,6 +354,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
 	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
 	var sepcharmap=(typeof options.sepcharmap === 'undefined') ? {} : options.sepcharmap;
+	if(divElem!=""){
+	 $("#progress-label").html("Loading... (Execute Query)")
+	}
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
 		  value: false
@@ -391,6 +394,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 
     
     $.post(post_url, post_data, function(response) {
+	if(divElem!=""){
+	 $("#progress-label").html("Loading... (Processing response)")
+	}
 	var simpleData = sparqlDataToSimpleData(response);
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
