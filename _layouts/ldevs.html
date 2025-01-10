@@ -7,7 +7,7 @@ lexemesSparql =`
 	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?deviation ?lexcat ?lexcatLabel ?reference ?referenceLabel ?refnumber 
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
-		 dct:language wd:Q35518 ;		   
+		 dct:language wd:${ q } ;		   
 		 wikibase:lemma ?lexemea ;
 		 wikibase:lexicalCategory ?lexcat .
       ?lexcat rdfs:label ?lexcatLabel .
