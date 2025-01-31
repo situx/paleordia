@@ -221,7 +221,7 @@ WHERE {
 	BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
-    BIND(CONCAT("../reflistlang?l=",STR(?language),"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../reflistlang?l=",SUBSTR(STR(?language), 32),"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
