@@ -171,9 +171,10 @@ WHERE {
     {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 	  BIND("Time Period" AS ?description)
 	  wd:${ l } wdt:P2348 ?value .
+	  wd:${ l } dct:language ?language .
 	  ?value rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
-	  BIND(CONCAT("../timeperiod?qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+	  BIND(CONCAT("../timeperiod?l=",?language,&qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
