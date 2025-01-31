@@ -205,6 +205,7 @@ WHERE {
   {
     BIND(20 AS ?order)
     BIND("Described in" AS ?description)
+    ?lexeme dct:language ?language .
     ?lexeme ontolex:lexicalForm? / p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
@@ -219,7 +220,7 @@ WHERE {
 	BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
-    BIND(CONCAT("../reflistlang?l=${ l }&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../reflistlang?l=",?language,"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
