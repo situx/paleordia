@@ -85,9 +85,8 @@ WHERE {
       wd:${ l }-${ s } wdt:P5137 / ^wdt:P5137 ?value .
       FILTER (?value != wd:${ l }-${ s })
     }
-    ?value ^ontolex:sense / wikibase:lemma ?valueL .
+    ?value ^ontolex:sense / wikibase:lemma ?valueLab .
     ?value ^ontolex:sense / dct:language ?language .
-	BIND(CONCAT(?valueL," (",?language,")") AS ?valueLab)
 	}GROUP BY ?value}
   }
   UNION
