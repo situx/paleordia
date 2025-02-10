@@ -89,7 +89,7 @@ WHERE {
     ?value ^ontolex:sense / dct:language ?language .
 	
 	}GROUP BY ?value ?gloss}
-	BIND(CONCAT(?gloss, "(",?valueLabe,")") AS ?valueLabel)
+	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
   }
   UNION
   {
