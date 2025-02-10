@@ -79,11 +79,11 @@ WHERE {
     BIND(10 AS ?order)
     BIND("Synonym" AS ?description)
     {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabel) WHERE { 
-    { ?sense wdt:P5973 ?value . }
+    { wd:${ l }-${ s } wdt:P5973 ?value . }
     UNION 
     {
-      ?sense wdt:P5137 / ^wdt:P5137 ?value .
-      FILTER (?value != ?sense)
+      wd:${ l }-${ s } wdt:P5137 / ^wdt:P5137 ?value .
+      FILTER (?value != wd:${ l }-${ s })
     }
     ?value ^ontolex:sense / wikibase:lemma ?valueL .
     ?value ^ontolex:sense / dct:language ?language .
