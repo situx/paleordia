@@ -78,16 +78,17 @@ WHERE {
   {
     BIND(10 AS ?order)
     BIND("Synonym" AS ?description)
-    {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabel) WHERE { 
-    { wd:${ l }-${ s } wdt:P5973 ?value . }
+    {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss WHERE { 
+    { wd:${ l }-${ s } wdt:P5973 ?value . ?value skos:definition ?gloss .}
     UNION 
     {
-      wd:${ l }-${ s } wdt:P5137 / ^wdt:P5137 ?value .
+      wd:${ l }-${ s } wdt:P5137 / ^wdt:P5137 ?value . ?value skos:definition ?gloss .
       FILTER (?value != wd:${ l }-${ s })
     }
     ?value ^ontolex:sense / wikibase:lemma ?valueLab .
     ?value ^ontolex:sense / dct:language ?language .
-	}GROUP BY ?value}
+	}GROUP BY ?value ?gloss}
+	BIND(CONCAT(?gloss, "(",?valueLabe,")") AS ?valueLabel)
   }
   UNION
   {
