@@ -40,18 +40,18 @@ WHERE {
   {
     BIND(4 AS ?order)
     BIND("Gloss" AS ?description)
-    ?sense skos:definition ?value_ . 
-    BIND(LANG(?value_) AS ?language_code)
-    BIND(CONCAT(?value_, "@", LANG(?value_)) AS ?value)
+    ?sense skos:definition ?value . 
+    BIND(LANG(?value) AS ?language_code)
+    BIND(CONCAT(?value, "@", LANG(?value)) AS ?valueLabel)
   }  
   UNION
   {
     BIND(5 AS ?order)
     BIND("Gloss quote" AS ?description)
     ?sense p:P8394 ?value_statement .
-    ?value_statement ps:P8394 ?value_ . 
-    BIND(LANG(?value_) AS ?language_code)
-    BIND(CONCAT(?value_, "@", LANG(?value_)) AS ?value)
+    ?value_statement ps:P8394 ?value . 
+    BIND(LANG(?value) AS ?language_code)
+    BIND(CONCAT(?value, "@", LANG(?value)) AS ?valueLabel)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
