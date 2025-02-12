@@ -8,7 +8,7 @@ layout: base
 # Data for a specific sense
 SELECT DISTINCT 
   ?description ?descriptionUrl
-  ?value ?valueLabel ?valueUrl
+  (?valueLabel As ?value_) ?value_Url
   ?source ?sourceLabel ?sourceUrl
 WHERE {
   BIND(wd:${ l }-${ s } AS ?sense)
