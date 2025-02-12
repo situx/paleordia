@@ -90,7 +90,7 @@ WHERE {
 	
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION
   {
@@ -106,7 +106,7 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }  
   UNION
   {
@@ -122,7 +122,7 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
   }  
   UNION
   {
@@ -138,7 +138,7 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
 	
   }  
   UNION
