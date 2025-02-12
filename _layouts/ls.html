@@ -78,7 +78,7 @@ WHERE {
   {
     BIND(10 AS ?order)
     BIND("Synonym" AS ?description)
-    {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss WHERE { 
+    {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language WHERE { 
     { wd:${ l }-${ s } wdt:P5973 ?value . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en")}
     UNION 
     {
@@ -88,8 +88,9 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLab .
     ?value ^ontolex:sense / dct:language ?language .
 	
-	}GROUP BY ?value ?gloss}
+	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
   }
   UNION
   {
@@ -213,14 +214,15 @@ ORDER BY ?languageLabel
  $(document).ready(function() {
      sparqlToDataTable(senseDataSparql, "#sense-data",
 		       options={
-			   paging: false
+			   paging: true,
+			   
 		       });
      sparqlToDataTable(translationsSparql, "#translations",
 		       options={
 			   linkPrefixes: {
 			       'language': '../language'
 			   },
-			   paging: false,
+			   paging: true,
 			   
 		       });
  });
