@@ -77,7 +77,7 @@ WHERE {
       wd:${ l }-${ s } wdt:P5137 / ^wdt:P5137 ?value . ?value skos:definition ?gloss .
       FILTER (?value != wd:${ l }-${ s }) FILTER (lang(?gloss)="en")
     }
-    ?value ^ontolex:sense ?lexeme . 
+    ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
@@ -95,7 +95,7 @@ WHERE {
       wd:${ l }-${ s } wdt:P5137 / wdt:P279 / ^wdt:P5137 ?value .
       ?value ^ontolex:sense / dct:language ?language .
     }
-    ?value ^ontolex:sense ?lexeme . 
+    ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
@@ -113,7 +113,7 @@ WHERE {
       wd:${ l }-${ s } wdt:P5137 / ^wdt:P279 / ^wdt:P5137 ?value .
       ?value ^ontolex:sense / dct:language ?language .
     }
-    ?value ^ontolex:sense ?lexeme . 
+    ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
@@ -131,7 +131,7 @@ WHERE {
       wd:${ l }-${ s } wdt:P5137 / wdt:P461 / ^wdt:P5137 ?value .
       ?value ^ontolex:sense / dct:language ?language .
     }
-    ?value ^ontolex:sense ?lexeme . 
+    ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
