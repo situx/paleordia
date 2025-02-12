@@ -90,7 +90,7 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
   }
   UNION
   {
@@ -108,7 +108,7 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
   }  
   UNION
   {
@@ -126,7 +126,7 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
   }  
   UNION
   {
@@ -144,7 +144,7 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
   }  
   UNION
   {
