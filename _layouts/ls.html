@@ -42,11 +42,7 @@ WHERE {
     BIND("Gloss" AS ?description)
     ?sense skos:definition ?value_ . 
     BIND(LANG(?value_) AS ?language_code)
-    BIND(CONCAT(?value_, " (", LANG(?value_), ")") AS ?value)
-    BIND(CONCAT("./text-to-lexemes?text-language=",
-      ENCODE_FOR_URI(?language_code),
-        "&text=",
-   	ENCODE_FOR_URI(?value_)) AS ?value_Url)
+    BIND(CONCAT(?value_, "@", LANG(?value_)) AS ?value)
   }  
   UNION
   {
@@ -55,11 +51,7 @@ WHERE {
     ?sense p:P8394 ?value_statement .
     ?value_statement ps:P8394 ?value_ . 
     BIND(LANG(?value_) AS ?language_code)
-    BIND(CONCAT(?value_, " (", LANG(?value_), ")") AS ?value)
-    BIND(CONCAT("./text-to-lexemes?text-language=",
-      ENCODE_FOR_URI(?language_code),
-        "&text=",
-   	ENCODE_FOR_URI(?value_)) AS ?value_Url)
+    BIND(CONCAT(?value_, "@", LANG(?value_)) AS ?value)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
