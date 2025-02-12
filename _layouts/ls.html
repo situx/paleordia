@@ -109,7 +109,7 @@ WHERE {
 	  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
 	  BIND(CONCAT(?sourceLab," [",?refnumber,"]") AS ?sourceLabel)
-      BIND(CONCAT("reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
     }
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
 	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
@@ -146,7 +146,7 @@ WHERE {
 	  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
 	  BIND(CONCAT(?sourceLab," [",?refnumber,"]") AS ?sourceLabel)
-      BIND(CONCAT("reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
     }
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
 	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
@@ -183,7 +183,7 @@ WHERE {
 	  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
 	  BIND(CONCAT(?sourceLab," [",?refnumber,"]") AS ?sourceLabel)
-      BIND(CONCAT("reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
     }
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
 	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
@@ -220,7 +220,7 @@ WHERE {
 	  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
 	  BIND(CONCAT(?sourceLab," [",?refnumber,"]") AS ?sourceLabel)
-      BIND(CONCAT("reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
     }
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
 	BIND(CONCAT("../l?l=",SUBSTR(STR(?lex), 32),"&qLabel=",?valueLabe)  AS ?value_Url)
@@ -244,7 +244,7 @@ WHERE {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
       FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      BIND(CONCAT("../reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
     }
   }  
   UNION
