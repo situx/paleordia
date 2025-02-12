@@ -55,7 +55,7 @@ WHERE {
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
-      FILTER (LANG(?sourceLabel) = 'en')
+      FILTER (LANG(?sourceLab) = 'en')
 	  OPTIONAL {?value_statement pq:P478 ?refvol. }
 	  OPTIONAL{?value_statement pq:P1810 ?valuenum .}
 	  OPTIONAL{?value_statement pq:P7421 ?refline .}
