@@ -96,37 +96,50 @@ WHERE {
   {
     BIND(11 AS ?order)
     BIND("Hypernym" AS ?description)
-    { ?sense wdt:P6593 ?value . }
+	{SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language WHERE { 
+    { wd:${ l }-${ s } wdt:P6593 ?value . }
     UNION
     {
-      ?sense wdt:P5137 / wdt:P279 / ^wdt:P5137 ?value .
+      wd:${ l }-${ s } wdt:P5137 / wdt:P279 / ^wdt:P5137 ?value .
       ?value ^ontolex:sense / dct:language ?language .
     }
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+	}GROUP BY ?value ?gloss ?language}
+	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
   }  
   UNION
   {
     BIND(12 AS ?order)
     BIND("Hyponym" AS ?description)
-    { ?sense ^wdt:P6593 ?value . }
+	{SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language WHERE { 
+    { wd:${ l }-${ s } ^wdt:P6593 ?value . }
     UNION
     {
-      ?sense wdt:P5137 / ^wdt:P279 / ^wdt:P5137 ?value .
+      wd:${ l }-${ s } wdt:P5137 / ^wdt:P279 / ^wdt:P5137 ?value .
       ?value ^ontolex:sense / dct:language ?language .
     }
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+	}GROUP BY ?value ?gloss ?language}
+	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
   }  
   UNION
   {
     BIND(13 AS ?order)
     BIND("Antonym" AS ?description)
-    { ?sense wdt:P5974 ?value . }
+    {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language WHERE { 
+	{ wd:${ l }-${ s } wdt:P5974 ?value . }
     UNION
     {
-      ?sense wdt:P5137 / wdt:P461 / ^wdt:P5137 ?value .
+      wd:${ l }-${ s } wdt:P5137 / wdt:P461 / ^wdt:P5137 ?value .
       ?value ^ontolex:sense / dct:language ?language .
     }
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
+	}GROUP BY ?value ?gloss ?language}
+	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
+	
   }  
   UNION
   {
