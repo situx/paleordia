@@ -46,7 +46,7 @@ WHERE {
     BIND(CONCAT("./text-to-lexemes?text-language=",
       ENCODE_FOR_URI(?language_code),
         "&text=",
-   	ENCODE_FOR_URI(?value_)) AS ?valueUrl)
+   	ENCODE_FOR_URI(?value_)) AS ?value_Url)
   }  
   UNION
   {
@@ -59,7 +59,7 @@ WHERE {
     BIND(CONCAT("./text-to-lexemes?text-language=",
       ENCODE_FOR_URI(?language_code),
         "&text=",
-   	ENCODE_FOR_URI(?value_)) AS ?valueUrl)
+   	ENCODE_FOR_URI(?value_)) AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
       ?source_ rdfs:label ?source .
@@ -90,7 +90,7 @@ WHERE {
 	
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
   }
   UNION
   {
@@ -106,7 +106,7 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
   }  
   UNION
   {
@@ -122,7 +122,7 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
   }  
   UNION
   {
@@ -138,7 +138,7 @@ WHERE {
     ?value ^ontolex:sense / wikibase:lemma ?valueLabel 
 	}GROUP BY ?value ?gloss ?language}
 	BIND(CONCAT(?gloss, " (",?valueLabe,")") AS ?valueLabel)
-	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?valueUrl)
+	BIND(CONCAT("../l?l=",?value,"&qLabel=",?valueLabel)  AS ?value_Url)
 	
   }  
   UNION
@@ -174,7 +174,7 @@ WHERE {
     BIND(CONCAT("./text-to-lexemes?text-language=",
       ENCODE_FOR_URI(?language_code),
         "&text=",
-   	ENCODE_FOR_URI(?value)) AS ?valueUrl)
+   	ENCODE_FOR_URI(?value)) AS ?value_Url)
   }  
 }
 ORDER BY ?order
