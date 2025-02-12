@@ -53,10 +53,10 @@ WHERE {
     BIND(LANG(?value) AS ?language_code)
     BIND(CONCAT(?value, "@", LANG(?value)) AS ?valueLabel)
     OPTIONAL {
-      ?value_statement prov:wasDerivedFrom / pr:P248 ?source_ .
-      ?source_ rdfs:label ?source .
-      FILTER (LANG(?source) = 'en')
-      BIND(CONCAT("reference/", SUBSTR(STR(?source_), 32))  AS ?sourceUrl)
+      ?value_statement prov:wasDerivedFrom / pr:P248 ?source .
+      ?source rdfs:label ?sourceLabel .
+      FILTER (LANG(?sourceLabel) = 'en')
+      BIND(CONCAT("reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
     }
   }  
   UNION
