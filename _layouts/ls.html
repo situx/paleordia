@@ -94,7 +94,7 @@ WHERE {
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {
 	  ?value p:P8394 ?value_statement .
-      ?value_statement ps:P8394 ?value .
+      #?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
@@ -131,7 +131,7 @@ WHERE {
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {     
       ?value p:P8394 ?value_statement .
-	  ?value_statement ps:P8394 ?value .
+	  #?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
@@ -168,7 +168,7 @@ WHERE {
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {     
       ?value p:P8394 ?value_statement .
-	  ?value_statement ps:P8394 ?value .
+	  #?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
@@ -205,7 +205,7 @@ WHERE {
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {     
       ?value p:P8394 ?value_statement .
-	  ?value_statement ps:P8394 ?value .
+	  #?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
