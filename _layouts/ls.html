@@ -65,7 +65,6 @@ WHERE {
 	  BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
 	  BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 	  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline) AS ?refnumber)
-	  FILTER (LANG(?valueLab) = 'en')
 	  BIND(CONCAT(?sourceLab," [",?refnumber,"]") AS ?sourceLabel)
       BIND(CONCAT("reference/", SUBSTR(STR(?source), 32))  AS ?sourceUrl)
     }
