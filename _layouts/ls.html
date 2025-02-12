@@ -92,7 +92,8 @@ WHERE {
 	?lex wikibase:lemma ?valueLab .
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language ?lex}
-	OPTIONAL {     
+	OPTIONAL {
+	  ?value p:P8394 ?value_statement .
       ?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
@@ -129,7 +130,8 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {     
-      ?value_statement ps:P8394 ?value .
+      ?value p:P8394 ?value_statement .
+	  ?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
@@ -165,7 +167,8 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {     
-      ?value_statement ps:P8394 ?value .
+      ?value p:P8394 ?value_statement .
+	  ?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
@@ -201,7 +204,8 @@ WHERE {
     ?lex dct:language ?language .	
 	}GROUP BY ?value ?gloss ?language ?lex}
 	OPTIONAL {     
-      ?value_statement ps:P8394 ?value .
+      ?value p:P8394 ?value_statement .
+	  ?value_statement ps:P8394 ?value .
       ?value_statement prov:wasDerivedFrom ?snode .
 	  ?snode pr:P248 ?source .
       ?source rdfs:label ?sourceLab .
