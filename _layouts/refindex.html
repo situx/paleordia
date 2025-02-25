@@ -1,0 +1,67 @@
+---
+layout: base
+---
+
+<script type="text/javascript">
+lexemesSparql =`
+SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) 
+(GROUP_CONCAT(DISTINCT ?dictt; separator=" / ") as ?dict) 
+(GROUP_CONCAT(DISTINCT ?dictLabell; separator=" / ") as ?dictLabel) 
+(COUNT(DISTINCT ?dictt) as ?dictc)   WHERE {
+  ?lexeme rdf:type ontolex:LexicalEntry;
+          dct:language wd:Q35518;  
+          wdt:P1343 ?dict ;
+          wikibase:lemma ?lexemeLab .
+  ?dictt rdfs:label ?dictLabell .
+  FILTER(lang(?dictLabell)="en")
+}
+GROUP BY ?lexeme
+ORDER BY ?lexemeLabel
+`
+
+ $(document).ready(function() {  
+ 	sparqlToDataTable(lexemesSparql, "#lexemes", {
+	 'linkPrefixes': {
+		'lexeme': '../l'
+	 },
+	 linkParams: {
+		form: '&qb='+q
+	 },
+	 pBar:"progressbar",
+	 pBarLabel:"progress-label"
+	 }); 
+ });
+
+</script>
+
+<div class="language-entries">
+  <h1>Lexemes by reference: ${ qLabel } (${ q }${ p })</h1>
+
+  <a title="Back"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="../language?q=${ l }&qLabel=${ lLabel }">←</a>
+  <a title="View and edit item in Wikidata"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://www.wikidata.org/wiki/${ q }${ p }">Wikidata ↗</a>
+  <a title="View item in Reasonator"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://reasonator.toolforge.org/?&q=${ q }${ p }">Reasonator ↗</a>
+  <a title="View item as a Scholia topic"
+     role="button"
+     class="btn btn-outline-dark btn-sm"
+     href="https://scholia.toolforge.org/topic/${ q }${ p }">Scholia ↗</a>
+
+
+  <h2>Reference Index for language ${ lLabel }</h2>
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
+  <table class="table table-hover" id="lexemes"></table>
+  
+
+</div>
+
+
+
+
