@@ -9,7 +9,7 @@ SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS 
 (GROUP_CONCAT(DISTINCT ?dictLabell; separator=" / ") as ?dictLabel) 
 (COUNT(DISTINCT ?dictt) as ?dictc)   WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-          dct:language wd:Q35518;  
+          dct:language wd:${ l };  
           wdt:P1343 ?dict ;
           wikibase:lemma ?lexemeLab .
   ?dictt rdfs:label ?dictLabell .
@@ -35,7 +35,7 @@ ORDER BY ?lexemeLabel
 </script>
 
 <div class="language-entries">
-  <h1>Lexemes by reference: ${ qLabel } (${ q }${ p })</h1>
+  <h1>Lexemes Reference Index for language: ${ l } (${ lLabel })</h1>
 
   <a title="Back"
      role="button"
