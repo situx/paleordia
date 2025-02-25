@@ -5,9 +5,9 @@ layout: base
 <script type="text/javascript">
 lexemesSparql =`
 SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) 
-(GROUP_CONCAT(DISTINCT ?dictt; separator=" / ") as ?dict) 
-(GROUP_CONCAT(DISTINCT ?dictLabell; separator=" / ") as ?dictLabel) 
-(COUNT(DISTINCT ?dictt) as ?dictc)   WHERE {
+(GROUP_CONCAT(DISTINCT ?dictt; separator=" / ") as ?dictionary) 
+(GROUP_CONCAT(DISTINCT ?dictLabell; separator=" / ") as ?dictionaryLabel) 
+(COUNT(DISTINCT ?dictt) as ?count)   WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
           dct:language wd:${ l };  
           wdt:P1343 ?dictt ;
