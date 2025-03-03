@@ -393,10 +393,14 @@ function sparqlToDataTable(sparql, element, options={}) {
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
 
     
-    $.post(post_url, post_data, function(response) {
+    $.post(post_url, post_data).done(function(response) {
 	if(divElem!=""){
 	 $("#progress-label").html("Loading... (Processing response)")
 	}
+	$(element).append(
+	    '<caption><a href="https://query.wikidata.org/#' + 
+		encodeURIComponent(sparql) +	
+		'">Edit on query.Wikidata.org</a></caption>');
 	var simpleData = sparqlDataToSimpleData(response);
 
 	convertedData = convertDataTableData(simpleData.data, simpleData.columns, linkPrefixes=linkPrefixes,linkParams=linkParams);
@@ -515,11 +519,12 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    sDom: sDom,
 	});
 
-	$(element).append(
-	    '<caption><a href="https://query.wikidata.org/#' + 
-		encodeURIComponent(sparql) +	
-		'">Edit on query.Wikidata.org</a></caption>');
-    }, "json");
+    }).fail(function(xhr,textStatus,errorThrown){
+		console.log(errorThrown)
+		if(divElem!=""){
+			$("#progress-label").html("<span style=\"color:red\">An error occurred while querying: "+errorThrown+"\nIf this error reloading is temporary you may try to reload the page!")
+		}
+	});
 
 }
 
