@@ -522,6 +522,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     }).fail(function(xhr,textStatus,errorThrown){
 		console.log(errorThrown)
 		if(pBar!="" && pBarLabel!=""){
+			$('#'+pBar).progressbar("destroy")
 			$("#"+pBarLabel).html("<span style=\"color:red\">An error occurred while querying: "+errorThrown+"\nIf this error reloading is temporary you may try to reload the page!")
 		}
 	});
