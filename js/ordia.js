@@ -398,8 +398,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		'" target="_blank">Edit on query.Wikidata.org</a></caption>');
     $.post(post_url, post_data).done(function(response) {
 	if(pBar!="" && pBarLabel!=""){
-		document.getElementById()
-	 $("#"+pBarLabel).html("Loading... (Processing response)")
+	    $("#"+pBarLabel).html("Loading... (Processing response)")
 	}
 
 	var simpleData = sparqlDataToSimpleData(response);
