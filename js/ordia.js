@@ -395,7 +395,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     $(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
 		encodeURIComponent(sparql) +	
-		'">Edit on query.Wikidata.org</a></caption>');
+		'" target="_blank">Edit on query.Wikidata.org</a></caption>');
     $.post(post_url, post_data).done(function(response) {
 	if(divElem!=""){
 	 $("#progress-label").html("Loading... (Processing response)")
