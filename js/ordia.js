@@ -523,7 +523,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		console.log(errorThrown)
 		if(pBar!="" && pBarLabel!=""){
 			$('#'+pBar).progressbar("destroy")
-			$("#"+pBarLabel).html("<span style=\"color:red\">An error occurred while querying<br/>If this error is temporary you may try to reload the page!<br/>Error message:<br/> "+xhr.responseText+"")
+			$("#"+pBarLabel).html("<span style=\"color:red\">An error occurred while querying<br/>If this error is temporary you may try to reload the page!<br/>Error message:<br/><pre>"+xhr.responseText+"</pre>")
 		}
 	});
 
