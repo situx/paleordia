@@ -354,8 +354,8 @@ function sparqlToDataTable(sparql, element, options={}) {
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
 	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
 	var sepcharmap=(typeof options.sepcharmap === 'undefined') ? {} : options.sepcharmap;
-	if(divElem!=""){
-	 $("#progress-label").html("Loading... (Execute Query)")
+	if(pBar!="" && pBarLabel!=""){
+	 $("#"+pBarLabel).html("Loading... (Execute Query)")
 	}
 	if(pBar!=""){
 		$('#'+pBar).progressbar({
@@ -397,8 +397,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 		encodeURIComponent(sparql) +	
 		'" target="_blank">Edit on query.Wikidata.org</a></caption>');
     $.post(post_url, post_data).done(function(response) {
-	if(divElem!=""){
-	 $("#progress-label").html("Loading... (Processing response)")
+	if(pBar!="" && pBarLabel!=""){
+		document.getElementById()
+	 $("#"+pBarLabel).html("Loading... (Processing response)")
 	}
 
 	var simpleData = sparqlDataToSimpleData(response);
@@ -490,7 +491,7 @@ function sparqlToDataTable(sparql, element, options={}) {
         .on( 'init.dt', function () {
             //console.log( 'Loaded' );
            //Here hide the loader.
-           $("#MessageContainer").html("Loding completed!");
+           $("#MessageContainer").html("Loading completed!");
 		   	if(pBar!=""){
 				$('#'+pBar).progressbar("destroy")
 				$('#'+pBarLabel).html("")
@@ -521,8 +522,8 @@ function sparqlToDataTable(sparql, element, options={}) {
 
     }).fail(function(xhr,textStatus,errorThrown){
 		console.log(errorThrown)
-		if(divElem!=""){
-			$("#progress-label").html("<span style=\"color:red\">An error occurred while querying: "+errorThrown+"\nIf this error reloading is temporary you may try to reload the page!")
+		if(pBar!="" && pBarLabel!=""){
+			$("#"+pBarLabel).html("<span style=\"color:red\">An error occurred while querying: "+errorThrown+"\nIf this error reloading is temporary you may try to reload the page!")
 		}
 	});
 
