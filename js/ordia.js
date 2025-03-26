@@ -499,7 +499,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    data: convertedData.data,
 	    columns: columns,
 		columnDefs: [{ type: 'natural', targets: '_all' }],
-		dom: 'Bfrtip',
+		dom: 'lBfrtip',
 		hideEmptyCols: true,
 		layout:{
 			top1Start:'pageLength',
