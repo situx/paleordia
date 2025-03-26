@@ -501,7 +501,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		columnDefs: [{ type: 'natural', targets: '_all' }],
 		dom: 'Bfrtip',
 		hideEmptyCols: true,
-		top1Start: {
+		layout:{top1Start: {
            buttons: [
             'copyHtml5',
             'excelHtml5',
@@ -511,7 +511,7 @@ function sparqlToDataTable(sparql, element, options={}) {
                 orientation: 'landscape'
             }
         ]
-        },
+        }},
 		bDestroy: true,
 	    lengthMenu: [[10, 25, 100,250,500,1000, -1], [10, 25, 100,250,500,1000, "All"]],
 	    ordering: true,
