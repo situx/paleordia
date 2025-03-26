@@ -501,18 +501,20 @@ function sparqlToDataTable(sparql, element, options={}) {
 		columnDefs: [{ type: 'natural', targets: '_all' }],
 		dom: 'Bfrtip',
 		hideEmptyCols: true,
-		layout:{topStart: {
-           buttons: [
-		    'pageLength',
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape'
-            }
-        ]
-        }},
+		layout:{
+			top1Start: {
+			   buttons: [
+				'pageLength',
+				'copyHtml5',
+				'excelHtml5',
+				'csvHtml5',
+				{
+					extend: 'pdfHtml5',
+					orientation: 'landscape'
+				}
+				]
+			}
+		},
 		bDestroy: true,
 	    lengthMenu: [[10, 25, 100,250,500,1000, -1], [10, 25, 100,250,500,1000, "All"]],
 	    ordering: true,
