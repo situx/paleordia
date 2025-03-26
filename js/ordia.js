@@ -502,9 +502,10 @@ function sparqlToDataTable(sparql, element, options={}) {
 		dom: 'Bfrtip',
 		hideEmptyCols: true,
 		layout:{
-			top1Start: {
+			top1Start:'pageLength',
+			top1: {
 			   buttons: [
-				'pageLength',
+				
 				'copyHtml5',
 				'excelHtml5',
 				'csvHtml5',
