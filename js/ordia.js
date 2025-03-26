@@ -503,7 +503,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		hideEmptyCols: true,
 		layout:{topStart: {
            buttons: [
-		    //'pageLength',
+		    'pageLength',
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
