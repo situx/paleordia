@@ -21,7 +21,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabe
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	} 
     OPTIONAL{
-	
+	#ignore
 	{    
     ?character p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
