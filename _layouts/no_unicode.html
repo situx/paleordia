@@ -20,7 +20,9 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabe
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	} 
-    OPTIONAL{{    
+    OPTIONAL{
+	
+	{    
     ?character p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
