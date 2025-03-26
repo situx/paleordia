@@ -4,6 +4,8 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
+	SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel ?refnumber (COUNT(?refs) as ?count) WHERE {
+    {
 	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) ?refnumber WHERE {
 	  ?lexeme rdf:type ontolex:LexicalEntry;
@@ -27,6 +29,10 @@ lexemesSparql =`
 	}
 	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel
 	ORDER BY (?refnumber)
+	}
+	?lexeme wdt:P1343 ?refs .
+	}
+	GROUP BY ?lexeme ?lexemeLabel ?refnumber ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel
 `
 
 
@@ -48,6 +54,7 @@ lexemesSparqlP=`
 		?idpropp wdt:P1630 ?formatur .
 		BIND(REPLACE(STR(?formatur), "\\\\$1", "", "i") AS ?formaturl)
 	}
+	
 	OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") 
 	  OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} 
 	  BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) 
