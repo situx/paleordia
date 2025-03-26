@@ -6,9 +6,6 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-
-# tool: ordia
-# title: List of characters for a script
 SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabel2; separator=" / ") AS ?refs) (GROUP_CONCAT(distinct ?chartypeLabell; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
     ?charclass wdt:P361 wd:Q401 .
     ?character wdt:P31 ?charclass .
@@ -23,10 +20,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabe
 		?character wdt:P4213 ?unicodepoint .
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	} 
-    	OPTIONAL{{
-	#?character wdt:P1343 ?reference .
-	#?reference rdfs:label ?referenceLabel .
-          
+    OPTIONAL{{    
     ?character p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
@@ -58,9 +52,9 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabe
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
-  }
-  GROUP BY ?character ?characterLabel 
-  ORDER BY ?characterLabel
+}
+GROUP BY ?character ?characterLabel 
+ORDER BY ?characterLabel
 `
 
  $(document).ready(function() {
