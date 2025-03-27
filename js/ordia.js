@@ -515,7 +515,8 @@ function sparqlToDataTable(sparql, element, options={}) {
 				'csvHtml5',
 				{
 					extend: 'pdfHtml5',
-					orientation: 'landscape'
+					orientation: 'landscape',
+					download: 'open'
 				}
 				]
 			}
