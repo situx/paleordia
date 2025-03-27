@@ -4,7 +4,7 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-	SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel ?refnumber (COUNT(?refs) as ?count) WHERE {
+	SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel ?refnumber (COUNT(distinct ?refs)+COUNT(distinct ?idprop) as ?refcount) WHERE {
     {
 	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) ?refnumber WHERE {
@@ -30,9 +30,12 @@ lexemesSparql =`
 	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel
 	ORDER BY (?refnumber)
 	}
-	?lexeme wdt:P1343 ?refs .
-	}
-	GROUP BY ?lexeme ?lexemeLabel ?refnumber ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel
+    ?lexeme wdt:P1343 ?refs .
+    OPTIONAL{?lexeme ?idprop ?id . 
+     ?idpropp wikibase:directClaim ?idprop ; wikibase:propertyType wikibase:ExternalId .
+    }
+  }
+GROUP BY ?lexeme ?lexemeLabel ?refnumber ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel
 `
 
 
