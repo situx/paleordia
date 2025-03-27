@@ -505,7 +505,11 @@ function sparqlToDataTable(sparql, element, options={}) {
 			top1Start:'pageLength',
 			top1: {
 			   buttons: [
-				
+				{
+                    extend: 'spacer',
+                    style: 'bar',
+                    text: ''
+                },
 				'copyHtml5',
 				'excelHtml5',
 				'csvHtml5',
