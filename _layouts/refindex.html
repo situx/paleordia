@@ -58,8 +58,8 @@ ORDER BY ?lexemeLabel
   <h2>Lexemes with references and reference counts</h2>
   <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="lexemes"></table>
-  
-
+  <div class="embed-responsive embed-responsive-4by3"> 
+  <iframe loading="lazy" id="wikidataembed" allow="fullscreen" class="embed-responsive-item" src="https://query.wikidata.org/embed.html#%23%20Show%20compound%20and%20derivation%20hierarchy%0A%23defaultView%3ABubbleChart%0ASELECT%20%3FlcountLabel%20%3Flcount%20WHERE%20%7B%0A%7B%0ASELECT%20%3Fcount%20%3FlcountLab%20(COUNT(%3Flexeme)%20as%20%3Flcount)%20WHERE%20%7B%0A%20%7B%20%0ASELECT%20DISTINCT%20%0A%3Flexeme%20%0A%23(GROUP_CONCAT(DISTINCT%20%3FlexemeLab%3B%20separator%3D%22%20%2F%2F%20%22)%20AS%20%3FlexemeLabel)%20%0A%23(GROUP_CONCAT(DISTINCT%20%3Fdictt%3B%20separator%3D%22%20%2F%20%22)%20as%20%3Fdictionary)%20%0A%23(GROUP_CONCAT(DISTINCT%20%3FdictLabell%3B%20separator%3D%22%20%2F%20%22)%20as%20%3FdictionaryLabel)%20%0A(COUNT(DISTINCT%20%3Fdictt)%20as%20%3Fcount)%20%20%20WHERE%20%7B%0A%20%20%3Flexeme%20rdf%3Atype%20ontolex%3ALexicalEntry%3B%0A%20%20%20%20%20%20%20%20%20%20dct%3Alanguage%20wd%3AQ35518%3B%20%20%0A%20%20%20%20%20%20%20%20%20%20wdt%3AP1343%20%3Fdictt%20%20.%0A%20%20%23%3Fdictt%20rdfs%3Alabel%20%3FdictLabell%20.%0A%20%20%23FILTER(lang(%3FdictLabell)%3D%22en%22)%0A%7D%0AGROUP%20BY%20%3Flexeme%0AORDER%20BY%20%3FlexemeLabel%0A%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20BIND(CONCAT(STR(%3Fcount)%2C%22%20ref(s)%3A%20%22)%20AS%20%3FlcountLab)%0A%7D%20%20GROUP%20BY%20%3Fcount%20%3FlcountLab%0AORDER%20BY%20DESC(%3Fcount)%0A%7D%0ABIND(CONCAT(%3FlcountLab%2CSTR(%3Flcount))%20AS%20%3FlcountLabel)%20%20%0A%7D" referrerpolicy="origin" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></div>
 </div>
 
 
