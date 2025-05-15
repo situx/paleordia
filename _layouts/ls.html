@@ -4,21 +4,20 @@ layout: base
 
 <script type="text/javascript">
  senseDataSparql = `
-
 # Data for a specific sense
 SELECT DISTINCT 
   ?description ?descriptionUrl
   (?valueLabel As ?value_) ?value_Url
   ?source ?sourceLabel ?sourceUrl
 WHERE {
-  BIND(wd:${ l }-${ s } AS ?sense)
+  BIND(wd:L705593-S1 AS ?sense)
   ?lexeme ontolex:sense ?sense ;
           dct:language ?language . 
   {
     BIND(1 AS ?order)
     BIND("Lexeme" AS ?description)
 	{SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabel) WHERE { 
-    ?value ontolex:sense wd:${ l }-${ s } .
+    ?value ontolex:sense wd:L705593-S1 .
     ?value wikibase:lemma ?valueLab .
 	}GROUP BY ?value}
   }
@@ -82,11 +81,11 @@ WHERE {
     BIND(10 AS ?order)
     BIND("Synonym" AS ?description)
     {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language ?lex WHERE { 
-    { wd:${ l }-${ s } wdt:P5973 ?value . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en")}
+    { wd:L705593-S1 wdt:P5973 ?value . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en")}
     UNION 
     {
-      wd:${ l }-${ s } wdt:P5137 / ^wdt:P5137 ?value . ?value skos:definition ?gloss .
-      FILTER (?value != wd:${ l }-${ s }) FILTER (lang(?gloss)="en")
+      wd:L705593-S1 wdt:P5137 / ^wdt:P5137 ?value . ?value skos:definition ?gloss .
+      FILTER (?value != wd:L705593-S1) FILTER (lang(?gloss)="en")
     }
     ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
@@ -119,11 +118,11 @@ WHERE {
     BIND(11 AS ?order)
     BIND("Hypernym" AS ?description)
 	{SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language ?lex WHERE { 
-    { wd:${ l }-${ s } wdt:P6593 ?value . }
+    { wd:L705593-S1 wdt:P6593 ?value . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en")}
     UNION
     {
-      wd:${ l }-${ s } wdt:P5137 / wdt:P279 / ^wdt:P5137 ?value .
-      ?value ^ontolex:sense / dct:language ?language .
+      wd:L705593-S1 wdt:P5137 / wdt:P279 / ^wdt:P5137 ?value . ?value skos:definition ?gloss . 
+      ?value ^ontolex:sense / dct:language ?language . FILTER (lang(?gloss)="en")
     }
     ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
@@ -156,11 +155,11 @@ WHERE {
     BIND(12 AS ?order)
     BIND("Hyponym" AS ?description)
 	{SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language ?lex WHERE { 
-    { wd:${ l }-${ s } ^wdt:P6593 ?value . }
+    { wd:L705593-S1 ^wdt:P6593 ?value . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en") }
     UNION
     {
-      wd:${ l }-${ s } wdt:P5137 / ^wdt:P279 / ^wdt:P5137 ?value .
-      ?value ^ontolex:sense / dct:language ?language .
+      wd:L705593-S1 wdt:P5137 / ^wdt:P279 / ^wdt:P5137 ?value .
+      ?value ^ontolex:sense / dct:language ?language . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en")
     }
     ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
@@ -193,11 +192,11 @@ WHERE {
     BIND(13 AS ?order)
     BIND("Antonym" AS ?description)
     {SELECT ?value (GROUP_CONCAT(?valueLab; separator=" // ") AS ?valueLabe) ?gloss ?language ?lex WHERE { 
-	{ wd:${ l }-${ s } wdt:P5974 ?value . }
+	{ wd:L705593-S1 wdt:P5974 ?value . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en") }
     UNION
     {
-      wd:${ l }-${ s } wdt:P5137 / wdt:P461 / ^wdt:P5137 ?value .
-      ?value ^ontolex:sense / dct:language ?language .
+      wd:L705593-S1 wdt:P5137 / wdt:P461 / ^wdt:P5137 ?value .
+      ?value ^ontolex:sense / dct:language ?language . ?value skos:definition ?gloss . FILTER (lang(?gloss)="en")
     }
     ?value ^ontolex:sense ?lex . 
 	?lex wikibase:lemma ?valueLab .
