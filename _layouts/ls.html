@@ -10,7 +10,7 @@ SELECT DISTINCT
   (?valueLabel As ?value_) ?value_Url
   ?source ?sourceLabel ?sourceUrl
 WHERE {
-  BIND(wd:L705593-S1 AS ?sense)
+  BIND(wd:${ l }-${ s } AS ?sense)
   ?lexeme ontolex:sense ?sense ;
           dct:language ?language . 
   {
