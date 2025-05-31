@@ -26,7 +26,26 @@ lexemesSparql =`
 	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, COALESCE(?refcol,""), "]"), "") AS ?thepage)
 	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
 	  BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum) AS ?refnumber)
-      OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     
+      OPTIONAL { 
+		?lexeme ontolex:sense ?senseitem.
+		OPTIONAL {
+		  ?senseitem wdt:P5137|wdt:P9970 ?sensee.
+		  ?sensee rdfs:label ?senseLab.
+		  FILTER(LANG(?senseLab)="en")
+		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+		}
+		OPTIONAL {
+			FILTER("${ displaylang }"!="en")
+			?senseitem skos:definition ?glosss.
+			FILTER(LANG(?glosss)="${ displaylang }")
+			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+		}
+		OPTIONAL {
+			?senseitem skos:definition ?gloss.
+			FILTER(LANG(?gloss)="en")
+		}
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)
+		}     
 	}
 	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel
 	ORDER BY (?refnumber)

@@ -25,6 +25,7 @@ layout: base
 	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
     }
     OPTIONAL {
+	    FILTER("${ displaylang }"!="en")
 		?senseitem skos:definition ?glosss.
 		FILTER(LANG(?glosss)="${ displaylang }")
 		BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
