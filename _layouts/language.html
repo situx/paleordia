@@ -203,6 +203,8 @@ ORDER BY DESC(?number_of_lexemes)
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
 	 'linkPrefixes': {
 	     'lexical_category': '../lexical-category',
+	 },linkParams: {
+		'lexical_category': '&displaylang='+displaylang
 	 }});
 	sparqlToDataTable(lexemesdialectSparql, "#lexemesdialect", {
 	 'linkPrefixes': {
