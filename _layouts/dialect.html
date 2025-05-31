@@ -23,13 +23,19 @@ layout: base
   }
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.
-    ?senseitem skos:definition ?gloss.
-    FILTER(LANG(?gloss) = "en")
     OPTIONAL {
       ?senseitem wdt:P5137|wdt:P9970 ?sensee.
       ?sensee rdfs:label ?senseLab.
-      FILTER(LANG(?senseLab) = "en")
-	  BIND(COALESCE(?sensee, "") AS ?sensse)
+      FILTER(LANG(?senseLab)="en")
+	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+    }
+    OPTIONAL {
+		?senseitem skos:definition ?gloss.
+		FILTER(LANG(?gloss)="${ displaylang }")
+    }
+    OPTIONAL {
+		?senseitem skos:definition ?gloss.
+		FILTER(LANG(?gloss)="en")
     }
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senseLabell)
   }
