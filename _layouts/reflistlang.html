@@ -6,7 +6,7 @@ layout: base
 lexemesSparql =`
 	SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel ?refnumber (COUNT(distinct ?refs)+COUNT(distinct ?idprop) as ?refcount) WHERE {
     {
-	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
+	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel 	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) ?refnumber WHERE {
 	  ?lexeme rdf:type ontolex:LexicalEntry;
 		dct:language wd:${ l };
