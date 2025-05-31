@@ -27,10 +27,6 @@ title: PaleOrdia
 	var q2 = urlParams.get('q2');
 	const lang = urlParams.get('language');
 	const representation = urlParams.get('representation');
-	if(typeof(displaylang)==='undefined' || displaylang==null){
-		displaylang="en"
-	}
-	document.getElementById("displaylangselect").value=displaylang.toUpperCase()
 	if(typeof(q)==='undefined' || q==null){
 		q=""
 	}
@@ -49,6 +45,10 @@ title: PaleOrdia
 	if(typeof(qbLabel)==='undefined'){
 		qbLabel=""
 	}
+	if(typeof(displaylang)==='undefined' || displaylang==null){
+		displaylang="en"
+	}
+	document.getElementById("displaylangselect").value=displaylang.toUpperCase()
 	function selectdisplaylang(){
 		displaylang=document.getElementById().value
 	}
