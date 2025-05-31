@@ -182,7 +182,7 @@ SELECT DISTINCT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes
   FILTER(lang(?referenceLabel)="en")
 }
 GROUP BY ?reference ?referenceLabel
-ORDER BY ?referenceLabel
+ORDER BY DESC(?number_of_lexemes)
 `
 
  $(document).ready(function() {
@@ -195,7 +195,7 @@ ORDER BY ?referenceLabel
 	     'lexical_category': '../lexical_category'
 	  },
 	  'linkParams':{
-		'lexeme': '&qb='+q+'&qbLabel='+qLabel
+		'lexeme': '&qb='+q+'&qbLabel='+qLabel+'&displaylang='+displaylang
 	  }
 	  });
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
@@ -206,19 +206,19 @@ ORDER BY ?referenceLabel
 	 'linkPrefixes': {
 	     'dialect': '../dialect',
 	 },linkParams: {
-		dialect: '&l='+q+'&lLabel='+qLabel
+		dialect: '&l='+q+'&lLabel='+qLabel+'&displaylang='+displaylang
 	 }});
 	sparqlToDataTable(lexemestimeperiodsSparql, "#lexemestimeperiods", {
 	 'linkPrefixes': {
 	     'timeperiod': '../timeperiod',
 	 },linkParams: {
-		timeperiod: '&l='+q+'&lLabel='+qLabel
+		timeperiod: '&l='+q+'&lLabel='+qLabel+'&displaylang='+displaylang
 	 }});
 	 sparqlToDataTable(refsSPARQL, "#lexemesreference", {
 		'linkPrefixes': {
 	     'reference': '../reflistlang',
 	 },linkParams: {
-		reference: '&l='+q+'&lLabel='+qLabel
+		reference: '&l='+q+'&lLabel='+qLabel+'&displaylang='+displaylang
 	 }});
      sparqlToDataTable(longestWordsAndPhrasesSparql,
 		       "#longest-words-and-phrases", {
