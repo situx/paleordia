@@ -8,13 +8,6 @@ title: PaleOrdia
   <body>
     {% include nav.html %}
 	<script>
-	function selectElement(id, valueToSelect) {    
-		let element = document.getElementById(id);
-		element.value = valueToSelect;
-	}
-	function selectdisplaylang(){
-		displaylang=document.getElementById().value
-	}
 	const urlParams = new URLSearchParams(window.location.search);
 	const l = urlParams.get('l');
 	const f = urlParams.get('f');
@@ -37,7 +30,7 @@ title: PaleOrdia
 	if(typeof(displaylang)==='undefined' || displaylang==null){
 		displaylang="en"
 	}
-	selectElement("displaylangselect",displaylang.toUpperCase())
+	document.getElementById(id).value=displaylang.toUpperCase()
 	if(typeof(q)==='undefined' || q==null){
 		q=""
 	}
@@ -55,6 +48,9 @@ title: PaleOrdia
 	}
 	if(typeof(qbLabel)==='undefined'){
 		qbLabel=""
+	}
+	function selectdisplaylang(){
+		displaylang=document.getElementById().value
 	}
 	</script>
 	<div class="container">
