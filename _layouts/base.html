@@ -36,8 +36,8 @@ title: PaleOrdia
 	const representation = urlParams.get('representation');
 	if(typeof(displaylang)==='undefined' || displaylang==null){
 		displaylang="en"
-		selectElement("displaylangselect",displaylang)
 	}
+	selectElement("displaylangselect",displaylang.toUpperCase())
 	if(typeof(q)==='undefined' || q==null){
 		q=""
 	}
