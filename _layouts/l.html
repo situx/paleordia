@@ -493,6 +493,9 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 			       source: '../reference',
 				   value_Url: '../'
 			   },
+			   linkParams: {
+				  value_Url: '&displaylang='+displaylang
+			   },
 			   paging: false,
 			   sDom: 'rt',
 		       });
@@ -510,12 +513,16 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 		       options={paging: false, sDom: 'rt',
 			   linkPrefixes: {
 			       form: '../lf'
+			   },linkParams: {
+				  form: '&displaylang='+displaylang
 			   }});
      sparqlToDataTable(sensesSparql, "#senses",
 		       options={paging: false, sDom: 'rt',
 			   linkPrefixes: {
 			       sense: '../ls',
 				   gloss: ''
+			   },linkParams: {
+				  sense: '&displaylang='+displaylang
 			   }});
      sparqlToDataTable(compoundsSparql, "#compounds",
 		       options={divElem: "#compounds-q", paging: true, sDom: 'rt',});
