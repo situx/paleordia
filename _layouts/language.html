@@ -62,8 +62,6 @@ ORDER BY ?order
 `;
   
  lexemesSparql = `
-# tool: ordia
-# title: List of lexemes for a language
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensse; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
   {
   SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
@@ -75,20 +73,26 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
   FILTER(LANG(?lexical_categoryLabel) = "en")
   }}
   OPTIONAL {
-    ?lexeme ontolex:sense ?senseitem.
-    ?senseitem skos:definition ?gloss.
-    {} UNION {
+    ?lexeme ontolex:sense ?senseitem.   
+    OPTIONAL {
       ?senseitem wdt:P5137|wdt:P9970 ?sensee.
       ?sensee rdfs:label ?senseLab.
-      FILTER(LANG(?senseLab) = "en")
+      FILTER(LANG(?senseLab)="en")
 	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
     }
-    FILTER(LANG(?gloss) = "en")
+    OPTIONAL {
+    ?senseitem skos:definition ?gloss.
+    FILTER(LANG(?gloss)="${displaylang}")
+    }
+    OPTIONAL {
+    ?senseitem skos:definition ?gloss.
+    FILTER(LANG(?gloss)="en")
+    }
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senseLabell)
   }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
-LIMIT 10000
+LIMIT 15000
 `
 lexicalCategoriesSparql = `
 # tool: ordia
