@@ -80,16 +80,16 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
       FILTER(LANG(?senseLab)="en")
 	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
     }
-    OPTIONAL {
+	OPTIONAL {
 		FILTER("${ displaylang }"!="en")
 		?senseitem skos:definition ?glosss.
 		FILTER(LANG(?glosss)="${ displaylang }")
 		BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
-    }
-    OPTIONAL {
+	}
+	OPTIONAL {
 		?senseitem skos:definition ?gloss.
 		FILTER(LANG(?gloss)="en")
-    }
+	}
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senseLabell)
   }
 }
