@@ -34,7 +34,7 @@ lexemesSparql =`
 			FILTER(LANG(?gloss)="en")
 		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senselabel)
-    }
+    }}
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical ?radicalLabel
 	ORDER BY ?radicalLabel
 `
