@@ -25,10 +25,10 @@ lexemesSparql =`
 		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
 		}
 		OPTIONAL {
-			FILTER("de"!="en")
+			FILTER("${ displaylang }"!="en")
 			?sense skos:definition ?glosss.
-			FILTER(LANG(?glosss)="de")
-			BIND(CONCAT(?glosss,"@de") AS ?gloss)
+			FILTER(LANG(?glosss)="${ displaylang }")
+			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
 		}
 		OPTIONAL {
 			?sense skos:definition ?gloss.
