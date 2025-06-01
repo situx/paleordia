@@ -44,15 +44,15 @@ lexemesSparql =`
 		}
 		OPTIONAL {
 			FILTER("${ displaylang }"!="en")
-			?translation skos:definition ?glosss.
-			FILTER(LANG(?glosss)="${ displaylang }")
-			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+			?translation skos:definition ?tglosss.
+			FILTER(LANG(?tglosss)="${ displaylang }")
+			BIND(CONCAT(?tglosss,"@${ displaylang }") AS ?tgloss)
 		}
 		OPTIONAL {
-			?translation skos:definition ?gloss.
-			FILTER(LANG(?gloss)="en")
+			?translation skos:definition ?tgloss.
+			FILTER(LANG(?tgloss)="en")
 		}
-		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?tsenseLab, " (", ?tsensse, ")", "]"),"")) AS ?translationLabel)
+		BIND(CONCAT(?tgloss, COALESCE(CONCAT(" [", ?tsenseLab, " (", ?tsensse, ")", "]"),"")) AS ?translationLabel)
   	  ?translationlexeme ontolex:sense ?translation .
       ?translationlexeme wikibase:lemma ?lexeme2a .
       ?translationlexeme dct:language ?translang .	  
