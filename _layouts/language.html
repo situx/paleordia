@@ -228,7 +228,11 @@ ORDER BY DESC(?number_of_lexemes)
 		       "#longest-words-and-phrases", {
 			   'linkPrefixes': {
 			       'form': '../lf',
-			       'lexeme': '../l'}});
+			       'lexeme': '../l'},
+				'linkParams':{
+					'lexeme': '&qb='+q+'&qbLabel='+qLabel+'&displaylang='+displaylang
+				}
+				});
  });
 
 </script>
