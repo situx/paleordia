@@ -46,8 +46,9 @@ title: PaleOrdia
 	if(typeof(displaylang)==='undefined' || displaylang==null){
 		displaylang="en"
 	}
-	document.getElementById("displaylangselect").value=displaylang.toUpperCase()
-	document.querySelector('#displaylangselect [value="'+displaylang.toUpperCase()+'"]').selected = true;
+	//document.getElementById("displaylangselect").value=displaylang.toUpperCase()
+	$('displaylangselect').val(displaylang.toUpperCase());
+	//document.querySelector('#displaylangselect [value="'+displaylang.toUpperCase()+'"]').selected = true;
 	function selectdisplaylang(){
 		displaylang=document.getElementById("displaylangselect").value
 	}
