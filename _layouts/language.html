@@ -197,7 +197,8 @@ ORDER BY DESC(?number_of_lexemes)
 	     'lexical_category': '../lexical_category'
 	  },
 	  'linkParams':{
-		'lexeme': '&qb='+q+'&qbLabel='+qLabel+'&displaylang='+displaylang
+		'lexeme': '&qb='+q+'&qbLabel='+qLabel+'&displaylang='+displaylang,
+		'lexical_category': '&displaylang='+displaylang
 	  }
 	  });
      sparqlToDataTable(lexicalCategoriesSparql, "#lexical-categories", {
