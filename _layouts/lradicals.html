@@ -5,7 +5,7 @@ layout: base
 <script type="text/javascript">
 lexemesSparql =`
 	SELECT DISTINCT ?radical (GROUP_CONCAT(DISTINCT ?radicalLabell; separator=" / ") as ?radicalLabel) (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel 
-	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
+	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
@@ -15,7 +15,26 @@ lexemesSparql =`
 		 wikibase:lexicalCategory ?lexcat .
 	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
       ?radical wikibase:lemma ?radicalLabell . 
-	  OPTIONAL { ?lexeme ontolex:sense ?sense . ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) }     }
+	  OPTIONAL { 
+		?lexeme ontolex:sense ?sense . 
+		OPTIONAL {
+		  ?sense wdt:P5137|wdt:P9970 ?sensee.
+		  ?sensee rdfs:label ?senseLab.
+		  FILTER(LANG(?senseLab)="en")
+		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+		}
+		OPTIONAL {
+			FILTER("${ displaylang }"!="en")
+			?sense skos:definition ?glosss.
+			FILTER(LANG(?glosss)="${ displaylang }")
+			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+		}
+		OPTIONAL {
+			?sense skos:definition ?gloss.
+			FILTER(LANG(?gloss)="en")
+		}
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senselabel)
+    }}
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical ?radicalLabel
 	ORDER BY ?radicalLabel
 `
@@ -29,7 +48,8 @@ lexemesSparql =`
 		'radical': '../l'
 	 },
 	 linkParams: {
-		form: '&qb='+q
+		lexeme: '&qb='+q+'defaultlang='+defaultlang,
+		radical: '&qb='+q+'defaultlang='+defaultlang
 	 },
 	 pBar:"progressbar",
 	 pBarLabel:"progress-label"

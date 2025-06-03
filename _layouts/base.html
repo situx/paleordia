@@ -15,6 +15,7 @@ title: PaleOrdia
 	const s = urlParams.get('s');
 	const h = urlParams.get('h');
 	var displaylang = urlParams.get('displaylang');
+	var defaultlang = "en";
 	var p = urlParams.get('p');
 	var q = urlParams.get('q');
 	var qLabel = urlParams.get('qLabel');
@@ -95,6 +96,9 @@ title: PaleOrdia
 	}
 	if(typeof(displaylang)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ displaylang }', displaylang);
+	}
+	if(typeof(defaultlang)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replaceAll('${ defaultlang }', defaultlang);
 	}
 	</script>
 </html>

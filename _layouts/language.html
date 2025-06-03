@@ -228,7 +228,11 @@ ORDER BY DESC(?number_of_lexemes)
 		       "#longest-words-and-phrases", {
 			   'linkPrefixes': {
 			       'form': '../lf',
-			       'lexeme': '../l'}});
+			       'lexeme': '../l'},
+				'linkParams':{
+					'lexeme': '&qb='+q+'&qbLabel='+qLabel+'&displaylang='+displaylang
+				}
+				});
  });
 
 </script>
@@ -295,7 +299,7 @@ ORDER BY DESC(?number_of_lexemes)
 <h2>Lexemes by reference <a title="Reference Index"
      role="button"
      class="btn btn-outline-dark btn-sm"
-     href="../refindex/?l=${ q }&lLabel=${ qLabel }">Reference Index</a></h2>
+     href="../refindex/?l=${ q }&lLabel=${ qLabel }&displaylang=${ displaylang }">Reference Index</a></h2>
 
 <table class="table table-hover" id="lexemesreference"></table>  
   

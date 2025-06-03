@@ -6,7 +6,7 @@ layout: base
 lexemesSparql =`
 	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) 
     ?lexeme ?lexcat ?lexcatLabel
-	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
+	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
     ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme 
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
@@ -16,7 +16,43 @@ lexemesSparql =`
 		 wikibase:lemma ?lexemea ;
 		 wikibase:lexicalCategory ?lexcat .
 	    ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
-	  ?lexeme ontolex:sense ?sense . ?sense wdt:P5972 ?translation . ?translation skos:definition ?translationLabel .  FILTER(LANG(?translationLabel)= "en") ?sense skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sense wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)    
+	  ?lexeme ontolex:sense ?sense . ?sense wdt:P5972 ?translation . 
+
+		OPTIONAL {
+		  ?sense wdt:P5137|wdt:P9970 ?sensee.
+		  ?sensee rdfs:label ?senseLab.
+		  FILTER(LANG(?senseLab)="en")
+		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+		}
+		OPTIONAL {
+			FILTER("${ displaylang }"!="en")
+			?sense skos:definition ?glosss.
+			FILTER(LANG(?glosss)="${ displaylang }")
+			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+		}
+		OPTIONAL {
+			?sense skos:definition ?gloss.
+			FILTER(LANG(?gloss)="en")
+		}
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senselabel)
+      
+		 OPTIONAL {
+		  ?translation wdt:P5137|wdt:P9970 ?tsensee.
+		  ?tsensee rdfs:label ?tsenseLab.
+		  FILTER(LANG(?tsenseLab)="en")
+		  BIND(COALESCE(REPLACE(STR(?tsensee), "http://www.wikidata.org/entity/", ""), "") AS ?tsensse)
+		}
+		OPTIONAL {
+			FILTER("${ displaylang }"!="en")
+			?translation skos:definition ?tglosss.
+			FILTER(LANG(?tglosss)="${ displaylang }")
+			BIND(CONCAT(?tglosss,"@${ displaylang }") AS ?tgloss)
+		}
+		OPTIONAL {
+			?translation skos:definition ?tgloss.
+			FILTER(LANG(?tgloss)="en")
+		}
+		BIND(CONCAT(?tgloss, COALESCE(CONCAT(" [", ?tsenseLab, " (", ?tsensse, ")", "]"),"")) AS ?translationLabel)
   	  ?translationlexeme ontolex:sense ?translation .
       ?translationlexeme wikibase:lemma ?lexeme2a .
       ?translationlexeme dct:language ?translang .	  
@@ -25,6 +61,7 @@ lexemesSparql =`
       }
     GROUP BY ?lexeme ?lexcat ?lexcatLabel ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme
 	ORDER BY ?lexemeLabel
+
 `
 
 
@@ -38,7 +75,8 @@ lexemesSparql =`
 		'translang': '../language',
 	 },
 	 linkParams: {
-		form: '&qb='+q
+		lexeme: '&qb='+q+'&displaylang='+displaylang,
+		translationlexeme: '&qb='+q+'&displaylang='+displaylang
 	 },
 	 pBar:"progressbar",
 	 pBarLabel:"progress-label"
