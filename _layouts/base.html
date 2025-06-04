@@ -14,6 +14,7 @@ title: PaleOrdia
 	const c = urlParams.get('c');
 	const s = urlParams.get('s');
 	const h = urlParams.get('h');
+	var justloaded=true;
 	var displaylang = urlParams.get('displaylang');
 	var defaultlang = "en";
 	var p = urlParams.get('p');
@@ -51,9 +52,13 @@ title: PaleOrdia
 	//document.querySelector('#displaylangselect [value="'+displaylang.toUpperCase()+'"]').selected = true;
 	function selectdisplaylang(){
 		displaylang=document.getElementById("displaylangselect").value.toLowerCase()
-		let url = new URL(window.location.href); 
-		url.searchParams.set("displaylang",displaylang)
-		window.location.href=url.toString()
+		if(!justloaded){
+			let url = new URL(window.location.href); 
+			url.searchParams.set("displaylang",displaylang)
+			window.location.href=url.toString()
+		}else{
+			justloaded=false
+		}
 	}
 	</script>
 	<div class="container">
