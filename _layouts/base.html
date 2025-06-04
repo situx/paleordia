@@ -48,7 +48,7 @@ title: PaleOrdia
 		displaylang="en"
 	}
 	//document.getElementById("displaylangselect").value=displaylang.toUpperCase()
-	$('#displaylangselect').val(displaylang.toUpperCase()).change();
+	
 	//document.querySelector('#displaylangselect [value="'+displaylang.toUpperCase()+'"]').selected = true;
 	function selectdisplaylang(){
 		displaylang=document.getElementById("displaylangselect").value.toLowerCase()
@@ -60,6 +60,9 @@ title: PaleOrdia
 			justloaded=false
 		}
 	}
+	$( document ).ready(function() {
+    $('#displaylangselect').val(displaylang.toUpperCase()).change();
+	});
 	</script>
 	<div class="container">
     {{content}}
