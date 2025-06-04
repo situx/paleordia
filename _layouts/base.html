@@ -51,6 +51,9 @@ title: PaleOrdia
 	//document.querySelector('#displaylangselect [value="'+displaylang.toUpperCase()+'"]').selected = true;
 	function selectdisplaylang(){
 		displaylang=document.getElementById("displaylangselect").value.toLowerCase()
+		let url = new URL(window.location.href); 
+		url.searchParams.set("displaylang",displaylang)
+		window.location.href=url.toString()
 	}
 	</script>
 	<div class="container">
