@@ -174,7 +174,7 @@ WHERE {
 	  wd:${ l } dct:language ?language .
 	  ?value rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
-	  BIND(CONCAT("../timeperiod?l=",SUBSTR(STR(?language), 32),"&qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
+	  BIND(CONCAT("../timeperiod?l=",SUBSTR(STR(?language), 32),"&displaylang=${ displaylang }&qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
