@@ -25,7 +25,7 @@ WHERE {
     ?lexeme dct:language ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&displaylang=${ displaylang }")  AS ?value_Url)
   }
   UNION 
   {
