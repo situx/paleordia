@@ -92,7 +92,7 @@ WHERE {
 	  BIND("Root" AS ?description)
 	  wd:${ l } wdt:P5920 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -140,7 +140,7 @@ WHERE {
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } wdt:P5191 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -151,7 +151,7 @@ WHERE {
       BIND("Homographs" AS ?description)
 	  wd:${ l } wdt:P5402 ?value .
       ?value wikibase:lemma ?valuelabel .
-      BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
+      BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -199,7 +199,7 @@ WHERE {
 		#wdt:P5238+ ?value .
 		#?value wikibase:lemma ?valuelabel .
 		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
-		BIND(CONCAT("../l?&qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
+		BIND(CONCAT("../l?&qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     }GROUP BY ?description }
   }
   UNION 
@@ -508,6 +508,8 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 		       options={divElem: "#translation-q", paging: false, sDom: 'rt',
 			   linkPrefixes: {
 			       idUrl: ''
+			   },linkParams: {
+				  translationlexeme: '&displaylang='+displaylang
 			   }});
 	 sparqlToDataTable(formsSparql, "#forms",
 		       options={paging: false, sDom: 'rt',
