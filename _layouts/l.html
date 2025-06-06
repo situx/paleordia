@@ -45,7 +45,7 @@ WHERE {
     FILTER (LANG(?langvalueLabel) = 'en')
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../lexical-category?q=",?value,"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel)  AS ?value_Url)
+    BIND(CONCAT("../lexical-category?q=",?value,"&qLabel=",?valueLabel,"&l=",?langvalue,"&lLabel=",?langvalueLabel,"&displaylang=${ displaylang }")  AS ?value_Url)
   }
   UNION 
   {
@@ -92,7 +92,7 @@ WHERE {
 	  BIND("Root" AS ?description)
 	  wd:${ l } wdt:P5920 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -130,7 +130,7 @@ WHERE {
     wd:${ l } wdt:P1552 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P1552&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&displaylang=${ displaylang }")  AS ?value_Url)
   }
   UNION 
   {
@@ -140,7 +140,7 @@ WHERE {
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } wdt:P5191 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -151,7 +151,7 @@ WHERE {
       BIND("Homographs" AS ?description)
 	  wd:${ l } wdt:P5402 ?value .
       ?value wikibase:lemma ?valuelabel .
-      BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+      BIND(CONCAT("../l?qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -162,7 +162,7 @@ WHERE {
     wd:${ l } wdt:P9295 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P9295&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
+    BIND(CONCAT("../property_value?p=P9295&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&displaylang=${ displaylang }")  AS ?value_Url)
   }
   UNION 
   {
@@ -174,7 +174,7 @@ WHERE {
 	  wd:${ l } dct:language ?language .
 	  ?value rdfs:label ?valuelabel .
 	  FILTER (LANG(?valuelabel) = 'en')
-	  BIND(CONCAT("../timeperiod?l=",SUBSTR(STR(?language), 32),"&qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+	  BIND(CONCAT("../timeperiod?l=",SUBSTR(STR(?language), 32),"&qLabel=",?valuelabel,"&q=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
     }GROUP BY ?description }  
   }
   UNION 
@@ -199,7 +199,7 @@ WHERE {
 		#wdt:P5238+ ?value .
 		#?value wikibase:lemma ?valuelabel .
 		BIND(CONCAT(?formlabel," (",?combsensedeff,")") AS ?valuelabel)
-		BIND(CONCAT("../l?&qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+		BIND(CONCAT("../l?&qLabel=",?valuelabel,"&l=",SUBSTR(STR(?value), 32),"&displaylang=${ displaylang }")  AS ?valueurl)
     }GROUP BY ?description }
   }
   UNION 
@@ -223,7 +223,7 @@ WHERE {
     BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
-    BIND(CONCAT("../reflistlang?l=",SUBSTR(STR(?language), 32),"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../reflistlang?l=",SUBSTR(STR(?language), 32),"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel),"&displaylang=${ displaylang }")  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
