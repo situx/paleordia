@@ -22,11 +22,23 @@
 	<script src="https://cdn.datatables.net/colreorder/1.7.0/js/dataTables.colReorder.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 	<script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/natural.js"></script>
-	<script src="https://cdn.datatables.net/plug-ins/2.3.2/filtering/type-based/diacritics-neutralise.js"></script>
-	<script src="https://cdn.datatables.net/plug-ins/2.3.2/filtering/type-based/accent-neutralise.js"></script>
 	<script src="{{site.baseurl}}/js/dataTables.hideEmptyColumns.min.js"></script>
 	<script src="{{site.baseurl}}/js/lexemeforms.js"></script>
 	<script src="{{site.baseurl}}/js/ordia.js"></script>
+	<script>
+	(function() {
+  function removeAccents(data) {
+    return data.replace(/έ/g, 'ε').replace(/ύ/g, 'υ').replace(/ό/g, 'ο').replace(/ώ/g, 'ω').replace(/ά/g, 'α').replace(/ί/g, 'ι').replace(/ή/g, 'η').replace(/\n/g, ' ').replace(/[çÇ]/g, 'c').replace(/[Ãã]/g, 'a').replace(/[Ẽẽ]/g, 'e').replace(/[ĨĨ]/g, 'i').replace(/[Õõ]/g, 'o').replace(/[Ũũ]/g, 'u').replace(/[áÁ]/g, 'a').replace(/[éÉ]/g, 'e').replace(/[íÍ]/g, 'i').replace(/[óÓ]/g, 'o').replace(/[úÚ]/g, 'u').replace(/[äÄ]/g, 'a').replace(/[ëË]/g, 'e').replace(/[ïÏ]/g, 'i').replace(/[öÖ]/g, 'o').replace(/[üÜ]/g, 'u').replace(/[àÀ]/g, 'a').replace(/[èÈ]/g, 'e').replace(/[īìÌ]/g, 'i').replace(/[òÒ]/g, 'o').replace(/[ùÙ]/g, 'u').replace(/[āâÂ]/g, 'a').replace(/[ēêÊ]/g, 'e').replace(/[îÎ]/g, 'i').replace(/[ôÔ]/g, 'o').replace(/[ūûÛ]/g, 'u').replace(/[ŞşṢṣšŠ]/g, 's').replace(/ß/g, 'ss')
+  }
+  var searchType = jQuery.fn.DataTable.ext.type.search;
+  searchType.string = function(data) {
+    return !data ? '' : typeof data === 'string' ? removeAccents(data) : data;
+  };
+  searchType.html = function(data) {
+    return !data ? '' : typeof data === 'string' ? removeAccents(data.replace(/<.*?>/g, '')) : data;
+  };
+}());
+</script>
 	<style>
   .ui-progressbar {
     position: relative;
