@@ -498,7 +498,7 @@ function sparqlToDataTable(sparql, element, options={}) {
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
-		columnDefs: [{ type: 'natural-nohtml', targets: '_all' }],
+		columnDefs: [{ type: 'html-string', targets: '_all' }],
 		dom: 'lBfrtip',
 		hideEmptyCols: true,
 		layout:{
@@ -529,6 +529,17 @@ function sparqlToDataTable(sparql, element, options={}) {
 		pagingType: "input",
 	    sDom: sDom,
 	});
+	/*table.columns().every(function() {
+		var that = this;
+
+		$('input', this.footer()).on('keyup change', function() {
+		  if (that.search() !== this.value) {
+			that
+			  .search(this.value)
+			  .draw();
+		  }
+		});
+	});*/
 
     }).fail(function(xhr,textStatus,errorThrown){
 		console.log(errorThrown)
