@@ -517,7 +517,13 @@ function sparqlToDataTable(sparql, element, options={}) {
 					extend: 'pdfHtml5',
 					orientation: 'landscape',
 					download: 'open'
-				}
+				},
+				{
+                    text: 'Fuzzy Search',
+                    action: function (e, dt, node, config) {
+                        fuzzySearch=!fuzzySearch
+                    }
+                }
 				]
 			}
 		},
