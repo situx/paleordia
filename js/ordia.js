@@ -519,6 +519,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 					download: 'open'
 				},
 				{
+					extend: 'pdfHtml5',
                     text: 'Fuzzy Search',
                     action: function (e, dt, node, config) {
                         fuzzySearch=!fuzzySearch
