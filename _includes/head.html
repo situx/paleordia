@@ -37,6 +37,7 @@
 }
 
 jQuery.fn.DataTable.ext.type.search.string = function(data) {
+  console.log("FuzzySearch? "+fuzzySearch)
   if(fuzzySearch){
     return !data ?
     '' :
