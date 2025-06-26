@@ -2,6 +2,7 @@ namespaces=[
 	"http://www.wikidata.org/entity/",
 	"http://www.wikidata.org/prop/direct/"
 ]
+var fuzzySearch=false;
 
 function removeNameSpaces(str){
 	for(ns in nemaspaces){
