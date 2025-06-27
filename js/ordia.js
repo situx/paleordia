@@ -519,7 +519,6 @@ function sparqlToDataTable(sparql, element, options={}) {
 					orientation: 'landscape',
 					download: 'open'
 				},{
-					extend: 'copyHtml5',
                     text: 'Fuzzy Search',
                     action: function (e, dt, node, config) {
                         fuzzySearch=!fuzzySearch
