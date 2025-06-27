@@ -4,6 +4,13 @@ namespaces=[
 ]
 var fuzzySearch=false;
 
+$.fn.dataTable.ext.buttons.fuzzy = {
+	text: 'Fuzzy Search',
+	action: function (e, dt, node, config) {
+		fuzzySearch=!fuzzySearch
+	}
+};
+
 function removeNameSpaces(str){
 	for(ns in nemaspaces){
 		str=str.replaceAll(ns,"")
@@ -518,12 +525,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 					extend: 'pdfHtml5',
 					orientation: 'landscape',
 					download: 'open'
-				},{
-                    text: 'Fuzzy Search',
-                    action: function (e, dt, node, config) {
-                        fuzzySearch=!fuzzySearch
-                    }
-				}
+				},"fuzzy"
 				]
 			}
 		},
