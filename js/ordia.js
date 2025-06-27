@@ -4,11 +4,13 @@ namespaces=[
 ]
 var fuzzySearch=false;
 
-$.fn.dataTable.ext.buttons.fuzzy = {
-	text: 'Fuzzy Search',
-	action: function (e, dt, node, config) {
-		fuzzySearch=!fuzzySearch
+function toggleFuzzySearch(){
+	if(fuzzySearch){
+		$('#fuzzyButton').text("Default Search")
+	}else{
+		$('#fuzzyButton').text("Fuzzy Search")
 	}
+	fuzzySearch=!fuzzySearch
 };
 
 function removeNameSpaces(str){
@@ -402,8 +404,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 
     $(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
-		encodeURIComponent(sparql) +	
-		'" target="_blank">Edit on query.Wikidata.org</a></caption>');
+		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><span style=\"float:right\"><button id=\"fuzzyButton\" onClick=\"toggleFuzzySearch()\">Fuzzy Search</button></caption>');
     $.post(post_url, post_data).done(function(response) {
 	if(pBar!="" && pBarLabel!=""){
 	    $("#"+pBarLabel).html("Loading... (Processing response)")
@@ -513,12 +514,6 @@ function sparqlToDataTable(sparql, element, options={}) {
 			top1Start:'pageLength',
 			top1: {
 			   buttons: [
-			    {
-                    text: 'My button',
-                    action: function (e, dt, node, config) {
-                        alert('Button activated');
-                    }
-                },"fuzzy",
 				{
                     extend: 'spacer',
                     style: 'bar',
