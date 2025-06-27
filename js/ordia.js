@@ -524,6 +524,7 @@ function sparqlToDataTable(sparql, element, options={}) {
                     action: function (e, dt, node, config) {
                         fuzzySearch=!fuzzySearch
                     }
+				}
 				]
 			}
 		},
