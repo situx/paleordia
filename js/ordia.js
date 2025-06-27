@@ -404,7 +404,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 
     $(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
-		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><span style=\"float:right\"><button id=\"fuzzyButton\" onClick=\"toggleFuzzySearch()\">Fuzzy Search</button></caption>');
+		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><!--<span style=\"float:right\"><button id=\"fuzzyButton\" onClick=\"toggleFuzzySearch()\">Fuzzy Search</button>--></caption>');
     $.post(post_url, post_data).done(function(response) {
 	if(pBar!="" && pBarLabel!=""){
 	    $("#"+pBarLabel).html("Loading... (Processing response)")
