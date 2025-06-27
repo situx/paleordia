@@ -518,8 +518,7 @@ function sparqlToDataTable(sparql, element, options={}) {
                     action: function (e, dt, node, config) {
                         alert('Button activated');
                     }
-                },"fuzzy"
-				],
+                },"fuzzy",
 				{
                     extend: 'spacer',
                     style: 'bar',
@@ -533,6 +532,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 					orientation: 'landscape',
 					download: 'open'
 				}
+				]
 			}
 		},
 		bDestroy: true,
