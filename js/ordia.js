@@ -513,6 +513,13 @@ function sparqlToDataTable(sparql, element, options={}) {
 			top1Start:'pageLength',
 			top1: {
 			   buttons: [
+			    {
+                    text: 'My button',
+                    action: function (e, dt, node, config) {
+                        alert('Button activated');
+                    }
+                },"fuzzy"
+				],
 				{
                     extend: 'spacer',
                     style: 'bar',
@@ -525,8 +532,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 					extend: 'pdfHtml5',
 					orientation: 'landscape',
 					download: 'open'
-				},"fuzzy"
-				]
+				}
 			}
 		},
 		bDestroy: true,
