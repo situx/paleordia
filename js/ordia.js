@@ -502,13 +502,6 @@ function sparqlToDataTable(sparql, element, options={}) {
 		columnDefs: [{ type: 'html-string', targets: '_all' }],
 		dom: 'lBfrtip',
 		hideEmptyCols: true,
-		buttons:[				{
-					extend: 'pdfHtml5',
-                    text: 'Fuzzy Search',
-                    action: function (e, dt, node, config) {
-                        fuzzySearch=!fuzzySearch
-                    }
-                }],
 		layout:{
 			top1Start:'pageLength',
 			top1: {
@@ -525,7 +518,12 @@ function sparqlToDataTable(sparql, element, options={}) {
 					extend: 'pdfHtml5',
 					orientation: 'landscape',
 					download: 'open'
-				}
+				},{
+					extend: 'copyHtml5',
+                    text: 'Fuzzy Search',
+                    action: function (e, dt, node, config) {
+                        fuzzySearch=!fuzzySearch
+                    }
 				]
 			}
 		},
