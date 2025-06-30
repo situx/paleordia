@@ -507,7 +507,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 			$(".dataTables_filter input")
 			.off('.DT')
 			.on('keyup.DT cut.DT paste.DT input.DT search.DT', function (e) {
-				   console.log("Searching dt with neutralize accent")
+				  // console.log("Searching dt with neutralize accent")
 				  $(element).DataTable().search(neutralizeAccent(this.value)).draw();
 			   }
 			);
