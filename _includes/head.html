@@ -83,7 +83,7 @@ function neutralizeAccent(data) {
 $('.dataTables_filter input')
     .off('.DT')
     .on('keyup.DT cut.DT paste.DT input.DT search.DT', function (e) {
-          dt.search(jQuery.fn.dataTable.ext.type.search.string(neutralizeAccent(this.value))).draw();
+          dt.search(neutralizeAccent(this.value)).draw();
        }
     );
 }());
