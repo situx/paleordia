@@ -32,7 +32,7 @@
   sData = sData.replace(/(&nbsp;|<([^>]+)>)/ig, "");
 
   // return apply character normaliser to this column type
-  return jQuery.fn.DataTable.ext.type.search.string(NeutralizeAccent(sData));
+  return jQuery.fn.DataTable.ext.type.search.string(neutralizeAccent(sData));
 }
 
 function neutralizeAccent(data) {
