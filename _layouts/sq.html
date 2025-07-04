@@ -264,47 +264,44 @@ ORDER BY ?order
 `
 
 translationsSparql = `
-SELECT DISTINCT
-  ?sense ?senseLabel
-  ?gloss
-  ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLabell; separator=" // ") AS ?lexemeLabel) ?language ?languageLabel
-  ?item ?itemLabel
-WHERE {
-  VALUES ?query_sense { wd:${ l }-${ s } }
-  { ?query_sense wdt:P5137 / ^wdt:P5137 ?sense . }
-  UNION
-  { ?query_sense (wdt:P5972 | ^wdt:P5972)+ ?sense . }
-  UNION
-  { ?query_sense (wdt:P6271 | ^wdt:P6271)+ ?sense . }
-  UNION
-  { ?query_sense wdt:P9970 / ^wdt:P9970 ?sense . }
-
-  # Do not show senses from the query language
-  ?query_sense ^ontolex:sense / dct:language ?query_language .
-  FILTER (?query_language != ?language)
-
-  BIND(SUBSTR(STR(?sense), 32) AS ?senseLabel)
-    
-  ?lexeme ontolex:sense ?sense .
-  FILTER (wd:${ l }-${ s } != ?sense)
-  ?lexeme wikibase:lemma ?lexemeLabell .
-  ?lexeme dct:language ?language .
-  ?language rdfs:label ?languageLabel . 
-  FILTER (LANG(?languageLabel) = 'en')
-
-  OPTIONAL {
-    ?sense skos:definition ?gloss .
-    FILTER (LANG(?gloss) = 'en')
+#defaultView:Graph
+SELECT ?lexeme1 ?lexeme1Label ?lexeme2 ?lexeme2Label WHERE {
+{  
+SELECT ?lexeme1 (GROUP_CONCAT(DISTINCT ?lexeme1lem; separator=" // ") AS ?lexeme1lemma) ?lexeme1langLabell ?lexeme1Gloss ?lexeme1Image ?lexeme2 (GROUP_CONCAT(DISTINCT ?lexeme2lem; separator=" // ") AS ?lexeme2lemma) ?lexeme2langLabell ?lexeme2Gloss WHERE {
+  BIND(wd:Q36790 AS ?lexeme1lang)
+  ?lexeme1 rdf:type ontolex:LexicalEntry; dct:language ?lexeme1lang .
+  ?lexeme1lang rdfs:label ?lexeme1langLabell .
+  FILTER(lang(?lexeme1langLabell)="en")
+  ?lexeme1lang wdt:P282 ?lexeme1ws .
+  ?lexeme1 wikibase:lemma ?lexeme1lem .
+  ?lexeme1 ontolex:sense / wdt:P5137 wd:Q830 .
+  ?lexeme1 ontolex:sense ?lexemesense1 .
+  #OPTIONAL { FILTER("en"!="en") ?lexemesense1 skos:definition ?lexeme1Gloss . FILTER(lang(?lexeme1Gloss)="en")}
+  ?lexemesense1 skos:definition ?lexeme1Gloss . FILTER (lang(?lexeme1Gloss)="en")
+  { ?lexemesense1 (wdt:P5973 | wdt:P5972| wdt:P5973 | ^ontolex:sense / wdt:P5191 / ontolex:sense)  ?lexemesense2 . ?lexemesense2 skos:definition ?lexeme2Gloss .
   }
-
-  OPTIONAL {
-    wd:${ l }-${ s } wdt:P5137 ?item .
-    ?item rdfs:label ?itemLabel .
-    FILTER (LANG(?itemLabel) = 'en')
+  UNION 
+  {
+    ?lexemesense1 (wdt:P5137 / ^wdt:P5137) | wdt:P5972 ?lexemesense2 . ?lexemesense2 skos:definition ?lexeme2Gloss .
+    FILTER (?lexemesense1 != ?lexemesense2)   
   }
+  BIND(EXISTS{?lexemesense1 (wdt:P5972 | wdt:P5973 | ^ontolex:sense / wdt:P5191 / ontolex:sense) ?lexemesense2} AS ?hastranslation)
+   ?lexemesense2 ^ontolex:sense ?lexeme2 .
+   ?lexeme2 wikibase:lemma ?lexeme2lem .
+   ?lexeme2 dct:language ?lexeme2lang .
+   ?lexeme2lang (wdt:P282|wdt:P282/wdt:P144) ?lexeme1ws .
+   OPTIONAL { FILTER("en"!="en") FILTER(lang(?lexeme2Gloss)="en")}
+   OPTIONAL { FILTER (lang(?lexeme2Gloss)="en")}  
+    OPTIONAL { ?lexemesense1 (wdt:P5137|wdt:P9970)? / wdt:P18 ?lexeme1Image }
+    ?lexeme2lang rdfs:label ?lexeme2langLabell .
+  FILTER(lang(?lexeme2langLabell)="en")
+  
 }
-GROUP BY ?sense ?senseLabel ?gloss ?lexeme  ?language ?languageLabel ?item ?itemLabel
-ORDER BY ?languageLabel
+GROUP BY ?lexeme1 ?lexeme1langLabell ?lexeme1Gloss ?lexeme2 ?lexeme2langLabell ?lexeme2Gloss ?lexeme1Image
+                  }
+   BIND(CONCAT(?lexeme1Gloss," (",?lexeme1lemma,") ",?lexeme1langLabell) AS ?lexeme1Label)
+   BIND(CONCAT(?lexeme2Gloss," (",?lexeme2lemma,") ",?lexeme2langLabell) AS ?lexeme2Label)
+}
 `
 
  $(document).ready(function() {
