@@ -41,8 +41,6 @@ function neutralizeAccent(data) {
     typeof data === 'string' ?
 	data
 	.replace(/έ/g, 'ε')
-	.replace(/ύ/g, 'υ')
-	.replace(/ό/g, 'ο')
 	.replace(/ώ/g, 'ω')
 	.replace(/ά/g, 'α')
 	.replace(/ί/g, 'ι')
@@ -52,8 +50,8 @@ function neutralizeAccent(data) {
 	.replace(/[àÀäÄáÁÃãāâÂ]/g, 'a')
 	.replace(/[èÈëËéÉẼẽēêÊ]/g, 'e')
 	.replace(/[īìÌïÏíÍĨĨîÎ]/g, 'i')
-	.replace(/[òÒöÖóÓÕõôÔ]/g, 'o')
-	.replace(/[ùÙüÜúÚŨũūûÛ]/g, 'u')
+	.replace(/[όòÒöÖóÓÕõôÔ]/g, 'o')
+	.replace(/[ύùÙüÜúÚŨũūûÛ]/g, 'u')
 	.replace(/[ŞşṢṣšŠ]/g, 's')
 	.replace(/ß/g, 'ss') :
     data;
