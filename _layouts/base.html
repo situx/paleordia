@@ -14,7 +14,7 @@ title: PaleOrdia
 	const c = urlParams.get('c');
 	const s = urlParams.get('s');
 	const h = urlParams.get('h');
-	const lang = urlParams.get('lang');
+	const langg = urlParams.get('lang');
 	var justloaded=true;
 	var displaylang = urlParams.get('displaylang');
 	var defaultlang = "en";
@@ -101,8 +101,8 @@ title: PaleOrdia
 	if(typeof(c)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ c }', c);
 	}
-	if(typeof(lang)!=='undefined'){
-		document.body.innerHTML = document.body.innerHTML.replaceAll('${ lang }', lang);
+	if(typeof(langg)!=='undefined'){
+		document.body.innerHTML = document.body.innerHTML.replaceAll('${ lang }', langg);
 	}
 	if(typeof(tp)!=='undefined'){
 		document.body.innerHTML = document.body.innerHTML.replaceAll('${ tp }', tp);
