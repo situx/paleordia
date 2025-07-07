@@ -32,7 +32,7 @@
   sData = sData.replace(/(&nbsp;|<([^>]+)>)/ig, "");
 
   // return apply character normaliser to this column type
-  return jQuery.fn.DataTable.ext.type.search.string(sData);
+  return jQuery.fn.DataTable.ext.type.search.string(neutralizeAccent(sData));
 }
 
 function neutralizeAccent(data) {
@@ -41,52 +41,21 @@ function neutralizeAccent(data) {
     typeof data === 'string' ?
 	data
 	.replace(/έ/g, 'ε')
-	.replace(/ύ/g, 'υ')
-	.replace(/ό/g, 'ο')
 	.replace(/ώ/g, 'ω')
 	.replace(/ά/g, 'α')
 	.replace(/ί/g, 'ι')
 	.replace(/ή/g, 'η')
 	.replace(/\n/g, ' ')
 	.replace(/[çÇ]/g, 'c')
-	.replace(/[Ãã]/g, 'a')
-	.replace(/[Ẽẽ]/g, 'e')
-	.replace(/[ĨĨ]/g, 'i')
-	.replace(/[Õõ]/g, 'o')
-	.replace(/[Ũũ]/g, 'u')
-	.replace(/[áÁ]/g, 'a')
-	.replace(/[éÉ]/g, 'e')
-	.replace(/[íÍ]/g, 'i')
-	.replace(/[óÓ]/g, 'o')
-	.replace(/[úÚ]/g, 'u')
-	.replace(/[äÄ]/g, 'a')
-	.replace(/[ëË]/g, 'e')
-	.replace(/[ïÏ]/g, 'i')
-	.replace(/[öÖ]/g, 'o')
-	.replace(/[üÜ]/g, 'u')
-	.replace(/[àÀ]/g, 'a')
-	.replace(/[èÈ]/g, 'e')
-	.replace(/[īìÌ]/g, 'i')
-	.replace(/[òÒ]/g, 'o')
-	.replace(/[ùÙ]/g, 'u')
-	.replace(/[āâÂ]/g, 'a')
-	.replace(/[ēêÊ]/g, 'e')
-	.replace(/[îÎ]/g, 'i')
-	.replace(/[ôÔ]/g, 'o')
-	.replace(/[ūûÛ]/g, 'u')
+	.replace(/[àÀäÄáÁÃãāâÂ]/g, 'a')
+	.replace(/[èÈëËéÉẼẽēêÊ]/g, 'e')
+	.replace(/[īìÌïÏíÍĨĨîÎ]/g, 'i')
+	.replace(/[όòÒöÖóÓÕõôÔ]/g, 'o')
+	.replace(/[ύùÙüÜúÚŨũūûÛ]/g, 'u')
 	.replace(/[ŞşṢṣšŠ]/g, 's')
 	.replace(/ß/g, 'ss') :
     data;
 };
-
-(function() {
-$('.dataTables_filter input')
-    .off('.DT')
-    .on('keyup.DT cut.DT paste.DT input.DT search.DT', function (e) {
-          dt.search(jQuery.fn.dataTable.ext.type.search.string(neutralizeAccent(this.value))).draw();
-       }
-    );
-}());
 </script>
 	<style>
   .ui-progressbar {

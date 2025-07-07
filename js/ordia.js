@@ -504,6 +504,13 @@ function sparqlToDataTable(sparql, element, options={}) {
 				$('#'+pBar).progressbar("destroy")
 				$('#'+pBarLabel).html("")
 			}
+			$(".dataTables_filter input")
+			.off('.DT')
+			.on('keyup.DT cut.DT paste.DT input.DT search.DT', function (e) {
+				  // console.log("Searching dt with neutralize accent")
+				  $(element).DataTable().search(neutralizeAccent(this.value)).draw();
+			   }
+			);
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
@@ -538,6 +545,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		pagingType: "input",
 	    sDom: sDom,
 	});
+
 	/*table.columns().every(function() {
 		var that = this;
 
