@@ -68,7 +68,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 ?lexical_category ?lexical_categoryLabel WITH {
   SELECT ?lexeme WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-    dct:language wd:Q36790 .
+    dct:language wd:$ { q } .
   }
   } AS %i WHERE {
       INCLUDE %i 
