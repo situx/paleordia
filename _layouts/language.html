@@ -62,16 +62,20 @@ ORDER BY ?order
 `;
   
  lexemesSparql = `
-SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
-  {
-  SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
+SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) 
+(GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses)
+(GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel)
+?lexical_category ?lexical_categoryLabel WITH {
+  SELECT ?lexeme WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-    dct:language wd:${ q };
-    wikibase:lemma ?lexemeLab ;
+    dct:language wd:Q36790 .
+  }
+  } AS %i WHERE {
+      INCLUDE %i 
+   ?lexeme wikibase:lemma ?lexemeLab ;
 	wikibase:lexicalCategory ?lexical_category.
   ?lexical_category rdfs:label ?lexical_categoryLabel.
   FILTER(LANG(?lexical_categoryLabel) = "en")
-  }}
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.   
     OPTIONAL {
@@ -81,10 +85,10 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
     }
 	OPTIONAL {
-		FILTER("${ displaylang }"!="en")
+		FILTER("en"!="en")
 		?senseitem skos:definition ?glosss.
-		FILTER(LANG(?glosss)="${ displaylang }")
-		BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+		FILTER(LANG(?glosss)="en")
+		BIND(CONCAT(?glosss,"@en") AS ?gloss)
 	}
 	OPTIONAL {
 		?senseitem skos:definition ?gloss.
@@ -96,6 +100,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
 LIMIT 15000
 `
+
 lexicalCategoriesSparql = `
 # tool: ordia
 # title: Statistics for word class for a specific language
