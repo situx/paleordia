@@ -8,7 +8,7 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel 	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) ?refnumber WHERE {
 	  ?lexeme rdf:type ontolex:LexicalEntry;
-		dct:language wd:Q36790;
+		dct:language wd:${ l };
         p:P1343 ?lex ;
 		wikibase:lemma ?lexemeLab ;      
 		wikibase:lexicalCategory ?lexical_category .
