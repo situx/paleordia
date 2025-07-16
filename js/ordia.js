@@ -514,7 +514,7 @@ function sparqlToDataTable(sparql, element, options={}) {
         } ).dataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
-		columnDefs: [{ type: 'html-string', targets: '_all' }],
+		columnDefs: [{ type: 'html-string', targets: '_all' },{ type: 'natural-nohtml', targets: '_all' }],
 		dom: 'lBfrtip',
 		hideEmptyCols: true,
 		layout:{
