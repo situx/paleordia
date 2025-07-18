@@ -554,7 +554,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    sDom: sDom,
 	});
 	if(highlight!=""){
-		res=table.page.jumpToData(highlightword,highlightcol)
+		res=table.page.jumpToData(highlight,highlightcol)
 		console.log(res)
 		//table.fnPageChange(pageNo-1)//.draw('page');
 	}
