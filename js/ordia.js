@@ -405,7 +405,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     if(typeof(desc)!=='undefined'){
 	$(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
-		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><span style="float:right"><button disabled id="infoButton" title="'+desc+'">&#9432;</button></span></caption>');
+		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><span style="float:right"><button disabled class="btn btn-outline-dark btn-sm" id="infoButton" title="'+desc+'">&#9432;</button></span></caption>');
 	}else{
 	$(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
