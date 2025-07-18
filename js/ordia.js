@@ -499,7 +499,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 		//console.log(convertedDataReduced)
 		convertedData["data"]=convertedDataReduced
 	}
-	table = $(element).on( 'draw.dt', function () {
+	var table = $(element).on( 'draw.dt', function () {
             //console.log( 'Loading' );
           //Here show the loader.
           $("#MessageContainer").html("Loading data table...");
