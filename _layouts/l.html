@@ -415,7 +415,6 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" // ") as ?lexemeLab
 `
 
 compoundsSparql = `
-
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
   ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsLabel

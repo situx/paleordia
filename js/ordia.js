@@ -363,6 +363,8 @@ function sparqlToDataTable(sparql, element, options={}) {
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
     var sDom = (typeof options.sDom === 'undefined') ? 'lfrtip' : options.sDom;
 	var pBar = (typeof options.pBar === 'undefined') ? '' : options.pBar;
+	var highlight = (typeof options.highlight === 'undefined') ? '' : options.highlight;
+	var highlightcol = (typeof options.highlightcol === 'undefined') ? 0 : options.highlightcol;
 	var pBarLabel = (typeof options.pBarLabel === 'undefined') ? '' : options.pBarLabel;
 	var sepcharmap=(typeof options.sepcharmap === 'undefined') ? {} : options.sepcharmap;
 	if(pBar!="" && pBarLabel!=""){
@@ -551,7 +553,11 @@ function sparqlToDataTable(sparql, element, options={}) {
 		pagingType: "input",
 	    sDom: sDom,
 	});
-
+	if(highlight!=""){
+		res=table.page.jumpToData(highlightword,highlightcol)
+		console.log(res)
+		//table.fnPageChange(pageNo-1)//.draw('page');
+	}
 	/*table.columns().every(function() {
 		var that = this;
 

@@ -69,7 +69,9 @@ lexemesSparqlP=`
 			form: '&qb='+q+'&qbLabel='+qLabel
 		 },
 		 pBar:"progressbar",
-		 pBarLabel:"progress-label"
+		 pBarLabel:"progress-label",
+		 highlight:highlight,
+		 highlightcol:1
 	   });
 	 }else{
 	   sparqlToDataTable(lexemesSparql, "#lexemes", {
@@ -80,7 +82,8 @@ lexemesSparqlP=`
 			form: '&qb='+q+'&qbLabel='+qLabel
 		 },
 		 pBar:"progressbar",
-		 pBarLabel:"progress-label"
+		 pBarLabel:"progress-label",
+		 highlight:highlight
 	  });
 	 }
 

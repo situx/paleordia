@@ -14,6 +14,7 @@ title: PaleOrdia
 	const c = urlParams.get('c');
 	const s = urlParams.get('s');
 	const h = urlParams.get('h');
+	var highlight=urlParams.get('highlight');
 	const langg = urlParams.get('lang');
 	var justloaded=true;
 	var displaylang = urlParams.get('displaylang');
@@ -41,6 +42,9 @@ title: PaleOrdia
 	}
 	if(typeof(qLabel)==='undefined'){
 		qLabel=""
+	}
+	if(typeof(highlight)==='undefined'){
+		highlight=""
 	}
 	if(typeof(qbLabel)==='undefined'){
 		qbLabel=""
