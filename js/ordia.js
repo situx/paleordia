@@ -519,7 +519,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 				  $(element).DataTable().search(neutralizeAccent(this.value)).draw();
 			   }
 			);
-        } ).dataTable({ 
+        } ).DataTable({ 
 	    data: convertedData.data,
 	    columns: columns,
 		columnDefs: [{ type: 'natural-nohtml', targets: '_all' }],
