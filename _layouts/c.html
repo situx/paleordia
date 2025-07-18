@@ -87,7 +87,7 @@ WHERE {
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
-    BIND(CONCAT("../reference?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
+    BIND(CONCAT("../reflist?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel))  AS ?value_Url)
     OPTIONAL {
       ?value_statement prov:wasDerivedFrom / pr:P854 ?sourceUrl .
       BIND("↗" AS ?source)
@@ -215,6 +215,7 @@ SELECT DISTINCT
 			   },
 			   paging: true,
 			   sDom: 'rt',
+			   desc:"Information about the character depicted from its Unicode codepoint"
 		       });
      sparqlToDataTable(formsSparql, "#forms",
 		       options={			   
@@ -226,13 +227,13 @@ SELECT DISTINCT
 			   },
 			   paging: false, sDom: 'rt',});
      sparqlToDataTable(idSparql, "#lexemeids",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',desc:"Identifiers describing this character in other databases"});
      sparqlToDataTable(sensesSparql, "#senses",
-		       options={paging: false, sDom: 'rt',});
+		       options={paging: false, sDom: 'rt',desc:"Senses of this character which derived from its depiction"});
      //sparqlToDataTable(readingsSparql, "#readings",
 	//	       options={paging: true, sDom: 'rt',});
      sparqlToDataTable(usedinLexemeSparql, "#usedlexemes",
-		       options={paging: true, sDom: 'rt',linkPrefixes: {
+		       options={paging: true, sDom: 'rt',desc:"Lexemes which use this character",linkPrefixes: {
 			       lexeme: '../l',
 			       sense: '../ls'
 			   }});

@@ -357,6 +357,7 @@ function sparqlDataToSimpleData(response) {
 function sparqlToDataTable(sparql, element, options={}) {
     // Options: linkPrefixes={}, paging=true
     var divElem = (typeof options.divElem === 'undefined') ? "" : options.divElem;
+	var desc = (typeof options.desc === 'undefined') ? "" : options.desc;
     var linkPrefixes = (typeof options.linkPrefixes === 'undefined') ? {} : options.linkPrefixes;
 	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
@@ -401,11 +402,16 @@ function sparqlToDataTable(sparql, element, options={}) {
 	
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
-
-    $(element).append(
+    if(typeof(desc)!=='undefined'){
+	$(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
-		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><!--<span style=\"float:right\"><button id=\"fuzzyButton\" onClick=\"toggleFuzzySearch()\">Fuzzy Search</button>--></caption>');
-    $.post(post_url, post_data).done(function(response) {
+		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><span style="float:right"><button disabled id="infoButton" title="'+desc+'">&#9432;</button></span></caption>');
+	}else{
+	$(element).append(
+	    '<caption><a href="https://query.wikidata.org/#' + 
+		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a></caption>');
+	}
+       $.post(post_url, post_data).done(function(response) {
 	if(pBar!="" && pBarLabel!=""){
 	    $("#"+pBarLabel).html("Loading... (Processing response)")
 	}
