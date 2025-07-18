@@ -402,7 +402,7 @@ function sparqlToDataTable(sparql, element, options={}) {
 	
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
-    if(typeof(desc)!=='undefined'){
+    if(desc!=""){
 	$(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
 		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a><span style="float:right"><button disabled class="btn btn-outline-dark btn-sm" id="infoButton" title="'+desc+'">&#9432;</button></span></caption>');
