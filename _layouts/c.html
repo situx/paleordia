@@ -85,16 +85,11 @@ WHERE {
 	BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
 	BIND(COALESCE(CONCAT("l. ",?refline), "") As ?theline)
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
+	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",?refpage,"/mode/2up/"),"")),"") AS ?sourceUrl)
+    BIND(IF(bound(?inetarchive), "↗", "") AS ?source)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
     BIND(CONCAT("../reflist?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel),"&highlight=",STR(?refnumber))  AS ?value_Url)
-    OPTIONAL {
-	  wd:${ q } wdt:P1343 / wdt:P724 ?inetarchive . 
-      wd:${ q } p:P1343 ?value_statement .
-      OPTIONAL {?value_statement pq:P304 ?refpagee .}
-      BIND(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",?refpagee,"/mode/2up/"),"")) AS ?sourceUrl)
-      BIND("↗" AS ?source)
-    }
   }
 }
 ORDER BY ?order
