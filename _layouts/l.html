@@ -210,6 +210,7 @@ WHERE {
     wd:${ l } ontolex:lexicalForm? / p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
+	OPTIONAL{?value wdt:P724 ?inetarchive . }
 	OPTIONAL { ?value_statement pq:P478 ?refvol. }
 	OPTIONAL{?value_statement pq:P1810 ?valuenum .}
 	OPTIONAL{?value_statement pq:P7421 ?refline .}
