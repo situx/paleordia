@@ -86,7 +86,7 @@ WHERE {
 	BIND(COALESCE(CONCAT("p. ",?refpage), "") As ?thepage)
 	BIND(COALESCE(CONCAT("l. ",?refline), "") As ?theline)
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
-	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",IF(bound(?offset), ?refpage+?offset, ?refpage),"/mode/2up/"),"")),"") AS ?sourceUrl)
+	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",IF(bound(?offset), ?refpage+?offset, ?refpage),"/mode/2up/"),"")),"") AS ?sourceUrl)
     BIND(IF(bound(?inetarchive), "↗", "") AS ?source)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
