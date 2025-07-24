@@ -89,8 +89,10 @@ WHERE {
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
     BIND(CONCAT("../reflist?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel),"&highlight=",STR(?refnumber))  AS ?value_Url)
     OPTIONAL {
-      ?value wdt:P724 ?inetarchive .
-	  BIND(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",?refpage,"/mode/2up/"),"")) AS ?sourceUrl)
+	  wd:${ q } wdt:P1343 / wdt:P724 ?inetarchive . 
+      wd:${ q } p:P1343 ?value_statement .
+      OPTIONAL {?value_statement pq:P304 ?refpagee .}
+      BIND(CONCAT("https://archive.org/details/",?inetarchive,"/page/",?refpagee,"/mode/2up/") AS ?sourceUrl)
       BIND("↗" AS ?source)
     }
   }
@@ -215,7 +217,6 @@ SELECT DISTINCT
      sparqlToDataTable(lexemeSparql, "#lexeme",
 		       options={
 			   linkPrefixes: {
-			       source: '../reference',
 				   value_Url: '../'
 			   },
 			   paging: true,

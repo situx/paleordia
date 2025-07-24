@@ -225,8 +225,10 @@ WHERE {
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
     BIND(CONCAT("../reflistlang?l=",SUBSTR(STR(?language), 32),"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel),"&highlight=",STR(?refnumber),"&displaylang=${ displaylang }")  AS ?value_Url)
     OPTIONAL {
-      ?value wdt:P724 ?inetarchive .
-	  BIND(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",?refpage,"/mode/2up/"),"")) AS ?sourceUrl)
+	  wd:${ l } wdt:P1343 / wdt:P724 ?inetarchive . 
+      wd:${ l } p:P1343 ?value_statement .
+      OPTIONAL {?value_statement pq:P304 ?refpagee .}
+      BIND(CONCAT("https://archive.org/details/",?inetarchive,"/page/",?refpagee,"/mode/2up/") AS ?sourceUrl)
       BIND("↗" AS ?source)
     }
   }
@@ -490,7 +492,6 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
      sparqlToDataTable(lexemeSparql, "#lexeme",
 		       options={
 			   linkPrefixes: {
-			       source: '../reference',
 				   value_Url: '../'
 			   },
 			   linkParams: {
