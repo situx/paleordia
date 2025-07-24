@@ -92,7 +92,7 @@ WHERE {
 	  wd:${ q } wdt:P1343 / wdt:P724 ?inetarchive . 
       wd:${ q } p:P1343 ?value_statement .
       OPTIONAL {?value_statement pq:P304 ?refpagee .}
-      BIND(CONCAT("https://archive.org/details/",?inetarchive,"/page/",?refpagee,"/mode/2up/") AS ?sourceUrl)
+      BIND(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",?refpagee,"/mode/2up/"),"")) AS ?sourceUrl)
       BIND("↗" AS ?source)
     }
   }
