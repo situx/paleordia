@@ -82,7 +82,7 @@ WHERE {
 	OPTIONAL{?value_statement pq:P1810 ?valuenum .}
 	OPTIONAL{?value_statement pq:P7421 ?refline .}
 	OPTIONAL{?value_statement pq:P304 ?refpage .}
-	BIND(COALESCE(?valuenum, " ") As ?thenum)
+	BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
 	BIND(COALESCE(CONCAT("p. ",?refpage, " "), "") As ?thepage)
 	BIND(COALESCE(CONCAT("l. ",?refline, " "), "") As ?theline)
 	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
