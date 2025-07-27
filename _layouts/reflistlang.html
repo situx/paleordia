@@ -4,16 +4,12 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel ?refnumber (COUNT(distinct ?refs)+COUNT(distinct ?idprop) as ?refcount) WITH {   
-	SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel 	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
-	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel) ?refnumber WHERE {
-	  ?lexeme rdf:type ontolex:LexicalEntry;
-		dct:language wd:${ l };
-        p:P1343 ?lex ;
-		wikibase:lemma ?lexemeLab ;      
-		wikibase:lexicalCategory ?lexical_category .
+SELECT ?lexeme (GROUP_CONCAT(?lexemeLab; separator=" // ") AS ?lexemeLabel) ?lexical_category ?lexical_categoryLabel (GROUP_CONCAT(?sensee; separator=" / ") as ?sense)
+	(GROUP_CONCAT(?senselabel; separator=" / ") as ?senseLabel) ?refnumber (COUNT(?refs)+COUNT(?idprop) as ?refcount) WHERE {    
+	  ?lexeme wdt:P1343 wd:${ q } ; dct:language wd:${ l }; rdf:type ontolex:LexicalEntry.       
+      ?lexeme wikibase:lemma ?lexemeLab ; wikibase:lexicalCategory ?lexical_category ; wdt:P1343 ?refs .
       ?lexical_category rdfs:label ?lexical_categoryLabel .
-      ?lex ps:P1343  wd:${ q } ;
+      ?lexeme p:P1343 ?lex . ?lex ps:P1343  wd:${ q } .
 	  FILTER (LANG(?lexical_categoryLabel) = "en")
 	  OPTIONAL{wd:${ q } p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
       OPTIONAL { ?lex pq:P478 ?refvol. }
@@ -26,8 +22,11 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, COALESCE(?refcol,""), "]"), "") AS ?thepage)
 	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
 	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
-	  BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),""),"'>↗</a>"),"") AS ?sourceUrl)
+	  BIND(COALESCE(CONCAT(" <a href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),""),"'>↗</a>"),"") AS ?sourceUrl)
 	  BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum,?sourceUrl) AS ?refnumber)
+      OPTIONAL{?lexeme ?idprop ?id . 
+       ?idpropp wikibase:directClaim ?idprop ; wikibase:propertyType wikibase:ExternalId .
+      }
       OPTIONAL { 
 		?lexeme ontolex:sense ?senseitem.
 		OPTIONAL {
@@ -49,16 +48,7 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)
 		}     
 	}
-	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel
-	ORDER BY (?refnumber)
-	} AS %i WHERE {
-      INCLUDE %i
-    ?lexeme wdt:P1343 ?refs .
-    OPTIONAL{?lexeme ?idprop ?id . 
-     ?idpropp wikibase:directClaim ?idprop ; wikibase:propertyType wikibase:ExternalId .
-    }
-  }
-GROUP BY ?lexeme ?lexemeLabel ?refnumber ?lexical_category ?lexical_categoryLabel ?sense ?senseLabel
+GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel
 `
 
 
