@@ -228,7 +228,7 @@ WHERE {
 	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),"")),"") AS ?sourceUrl)
     BIND(IF(bound(?inetarchive), "↗", "") AS ?source)
     FILTER (LANG(?valueLab) = 'en')
-	FILTER(?inetvol=?refvol)
+	FILTER(?inetvol=?refvoll)
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
     BIND(CONCAT("../reflistlang?l=",SUBSTR(STR(?language), 32),"&q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel),"&highlight=",STR(?refnumber),"&displaylang=${ displaylang }")  AS ?value_Url)
   }
