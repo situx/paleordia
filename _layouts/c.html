@@ -78,10 +78,11 @@ WHERE {
     ?character p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
-	OPTIONAL{?value p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
+	OPTIONAL{?value p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
 	OPTIONAL{?value_statement pq:P1810 ?valuenum .}
 	OPTIONAL{?value_statement pq:P7421 ?refline .}
 	OPTIONAL{?value_statement pq:P304 ?refpage .}
+	BIND(COALESCE(?inettvol, "") As ?inetvol)
 	BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
 	BIND(COALESCE(CONCAT("p. ",?refpage, ""), "") As ?thepage)
 	BIND(COALESCE(CONCAT("l. ",?refline, ""), "") As ?theline)
@@ -90,6 +91,7 @@ WHERE {
 	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),"")),"") AS ?sourceUrl)
     BIND(IF(bound(?inetarchive), "↗", "") AS ?source)
     FILTER (LANG(?valueLab) = 'en')
+	FILTER(?inetvol!="" && ?inetvol=?refvol)
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
     BIND(CONCAT("../reflist?q=", SUBSTR(STR(?value), 32),"&qLabel=",STR(?valueLabel),"&highlight=",STR(?refnumber))  AS ?value_Url)
   }
