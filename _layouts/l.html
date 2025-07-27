@@ -223,7 +223,7 @@ WHERE {
     BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
     BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
 	BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
-	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/",STR(?realpage),"/mode/2up/"),"")),"") AS ?sourceUrl)
+	BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),"")),"") AS ?sourceUrl)
     BIND(IF(bound(?inetarchive), "↗", "") AS ?source)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," [",?refnumber,"]") AS ?valueLabel)
