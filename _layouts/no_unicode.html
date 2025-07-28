@@ -69,7 +69,8 @@ ORDER BY ?characterLabel
  $(document).ready(function() {
      sparqlToDataTable(lexemesSparql, "#lexical-categories", {
 	 linkPrefixes: {
-	     character: '../c'
+	     character: '../c',
+		 refs: '../reflist',
 	 },
 	 pBar:"progressbar",
 	 pBarLabel:"progress-label"
