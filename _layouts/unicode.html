@@ -46,7 +46,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?value; separa
 	}	
     FILTER (LANG(?characterLabell) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
-  	BIND(CONCAT(?characterLabell,": ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
+  	BIND(CONCAT(?characterLabell," ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
 }
 GROUP BY ?character ?characterLabel
 ORDER BY ?characterLabel

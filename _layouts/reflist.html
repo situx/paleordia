@@ -15,6 +15,7 @@ lexemesSparql =`
 		BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}	
     ?lex ps:P1343 wd:${ q } .
+	OPTIONAL{wd:${ q } p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
     OPTIONAL{?lex pq:P1810 ?refnum .}
 	OPTIONAL{?lex pq:P7421 ?refline .}
 	OPTIONAL{?lex pq:P304 ?refpage .}
@@ -25,7 +26,9 @@ lexemesSparql =`
 	BIND(COALESCE(?refnum, "") As ?thenum)
 	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
 	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
-	BIND(CONCAT(?thenum,?thepage,?theline) AS ?refnumber)
+	BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
+    BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),""),"'>↗</a>"),"") AS ?sourceUrl)
+    BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum,?sourceUrl) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
   }
