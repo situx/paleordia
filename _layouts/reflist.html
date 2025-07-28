@@ -30,7 +30,7 @@ lexemesSparql =`
 	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
 	BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
     BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),""),"'>↗</a>"),"") AS ?sourceUrl)
-    BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum,?sourceUrl) AS ?refnumber)
+    BIND(CONCAT(?thenum, ?thevol, ?thepage, ?theline, ?sourceUrl) AS ?refnumber)
     FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     FILTER (LANG(?characterLabel) = 'en')
   }
