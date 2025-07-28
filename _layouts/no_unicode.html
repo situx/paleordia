@@ -6,8 +6,13 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabel2; separator=" / ") AS ?refs) (GROUP_CONCAT(distinct ?chartypeLabell; separator=" / ") AS ?charTypes) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
-    ?charclass wdt:P361 wd:Q401 .
+SELECT DISTINCT ?character ?characterLabel 
+(GROUP_CONCAT(distinct ?value; separator=" / ") AS ?refs) 
+(GROUP_CONCAT(distinct ?referenceLabel2; separator=" / ") AS ?refsLabel) 
+(GROUP_CONCAT(distinct ?chartypeLabell; separator=" / ") AS ?charTypes) 
+(GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) 
+(GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+    ?charclass wdt:P361 wd:${ q } .
     ?character wdt:P31 ?charclass .
     ?character wdt:P31 ?chartype .
     ?chartype rdfs:label ?chartypeLabell . 
@@ -39,11 +44,13 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?referenceLabe
     BIND(CONCAT(?valueLab," ",?refnumber,"") AS ?referenceLabel2)
 
 	}UNION{
-      ?character ?reference ?id . 
+      ?character ?reference ?val . 
       ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
       ?idpropp rdfs:label ?referenceLabel. 
+      OPTIONAL{?idpropp wdt:P1630 ?urlprefix }  
+      BIND(COALESCE(CONCAT(REPLACE(?urlprefix, "\\$1", "", "i"),?val),"") AS ?value)
       FILTER (LANG(?referenceLabel) = 'en')
-      BIND(CONCAT(?referenceLabel," [",?id, "]") AS ?referenceLabel2)
+      BIND(CONCAT(?referenceLabel," [",?val, "]") AS ?referenceLabel2)
     }	
     }
     OPTIONAL {
