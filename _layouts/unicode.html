@@ -35,7 +35,7 @@ SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?value; separa
       ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
       ?idpropp rdfs:label ?referenceLabel. 
       OPTIONAL{?idpropp wdt:P1630 ?urlprefix }  
-      BIND(COALESCE(CONCAT(REPLACE(?urlprefix, "\\$1", "", "i"),?val),"") AS ?value)
+      BIND(COALESCE(CONCAT(REPLACE(?urlprefix, "\\\\$1", "", "i"),?val),"") AS ?value)
       FILTER (LANG(?referenceLabel) = 'en')
       BIND(CONCAT(?referenceLabel," [",?val, "]") AS ?referenceLabel2)
     }	
