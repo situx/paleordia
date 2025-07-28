@@ -6,23 +6,20 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
-SELECT DISTINCT ?character ?characterLabel2 (GROUP_CONCAT(distinct ?value; separator=" / ") AS ?refs) (GROUP_CONCAT(distinct ?referenceLabel2; separator=" / ") AS ?refsLabel) (GROUP_CONCAT(distinct ?chartype; separator=" / ") AS ?charType) (GROUP_CONCAT(distinct ?chartypeLabell; separator=" / ") AS ?charTypeLabel) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
-    ?charclass wdt:P361 wd:Q401 .
-    ?character wdt:P31 ?charclass .
-    ?character wdt:P31 ?chartype .
+SELECT DISTINCT ?character ?characterLabel (GROUP_CONCAT(distinct ?value; separator=" / ") AS ?refs) (GROUP_CONCAT(distinct ?referenceLabel2; separator=" / ") AS ?refsLabel) (GROUP_CONCAT(distinct ?chartype; separator=" / ") AS ?charType) (GROUP_CONCAT(distinct ?chartypeLabell; separator=" / ") AS ?charTypeLabel) (GROUP_CONCAT(distinct ?imagee; separator=" ") AS ?image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?image_link) WHERE {
+    ?character wdt:P31 / wdt:P361 wd:${ q } .
+    ?character wdt:P31 ?chartype ; wdt:P9382 ?unicodename ; wdt:P4213 ?unicodepoint ; rdfs:label ?characterLabell .
+    FILTER NOT EXISTS {?character wdt:P31 wd:Q188725 .}
+    FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
     ?chartype rdfs:label ?chartypeLabell . 
-	?character rdfs:label ?characterLabel .
-    ?character wdt:P9382 ?unicodename .
-	?character wdt:P4213 ?unicodepoint .
-	BIND(CONCAT(?characterLabel,": ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
-      OPTIONAL{
+    OPTIONAL{
 	#ignore
 	{    
     ?character p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
 	OPTIONAL{?value_statement pq:P478 ?refvol.}
-	OPTIONAL{?value_statement  pq:P1810 ?refnum.}
+	OPTIONAL{?value_statement pq:P1810 ?refnum.}
 	OPTIONAL{?value_statement pq:P7421 ?refline.}
     OPTIONAL{?value_statement pq:P304 ?refpage.}
 	BIND(COALESCE(CONCAT("[n. ",?refnum, "] "),"") AS ?thenum)
@@ -38,7 +35,7 @@ SELECT DISTINCT ?character ?characterLabel2 (GROUP_CONCAT(distinct ?value; separ
       ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
       ?idpropp rdfs:label ?referenceLabel. 
       OPTIONAL{?idpropp wdt:P1630 ?urlprefix }  
-      BIND(COALESCE(CONCAT(REPLACE(?urlprefix, "\\\\$1", "", "i"),?val),"") AS ?value)
+      BIND(COALESCE(CONCAT(REPLACE(?urlprefix, "\\$1", "", "i"),?val),"") AS ?value)
       FILTER (LANG(?referenceLabel) = 'en')
       BIND(CONCAT(?referenceLabel," [",?val, "]") AS ?referenceLabel2)
     }	
@@ -47,14 +44,12 @@ SELECT DISTINCT ?character ?characterLabel2 (GROUP_CONCAT(distinct ?value; separ
 	?depiction wdt:P180 ?character .
     ?depiction wdt:P18 ?imagee .
 	}	
-	FILTER NOT EXISTS {?character wdt:P31 wd:Q188725 .}
-    FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .}
-    FILTER (LANG(?characterLabel) = 'en')
+    FILTER (LANG(?characterLabell) = 'en')
     FILTER (LANG(?chartypeLabell) = 'en')
+  	BIND(CONCAT(?characterLabell,": ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel)
 }
-GROUP BY ?character ?characterLabel2 
+GROUP BY ?character ?characterLabel
 ORDER BY ?characterLabel
-
 `
 
  $(document).ready(function() {
