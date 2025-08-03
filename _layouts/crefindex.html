@@ -4,18 +4,24 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
-SELECT DISTINCT ?character (GROUP_CONCAT(DISTINCT ?characterlabel; separator=" // ") AS ?characterLabel) 
-(GROUP_CONCAT(DISTINCT ?dictt; separator=" / ") as ?dictionary) 
-(GROUP_CONCAT(DISTINCT ?dictLabell; separator=" / ") as ?dictionaryLabel) 
-(COUNT(DISTINCT ?dictt) as ?count) WHERE {
-  ?charclass wdt:P361 wd:${ q } .
-  ?character wdt:P31 ?charclass ; wdt:P1343 ?dictt; rdfs:label ?characterlabel .
+SELECT ?character (GROUP_CONCAT(DISTINCT ?characterlabel; separator=" // ") AS ?characterLabel) 
+(GROUP_CONCAT(?dictt; separator=" / ") as ?dictionary) 
+(GROUP_CONCAT(?dictLabell; separator=" / ") as ?dictionaryLabel) 
+(COUNT(DISTINCT ?dictt) as ?count)   WHERE {
+  ?charclass wdt:P361 wd:Q401 .
+  ?character wdt:P31 ?charclass ; rdfs:label ?characterlab .    
+  ?character wdt:P1343 ?dictt .
   ?dictt rdfs:label ?dictLabell .
   FILTER(lang(?dictLabell)="en")
-  FILTER(lang(?characterlabel)="en")
+  FILTER(lang(?characterlab)="en")
+  OPTIONAL{
+    ?character wdt:P9382 ?unicodename .
+    ?character wdt:P4213 ?unicodepoint .
+    BIND(CONCAT(" ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
+  }
+  BIND(CONCAT(?characterlab,COALESCE(?characterLabel2,"")) AS ?characterlabel)
 }
 GROUP BY ?character
-ORDER BY ?characterlabel
 `
 
  $(document).ready(function() {  
