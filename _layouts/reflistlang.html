@@ -23,7 +23,7 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, COALESCE(?refcol,""), "]"), "") AS ?thepage)
 	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
 	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
-	  BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/2up/"),""),"'>↗</a>"),"") AS ?sourceUrl)
+	  BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),""),"'>↗</a>"),"") AS ?sourceUrl)
 	  BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum,?sourceUrl) AS ?refnumber)
       OPTIONAL { 
 		?lexeme ontolex:sense ?senseitem.
@@ -34,10 +34,10 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
 		}
 		OPTIONAL {
-			FILTER("en"!="en")
+			FILTER("${ displaylang }"!="en")
 			?senseitem skos:definition ?glosss.
-			FILTER(LANG(?glosss)="en")
-			BIND(CONCAT(?glosss,"@en") AS ?gloss)
+			FILTER(LANG(?glosss)="${ displaylang }")
+			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
 		}
 		OPTIONAL {
 			?senseitem skos:definition ?gloss.
