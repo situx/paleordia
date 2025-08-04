@@ -240,8 +240,10 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
 						temp+=' style="color:red"'
 					}
-					temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
-					temp+= " <button onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
+					if(key.toLowerCase().includes("source")){
+						temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
+					}
+					temp+= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 					convertedRow[key]=temp
 				}else if(linkcount>1){
 					//console.log(data[i][key + 'Url'])
@@ -259,8 +261,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							res+=' style="color:red"'
 						}
 						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
-						if(true){
-						res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
+						if(key.toLowerCase().includes("source")){
+							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}
 						res+=sepchar+" "
 					}
