@@ -534,7 +534,10 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsL
 </script>
 
  <div class="l-entry">
-
+<dialog id="iframedialog" style="width:75%;height:75%">
+<iframe id="theiframe" style="width:100%;height:100%"></iframe>
+<button id="closebutton" onclick="document.getElementById('iframedialog').close()">Close</button>
+</dialog>
      <h1>Lexeme: ${ qLabel } (${ l })</h1>
      
      
