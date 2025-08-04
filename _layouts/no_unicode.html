@@ -31,6 +31,7 @@ SELECT DISTINCT ?character ?characterLabel
     ?character p:P1343 ?value_statement .
     ?value_statement ps:P1343 ?value .
     ?value rdfs:label ?valueLab .
+	OPTIONAL{?value p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
 	OPTIONAL{?value_statement pq:P478 ?refvol.}
 	OPTIONAL{?value_statement  pq:P1810 ?refnum.}
 	OPTIONAL{?value_statement pq:P7421 ?refline.}
@@ -39,7 +40,9 @@ SELECT DISTINCT ?character ?characterLabel
     BIND(COALESCE(CONCAT(" [v. ", ?refvol, "]"), "") AS ?thevol)
     BIND(COALESCE(CONCAT(" [p. ", ?refpage, "]"), "") AS ?thepage)
     BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
-    BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum) AS ?refnumber)
+    BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
+    BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),""),"'>↗</a>"),"") AS ?sourceUrl)
+    BIND(CONCAT(?thevol, ?thepage, ?theline, ?thenum, ?sourceUrl) AS ?refnumber)
     FILTER (LANG(?valueLab) = 'en')
     BIND(CONCAT(?valueLab," ",?refnumber,"") AS ?referenceLabel2)
 
