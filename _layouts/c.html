@@ -219,6 +219,7 @@ SELECT DISTINCT
 			   linkPrefixes: {
 				   value_Url: '../'
 			   },
+			   iframelink: true,
 			   paging: true,
 			   sDom: 'rt',
 			   desc:"Information about the character depicted from its Unicode codepoint"
@@ -248,9 +249,11 @@ SELECT DISTINCT
 </script>
 
  <div class="l-entry">
-
+<dialog id="iframedialog">
+<iframe id="theiframe"></iframe>
+<button id="closebutton" onclick="document.getElementById('iframedialog').close()">Close</button>
+</dialog>
      <h1>Character: ${ qLabel } (${ q })</h1>
-     
      
      <p>
          <a title="Back"

@@ -257,7 +257,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						if(typeof(h)!=="undefined" && urls[i].includes(h)){
 							res+=' style="color:red"'
 						}
-						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "+sepchar+" "
+						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
+						if(true){
+						res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i}+";document.getElementById('iframedialog').showModal()'\">&#8599;</button>" 
+						}
+						res+=sepchar+" "
 					}
 					//console.log("THERES: "+res)
 					res=res.substring(0,res.length-sepchar.length-2)
@@ -364,6 +368,7 @@ function sparqlToDataTable(sparql, element, options={}) {
     // Options: linkPrefixes={}, paging=true
     var divElem = (typeof options.divElem === 'undefined') ? "" : options.divElem;
 	var desc = (typeof options.desc === 'undefined') ? "" : options.desc;
+	var iframedialog = (typeof options.iframedialog === 'undefined') ? "" : options.iframedialog;
     var linkPrefixes = (typeof options.linkPrefixes === 'undefined') ? {} : options.linkPrefixes;
 	var linkParams = (typeof options.linkParams === 'undefined') ? {} : options.linkParams;
     var paging = (typeof options.paging === 'undefined') ? true : options.paging;
