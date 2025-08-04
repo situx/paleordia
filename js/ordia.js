@@ -241,7 +241,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						temp+=' style="color:red"'
 					}
 					temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
-					temp+= " <button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
+					temp+= " <button onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 					convertedRow[key]=temp
 				}else if(linkcount>1){
 					//console.log(data[i][key + 'Url'])
