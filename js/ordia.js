@@ -259,7 +259,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 						res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
 						if(true){
-						res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i}+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
+						res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}
 						res+=sepchar+" "
 					}
