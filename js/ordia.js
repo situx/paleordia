@@ -209,7 +209,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(typeof(labs[i])!=='undefined'){
 						if(labs[i].includes("<a ") && labs[i].includes("</a>")){
 							res+=labs[i].substring(0,labs[i].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
-							res+=labs[i].substring(labs[i].indexOf("<a "),labs[i].indexOf("</a>")
+							res+=labs[i].substring(labs[i].indexOf("<a "),labs[i].indexOf("</a>"))
 							res+=labs[i].substring(labs[i].indexOf("</a>")+4).replaceAll("<","&lt;").replaceAll(">","&gt;")
 						}else{
 							res+=labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")
