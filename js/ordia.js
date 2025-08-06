@@ -238,8 +238,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				if(linkcount==1){
 					if(key.toLowerCase().includes("source")){
 						temp= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframenewtab').href='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';"
-						if("value" in data[i]){
-							temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["value"]+"';"
+						if("value_" in data[i]){
+							temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["value_"]+"';"
 						}
 						temp+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 	
 					}else{
@@ -263,8 +263,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					for(let i = 0; i < urls.length; i++){
 						if(key.toLowerCase().includes("source")){
 							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';"
-							if("value" in data[i]){
-								res+="document.getElementById('iframeheader').innerHTML='"+data[i]["value"]+"';"
+							if("value_" in data[i]){
+								res+="document.getElementById('iframeheader').innerHTML='"+data[i]["value_"]+"';"
 							}
 							res+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}else{
