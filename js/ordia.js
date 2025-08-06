@@ -237,7 +237,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				//console.log("Linkcount: "+linkcount)
 				if(linkcount==1){
 					if(key.toLowerCase().includes("source")){
-						temp= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframenewtab').href='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 	
+						temp= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframenewtab').href='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframeheader').innerHTML='"+data[i][key]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 	
 					}else{
 						temp = '<a target="_blank\"'
 						if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
@@ -258,7 +258,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					res=""
 					for(let i = 0; i < urls.length; i++){
 						if(key.toLowerCase().includes("source")){
-							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
+							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';document.getElementById('iframeheader').innerHTML='"+labs[i]+"';document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}else{
 							res+='<a target="_blank"'
 							if(typeof(h)!=="undefined" && urls[i].includes(h)){
