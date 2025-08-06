@@ -264,7 +264,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						if(key.toLowerCase().includes("source")){
 							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';"
 							if("value" in data[i]){
-								res+="document.getElementById('iframeheader').innerHTML='"+data[i]["value"]+"';
+								res+="document.getElementById('iframeheader').innerHTML='"+data[i]["value"]+"';"
 							}
 							res+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}else{
