@@ -210,6 +210,7 @@ signlistSparql = `
 	FILTER (LANG(?timeperiodLabel) = 'en')
   }
   GROUP BY ?timeperiod ?timeperiodLabel
+  ORDER BY DESC(xsd:integer(?charvars)) 
 `
 
  $(document).ready(function() {
@@ -225,7 +226,7 @@ signlistSparql = `
 	 });
 	sparqlToDataTable(scriptSparql, "#signs",{
 	 'linkPrefixes': {
-		'timeperiod': '../signlist'
+		'character': '../c'
 	 },
 	 linkParams: {
 		timeperiod: '&s='+q
