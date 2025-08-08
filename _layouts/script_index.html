@@ -9,7 +9,7 @@ SELECT
   ?number_of_characters_and_variants
   ?script ?scriptLabel ?scriptDescription
 WITH {
-  SELECT ?script (COUNT(?chars) AS ?number_of_characters_and_variants) WHERE {
+  SELECT ?script (COUNT(DISTINCT ?chars) AS ?number_of_characters_and_variants) WHERE {
     ?script wdt:P31 wd:Q8192 .
 	?chars wdt:P282 ?script .
     {
@@ -54,7 +54,8 @@ ORDER BY DESC(?total_number_of_statements)
 
  $(document).ready(function() {
      sparqlToDataTable(languagesSparql, "#languages",
-		        {'linkPrefixes': {'script': '../script'}});
+		        {	 'pBar':"progressbar",
+	 'pBarLabel':"progress-label",'linkPrefixes': {'script': '../script'}});
      sparqlToDataTable(numberOfStatementsSparql, "#number-of-statements",
 		      {'linkPrefixes': {'script': '../script'}});
  });
@@ -63,7 +64,7 @@ ORDER BY DESC(?total_number_of_statements)
 
 <div class="languages">
   <h1>Scripts</h1>
-
+  <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="languages"></table>
 
   <hr>
