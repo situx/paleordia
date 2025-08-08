@@ -119,7 +119,7 @@ scriptSparql = `
 	?character p:P1343 ?ref .
 	?ref ps:P1343 ?reference .
 	?reference wdt:P1813 ?referenceL .
-	OPTIONAL{?ref p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
+	OPTIONAL{?reference p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
 	OPTIONAL {?ref pq:P478 ?refvol. }
     OPTIONAL{?ref pq:P1810 ?refnum .}
 	OPTIONAL{?ref pq:P7421 ?refline .}
