@@ -98,29 +98,48 @@ WHERE {
 ORDER BY ?order
 `;
   
- /*lexemesSparql = `
+scriptSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?unicode (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?references) WHERE {
-	?character wdt:P282 wd:${ q } .
+  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?reference; separator=" // ") AS ?references) (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?referencesLabel) 
+(GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
+	?charclass wdt:P361 wd:${ q } .
+	?character wdt:P31 ?charclass .
     ?character rdfs:label ?characterLabel .
-	?character wdt:P31 ?cls .
-	?cls wdt:P279 wd:Q3241972 .
 	OPTIONAL{
 		?character wdt:P9382 ?unicodename .
 		?character wdt:P4213 ?unicodepoint .
+	    BIND(CONCAT(" ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
-	BIND(CONCAT(?unicodename," (U+",?unicodepoint,")") AS ?unicode)
-	?character wdt:P1343 ?reference .
-	?reference rdfs:label ?referenceLab .
+	OPTIONAL {
+    ?depiction wdt:P180 ?character .
+    ?depiction wdt:P18 ?image .
+	}
+	OPTIONAL {
+	?character p:P1343 ?ref .
+	?ref ps:P1343 ?reference .
+	?reference wdt:P1813 ?referenceL .
+	OPTIONAL{?ref p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
+	OPTIONAL {?ref pq:P478 ?refvol. }
+    OPTIONAL{?ref pq:P1810 ?refnum .}
+	OPTIONAL{?ref pq:P7421 ?refline .}
+	OPTIONAL{?ref pq:P304 ?refpage .}
+	}
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 . }
     FILTER (LANG(?characterLabel) = 'en')
-	FILTER (LANG(?referenceLab) = 'en')
+	#BIND(?character AS ?characterqid)
+	BIND(COALESCE(?refnum, "") As ?thenum)
+    BIND(COALESCE(CONCAT(" [v. ", ?refvol,"]"), "") AS ?thevol)
+	BIND(COALESCE(CONCAT(" [p. ",?refpage,"]"), "") As ?thepage)
+	BIND(COALESCE(CONCAT(" [l. ",?refline,"]"), "") As ?theline)
+  	BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
+    BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),""),"'>↗</a>"),"") AS ?sourceUrl)
+    BIND(CONCAT(?referenceL," ",?thenum, ?thevol, ?thepage, ?theline, ?sourceUrl) AS ?referenceLab)
   }
-  GROUP BY ?character ?characterLabel ?unicode
+  GROUP BY ?character ?characterqid ?characterLabel ?characterLabel2
   ORDER BY ?characterLabel
   LIMIT 10000
-`*/
+`
 
 lexemesSparql =`
   SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?referenceLab; separator="###") AS ?references_cols) (GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
@@ -160,7 +179,7 @@ lexemesSparql =`
 
 reflistSparql=`
 SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) AS ?amount) WHERE {
-	?charclass wdt:P361 wd:${ q } .
+	?charclass wdt:P361 wd:Q401 .
 	?character wdt:P31 ?charclass .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .} 
 	{
@@ -175,7 +194,7 @@ SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) A
 	FILTER (LANG(?referenceLabel) = 'en')
   }
   GROUP BY ?reference ?referenceLabel ?referenceLabel2
-  ORDER BY ?referenceLabel   
+  ORDER BY DESC(xsd:integer(?amount)) 
 `
 
 signlistSparql = `
@@ -203,6 +222,16 @@ signlistSparql = `
 	 linkParams: {
 		form: '&qb='+q+'&qbLabel='+qLabel
 	 }
+	 });
+	sparqlToDataTable(scriptSparql, "#signs",{
+	 'linkPrefixes': {
+		'timeperiod': '../signlist'
+	 },
+	 linkParams: {
+		timeperiod: '&s='+q
+	 },
+	 pBar: "progressbar-ref2",
+	 pBarLabel: "progress-label-ref2",
 	 });
 	 sparqlToDataTable(signlistSparql, "#signlists",{
 	 'linkPrefixes': {
@@ -263,6 +292,9 @@ signlistSparql = `
 
   <table class="table table-hover" id="data"></table>
 
+  <h2>Characters</h2>
+	<div id="progressbar-ref2"><span class="progress-label" id="progress-label-ref2">Loading...</span></div>
+  <table class="table table-hover" id="signlists"></table> 
  
   <h2>Time period specific signlists</h2>
 
@@ -272,7 +304,7 @@ signlistSparql = `
   <div id="progressbar-ref"><span class="progress-label" id="progress-label-ref">Loading...</span></div>
   <table class="table table-hover" id="references"></table>
   
-  <h2>Characters</h2>
+  <h2>Characters (extended)</h2>
   <div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
   <table class="table table-hover" id="lexemes"></table>
   
