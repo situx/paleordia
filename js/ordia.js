@@ -201,7 +201,11 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(data[i][key + 'Label'].includes("<a ") && data[i][key + 'Label'].includes("</a>")){
 						temp+=data[i][key + 'Label'].substring(0,data[i][key + 'Label'].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
 						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("<a "),data[i][key + 'Label'].indexOf("</a>"))+"</a>"
-						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4).replaceAll("<","&lt;").replaceAll(">","&gt;")
+						if(data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4).includes("<a ") && data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4).includes("</a>")){
+							temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4)
+						}else{
+							temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4).replaceAll("<","&lt;").replaceAll(">","&gt;")
+						}						
 					}else{
 						temp+=data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;")
 					}			
