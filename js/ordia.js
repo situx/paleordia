@@ -200,8 +200,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				if(typeof(data[i][key + 'Label'])!=='undefined'){
 					if(data[i][key + 'Label'].includes("<a ") && data[i][key + 'Label'].includes("</a>")){
 						temp+=data[i][key + 'Label'].substring(0,data[i][key + 'Label'].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
-						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("<a "),data[i][key + 'Label'].indexOf("</a>"))
-						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")).replaceAll("<","&lt;").replaceAll(">","&gt;")
+						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("<a "),data[i][key + 'Label'].indexOf("</a>"))+"</a>"
+						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4).replaceAll("<","&lt;").replaceAll(">","&gt;")
 					}else{
 						temp+=data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;")
 					}			
@@ -230,8 +230,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(typeof(labs[i])!=='undefined'){
 						if(labs[i].includes("<a ") && labs[i].includes("</a>")){
 							res+=labs[i].substring(0,labs[i].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
-							res+=labs[i].substring(labs[i].indexOf("<a "),labs[i].indexOf("</a>"))
-							res+=labs[i].substring(labs[i].indexOf("</a>")).replaceAll("<","&lt;").replaceAll(">","&gt;")
+							res+=labs[i].substring(labs[i].indexOf("<a "),labs[i].indexOf("</a>"))+"</a>"
+							res+=labs[i].substring(labs[i].indexOf("</a>")+4).replaceAll("<","&lt;").replaceAll(">","&gt;")
 						}else{
 							res+=labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")
 						}			
