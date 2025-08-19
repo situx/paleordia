@@ -214,7 +214,13 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					if(typeof(h)!=="undefined" && urls[i].includes(h)){
 						res+=' style="color:red"'
 					}
-					res+=" href=\""+urls[i]+"\">"
+					res+=" href=\""
+					if(urls[i].includes("<a ")){
+						res+=urls[i].substring(0,urls[i].indexOf("<a "))
+					}else{
+						res+=urls[i]
+					}
+					res+="\">"
 					if(typeof(labs[i])!=='undefined'){
 						if(labs[i].includes("<a ") && labs[i].includes("</a>")){
 							res+=labs[i].substring(0,labs[i].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
