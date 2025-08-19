@@ -185,13 +185,22 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 			if(linkcount==0){
 				convertedRow[key] = '<span>' + data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;") +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</span>';
 			}else if(linkcount==1){
-				temp = '<a href="' +
-				(linkPrefixes[key] || "") + 
-				addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")) +'"'
+				thelink=(linkPrefixes[key] || "") + addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:""))
+				temp = '<a href="' +thelink+'" '
 				if(typeof(h)!=="undefined" && data[i][key].includes(h)){
 					temp+=' style="color:red"'
 				}
-				temp+='>' + data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;") +((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
+				temp+='>'
+				if(typeof(data[i][key + 'Label'])!=='undefined'){
+					if(data[i][key + 'Label'].includes("<a ") && data[i][key + 'Label'].includes("</a>")){
+						temp+=data[i][key + 'Label'].substring(0,data[i][key + 'Label'].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
+						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("<a "),data[i][key + 'Label'].indexOf("</a>"))
+						temp+=data[i][key + 'Label'].substring(data[i][key + 'Label'].indexOf("</a>")+4).replaceAll("<","&lt;").replaceAll(">","&gt;")
+					}else{
+						temp+=data[i][key + 'Label'].replaceAll("<","&lt;").replaceAll(">","&gt;")
+					}			
+				}
+				temp+=((key+'Label2' in data[i])?" "+data[i][key+'Label2']:"")+ '</a>';
 				convertedRow[key]=temp
 			}else if(linkcount>1){
 				//console.log(data[i][key])
@@ -272,7 +281,13 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							if(typeof(h)!=="undefined" && urls[i].includes(h)){
 								res+=' style="color:red"'
 							}
-							res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
+							res+=" href=\""
+							if(urls[i].includes("<a"){
+								res+=urls[i].substring(0,urls[i].indexOf("<a"))
+							}else{
+								res+=urls[i]
+							}
+							res+="\">"+labs[i]+"</a> "
 						}
 						res+=sepchar+" "
 					}
