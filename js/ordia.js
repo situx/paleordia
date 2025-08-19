@@ -188,9 +188,9 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				thelink=(linkPrefixes[key] || "") + addParamsToLink(detectCorrectParameter(data[i][key].replace("http://www.wikidata.org/entity/","").replace("http://www.wikidata.org/prop/direct/","")),key,linkParams,data[i][key+'Label']+((key+'Label2' in data[i])?" "+data[i][key+'Label2']:""))
 				temp = '<a href="'
 				if(thelink.includes("<a ")){
-					res+=thelink.substring(0,thelink.indexOf("<a "))
+					temp+=thelink.substring(0,thelink.indexOf("<a "))
 				}else{
-					res+=thelink
+					temp+=thelink
 				}
 				temp+='" '
 				if(typeof(h)!=="undefined" && data[i][key].includes(h)){
