@@ -274,7 +274,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 						temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
 						if("sourceLink" in data[i] && data[i]["sourceLink"].startsWith("http")){
-							temp+="<button onclick=\"document.getElementById('theiframe').src='"++data[i]["sourceLink"]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
+							temp+="<button onclick=\"document.getElementById('theiframe').src='"+data[i]["sourceLink"]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
 							if("sourceLink" in data[i]){
 								temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceLink"]+"';"
 							}
