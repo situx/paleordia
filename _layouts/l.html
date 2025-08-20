@@ -88,7 +88,7 @@ WHERE {
   {
     BIND(9 AS ?order)
     BIND("Root" AS ?description)
-    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(?sourcee; separator=" // ") AS ?source) (GROUP_CONCAT(?sourceurl; separator=" // ") AS ?sourceUrl) (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" // ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" // ") AS ?sourceUrl) (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
 	  BIND("Root" AS ?description)
 	  wd:${ l } p:P5920 ?value_statement .
       ?value_statement ps:P5920 ?value .
@@ -164,7 +164,7 @@ WHERE {
   {
     # Derived from
     BIND(14 AS ?order)
-    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(?sourcee; separator=" // ") AS ?source) (GROUP_CONCAT(?sourceurl; separator=" // ") AS ?sourceUrl) (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } p:P5191 ?value_statement .
       ?value_statement ps:P5191 ?value .
