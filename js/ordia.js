@@ -251,7 +251,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 	    } else if (key.substr(-6) == 'image_link') {
 		// pass
 		
-	    }else if (key.substr(-6) == 'sourceLink') {
+	    }else if (key == 'sourceLink') {
 		// pass
 		
 	    }else if (key.substr(-6) == 'Label2') {
