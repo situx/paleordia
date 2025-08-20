@@ -8,7 +8,7 @@ layout: base
 SELECT DISTINCT
   ?description
   (?valueLabel As ?value_) ?value_Url
-  ?source ?sourceUrl
+  ?source ?sourceUrl ?sourceLink
 WHERE {
   VALUES ?lexeme { wd:${ l } }
   {
