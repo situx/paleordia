@@ -277,7 +277,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						}
 						temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
 						if("sourceLink" in data[i] && data[i]["sourceLink"].startsWith("http")){
-							temp+="<button onclick=\"document.getElementById('theiframe').src='"+data[i]["sourceLink"]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
+							temp+=" <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+data[i]["sourceLink"]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
 							if("sourceLink" in data[i]){
 								temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceLink"]+"';"
 							}
@@ -303,7 +303,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 					res=""
 					for(let i = 0; i < urls.length; i++){
 						if(key.toLowerCase().includes("source") && "description" in data[i] && data[i]["description"].includes("Described")){
-							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';"
+							res+="<button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';"
 							if("value_" in data[i]){
 								res+="document.getElementById('iframeheader').innerHTML='"+data[i]["value_"]+"';"
 							}
@@ -315,7 +315,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							}
 							res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
 							if("sourceLink" in data[i] && data[i]["sourceLink"].startsWith("http")){
-								res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
+								res+=" <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
 								if("sourceLink" in data[i]){
 									res+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceLink"]+"';"
 								}
