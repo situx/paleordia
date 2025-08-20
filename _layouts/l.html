@@ -22,7 +22,7 @@ WHERE {
   {
     BIND(2 AS ?order)
     BIND("Language" AS ?description)
-    ?lexeme dct:language ?value .
+    wd:${ l } dct:language ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
     BIND(CONCAT("../language?q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&displaylang=${ displaylang }")  AS ?value_Url)
@@ -31,7 +31,7 @@ WHERE {
   {
     BIND(3 AS ?order)
     BIND("Dialect" AS ?description)
-    ?lexeme wdt:P7481 ?value_Url .
+    wd:${ l } wdt:P7481 ?value_Url .
     ?value_Url rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
   }
@@ -39,8 +39,8 @@ WHERE {
   {
     BIND(4 AS ?order)
     BIND("Lexical category" AS ?description)
-    ?lexeme wikibase:lexicalCategory ?value .
-	?lexeme dct:language ?langvalue .
+    wd:${ l } wikibase:lexicalCategory ?value .
+	wd:${ l } dct:language ?langvalue .
 	?langvalue rdfs:label ?langvalueLabel .
     FILTER (LANG(?langvalueLabel) = 'en')
     ?value rdfs:label ?valueLabel .
@@ -51,7 +51,7 @@ WHERE {
   {
     BIND(5 AS ?order)
     BIND("Instance of" AS ?description)
-    ?lexeme p:P31 ?value_statement .
+    wd:${ l } p:P31 ?value_statement .
     ?value_statement ps:P31 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
@@ -67,20 +67,20 @@ WHERE {
   {
     BIND(6 AS ?order)
     BIND("Word stem" AS ?description)
-    ?lexeme wdt:P5187 ?value .
+    wd:${ l } wdt:P5187 ?value .
     BIND(?value AS ?valueLabel)
   }
   UNION 
   {
     BIND(7 AS ?order)
     BIND("Based on" AS ?description)
-    ?lexeme wdt:P144 ?value .
+    wd:${ l } wdt:P144 ?value .
     BIND(?value AS ?valueLabel)
   }UNION 
   {
     BIND(8 AS ?order)
     BIND("Paradigm" AS ?description)
-    ?lexeme wdt:P5911 ?value_Url .
+    wd:${ l } wdt:P5911 ?value_Url .
     ?value_Url rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
   }
@@ -88,18 +88,46 @@ WHERE {
   {
     BIND(9 AS ?order)
     BIND("Root" AS ?description)
-    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ")(GROUP_CONCAT(?sourcee; separator=" // ") AS ?source) (GROUP_CONCAT(?sourceurl; separator=" // ") AS ?sourceUrl) AS ?valueLabel) WHERE {     
 	  BIND("Root" AS ?description)
-	  wd:${ l } wdt:P5920 ?value .
+	  wd:${ l } p:P5920 ?value_statement .
+      ?value_statement ps:P5920 ?value .
 	  ?value wikibase:lemma ?valuelabel .
-	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
-    }GROUP BY ?description }  
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=en&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+      OPTIONAL {	  
+	      wd:${ l } dct:language ?language .
+          BIND(SUBSTR(STR(?language), 32) AS ?lang)
+		  ?value_statement prov:wasDerivedFrom ?deriv .
+		  ?deriv pr:P248 ?source_ . 
+          OPTIONAL{?deriv p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .} OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
+		  OPTIONAL{?deriv pr:P478 ?refvol. }
+		  OPTIONAL{?deriv pr:P1810 ?valuenum .}
+		  OPTIONAL{?deriv pr:P7421 ?refline .}
+		  OPTIONAL{?deriv pr:P304 ?refpage .}
+     	  OPTIONAL { ?deriv pq:P3903 ?refcol. }
+       	  BIND(COALESCE(?inettvol, "") As ?inetvol)
+	      BIND(COALESCE(?refvol, "") As ?refvoll)
+          BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
+          BIND(COALESCE(CONCAT("v. ", ?refvol, " "), "") AS ?thevol)
+          BIND(COALESCE(CONCAT("p. ",?refpage,""), "") As ?thepage)
+          BIND(COALESCE(CONCAT(" c. ",?refcol,""), "") As ?thecol)
+          BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
+		  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
+       	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
+	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"") AS ?sourcelink)
+          #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
+		  ?source_ rdfs:label ?titlee .
+		  FILTER (LANG(?titlee) = 'en')
+		  BIND(CONCAT(?titlee," [",?refnumber,"]",COALESCE(?sourcelink,"")) AS ?title)    
+		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
+          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&q=", COALESCE(SUBSTR(STR(?source_), 32),""),"&qLabel=",COALESCE(STR(?valuelabel),""),"&highlight=",STR(?refnumber),"&displaylang=en")  AS ?sourceurl)
+    }}GROUP BY ?description }  
   }
   UNION 
   {
     BIND(10 AS ?order)
     BIND("Grammatical gender" AS ?description)
-    ?lexeme wdt:P5185 ?value_Url .
+    wd:${ l } wdt:P5185 ?value_Url .
     ?value_Url rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = 'en')
   }
@@ -107,7 +135,7 @@ WHERE {
   {
     BIND(11 AS ?order)
     BIND("Conjugation class" AS ?description)
-    ?lexeme wdt:P5186 ?value .
+    wd:${ l } wdt:P5186 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
     BIND(CONCAT("../property_value?p=P5186&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
@@ -117,7 +145,7 @@ WHERE {
   {
     BIND(12 AS ?order)
     BIND("Auxiliary verb" AS ?description)
-    ?lexeme wdt:P5401 ?value .
+    wd:${ l } wdt:P5401 ?value .
     ?value wikibase:lemma ?valueLabel .
     # BIND(CONCAT("../property_value?p=P5401&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
     BIND(SUBSTR(STR(?value), 32) AS ?value_Url)
@@ -252,7 +280,7 @@ WHERE {
   {
     BIND(31 AS ?order)
     BIND("Attested in" AS ?description)
-    ?lexeme ontolex:lexicalForm? / p:P5323 ?value_statement .
+    wd:${ l } ontolex:lexicalForm? / p:P5323 ?value_statement .
     ?value_statement ps:P5323 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
