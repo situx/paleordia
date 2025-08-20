@@ -113,7 +113,7 @@ WHERE {
           BIND(COALESCE(CONCAT(" c. ",?refcol,""), "") As ?thecol)
           BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 		  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
-       	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
+       	  BIND(IF(bound(?offset), COALESCE(xsd:integer(?refpage)+xsd:integer(?offset),?refpage), ?refpage) AS ?realpage)
 	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
@@ -189,7 +189,7 @@ WHERE {
           BIND(COALESCE(CONCAT(" c. ",?refcol,""), "") As ?thecol)
           BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 		  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
-       	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
+       	  BIND(IF(bound(?offset), COALESCE(xsd:integer(?refpage)+xsd:integer(?offset),?refpage), ?refpage) AS ?realpage)
 	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
