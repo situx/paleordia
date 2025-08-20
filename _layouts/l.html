@@ -114,13 +114,13 @@ WHERE {
           BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
 		  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
        	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
-	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"") AS ?sourcelink)
+	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourceurl)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]",COALESCE(?sourcelink,"")) AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
-          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&q=", COALESCE(SUBSTR(STR(?source_), 32),""),"&qLabel=",COALESCE(STR(?valuelabel),""),"&highlight=",STR(?refnumber),"&displaylang=en")  AS ?sourceurl)
+          #BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&q=", COALESCE(SUBSTR(STR(?source_), 32),""),"&qLabel=",COALESCE(STR(?valuelabel),""),"&highlight=",STR(?refnumber),"&displaylang=en")  AS ?sourceurl)
     }}GROUP BY ?description }  
   }
   UNION 

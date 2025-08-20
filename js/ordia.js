@@ -273,11 +273,13 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							temp+=' style="color:red"'
 						}
 						temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
-						temp+= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframenewtab').href='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';"
-						if("value_" in data[i]){
-							temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceUrl"]+"';"
+						if("sourceUrl" in data[i] && data[i]["sourceUrl"].startsWith("http")){
+							temp+= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframenewtab').href='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';"
+							if("value_" in data[i]){
+								temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceUrl"]+"';"
+							}
+							temp+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 	
 						}
-						temp+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 	
 					}else{
 						temp = '<a target="_blank\"'
 						if(typeof(h)!=="undefined" && data[i][key + 'Url'].includes(h)){
@@ -309,11 +311,13 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 								res+=' style="color:red"'
 							}
 							res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
-							res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';"
-							if("sourceUrl" in data[i]){
-								res+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceUrl"]+"';"
+							if("sourceUrl" in data[i] && data[i]["sourceUrl"].startsWith("http")){
+								res+="<button onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+urls[i]+"';"
+								if("sourceUrl" in data[i]){
+									res+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceUrl"]+"';"
+								}
+								res+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 							}
-							res+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}else{
 							res+='<a target="_blank"'
 							if(typeof(h)!=="undefined" && urls[i].includes(h)){
