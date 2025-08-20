@@ -34,7 +34,7 @@ lexemesSparql =`
 		  ?sense skos:definition ?gloss.
 		  FILTER(LANG(?gloss)="en")
 		}
-		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>(s&#8599;)</a>"),"")) AS ?senselabel)
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
     }}
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical ?radicalLabel
 	ORDER BY ?radicalLabel
