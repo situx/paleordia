@@ -261,7 +261,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				//console.log(data[i][key + 'Url'])
 				//console.log("Linkcount: "+linkcount)
 				if(linkcount==1){
-					if(key.toLowerCase().includes("source")){
+					if(key.toLowerCase().includes("source") && "description" in data[i] && data[i]["description"].includes("Described")){
 						temp= " <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';document.getElementById('iframenewtab').href='"+((linkPrefixes[key] || "")+ data[i][key + 'Url'])+"';"
 						if("value_" in data[i]){
 							temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["value_"]+"';"
