@@ -292,8 +292,8 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				}else if(linkcount>1){
 					//console.log(data[i][key + 'Url'])
 					//console.log(linkcount)
-					//console.log("SEPCHAR: "+sepchar)
 					sepchar=determineSepchar(data[i][key + 'Url'])
+					console.log("SEPCHAR: "+sepchar)
 					urls=data[i][key + 'Url'].split(sepchar)
 					labs=data[i][key].split(sepchar)
 					//console.log(urls)
