@@ -120,7 +120,7 @@ WHERE {
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
-          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&q=", COALESCE(SUBSTR(STR(?source_), 32),""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en")  AS ?sourceurl)
+          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en&q=",COALESCE(SUBSTR(STR(?source_), 32),""))  AS ?sourceurl)
     }}GROUP BY ?description }  
   }
   UNION 
