@@ -171,7 +171,7 @@ ORDER BY ?lexeme
 `
 
 usedinLexemeSparql=`
-SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) (GROUP_CONCAT(?sensee; separator=" // ") AS ?sense) (GROUP_CONCAT(?senselabel; separator=" // ") AS ?senseLabel) ?lang ?langLabel WHERE {		       
+SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensee; separator=" // ") AS ?sense) (GROUP_CONCAT(DISTINCT ?senselabel; separator=" // ") AS ?senseLabel) ?lang ?langLabel WHERE {		       
   {SELECT ?lexeme ?lang ?langLabel WHERE {
   wd:${ q } wdt:P282 ?script .
   ?lang wdt:P282 ?script .
