@@ -101,8 +101,7 @@ ORDER BY ?order
 scriptSparql = `
 # tool: ordia
 # title: List of characters for a script
-  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?reference; separator=" // ") AS ?references) (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?referencesLabel) 
-(GROUP_CONCAT(distinct ?image; separator=" ") AS ?char_image) (GROUP_CONCAT(distinct ?depiction; separator=" ") AS ?char_image_link) WHERE {
+  SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?pval; separator=" // ") AS ?readings) (GROUP_CONCAT(distinct ?reference; separator=" // ") AS ?references) (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?referencesLabel)  WHERE {
 	?charclass wdt:P361 wd:${ q } .
 	?character wdt:P31 ?charclass .
     ?character rdfs:label ?characterLabel .
@@ -111,10 +110,9 @@ scriptSparql = `
 		?character wdt:P4213 ?unicodepoint .
 	    BIND(CONCAT(" ",?unicodename," (U+",?unicodepoint,")") AS ?characterLabel2)
 	}
-	OPTIONAL {
-    ?depiction wdt:P180 ?character .
-    ?depiction wdt:P18 ?image .
-	}
+    OPTIONAL{
+      ?character wdt:P12436 ?pval .
+    }
 	OPTIONAL {
 	?character p:P1343 ?ref .
 	?ref ps:P1343 ?reference .
