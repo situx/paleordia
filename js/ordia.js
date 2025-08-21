@@ -278,9 +278,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 						temp+=' href="' +(linkPrefixes[key] || "")+ data[i][key + 'Url'] +'">' + data[i][key] + '</a>';
 						if("sourceLink" in data[i] && data[i]["sourceLink"].startsWith("http")){
 							temp+=" <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+data[i]["sourceLink"]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
-							if("sourceLink" in data[i]){
-								temp+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceLink"]+"';"
-							}
+							temp+="document.getElementById('iframeheader').innerHTML='"+data[i][key]+"';"
 							temp+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 						}
 					}else{
@@ -316,9 +314,7 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							res+=" href=\""+urls[i]+"\">"+labs[i]+"</a> "
 							if("sourceLink" in data[i] && data[i]["sourceLink"].startsWith("http")){
 								res+=" <button class=\"btn btn-outline-dark btn-sm\" onclick=\"document.getElementById('theiframe').src='"+urls[i]+"';document.getElementById('iframenewtab').href='"+data[i]["sourceLink"]+"';"
-								if("sourceLink" in data[i]){
-									res+="document.getElementById('iframeheader').innerHTML='"+data[i]["sourceLink"]+"';"
-								}
+								res+="document.getElementById('iframeheader').innerHTML='"+labs[i]+"';"
 								res+="document.getElementById('iframedialog').showModal()\">&#8599;</button>" 
 							}
 						}else{
