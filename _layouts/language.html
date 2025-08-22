@@ -64,7 +64,7 @@ ORDER BY ?order
  lexemesSparql = `
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) 
 (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses)
-(GROUP_CONCAT(DISTINCT ?senseLabell; SEPARATOR = " // ") AS ?sensesLabel)
+(GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel)
 ?lexical_category ?lexical_categoryLabel WITH {
   SELECT ?lexeme WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
