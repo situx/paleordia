@@ -83,7 +83,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
       ?sensee rdfs:label ?senseLab.
       FILTER(LANG(?senseLab)="en")
 	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
-      BIND(COALESCE(REPLACE(STR(?sense), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
+      BIND(COALESCE(REPLACE(STR(?senseitem), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
     }
 	OPTIONAL {
 		FILTER("${ displaylang }"!="en")
@@ -95,7 +95,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 		?senseitem skos:definition ?gloss.
 		FILTER(LANG(?gloss)="en")
 	}
-    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
+    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
   }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabe
