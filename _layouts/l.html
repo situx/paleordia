@@ -164,7 +164,7 @@ WHERE {
   {
     # Derived from
     BIND(14 AS ?order)
-    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) WHERE {     
+    {SELECT ?description (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabel; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" // ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" // ") AS ?sourceUrl) (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } p:P5191 ?value_statement .
       ?value_statement ps:P5191 ?value .
@@ -196,7 +196,7 @@ WHERE {
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
-          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&q=", COALESCE(SUBSTR(STR(?source_), 32),""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en")  AS ?sourceurl)
+          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en&q=",COALESCE(SUBSTR(STR(?source_), 32),""))  AS ?sourceurl)
     }
     }GROUP BY ?description }  
   }
