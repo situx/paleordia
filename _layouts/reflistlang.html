@@ -32,6 +32,7 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 		  ?sensee rdfs:label ?senseLab.
 		  FILTER(LANG(?senseLab)="en")
 		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+		  BIND(COALESCE(REPLACE(STR(?sense), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
 		}
 		OPTIONAL {
 			FILTER("${ displaylang }"!="en")
@@ -43,7 +44,7 @@ SELECT ?lexeme ?lexemeLabel ?lexical_category ?lexical_categoryLabel ?sense ?sen
 			?senseitem skos:definition ?gloss.
 			FILTER(LANG(?gloss)="en")
 		}
-		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel)
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
 		}     
 	}
 	GROUP BY ?lexeme ?refnumber ?lexical_category ?lexical_categoryLabel

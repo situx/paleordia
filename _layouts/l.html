@@ -293,7 +293,7 @@ WHERE {
   {
     BIND(30 AS ?order)
     BIND("First attested from" AS ?description)
-    ?lexeme p:P6684 ?value_statement .
+    wd:${ l } p:P6684 ?value_statement .
     ?value_statement ps:P6684 ?value .
     ?value rdfs:label ?valueLabel .
     FILTER (LANG(?valueLabel) = "en")
