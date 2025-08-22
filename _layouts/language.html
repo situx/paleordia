@@ -102,8 +102,6 @@ GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabe
 LIMIT 15000
 `
 
-		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
-		  BIND(COALESCE(REPLACE(STR(?sense), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
 
 lexicalCategoriesSparql = `
 # tool: ordia
