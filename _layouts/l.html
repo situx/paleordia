@@ -92,7 +92,9 @@ WHERE {
 	  BIND("Root" AS ?description)
 	  wd:${ l } p:P5920 ?value_statement .
       ?value_statement ps:P5920 ?value .
-	  ?value wikibase:lemma ?valuelabel .
+      OPTIONAL{?value_statement pq:P5980 / skos:definition ?objsense . FILTER(lang(?objsense)="en")}
+	  ?value wikibase:lemma ?valuelab .
+      BIND(CONCAT(?valuelab,COALESCE(CONCAT(" [",?objsense,"]"),"")) AS ?valuelabel)
 	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=en&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
       OPTIONAL {	  
 	      wd:${ l } dct:language ?language .
@@ -168,7 +170,9 @@ WHERE {
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } p:P5191 ?value_statement .
       ?value_statement ps:P5191 ?value .
-	  ?value wikibase:lemma ?valuelabel .
+      OPTIONAL{?value_statement pq:P5980 / skos:definition ?objsense . FILTER(lang(?objsense)="en")}
+	  ?value wikibase:lemma ?valuelab .
+      BIND(CONCAT(?valuelab,COALESCE(CONCAT(" [",?objsense,"]"),"")) AS ?valuelabel)
 	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
       OPTIONAL {	  
 	      wd:${ l } dct:language ?language .
