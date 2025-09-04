@@ -13,7 +13,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
     dct:language wd:${ l } ;
     p:P1343 ?lex . ?lex ps:P1343 wd:${ q } .
     ?lexeme wdt:P1343 ?dict .
-    OPTIONAL{wd:Q133800213 p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
+    OPTIONAL{wd:${ q } p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}}
       OPTIONAL { ?lex pq:P478 ?refvol. }
 	  OPTIONAL { ?lex pq:P1810 ?refnum. }
 	  OPTIONAL { ?lex pq:P7421 ?refline. }
@@ -56,6 +56,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
   }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel ?refnumber ?refcount
+LIMIT 15000
 `
 
 
