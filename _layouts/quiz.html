@@ -12,7 +12,7 @@ SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categ
 	  {
 	   SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
 	  ?lexeme rdf:type ontolex:LexicalEntry;
-		dct:language wd:${ l } ;
+		dct:language wd:${ q } ;
 		wikibase:lemma ?lexemeLab ;
 		wikibase:lexicalCategory ?lexical_category.
 	  ?lexical_category rdfs:label ?lexical_categoryLabel.
