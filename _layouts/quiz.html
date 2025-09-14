@@ -7,12 +7,12 @@ questiontypes=["senseToWord","wordToSense","formToWord","wordToTimePeriod"]
 qresultcache={}
 function initQuiz(){
 initquery=`
-	SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
+SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
 	  SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
 	  {
 	   SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
 	  ?lexeme rdf:type ontolex:LexicalEntry;
-		dct:language wd:${ l } ; 
+		dct:language wd:${ l } ;
 		wikibase:lemma ?lexemeLab ;
 		wikibase:lexicalCategory ?lexical_category.
 	  ?lexical_category rdfs:label ?lexical_categoryLabel.
@@ -27,10 +27,10 @@ initquery=`
 		  BIND(COALESCE(REPLACE(STR(?senseitem), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
 		}
 		OPTIONAL {
-			FILTER("${ displaylang }"!="en")
+			FILTER("en"!="en")
 			?senseitem skos:definition ?glosss.
-			FILTER(LANG(?glosss)="${ displaylang }")
-			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+			FILTER(LANG(?glosss)="en")
+			BIND(CONCAT(?glosss,"@en") AS ?gloss)
 		}
 		OPTIONAL {
 			?senseitem skos:definition ?gloss.
@@ -38,11 +38,12 @@ initquery=`
 		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
 	  }
-	}AS %i WHERE {
+	}GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel}AS %i WHERE {
 		INCLUDE %i
-	 BIND(SHA512(CONCAT(STR(RAND()), STR(?s))) AS ?random) .
-	} 
-	}ORDER BY ?random
+	 BIND(SHA512(CONCAT(STR(RAND()), STR(?lexemeLabel))) AS ?random) .
+	 
+	} ORDER BY ?random
+LIMIT 50
 	`
     var post_url = "https://query.wikidata.org/sparql";
     var post_data = "query=" + encodeURIComponent(initquery) + '&format=json'
