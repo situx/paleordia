@@ -18,13 +18,13 @@ SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categ
 	  ?lexical_category rdfs:label ?lexical_categoryLabel.
 	  FILTER(LANG(?lexical_categoryLabel) = "en")}}
 		?lexeme ontolex:sense ?senseitem.
-		OPTIONAL {
+		#OPTIONAL {
 		  ?senseitem wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
 		  FILTER(LANG(?senseLab)="en")
 		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
 		  BIND(COALESCE(REPLACE(STR(?senseitem), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
-		}
+		#}
 		OPTIONAL {
 			FILTER("en"!="en")
 			?senseitem skos:definition ?glosss.
