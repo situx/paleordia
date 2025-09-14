@@ -17,7 +17,6 @@ SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categ
 		wikibase:lexicalCategory ?lexical_category.
 	  ?lexical_category rdfs:label ?lexical_categoryLabel.
 	  FILTER(LANG(?lexical_categoryLabel) = "en")}}
-	  OPTIONAL {
 		?lexeme ontolex:sense ?senseitem.
 		OPTIONAL {
 		  ?senseitem wdt:P5137|wdt:P9970 ?sensee.
@@ -37,7 +36,6 @@ SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categ
 			FILTER(LANG(?gloss)="en")
 		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
-	  }
 	}GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel}AS %i WHERE {
 		INCLUDE %i
 	 BIND(SHA512(CONCAT(STR(RAND()), STR(?lexemeLabel))) AS ?random) .
