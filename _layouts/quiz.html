@@ -5,6 +5,7 @@ layout: base
 <script type="text/javascript">
 questiontypes=["senseToWord","wordToSense","formToWord","wordToTimePeriod"]
 qresultcache={}
+senses={}
 function initQuiz(){
 initquery=`
 SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
@@ -25,16 +26,8 @@ SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categ
 		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
 		  BIND(COALESCE(REPLACE(STR(?senseitem), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
 		#}
-		OPTIONAL {
-			FILTER("en"!="en")
-			?senseitem skos:definition ?glosss.
-			FILTER(LANG(?glosss)="en")
-			BIND(CONCAT(?glosss,"@en") AS ?gloss)
-		}
-		OPTIONAL {
 			?senseitem skos:definition ?gloss.
 			FILTER(LANG(?gloss)="en")
-		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
 	}GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel}AS %i WHERE {
 		INCLUDE %i
@@ -48,6 +41,7 @@ LIMIT 50
     $.post(post_url, post_data).done(function(response) {
 		res=sparqlDataToSimpleData(response)
 		console.log(res)
+		
 	});
 }
 
