@@ -8,17 +8,16 @@ qresultcache={}
 senses={}
 function initQuiz(){
 initquery=`
-SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
+SELECT ?lexeme ?lexemeLabel ?senses ?sensesLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
 	  SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses) (GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel) ?lexical_category ?lexical_categoryLabel WHERE {
 	  {
-	   SELECT ?lexeme ?lexemeLab ?lexical_category ?lexical_categoryLabel WHERE {
-	  ?lexeme rdf:type ontolex:LexicalEntry;
-		dct:language wd:${ q } ;
+	  ?lexeme dct:language wd:${ q } ;
+        rdf:type ontolex:LexicalEntry;
+		ontolex:sense ?senseitem ;
 		wikibase:lemma ?lexemeLab ;
 		wikibase:lexicalCategory ?lexical_category.
 	  ?lexical_category rdfs:label ?lexical_categoryLabel.
-	  FILTER(LANG(?lexical_categoryLabel) = "en")}}
-		?lexeme ontolex:sense ?senseitem.
+	  FILTER(LANG(?lexical_categoryLabel) = "en")}
 		#OPTIONAL {
 		  ?senseitem wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
@@ -28,7 +27,7 @@ SELECT ?lexeme ?lexemeLabel ?senses ?senseLabel ?lexical_category ?lexical_categ
 		#}
 			?senseitem skos:definition ?gloss.
 			FILTER(LANG(?gloss)="en")
-		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senselabel)
 	}GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel}AS %i WHERE {
 		INCLUDE %i
 	 BIND(SHA512(CONCAT(STR(RAND()), STR(?lexemeLabel))) AS ?random) .
