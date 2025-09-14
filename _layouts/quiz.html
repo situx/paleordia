@@ -63,15 +63,7 @@ function checkResult(){
 
 
  $(document).ready(function() {
-     sparqlToDataTable(lexemesSparql, "#lexical-categories", {
-	 'pBar':"progressbar",
-	 'pBarLabel':"progress-label",
-	 linkPrefixes: {
-	     lexeme: '../l'
-	 },linkParams: {
-		'lexeme': '&displaylang='+displaylang
-	 }
-     });
+     initQuiz()
  });
 
 </script>
