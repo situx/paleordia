@@ -47,9 +47,70 @@ LIMIT 50
 	});
 }
 
+function checkForRelatedLexemesBySense(sense){
+	thequery=`
+	SELECT ?lexeme1 ?lexeme1Label ?lexeme2 ?lexeme2Label WHERE {
+	{  
+	SELECT ?lexeme1 ?lexeme1Gloss ?lexeme1langLabel (GROUP_CONCAT(DISTINCT ?lexeme1lem; separator=" // ") AS ?lexeme1lemma) ?lexeme2 ?lexeme2Gloss ?lexeme2langLabel (GROUP_CONCAT(DISTINCT ?lexeme2lem; separator=" // ") AS ?lexeme2lemma) WHERE {
+	  BIND(wd:L1086335-S1 AS ?lexemesense1)
+	  ?lexeme1 ontolex:sense ?lexemesense1 .
+	  ?lexeme1 wikibase:lemma ?lexeme1lem .
+	  ?lexeme1 dct:language ?lexeme1lang .
+	  ?lexeme1lang wdt:P282 ?lexeme1ws .
+	  ?lexeme1lang rdfs:label ?lexeme1langLabell .
+	  FILTER(lang(?lexeme1langLabell)="en")
+	  OPTIONAL { FILTER("en"!="en") ?lexemesense1 skos:definition ?lexeme1Gloss . FILTER(lang(?lexeme1Gloss)="en")}
+	  OPTIONAL { ?lexemesense1 skos:definition ?lexeme1Gloss . FILTER (lang(?lexeme1Gloss)="en")}
+	  { ?lexemesense1 (wdt:P5973 | wdt:P5972| wdt:P5973 | ^ontolex:sense / wdt:P5191 / ontolex:sense)  ?lexemesense2 . ?lexemesense2 skos:definition ?lexeme2Gloss .
+		}
+		UNION 
+		{
+		  ?lexemesense1 (wdt:P5137 / ^wdt:P5137) | wdt:P5972 ?lexemesense2 . ?lexemesense2 skos:definition ?lexeme2Gloss .
+		  FILTER (?lexemesense1 != ?lexemesense2)   
+		}
+	   BIND(EXISTS{?lexemesense1 (wdt:P5972 | wdt:P5973 | ^ontolex:sense / wdt:P5191 / ontolex:sense) ?lexemesense2} AS ?hastranslation)
+	   ?lexemesense2 ^ontolex:sense ?lexeme2 .
+	   ?lexeme2 wikibase:lemma ?lexeme2lem .
+	   ?lexeme2 dct:language ?lexeme2lang .
+	   ?lexeme2lang (wdt:P282|wdt:P282/wdt:P144) ?lexeme1ws .
+	   OPTIONAL { FILTER("en"!="en") FILTER(lang(?lexeme2Gloss)="en")}
+	   OPTIONAL { FILTER (lang(?lexeme2Gloss)="en")}  
+	   OPTIONAL { ?lexeme1 wdt:P7481 ?lexeme1Dia . ?lexeme1Dia rdfs:label ?lexeme1DiaLabel . FILTER(lang(?lexeme1DiaLabel)="en") }
+	   OPTIONAL { ?lexeme2 wdt:P7481 ?lexeme2Dia . ?lexeme2Dia rdfs:label ?lexeme2DiaLabel . FILTER(lang(?lexeme2DiaLabel)="en") }
+	   ?lexeme2lang rdfs:label ?lexeme2langLabell .
+	  FILTER(lang(?lexeme2langLabell)="en")
+	  FILTER(?lexeme1lang=?lexeme2lang)
+	  #OPTIONAL { ?lexemesense1 (wdt:P5137|wdt:P9970)? / wdt:P18 ?lexeme1Image }
+	  BIND(CONCAT(" [",?lexeme1langLabell,"]",COALESCE(CONCAT(" <",?lexeme1DiaLabel,">"),"")) AS ?lexeme1langLabel)
+	  BIND(CONCAT(" [",?lexeme2langLabell,"]",COALESCE(CONCAT(" <",?lexeme2DiaLabel,">"),"")) AS ?lexeme2langLabel)
+	  }GROUP BY ?lexeme1 ?lexeme2 ?lexeme2Gloss ?lexeme1Gloss  ?lexeme1langLabel ?lexeme2langLabel
+	  }
+	   BIND(CONCAT(?lexeme1Gloss," (",?lexeme1lemma,") ",?lexeme1langLabel) AS ?lexeme1Label)
+	   BIND(CONCAT(?lexeme2Gloss," (",?lexeme2lemma,") ",?lexeme2langLabel) AS ?lexeme2Label)
+	}
+	`
+    var post_url = "https://query.wikidata.org/sparql";
+    var post_data = "query=" + encodeURIComponent(thequery) + '&format=json'
+    $.post(post_url, post_data).done(function(response) {
+		res=sparqlDataToSimpleData(response)
+		console.log(res)
+		qresultcache=res
+		$('#status').html("Related Lexeme Check!")
+		selectQuestion();
+	});
+}
+
 
 function selectQuestion(){
 	console.log(res["data"][0])
+	senses=res["data"][0]
+	if(senses.includes(" // ")){
+		for(sense in senses.split(" // ")){
+			checkForRelatedLexemesBySense(sense)
+		}
+	}else{
+		checkForRelatedLexemesBySense(senses)
+	}
 }
 
 function checkResult(){
