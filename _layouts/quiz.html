@@ -3,9 +3,10 @@ layout: base
 ---
 
 <script type="text/javascript">
-questiontypes=["senseToWord","wordToSense","formToWord","wordToTimePeriod"]
+questiontypes=["senseToWord":{"Which lexeme has the same or similar sense?","wordToSense":"Which sense is associated with this lexeme?","formToWord":"This form belongs to one or many Lexemes. Which one's?","wordToTimePeriod":"In which time period did this Lexeme NOT occur?"]
 qresultcache={}
 senses={}
+timeperiod={}
 function initQuiz(){
 initquery=`
 SELECT ?lexeme ?lexemeLabel ?senses ?sensesLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
@@ -40,13 +41,15 @@ LIMIT 50
     $.post(post_url, post_data).done(function(response) {
 		res=sparqlDataToSimpleData(response)
 		console.log(res)
-		
+		qresultcache=res
+		$('#status').html("Quiz has been loaded!")
+		selectQuestion();
 	});
 }
 
 
 function selectQuestion(){
-	
+	console.log(res[0])
 }
 
 function checkResult(){
@@ -80,6 +83,8 @@ function checkResult(){
      href="https://scholia.toolforge.org/topic/${ q }${ p }">Scholia ↗</a>
 
 <hr/>
+<p id="status">
+</p>
 
 <p id="question">
 </p>
