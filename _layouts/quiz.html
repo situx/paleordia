@@ -141,10 +141,10 @@ function checkResult(result){
 	}else{
 		$('#status').html("<span style=\"color:red\">Your answer is wrong! The correct answer is "+correctanswer+"</span>")
 	}
-	$('#answer1').html($('#answer1').html()+" "+curanswers[0]["sensesLabel"])
-	$('#answer2').html($('#answer2').html()+" "+curanswers[1]["sensesLabel"])
-	$('#answer3').html($('#answer3').html()+" "+curanswers[2]["sensesLabel"])
-	$('#answer4').html($('#answer4').html()+" "+curanswers[3]["sensesLabel"])
+	$('#answer1').html($('#answer1').html()+" "+curanswers[0]["senses"])
+	$('#answer2').html($('#answer2').html()+" "+curanswers[1]["senses"])
+	$('#answer3').html($('#answer3').html()+" "+curanswers[2]["senses"])
+	$('#answer4').html($('#answer4').html()+" "+curanswers[3]["senses"])
 }
 
 
@@ -184,9 +184,9 @@ function checkResult(result){
 </p>
 
 
-<div class="lexical-categories">
+<!--<div class="lexical-categories">
 	<div id="progressbar"><span class="progress-label" id="progress-label">Loading...</span></div>
     <table class="table table-hover" id="lexical-categories"></table>
 
 </div>
-
+-->
