@@ -112,7 +112,7 @@ function selectQuestion(res){
 	console.log(res["data"][0])
 	senses=res["data"][0]["senses"]
 	curlexeme=res["data"][0]
-	curquestion=questiontype["senseToWord"]
+	curquestion=questiontypes["senseToWord"]
 	curanswers=[{"lexeme":res["data"][1]["lexeme"],"lexemeLabel":res["data"][1]["lexemeLabel"],"senses":res["data"][1]["sensesLabel"]},{"lexeme":res["data"][2]["lexeme"],"lexemeLabel":res["data"][2]["lexemeLabel"],"senses":res["data"][2]["sensesLabel"]},{"lexeme":res["data"][3]["lexeme"],"lexemeLabel":res["data"][3]["lexemeLabel"],"senses":res["data"][3]["sensesLabel"]}]
 	if(senses.includes(" // ")){
 		for(sense in senses.split(" // ")){
