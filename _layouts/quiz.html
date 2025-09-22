@@ -96,14 +96,17 @@ function checkForRelatedLexemesBySense(sense){
 		console.log(res)
 		qresultcache=res
 		$('#status').html("Related Lexeme Check!")
-		selectQuestion();
+		selectQuestion(res);
 	});
 }
 
 
-function selectQuestion(){
+function selectQuestion(res){
 	console.log(res["data"][0])
 	senses=res["data"][0]["senses"]
+	if(){
+	
+	}
 	if(senses.includes(" // ")){
 		for(sense in senses.split(" // ")){
 			checkForRelatedLexemesBySense(sense)
