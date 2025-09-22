@@ -100,6 +100,7 @@ function checkForRelatedLexemesBySense(sense){
 		console.log(res)
 		qresultcache=res
 		$('#status').html("Related Lexeme Check!")
+		console.log(curanswers)
 		if(res["data"]>0){
 			curanswers.pop()
 			curanswers.push({"lexeme":res["data"][0]["lexeme2"],"lexemeLabel":res["data"][0]["lexeme2Label"],"senses":res["data"][0]["lexeme2Label"]})
@@ -108,6 +109,7 @@ function checkForRelatedLexemesBySense(sense){
 			correctanswer="None"
 		}
 		//curanswers.push({"lexeme":"None","lexemeLabel":"None","senses":"None"})
+		console.log(curanswers)
 		let randanswers = curanswers.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
 		$('#question').html("Current Lexeme: <b>"+curlexeme["lexemeLabel"]+" ("+curlexeme["sensesLabel"]+")</b><br/>Question: "+curquestion)
 		$('#answers').html("<table><tr><td><button id=\"answer1\" onclick=\"checkResult('"+randanswers[0]["lexeme"]+"')\" value=\""+randanswers[0]["lexeme"]+"\">"+randanswers[0]["lexemeLabel"]+"</button></td><td><button id=\"answer2\" onclick=\"checkResult('"+randanswers[1]["lexeme"]+"')\" value=\""+randanswers[1]["lexeme"]+"\">"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button id=\"answer3\" onclick=\"checkResult('"+randanswers[2]["lexeme"]+"')\" value=\""+randanswers[2]["lexeme"]+"\">"+randanswers[2]["lexemeLabel"]+"</button></td><td><button id=\"answer4\" onclick=\"checkResult('"+randanswers[3]["lexeme"]+"')\" value=\""+randanswers[3]["lexeme"]+"\">"+randanswers[3]["lexemeLabel"]+"</button></td></tr><tr><td colspan=2><button id=\"noneanswer\" onclick=\"checkResult('None')\" value=\"None\">None of the answers</button></td></tr></table>")
