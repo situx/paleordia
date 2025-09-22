@@ -102,7 +102,7 @@ function checkForRelatedLexemesBySense(sense){
 		//curanswers.push({"lexeme":res["data"][0]["lexeme2"],"lexemeLabel":res["data"][0]["lexeme2Label"],"senses":res["data"][0]["lexeme2Label"]})
 		//curanswers.push({"lexeme":"None","lexemeLabel":"None","senses":"None"})
 		let randanswers = curanswers.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
-		$('#question').html("Current Lexeme: "" <b>"+curlexeme["lexemeLabel"]+" ("+curlexeme["senses"]+")</b><br/>Question: "+curquestion)
+		$('#question').html("Current Lexeme: <b>"+curlexeme["lexemeLabel"]+" ("+curlexeme["senses"]+")</b><br/>Question: "+curquestion)
 		$('#answers').html("<table><tr><td><button>"+randanswers[0]["lexemeLabel"]+"</button></td><td><button>"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button>"+randanswers[2]["lexemeLabel"]+"</button></td><td><button>None</button></td></tr></table>")
 	});
 }
