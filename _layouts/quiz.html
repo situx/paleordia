@@ -110,7 +110,7 @@ function checkForRelatedLexemesBySense(sense){
 		//curanswers.push({"lexeme":"None","lexemeLabel":"None","senses":"None"})
 		let randanswers = curanswers.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
 		$('#question').html("Current Lexeme: <b>"+curlexeme["lexemeLabel"]+" ("+curlexeme["sensesLabel"]+")</b><br/>Question: "+curquestion)
-		$('#answers').html("<table><tr><td><button onclick=\"checkResult('"+randanswers[0]["lexeme"]+"')\" value=\""+randanswers[0]["lexeme"]+"\">"+randanswers[0]["lexemeLabel"]+"</button></td><td><button onclick=\"checkResult('"+randanswers[1]["lexeme"]+"')\" value=\""+randanswers[1]["lexeme"]+"\">"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button onclick=\"checkResult('"+randanswers[2]["lexeme"]+"')\" value=\""+randanswers[2]["lexeme"]+"\">"+randanswers[2]["lexemeLabel"]+"</button></td><td><button onclick=\"checkResult('"+randanswers[3]["lexeme"]+"')\" value=\""+randanswers[3]["lexeme"]+"\">"+randanswers[3]["lexemeLabel"]+"</button></td></tr><tr><td colspan=2><button onclick=\"checkResult('None')\" value=\"None\">None</button></td></tr></table>")
+		$('#answers').html("<table><tr><td><button id=\"answer1\" onclick=\"checkResult('"+randanswers[0]["lexeme"]+"')\" value=\""+randanswers[0]["lexeme"]+"\">"+randanswers[0]["lexemeLabel"]+"</button></td><td><button id=\"answer2\" onclick=\"checkResult('"+randanswers[1]["lexeme"]+"')\" value=\""+randanswers[1]["lexeme"]+"\">"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button id=\"answer3\" onclick=\"checkResult('"+randanswers[2]["lexeme"]+"')\" value=\""+randanswers[2]["lexeme"]+"\">"+randanswers[2]["lexemeLabel"]+"</button></td><td><button id=\"answer4\" onclick=\"checkResult('"+randanswers[3]["lexeme"]+"')\" value=\""+randanswers[3]["lexeme"]+"\">"+randanswers[3]["lexemeLabel"]+"</button></td></tr><tr><td colspan=2><button id=\"noneanswer\" onclick=\"checkResult('None')\" value=\"None\">None of the answers</button></td></tr></table>")
 	});
 }
 
@@ -141,6 +141,10 @@ function checkResult(result){
 	}else{
 		$('#status').html("<span style=\"color:red\">Your answer is wrong! The correct answer is "+correctanswer+"</span>")
 	}
+	$('#answer1').html($('#answer1').html()+" "+curanswers[0]["sensesLabel"])
+	$('#answer2').html($('#answer2').html()+" "+curanswers[1]["sensesLabel"])
+	$('#answer3').html($('#answer3').html()+" "+curanswers[2]["sensesLabel"])
+	$('#answer4').html($('#answer4').html()+" "+curanswers[3]["sensesLabel"])
 }
 
 
