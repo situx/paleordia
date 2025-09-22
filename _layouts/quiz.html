@@ -10,7 +10,7 @@ timeperiod={}
 curquestion=""
 curlexeme=null
 curanswers=[]
-correctanswer=0
+correctanswer=null
 function initQuiz(){
 initquery=`
 SELECT ?lexeme ?lexemeLabel ?senses ?sensesLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
@@ -100,11 +100,17 @@ function checkForRelatedLexemesBySense(sense){
 		console.log(res)
 		qresultcache=res
 		$('#status').html("Related Lexeme Check!")
-		//curanswers.push({"lexeme":res["data"][0]["lexeme2"],"lexemeLabel":res["data"][0]["lexeme2Label"],"senses":res["data"][0]["lexeme2Label"]})
+		if(res["data"]>0){
+			curanswers.pop()
+			curanswers.push({"lexeme":res["data"][0]["lexeme2"],"lexemeLabel":res["data"][0]["lexeme2Label"],"senses":res["data"][0]["lexeme2Label"]})
+			correctanswer=res["data"][0]["lexeme2"]
+		}else{
+			correctanswer="None"
+		}
 		//curanswers.push({"lexeme":"None","lexemeLabel":"None","senses":"None"})
 		let randanswers = curanswers.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
 		$('#question').html("Current Lexeme: <b>"+curlexeme["lexemeLabel"]+" ("+curlexeme["sensesLabel"]+")</b><br/>Question: "+curquestion)
-		$('#answers').html("<table><tr><td><button>"+randanswers[0]["lexemeLabel"]+"</button></td><td><button>"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button>"+randanswers[2]["lexemeLabel"]+"</button></td><td><button>None</button></td></tr></table>")
+		$('#answers').html("<table><tr><td><button onclick=\"checkResult('"+randanswers[0]["lexeme"]+"')\" value=\""+randanswers[0]["lexeme"]+"\">"+randanswers[0]["lexemeLabel"]+"</button></td><td><button onclick=\"checkResult('"+randanswers[1]["lexeme"]+"')\" value=\""+randanswers[1]["lexeme"]+"\">"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button onclick=\"checkResult('"+randanswers[2]["lexeme"]+"')\" value=\""+randanswers[2]["lexeme"]+"\">"+randanswers[2]["lexemeLabel"]+"</button></td><td><button onclick=\"checkResult('"+randanswers[3]["lexeme"]+"')\" value=\""+randanswers[3]["lexeme"]+"\">"+randanswers[3]["lexemeLabel"]+"</button></td></tr><tr><td colspan=2><button onclick=\"checkResult('None')\" value=\"None\">None</button></td></tr></table>")
 	});
 }
 
@@ -114,7 +120,11 @@ function selectQuestion(res){
 	senses=res["data"][0]["senses"]
 	curlexeme=res["data"][0]
 	curquestion=questiontypes["senseToWord"]
-	curanswers=[{"lexeme":res["data"][1]["lexeme"],"lexemeLabel":res["data"][1]["lexemeLabel"],"senses":res["data"][1]["sensesLabel"]},{"lexeme":res["data"][2]["lexeme"],"lexemeLabel":res["data"][2]["lexemeLabel"],"senses":res["data"][2]["sensesLabel"]},{"lexeme":res["data"][3]["lexeme"],"lexemeLabel":res["data"][3]["lexemeLabel"],"senses":res["data"][3]["sensesLabel"]}]
+	curanswers=[
+	{"lexeme":res["data"][1]["lexeme"],"lexemeLabel":res["data"][1]["lexemeLabel"],"senses":res["data"][1]["sensesLabel"]},
+	{"lexeme":res["data"][2]["lexeme"],"lexemeLabel":res["data"][2]["lexemeLabel"],"senses":res["data"][2]["sensesLabel"]},
+	{"lexeme":res["data"][3]["lexeme"],"lexemeLabel":res["data"][3]["lexemeLabel"],"senses":res["data"][3]["sensesLabel"]},
+	{"lexeme":res["data"][4]["lexeme"],"lexemeLabel":res["data"][4]["lexemeLabel"],"senses":res["data"][4]["sensesLabel"]}]
 	if(senses.includes(" // ")){
 		for(sense in senses.split(" // ")){
 			checkForRelatedLexemesBySense(sense)
@@ -124,8 +134,13 @@ function selectQuestion(res){
 	}
 }
 
-function checkResult(){
-
+function checkResult(result){
+	console.log(result+" - "+correctanswer)
+	if(result==correctanswer){
+		$('#status').html("<span style=\"color:green\">Your answer is correct!</span>")
+	}else{
+		$('#status').html("<span style=\"color:red\">Your answer is wrong! The correct answer is "+correctanswer+"</span>")
+	}
 }
 
 
