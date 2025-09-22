@@ -56,7 +56,7 @@ function checkForRelatedLexemesBySense(sense){
 	SELECT ?lexeme1 ?lexeme1Label ?lexeme2 ?lexeme2Label WHERE {
 	{  
 	SELECT ?lexeme1 ?lexeme1Gloss ?lexeme1langLabel (GROUP_CONCAT(DISTINCT ?lexeme1lem; separator=" // ") AS ?lexeme1lemma) ?lexeme2 ?lexeme2Gloss ?lexeme2langLabel (GROUP_CONCAT(DISTINCT ?lexeme2lem; separator=" // ") AS ?lexeme2lemma) WHERE {
-	  BIND(wd:L1086335-S1 AS ?lexemesense1)
+	  BIND(<`+sense+`> AS ?lexemesense1)
 	  ?lexeme1 ontolex:sense ?lexemesense1 .
 	  ?lexeme1 wikibase:lemma ?lexeme1lem .
 	  ?lexeme1 dct:language ?lexeme1lang .
@@ -146,6 +146,8 @@ function checkResult(result){
 	$('#answer3').html($('#answer3').html()+" "+curanswers[2]["senses"])
 	$('#answer4').html($('#answer4').html()+" "+curanswers[3]["senses"])
 }
+
+
 
 
  $(document).ready(function() {
