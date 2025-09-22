@@ -125,13 +125,14 @@ function selectQuestion(res){
 	{"lexeme":res["data"][2]["lexeme"],"lexemeLabel":res["data"][2]["lexemeLabel"],"senses":res["data"][2]["sensesLabel"]},
 	{"lexeme":res["data"][3]["lexeme"],"lexemeLabel":res["data"][3]["lexemeLabel"],"senses":res["data"][3]["sensesLabel"]},
 	{"lexeme":res["data"][4]["lexeme"],"lexemeLabel":res["data"][4]["lexemeLabel"],"senses":res["data"][4]["sensesLabel"]}]
-	if(senses.includes(" // ")){
+	checkForRelatedLexemesBySense(res["data"][1]["lexeme"]+"-S1")
+	/*if(senses.includes(" // ")){
 		for(sense in senses.split(" // ")){
 			checkForRelatedLexemesBySense(sense)
 		}
 	}else{
-		checkForRelatedLexemesBySense(senses)
-	}
+		checkForRelatedLexemesBySense(res["data"][1]["lexeme"]+"-S1")
+	}*/
 }
 
 function checkResult(result){
@@ -176,7 +177,7 @@ function checkResult(result){
      href="https://scholia.toolforge.org/topic/${ q }${ p }">Scholia ↗</a>
 
 <hr/>
-<p id="status">
+<p id="status">Loading Quiz...
 </p>
 
 <p id="question">
