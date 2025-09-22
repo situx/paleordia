@@ -7,6 +7,9 @@ questiontypes={"senseToWord":"Which lexeme has the same or similar sense?","word
 qresultcache={}
 senses={}
 timeperiod={}
+curquestion=""
+curlexeme=null
+curanswers=[]
 function initQuiz(){
 initquery=`
 SELECT ?lexeme ?lexemeLabel ?senses ?sensesLabel ?lexical_category ?lexical_categoryLabel ?random WITH {
@@ -96,7 +99,11 @@ function checkForRelatedLexemesBySense(sense){
 		console.log(res)
 		qresultcache=res
 		$('#status').html("Related Lexeme Check!")
-		selectQuestion(res);
+		curanswers.push({"lexeme":res["data"][0]["lexeme2"],"lexemeLabel":res["data"][0]["lexeme2Label"],"senses":res["data"][0]["lexeme2Label"]})
+		//curanswers.push({"lexeme":"None","lexemeLabel":"None","senses":"None"})
+		let randanswers = curanswers.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value)
+		$('#question').html(curquestion)
+		$('#answers').html("<table><tr><td><button>"+randanswers[0]["lexemeLabel"]+"</button></td><td><button>"+randanswers[1]["lexemeLabel"]+"</button></td></tr><tr><td><button>"+randanswers[2]["lexemeLabel"]+"</button></td><td>"+randanswers[3]["lexemeLabel"]+"</td></tr><tr><td colspan=2><button>None</button></td></tr></table>")
 	});
 }
 
@@ -104,6 +111,9 @@ function checkForRelatedLexemesBySense(sense){
 function selectQuestion(res){
 	console.log(res["data"][0])
 	senses=res["data"][0]["senses"]
+	curlexeme=res["data"][0]
+	curquestion=questiontype["senseToWord"]
+	curanswers=[{"lexeme":res["data"][1]["lexeme"],"lexemeLabel":res["data"][1]["lexemeLabel"],"senses":res["data"][1]["sensesLabel"]},{"lexeme":res["data"][2]["lexeme"],"lexemeLabel":res["data"][2]["lexemeLabel"],"senses":res["data"][2]["sensesLabel"]},{"lexeme":res["data"][3]["lexeme"],"lexemeLabel":res["data"][3]["lexemeLabel"],"senses":res["data"][3]["sensesLabel"]}]
 	if(senses.includes(" // ")){
 		for(sense in senses.split(" // ")){
 			checkForRelatedLexemesBySense(sense)
@@ -124,7 +134,7 @@ function checkResult(){
 
 </script>
 
-<h1>Lexemes for ${ qLabel } (${ q })</h1>
+<h1>Quiz for ${ qLabel } (${ q })</h1>
 
   <a title="Back"
      role="button"
