@@ -103,7 +103,7 @@ function checkForRelatedLexemesBySense(sense){
 
 function selectQuestion(){
 	console.log(res["data"][0])
-	senses=res["data"][0]
+	senses=res["data"][0]["senses"]
 	if(senses.includes(" // ")){
 		for(sense in senses.split(" // ")){
 			checkForRelatedLexemesBySense(sense)
