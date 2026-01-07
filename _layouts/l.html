@@ -209,7 +209,7 @@ WHERE {
   }UNION{
       BIND(19 AS ?order)
   {
-  SELECT ?description ?lang ?langLabel
+  SELECT ?description ?langLabel
 (GROUP_CONCAT(?value; separator=" // ") AS ?value_Url)
 (GROUP_CONCAT(?valuelab; separator=" // ") AS ?valueLabell)
 (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source)
