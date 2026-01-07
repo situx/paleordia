@@ -204,8 +204,8 @@ WHERE {
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
           BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en&q=",COALESCE(SUBSTR(STR(?source_), 32),""))  AS ?sourceurl)
     }
-    BIND(CONCAT(?valueLabell," (",?langLabel,")") AS ?valueLabel)
-    }GROUP BY ?description ?langLabel }  
+    }GROUP BY ?description ?langLabel }
+    BIND(CONCAT(?valueLabell," (",?langLabel,")") AS ?valueLabel)  
   }UNION{
       BIND(19 AS ?order)
   {
