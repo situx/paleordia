@@ -221,7 +221,7 @@ WHERE {
       OPTIONAL{?value pq:P5980 / skos:definition ?objsense . FILTER(lang(?objsense)="en")}
 	  ?value wikibase:lemma ?valuela .
       #BIND(CONCAT(?valuelab,COALESCE(CONCAT(" [",?objsense,"]"),"")) AS ?valuelabel)
-	  #BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=en&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=en&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     ?value dct:language ?lang .
     ?lang rdfs:label ?langLabel .
 	FILTER (LANG(?langLabel) = 'en')
