@@ -218,9 +218,9 @@ WHERE {
 
 	BIND("Derivative of" AS ?description)
 	?value p:P5191 ?value_statement . ?value_statement ps:P5191  wd:${ l } .
-      OPTIONAL{?value pq:P5980 / skos:definition ?objsense . FILTER(lang(?objsense)="en")}
+    OPTIONAL{?value pq:P5980 / skos:definition ?objsense . FILTER(lang(?objsense)="en")}
 	  ?value wikibase:lemma ?valuela .
-      #BIND(CONCAT(?valuelab,COALESCE(CONCAT(" [",?objsense,"]"),"")) AS ?valuelabel)
+    BIND(CONCAT(?valuelab,COALESCE(CONCAT(" [",?objsense,"]"),"")) AS ?valuelabel)
 	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=en&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
     ?value dct:language ?lang .
     ?lang rdfs:label ?langLabel .
