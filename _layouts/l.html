@@ -166,7 +166,7 @@ WHERE {
   {
     # Derived from
     BIND(14 AS ?order)
-    {SELECT ?description ?langLabel (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelabell; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
+    {SELECT ?description ?langLabel (GROUP_CONCAT(?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(?valuelab; separator=" // ") AS ?valueLabell) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
 	  BIND("Derived from" AS ?description)
 	  wd:${ l } p:P5191 ?value_statement .
       ?value_statement ps:P5191 ?value .
@@ -174,11 +174,10 @@ WHERE {
 	  ?value wikibase:lemma ?valuelab .
       BIND(CONCAT(?valuelab,COALESCE(CONCAT(" [",?objsense,"]"),"")) AS ?valuelabel)
 	  BIND(CONCAT("../l?qLabel=",?valuelabel,"&displaylang=${ displaylang }&l=",SUBSTR(STR(?value), 32))  AS ?valueurl)
+     ?value dct:language ?lang .
+     ?lang rdfs:label ?langLabel .
+	   FILTER (LANG(?langLabel) = 'en')
       OPTIONAL {	  
-	      wd:${ l } dct:language ?language .
-        ?language rdfs:label ?langLabel .
-        FILTER(lang(?langLabel)="en")
-        BIND(SUBSTR(STR(?language), 32) AS ?lang)
 		  ?value_statement prov:wasDerivedFrom ?deriv .
 		  ?deriv pr:P248 ?source_ . 
           OPTIONAL{?source_ p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .} OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
