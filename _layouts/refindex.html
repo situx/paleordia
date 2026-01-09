@@ -16,7 +16,6 @@ SELECT DISTINCT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; separator=" // ") AS 
   FILTER(lang(?dictLabell)="en")
 }
 GROUP BY ?lexeme
-ORDER BY ?lexemeLabel
 `
 
  $(document).ready(function() {  
