@@ -216,7 +216,7 @@ WHERE {
 (GROUP_CONCAT(?sourcelink; separator=" // ") AS ?sourceLink) 
 WHERE {     
 
-	BIND("Derivative of" AS ?description)
+	BIND("Lexeme derived from this lexeme" AS ?description)
 	?value p:P5191 ?value_statement . ?value_statement ps:P5191  wd:${ l } .
     OPTIONAL{?value pq:P5980 / skos:definition ?objsense . FILTER(lang(?objsense)="en")}
 	  ?value wikibase:lemma ?valuela .
