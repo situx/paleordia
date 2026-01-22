@@ -15,7 +15,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
     p:P1343 ?lex . ?lex ps:P1343 wd:${ q } .
     ?lexeme wdt:P1343 ?dict .
     OPTIONAL{wd:${ q } p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .}OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
-      OPTIONAL { ?lex pq:P478 ?refvol. }
+      OPTIONAL { ?lex pq:P478 ?refvoll. }
       BIND(COALESCE(?inettvol, "") As ?inetvol)
       BIND(COALESCE(?refvoll, "") As ?refvol)
       FILTER(!(BOUND(?inettvol) && !BOUND(?refvoll)) || ?inetvol=?refvol)
