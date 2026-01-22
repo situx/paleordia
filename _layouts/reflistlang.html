@@ -18,7 +18,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
       OPTIONAL { ?lex pq:P478 ?refvoll. }
       BIND(COALESCE(?inettvol, "") As ?inetvol)
       BIND(COALESCE(?refvoll, "") As ?refvol)
-      FILTER(!(BOUND(?inettvol) && !BOUND(?refvoll)) || ?inetvol=?refvol)
+      FILTER(!(BOUND(?inettvol) && BOUND(?refvoll)) || ?inetvol=?refvol)
 	  OPTIONAL { ?lex pq:P1810 ?refnum. }
 	  OPTIONAL { ?lex pq:P7421 ?refline. }
 	  OPTIONAL { ?lex pq:P304 ?refpage. }
