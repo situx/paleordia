@@ -220,17 +220,19 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 				labs=data[i][key+'Label'].split(sepchar)	
 				res=""
 				for(let i = 0; i < urls.length; i++){
-					res+='<a target="_blank"'
-					if(typeof(h)!=="undefined" && urls[i].includes(h)){
-						res+=' style="color:red"'
+					if(urls[i]!="#"){
+						res+='<a target="_blank"'
+						if(typeof(h)!=="undefined" && urls[i].includes(h)){
+							res+=' style="color:red"'
+						}
+						res+=" href=\""
+						if(urls[i].includes("<a ")){
+							res+=urls[i].substring(0,urls[i].indexOf("<a "))
+						}else{
+							res+=urls[i]
+						}
+						res+="\">"
 					}
-					res+=" href=\""
-					if(urls[i].includes("<a ")){
-						res+=urls[i].substring(0,urls[i].indexOf("<a "))
-					}else{
-						res+=urls[i]
-					}
-					res+="\">"
 					if(typeof(labs[i])!=='undefined'){
 						if(labs[i].includes("<a ") && labs[i].includes("</a>")){
 							res+=labs[i].substring(0,labs[i].indexOf("<a ")).replaceAll("<","&lt;").replaceAll(">","&gt;")
@@ -240,7 +242,10 @@ function convertDataTableData(data, columns, linkPrefixes={},linkParams={}) {
 							res+=labs[i].replaceAll("<","&lt;").replaceAll(">","&gt;")
 						}			
 					}
-					res+="</a> "+sepchar+" "
+					if(urls[i]!="#"){
+						res+="</a> "
+					}
+					res+=sepchar+" "
 				}
 				res=res.substring(0,res.length-sepchar.length-2)
 				convertedRow[key]=res
