@@ -40,10 +40,10 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.   
     OPTIONAL {
-      ?senseitem wdt:P5137|wdt:P9970 ?sensee.
-      ?sensee rdfs:label ?senseLab.
+      ?senseitem wdt:P5137|wdt:P9970 ?sense.
+      ?sense rdfs:label ?senseLab.
       FILTER(LANG(?senseLab)="en")
-	  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+	  BIND(COALESCE(REPLACE(STR(?sense), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
       BIND(COALESCE(REPLACE(STR(?senseitem), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
     }
 	OPTIONAL {
@@ -56,6 +56,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 		?senseitem skos:definition ?gloss.
 		FILTER(LANG(?gloss)="en")
 	}
+	BIND(COALESCE(?sense, "#") AS ?sensee)
     BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
   }
 }
