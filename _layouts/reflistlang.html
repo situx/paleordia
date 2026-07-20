@@ -23,9 +23,10 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
 	  OPTIONAL { ?lex pq:P7421 ?refline. }
 	  OPTIONAL { ?lex pq:P304 ?refpage. }
 	  OPTIONAL { ?lex pq:P3903 ?refcol. }
+	  OPTIONAL { ?lex pq:P958 ?refsect. }
 	  BIND(COALESCE(CONCAT(" ",?refnum), "") AS ?thenum)
 	  BIND(COALESCE(CONCAT(" [v. ", ?refvoll,"]"), "") AS ?thevol)
-	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, COALESCE(?refcol,""), "]"), "") AS ?thepage)
+	  BIND(COALESCE(CONCAT(" [p. ", ?refpage, COALESCE(?refsect,""), COALESCE(?refcol,""), "]"), "") AS ?thepage)
 	  BIND(COALESCE(CONCAT(" [l. ", ?refline, "]"), "") AS ?theline)
 	  BIND(IF(bound(?offset), xsd:integer(?refpage)+xsd:integer(?offset), ?refpage) AS ?realpage)
 	  BIND(COALESCE(CONCAT(" <a target='_blank' href='https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),""),"'>↗</a>"),"") AS ?sourceUrl)
