@@ -49,14 +49,17 @@ WHERE {
   }
   UNION 
   {
+    # Instance of
     BIND(5 AS ?order)
-    BIND("Instance of" AS ?description)
-    wd:${ l } p:P31 ?value_statement .
-    ?value_statement ps:P31 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = 'en')
-    BIND(CONCAT("../property_value?p=P31&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel)  AS ?value_Url)
-    OPTIONAL {	  
+	  BIND("Instance of" AS ?description)
+    {SELECT ?description ?langLabel (GROUP_CONCAT(DISTINCT ?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(DISTINCT ?valuelab; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(DISTINCT ?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
+	  BIND("Instance of" AS ?description)
+	  wd:L1483494 p:P31 ?value_statement .
+      ?value_statement ps:P31 ?valueurl .
+	  ?valueurl rdfs:label ?valuelab .
+	   FILTER (LANG(?valuelab) = 'en')
+      BIND(CONCAT(?valuela," (",?langLabel,")") AS ?valuelab)
+      OPTIONAL {	  
 		  ?value_statement prov:wasDerivedFrom ?deriv .
 		  ?deriv pr:P248 ?source_ . 
           OPTIONAL{?source_ p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .} OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
@@ -77,11 +80,13 @@ WHERE {
 	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
+          FILTER(?inetvol=?refvoll)
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
           BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en&q=",COALESCE(SUBSTR(STR(?source_), 32),""))  AS ?sourceurl)
     }
+    }GROUP BY ?description ?langLabel }
   }
   UNION 
   {
@@ -139,6 +144,7 @@ WHERE {
 	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
+		  FILTER(?inetvol=?refvoll)
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
@@ -219,6 +225,7 @@ WHERE {
 	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
+		  FILTER(?inetvol=?refvoll)
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
@@ -267,6 +274,7 @@ WHERE {
 	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
           #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
 		  ?source_ rdfs:label ?titlee .
+		  FILTER(?inetvol=?refvoll)
 		  FILTER (LANG(?titlee) = 'en')
 		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
 		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
