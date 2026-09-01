@@ -8,7 +8,6 @@ While the tool was modified with languages written in the cuneiform script as a 
 To test PaleOrdia, simply go to the GitHub page of this repository.
 
  
-
 License
 -------
 The license for Ordia is Apache License 2.0 except for included third-party packages which 
