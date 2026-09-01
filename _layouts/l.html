@@ -34,7 +34,7 @@ WHERE {
     {SELECT ?description ?langLabel (GROUP_CONCAT(DISTINCT ?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(DISTINCT ?valuelab; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(DISTINCT ?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
 	  BIND("Dialect" AS ?description)
 	  wd:${ l } p:P7481 ?value_statement .
-      ?value_statement ps:P31 ?valueurl .
+      ?value_statement ps:P7481 ?valueurl .
 	  ?valueurl rdfs:label ?valuelab .
 	   FILTER (LANG(?valuelab) = 'en')
       BIND(CONCAT(?valuela," (",?langLabel,")") AS ?valuelab)
@@ -190,7 +190,7 @@ WHERE {
     {SELECT ?description ?langLabel (GROUP_CONCAT(DISTINCT ?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(DISTINCT ?valuelab; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(DISTINCT ?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
 	  BIND("Grammatical gender" AS ?description)
 	  wd:${ l } p:P5185 ?value_statement .
-      ?value_statement ps:P31 ?valueurl .
+      ?value_statement ps:P5185 ?valueurl .
 	  ?valueurl rdfs:label ?valuelab .
 	   FILTER (LANG(?valuelab) = 'en')
       BIND(CONCAT(?valuela," (",?langLabel,")") AS ?valuelab)
@@ -248,9 +248,9 @@ WHERE {
     BIND(13 AS ?order)
     BIND("Characterized by" AS ?description)
     {SELECT ?description ?langLabel (GROUP_CONCAT(DISTINCT ?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(DISTINCT ?valuelab; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(DISTINCT ?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
-	  BIND("Has Characteristic" AS ?description)
+	  BIND("Characterized by" AS ?description)
 	  wd:${ l } p:P1552 ?value_statement .
-      ?value_statement ps:P31 ?valueurl .
+      ?value_statement ps:P1552 ?valueurl .
 	  ?valueurl rdfs:label ?valuelab .
 	   FILTER (LANG(?valuelab) = 'en')
       BIND(CONCAT(?valuela," (",?langLabel,")") AS ?valuelab)
@@ -394,10 +394,41 @@ WHERE {
     # Transitivity
     BIND(16 AS ?order)   
 	BIND("Transitivity" AS ?description)
-    wd:${ l } wdt:P9295 ?value .
-    ?value rdfs:label ?valueLabel .
-    FILTER (LANG(?valueLabel) = "en")
-    BIND(CONCAT("../property_value?p=P9295&q=", SUBSTR(STR(?value), 32),"&qLabel=",?valueLabel,"&displaylang=${ displaylang }")  AS ?value_Url)
+    {SELECT ?description ?langLabel (GROUP_CONCAT(DISTINCT ?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(DISTINCT ?valuelab; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(DISTINCT ?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
+	  BIND("Characterized by" AS ?description)
+	  wd:${ l } p:P9295 ?value_statement .
+      ?value_statement ps:P9295 ?valueurl .
+	  ?valueurl rdfs:label ?valuelab .
+	   FILTER (LANG(?valuelab) = 'en')
+      BIND(CONCAT(?valuela," (",?langLabel,")") AS ?valuelab)
+      OPTIONAL {	  
+		  ?value_statement prov:wasDerivedFrom ?deriv .
+		  ?deriv pr:P248 ?source_ . 
+          OPTIONAL{?source_ p:P724 ?inetarchive_stat . ?inetarchive_stat ps:P724 ?inetarchive . OPTIONAL{?inetarchive_stat pq:P8330 ?offset .} OPTIONAL{?inetarchive_stat pq:P478 ?inettvol . }}
+		  OPTIONAL{?deriv pr:P478 ?refvol. }
+		  OPTIONAL{?deriv pr:P1810 ?valuenum .}
+		  OPTIONAL{?deriv pr:P7421 ?refline .}
+		  OPTIONAL{?deriv pr:P304 ?refpage .}
+     	  OPTIONAL { ?deriv pq:P3903 ?refcol. }
+       	  BIND(COALESCE(?inettvol, "") As ?inetvol)
+	      BIND(COALESCE(?refvol, "") As ?refvoll)
+          BIND(COALESCE(CONCAT(?valuenum, " "), "") As ?thenum)
+          BIND(COALESCE(CONCAT("v. ", ?refvol, " "), "") AS ?thevol)
+          BIND(COALESCE(CONCAT("p. ",?refpage,""), "") As ?thepage)
+          BIND(COALESCE(CONCAT(" c. ",?refcol,""), "") As ?thecol)
+          BIND(COALESCE(CONCAT(" l. ",?refline), "") As ?theline)
+		  BIND(CONCAT(?thenum, ?thevol, ?thepage, ?thecol, ?theline) AS ?refnumber)
+       	  BIND(IF(bound(?offset), COALESCE(xsd:integer(?refpage)+xsd:integer(?offset),?refpage), ?refpage) AS ?realpage)
+	      BIND(COALESCE(CONCAT("https://archive.org/details/",?inetarchive,COALESCE(CONCAT("/page/n",STR(?realpage),"/mode/1up?view=theater"),"")),"#") AS ?sourcelink)
+          #BIND(IF(bound(?inetarchive), "↗", "") AS ?sourcelink)
+		  ?source_ rdfs:label ?titlee .
+          FILTER(?inetvol=?refvoll)
+		  FILTER (LANG(?titlee) = 'en')
+		  BIND(CONCAT(?titlee," [",?refnumber,"]") AS ?title)    
+		  BIND(COALESCE(?title, "Ref.") AS ?sourcee)
+          BIND(CONCAT("../reflistlang?l=",COALESCE(?lang,""),"&qLabel=",COALESCE(STR(?title),""),"&highlight=",STR(?refnumber),"&displaylang=en&q=",COALESCE(SUBSTR(STR(?source_), 32),""))  AS ?sourceurl)
+    }
+    }GROUP BY ?description ?langLabel }
   }
   UNION 
   {
@@ -406,7 +437,7 @@ WHERE {
     {SELECT ?description ?langLabel (GROUP_CONCAT(DISTINCT ?valueurl; separator=" // ") AS ?value_Url) (GROUP_CONCAT(DISTINCT ?valuelab; separator=" // ") AS ?valueLabel) (GROUP_CONCAT(DISTINCT ?sourcee; separator=" <br/> ") AS ?source) (GROUP_CONCAT(DISTINCT ?sourceurl; separator=" <br/> ") AS ?sourceUrl) (GROUP_CONCAT(DISTINCT ?sourcelink; separator=" // ") AS ?sourceLink) WHERE {     
 	  BIND("Time Period" AS ?description)
 	  wd:${ l } p:P2348 ?value_statement .
-      ?value_statement ps:P31 ?valueurl .
+      ?value_statement ps:P2348 ?valueurl .
 	  ?valueurl rdfs:label ?valuelab .
 	   FILTER (LANG(?valuelab) = 'en')
       BIND(CONCAT(?valuela," (",?langLabel,")") AS ?valuelab)
