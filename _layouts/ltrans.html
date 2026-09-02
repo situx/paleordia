@@ -22,7 +22,7 @@ lexemesSparql =`
 		  ?sense wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
 		  FILTER(LANG(?senseLab)="en")
-		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
+		  BIND(COALESCE(STRAFTER(STR(?sensee), "http://www.wikidata.org/entity/"), "") AS ?sensse)
 		}
 		OPTIONAL {
 			FILTER("${ displaylang }"!="en")
@@ -40,7 +40,7 @@ lexemesSparql =`
 		  ?translation wdt:P5137|wdt:P9970 ?tsensee.
 		  ?tsensee rdfs:label ?tsenseLab.
 		  FILTER(LANG(?tsenseLab)="en")
-		  BIND(COALESCE(REPLACE(STR(?tsensee), "http://www.wikidata.org/entity/", ""), "") AS ?tsensse)
+		  BIND(COALESCE(STRAFTER(STR(?tsensee), "http://www.wikidata.org/entity/"), "") AS ?tsensse)
 		}
 		OPTIONAL {
 			FILTER("${ displaylang }"!="en")

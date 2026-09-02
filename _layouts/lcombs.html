@@ -27,7 +27,7 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabe
 			?senseval rdfs:label ?senselab .
 			FILTER(LANG(?senselab)= "en")
 		} 
-	  BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", REPLACE(STR(?senseval), "http://www.wikidata.org/entity/", ""), ")", "]"),"")) AS ?senselabel) 
+	  BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", STRAFTER(STR(?senseval), "http://www.wikidata.org/entity/"), ")", "]"),"")) AS ?senselabel) 
 	  }     
 	 }
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel

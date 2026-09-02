@@ -21,8 +21,8 @@ lexemesSparql =`
 		  ?sense wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
 		  FILTER(LANG(?senseLab)="en")
-		  BIND(COALESCE(REPLACE(STR(?sensee), "http://www.wikidata.org/entity/", ""), "") AS ?sensse)
-		  BIND(COALESCE(REPLACE(STR(?sense), "http://www.wikidata.org/entity/", ""), "") AS ?sensel)
+		  BIND(COALESCE(STRAFTER(STR(?sensee), "http://www.wikidata.org/entity/"), "") AS ?sensse)
+		  BIND(COALESCE(STRAFTER(STR(?sense), "http://www.wikidata.org/entity/"), "") AS ?sensel)
 		}
 		OPTIONAL {
 		  FILTER("en"!="en")
@@ -34,7 +34,7 @@ lexemesSparql =`
 		  ?sense skos:definition ?gloss.
 		  FILTER(LANG(?gloss)="en")
 		}
-		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",REPLACE(STR(?lexeme), "http://www.wikidata.org/entity/", ""),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
+		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",STRAFTER(STR(?lexeme), "http://www.wikidata.org/entity/"),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
     }}
 	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical ?radicalLabel
 	ORDER BY ?radicalLabel
