@@ -135,7 +135,7 @@ ORDER BY DESC(?count)
 lexemesdialectSparql=`
 # tool: ordia
 # title: Dialects per lexeme
-  SELECT DISTINCT ?dialect (GROUP_CONCAT(DISTINCT ?dialectLab; separator=" // ") AS ?dialectLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
+  SELECT ?dialect (GROUP_CONCAT(DISTINCT ?dialectLab; separator=" // ") AS ?dialectLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
 		dct:language wd:${ q } .
 	?lexeme wdt:P7481 ?dialect .
@@ -149,7 +149,7 @@ lexemesdialectSparql=`
 lexemestimeperiodsSparql=`
 # tool: ordia
 # title: Time periods per lexeme
-  SELECT DISTINCT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
+  SELECT ?timeperiod (GROUP_CONCAT(DISTINCT ?timeperiodLab; separator=" // ") AS ?timeperiodLabel) (COUNT(?lexeme) as ?number_of_lexemes) WHERE {
 	?lexeme a ontolex:LexicalEntry ;
 		dct:language wd:${ q } .
 	?lexeme wdt:P2348 ?timeperiod .
@@ -178,7 +178,7 @@ LIMIT 200
   `
 
 refsSPARQL=`
-SELECT DISTINCT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes) WHERE {
+SELECT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes) WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
     dct:language wd:${ q } .
   {
