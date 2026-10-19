@@ -24,6 +24,10 @@ WHERE {
 
 
 listOfUsesSparql = `
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX pr: <http://www.wikidata.org/prop/reference/>
 SELECT 
   ?lexeme ?lexemeLabel
   ?form ?formLabel

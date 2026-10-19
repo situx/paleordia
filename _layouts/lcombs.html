@@ -12,6 +12,10 @@ PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX pr: <http://www.wikidata.org/prop/reference/>
 SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?rep; separator=" / ") as ?representations) 
 	(GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)

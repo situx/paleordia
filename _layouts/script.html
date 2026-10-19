@@ -104,6 +104,10 @@ ORDER BY ?order
 scriptSparql = `
 # tool: ordia
 # title: List of characters for a script
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX pr: <http://www.wikidata.org/prop/reference/>
   SELECT DISTINCT ?character ?characterLabel ?characterLabel2 (GROUP_CONCAT(distinct ?pval; separator=" // ") AS ?readings) (GROUP_CONCAT(distinct ?reference; separator=" // ") AS ?references) (GROUP_CONCAT(distinct ?referenceLab; separator=" // ") AS ?referencesLabel)  WHERE {
 	?charclass wdt:P361 wd:${ q } .
 	?character wdt:P31 ?charclass .

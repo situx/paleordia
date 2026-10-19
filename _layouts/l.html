@@ -9,6 +9,10 @@ PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX pr: <http://www.wikidata.org/prop/reference/>
 SELECT DISTINCT
   ?description
   (?valueLabel As ?value_) ?value_Url
@@ -428,6 +432,10 @@ ORDER BY ?order
 
 idSparql= `
 # List of ids for a specific character
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT
   ?idprop ?idpropLabel (CONCAT(?formaturl,?id) AS ?idUrl) ?id
 WHERE {
@@ -446,6 +454,11 @@ WHERE {
 
  formsSparql = `
  # List of forms for a specific lexeme
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
  SELECT
   ?form (GROUP_CONCAT(DISTINCT ?formlabel; separator=" // ") AS ?formLabel)
    (GROUP_CONCAT(DISTINCT ?formlabellang; separator=" // ") AS ?language)
@@ -471,6 +484,11 @@ WHERE {
 
  sensesSparql = `
 # List of senses for a specific lexeme
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
  SELECT
   ?sense ?senseLabel ?glossUrl
   (GROUP_CONCAT(DISTINCT ?glloss; separator=" // ") AS ?gloss)
@@ -498,6 +516,11 @@ WHERE {
 `
 
 translationSparql=`
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" // ") as ?lexemeLabel) 
     ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?senseval; separator=" // ") as ?sense)
@@ -534,6 +557,14 @@ SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" // ") as ?lexemeLab
 `
 
 compoundsSparql = `
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
   ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsLabel
