@@ -12,6 +12,9 @@ PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) 
 (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses)
 (GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel)

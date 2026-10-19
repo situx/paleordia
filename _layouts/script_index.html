@@ -5,6 +5,9 @@ layout: base
 <script type="text/javascript">
     languagesSparql = `
 # List of scripts with count of the number of characters
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 SELECT
   ?number_of_characters_and_variants
   ?script ?scriptLabel ?scriptDescription

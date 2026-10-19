@@ -6,6 +6,9 @@ layout: base
  lexemesSparql = `
 # tool: ordia
 # title: List of characters for a script
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
   SELECT DISTINCT ?character ?characterLabel ?image ?image_link WHERE {
 	?character wdt:P282 wd:${ s } .
     ?character rdfs:label ?characterLabel .
@@ -22,6 +25,9 @@ layout: base
  timeperiodsSparql = `
 # tool: ordia
 # title: List of characters for a script
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
   SELECT DISTINCT ?tp ?tpLabel WHERE {
 	?character wdt:P282 wd:${ s } .
 	?character wdt:P31 wd:Q118867680 .
