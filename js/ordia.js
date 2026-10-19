@@ -481,8 +481,13 @@ function sparqlToDataTable(sparql, element, options={}) {
 		sparql=applyPropertyMapping(sparql,propertyMapping)
 	}
 	
-    //var post_url = "https://query.wikidata.org/sparql";
-	var post_url = "https://qlever.dev/api/wikidata";
+	url = new URL(window.location.href);
+	var post_url = "https://query.wikidata.org/sparql";
+	if (url.searchParams.has('qlever')) {
+		var post_url = "https://qlever.dev/api/wikidata";
+	}
+    //
+	
     var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
     if(desc!=""){
 	$(element).append(
