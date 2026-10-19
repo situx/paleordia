@@ -4,6 +4,10 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?rep; separator=" / ") as ?representations) 
 	(GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)

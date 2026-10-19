@@ -5,6 +5,10 @@ layout: base
 <script type="text/javascript">
   dataSparql = `
 # tool: ordia
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 SELECT ?description ?value ?valueUrl
 WHERE {
   BIND(wd:${ q } AS ?language)
@@ -62,6 +66,10 @@ ORDER BY ?order
 `;
   
  lexemesSparql = `
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) 
 (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses)
 (GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel)
