@@ -5,6 +5,10 @@ layout: base
 <script type="text/javascript">
  lexemeSparql = `
 # Data for a specific character
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT
   ?description
   (?valueLabel AS ?value_) ?value_Url

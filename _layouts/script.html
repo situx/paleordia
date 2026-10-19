@@ -4,7 +4,10 @@ layout: base
 
 <script type="text/javascript">
 dataSparql = `
-
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT ?description ?value ?valueUrl
 WHERE {
   BIND(wd:${ q } AS ?language)

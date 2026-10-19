@@ -4,6 +4,10 @@ layout: base
 
 <script type="text/javascript">
 lexemesSparql =`
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT ?character (GROUP_CONCAT(DISTINCT ?characterlabel; separator=" // ") AS ?characterLabel) 
 (GROUP_CONCAT(?dictt; separator=" / ") as ?dictionary) 
 (GROUP_CONCAT(?dictLabell; separator=" / ") as ?dictionaryLabel) 

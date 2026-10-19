@@ -5,6 +5,10 @@ layout: base
 <script type="text/javascript">
  formDataSparql = `
  # List of variants for a specific script
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
  SELECT
    ?form (GROUP_CONCAT(?timeperiodLab; separator=" // ") AS ?timeperiod)
    ?formLabel ?gottstein_code ?image 
