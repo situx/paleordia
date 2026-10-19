@@ -17,6 +17,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX p: <http://www.wikidata.org/prop/>
 PREFIX ps: <http://www.wikidata.org/prop/statement/>
 PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX pr: <http://www.wikidata.org/prop/reference/>
 SELECT DISTINCT 
   ?description ?descriptionUrl
   (?valueLabel As ?value_) ?value_Url
@@ -288,6 +289,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX p: <http://www.wikidata.org/prop/>
 PREFIX ps: <http://www.wikidata.org/prop/statement/>
 PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX pr: <http://www.wikidata.org/prop/reference/>
 SELECT DISTINCT
   ?sense ?senseLabel
   ?gloss
