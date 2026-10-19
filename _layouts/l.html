@@ -17,6 +17,7 @@ PREFIX ps: <http://www.wikidata.org/prop/statement/>
 PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
 PREFIX pr: <http://www.wikidata.org/prop/reference/>
 PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT DISTINCT
   ?description
   (?valueLabel As ?value_) ?value_Url
@@ -579,6 +580,7 @@ PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX p: <http://www.wikidata.org/prop/>
 PREFIX ps: <http://www.wikidata.org/prop/statement/>
 PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT
   ?lexeme (GROUP_CONCAT(?lexemelabel; separator=" // ") AS ?lexemeLabel) 
   ?lexical_category ?lexical_categoryLabel ?compounds ?compoundsLabel
