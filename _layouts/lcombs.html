@@ -18,9 +18,9 @@ PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
 PREFIX pr: <http://www.wikidata.org/prop/reference/>
 SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel
 	(GROUP_CONCAT(DISTINCT ?rep; separator=" / ") as ?representations) 
-	(GROUP_CONCAT(DISTINCT ?combsenseval; separator=" + ") as ?combinations)
+	(GROUP_CONCAT(DISTINCT STR(?combsenseval); separator=" + ") as ?combinations)
 	(GROUP_CONCAT(DISTINCT ?combsensedef; separator=" + ") as ?combinationsLabel)
-	(GROUP_CONCAT(DISTINCT ?senseval; separator=" / ") as ?sense)
+	(GROUP_CONCAT(DISTINCT STR(?senseval); separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
