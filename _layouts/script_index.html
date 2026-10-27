@@ -27,6 +27,29 @@ WHERE {
 ORDER BY DESC(?number_of_characters_and_variants)
   `
 
+  qleverlanguagesSparql=`
+# List of scripts  with count of the number of characters
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT
+  (COUNT(DISTINCT ?chars) AS ?number_of_characters_and_variants)
+  ?script ?scriptLabel ?scriptDescription
+WHERE {
+    ?script wdt:P31 wd:Q8192 .
+	?chars wdt:P282 ?script .
+    ?chars wdt:P31 wd:Q29654788 .
+	#FILTER NOT EXISTS {?chars wdt:P31 wd:Q118867680 . }
+  ?script rdfs:label ?scriptLabel .
+?script schema:description ?scriptDescription .
+ FILTER(lang(?scriptLabel)="en")
+   FILTER(lang(?scriptDescription)="en")
+  }
+  GROUP BY ?script ?scriptLabel ?scriptDescription 
+ORDER BY DESC(?number_of_characters_and_variants)
+  `
+
   numberOfStatementsSparql = `
 SELECT
   ?total_number_of_statements

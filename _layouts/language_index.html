@@ -20,6 +20,26 @@ WHERE {
 }
 ORDER BY DESC(?number_of_lexemes)
   `
+qleverlanguagesSparql=`
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+SELECT ?item ?itemLabel ?itemDescription ?count
+WHERE {
+  {
+  SELECT ?item (count(distinct ?l) as ?count) {
+    { SELECT ?item ?l ?lem { 
+      ?l dct:language ?item .
+    } ORDER BY ?lem }
+  } GROUP BY ?item
+} 
+?item rdfs:label ?itemLabel .
+?item schema:description ?itemDescription .
+ FILTER(lang(?itemLabel)="en")
+   FILTER(lang(?itemDescription)="en")
+}
+ORDER BY DESC(?count)
+`
 
   numberOfStatementsSparql = `
 SELECT
