@@ -14,7 +14,7 @@ PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 	SELECT DISTINCT (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) 
     ?lexeme ?lexcat ?lexcatLabel
-	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
+	(GROUP_CONCAT(DISTINCT STR(?sensee); separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
     ?translation ?translationLabel ?translang ?translangLabel ?translationlexeme 
     (GROUP_CONCAT(DISTINCT ?lexeme2a; separator=" / ") as ?translationlexemeLabel) 
@@ -24,22 +24,22 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 		 wikibase:lemma ?lexemea ;
 		 wikibase:lexicalCategory ?lexcat .
 	    ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
-	  ?lexeme ontolex:sense ?sense . ?sense wdt:P5972 ?translation . 
+	  ?lexeme ontolex:sense ?osense . ?osense wdt:P5972 ?translation . 
 
 		OPTIONAL {
-		  ?sense wdt:P5137|wdt:P9970 ?sensee.
+		  ?osense wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
 		  FILTER(LANG(?senseLab)="en")
 		  BIND(COALESCE(STRAFTER(STR(?sensee), "http://www.wikidata.org/entity/"), "") AS ?sensse)
 		}
 		OPTIONAL {
 			FILTER("${ displaylang }"!="en")
-			?sense skos:definition ?glosss.
+			?osense skos:definition ?glosss.
 			FILTER(LANG(?glosss)="${ displaylang }")
 			BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
 		}
 		OPTIONAL {
-			?sense skos:definition ?gloss.
+			?osense skos:definition ?gloss.
 			FILTER(LANG(?gloss)="en")
 		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "]"),"")) AS ?senselabel)

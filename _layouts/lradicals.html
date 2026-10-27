@@ -13,7 +13,7 @@ PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 	SELECT DISTINCT ?radical (GROUP_CONCAT(DISTINCT ?radicalLabell; separator=" / ") as ?radicalLabel) (GROUP_CONCAT(DISTINCT ?lexemea; separator=" / ") as ?lexemeLabel) ?lexeme ?lexcat ?lexcatLabel 
-	(GROUP_CONCAT(DISTINCT ?sensee; separator=" / ") as ?sense)
+	(GROUP_CONCAT(DISTINCT STR(?sensee); separator=" / ") as ?sense)
 	(GROUP_CONCAT(DISTINCT ?senselabel; separator=" / ") as ?senseLabel)    
 	WHERE {		
 	  ?lexeme rdf:type ontolex:LexicalEntry ;           
@@ -26,20 +26,20 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 	  OPTIONAL { 
 		?lexeme ontolex:sense ?sense . 
 		OPTIONAL {
-		  ?sense wdt:P5137|wdt:P9970 ?sensee.
+		  ?osense wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
 		  FILTER(LANG(?senseLab)="en")
 		  BIND(COALESCE(STRAFTER(STR(?sensee), "http://www.wikidata.org/entity/"), "") AS ?sensse)
-		  BIND(COALESCE(STRAFTER(STR(?sense), "http://www.wikidata.org/entity/"), "") AS ?sensel)
+		  BIND(COALESCE(STRAFTER(STR(?osense), "http://www.wikidata.org/entity/"), "") AS ?sensel)
 		}
 		OPTIONAL {
 		  FILTER("en"!="en")
-		  ?sense skos:definition ?glosss.
+		  ?osense skos:definition ?glosss.
 		  FILTER(LANG(?glosss)="en")
 		  BIND(CONCAT(?glosss,"@en") AS ?gloss)
 		}
 		OPTIONAL {
-		  ?sense skos:definition ?gloss.
+		  ?osense skos:definition ?gloss.
 		  FILTER(LANG(?gloss)="en")
 		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",STRAFTER(STR(?lexeme), "http://www.wikidata.org/entity/"),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
