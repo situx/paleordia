@@ -24,7 +24,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 	  ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
       ?radical wikibase:lemma ?radicalLabell . 
 	  OPTIONAL { 
-		?lexeme ontolex:sense ?sense . 
+		?lexeme ontolex:sense ?osense . 
 		OPTIONAL {
 		  ?osense wdt:P5137|wdt:P9970 ?sensee.
 		  ?sensee rdfs:label ?senseLab.
