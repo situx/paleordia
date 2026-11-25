@@ -44,7 +44,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 		}
 		BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",STRAFTER(STR(?lexeme), "http://www.wikidata.org/entity/"),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?sensel),"'>&#8599;</a>"),"")) AS ?senselabel)
     }}
-	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical ?radicalLabel
+	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?radical
 	ORDER BY ?radicalLabel
 `
 
