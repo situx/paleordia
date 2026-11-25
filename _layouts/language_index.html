@@ -5,20 +5,27 @@ layout: base
 <script type="text/javascript">
     languagesSparql = `
 # List of languages with count of the number of lexemes
-SELECT
-  ?number_of_lexemes
-  ?language ?languageLabel ?languageDescription
-WITH {
-  SELECT ?language (COUNT(*) AS ?number_of_lexemes) WHERE {
-    [] dct:language ?language .
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX schema: <http://schema.org/> 
+SELECT ?language ?languageLabel ?languageDescription ?lexemeCount WHERE {
+  {
+    SELECT ?language (COUNT(?lexeme) AS ?lexemeCount) WHERE {
+      ?lexeme dct:language ?language .
+    }
+    GROUP BY ?language
   }
-  GROUP BY ?language
-} AS %languages
-WHERE {
-  INCLUDE %languages
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  {
+    ?language rdfs:label ?languageLabel .
+    FILTER(LANG(?languageLabel) = "en")
+  }
+  {
+    ?language schema:description ?languageDescription .
+    FILTER(LANG(?languageDescription) = "en")
+  }
 }
-ORDER BY DESC(?number_of_lexemes)
+ORDER BY DESC(?lexemeCount)
   `
 qleverlanguagesSparql=`
 PREFIX dct: <http://purl.org/dc/terms/>
