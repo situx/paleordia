@@ -35,7 +35,7 @@ PREFIX pr: <http://www.wikidata.org/prop/reference/>
 	  OPTIONAL { ?derivedFrom ontolex:sense ?derivedFromSensee . ?derivedFromSensee skos:definition ?dsgloss .  FILTER(LANG(?dsgloss)= "en") OPTIONAL {?derivedFromSensee wdt:P5137|wdt:P9970 ?dsenseval . ?dsenseval rdfs:label ?dsenselab .  FILTER(LANG(?dsenselab)= "en")} BIND(CONCAT(?dsgloss, COALESCE(CONCAT(" [", ?dsenselab, " (", STRAFTER(STR(?dsenseval), "http://www.wikidata.org/entity/"), ")", "]"),"")) AS ?derivedFromSenseLabell) } 
       ?lexcat rdfs:label ?lexcatLabel . FILTER(LANG(?lexcatLabel)= "en")
 	  OPTIONAL { ?lexeme ontolex:sense ?sensse . ?sensse skos:definition ?gloss .  FILTER(LANG(?gloss)= "en") OPTIONAL {?sensse wdt:P5137|wdt:P9970 ?senseval . ?senseval rdfs:label ?senselab .  FILTER(LANG(?senselab)= "en")} BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senselab, " (", STRAFTER(STR(?senseval), "http://www.wikidata.org/entity/"), ")", "]"),"")) AS ?senselabel) }     }
-	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?derivationModeLabel ?derivationRoleLabel ?derivationMode ?derivationRole ?derivedFrom ?derivedFromLabel ?derivedFromLanguage ?derivedFromLanguageLabel
+	GROUP BY ?lexeme ?lexcat ?lexcatLabel ?derivationModeLabel ?derivationRoleLabel ?derivationMode ?derivationRole ?derivedFrom ?derivedFromLanguage ?derivedFromLanguageLabel
 	ORDER BY ?lexemeLabel
 `
 
