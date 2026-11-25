@@ -600,60 +600,54 @@ function sparqlToDataTable(sparql, element, options={}) {
 		//console.log(convertedDataReduced)
 		convertedData["data"]=convertedDataReduced
 	}
-	var table = $(element).on( 'draw.dt', function () {
-            //console.log( 'Loading' );
-          //Here show the loader.
-          $("#MessageContainer").html("Loading data table...");
-        } )
-        .on( 'init.dt', function () {
-            //console.log( 'Loaded' );
-           //Here hide the loader.
-           $("#MessageContainer").html("Loading completed!");
-		   	if(pBar!=""){
-				$('#'+pBar).progressbar("destroy")
-				$('#'+pBarLabel).html("")
-			}
-			$(".dataTables_filter input")
-			.off('.DT')
-			.on('keyup.DT cut.DT paste.DT input.DT search.DT', function (e) {
-				  // console.log("Searching dt with neutralize accent")
-				  $(element).DataTable().search(neutralizeAccent(this.value)).draw();
-			   }
-			);
-        } ).DataTable({ 
-	    data: convertedData.data,
-	    columns: columns,
-		columnDefs: [{ type: 'natural-nohtml', targets: '_all' }],
-		dom: 'lBfrtip',
-		hideEmptyCols: true,
-		layout:{
-			top1Start:'pageLength',
-			top1: {
-			   buttons: [
-				{
-                    extend: 'spacer',
-                    style: 'bar',
-                    text: ''
-                },
-				'copyHtml5',
-				'excelHtml5',
-				'csvHtml5',
-				{
-					extend: 'pdfHtml5',
-					orientation: 'landscape',
-					download: 'open'
-				}
-				]
-			}
-		},
-		bDestroy: true,
-	    lengthMenu: [[10, 25, 100,250,500,1000, -1], [10, 25, 100,250,500,1000, "All"]],
-	    ordering: true,
-	    order: [], 
-	    paging: paging,
-		pagingType: "input",
-	    sDom: sDom,
-	});
+	var table = $(element)
+    .off('draw.dt init.dt') // Prevent duplicate event stacking on re-init
+    .on('init.dt', function () {
+        $("#MessageContainer").html("Loading completed!");
+        
+        if (pBar != "") {
+            $('#' + pBar).progressbar("destroy");
+            $('#' + pBarLabel).html("");
+        }
+
+        // Scope strictly to THIS table's container
+        var dtApi = $(element).DataTable();
+        var wrapper = dtApi.table().container();
+
+        $("input[type='search'], .dataTables_filter input", wrapper)
+            .off('.DT')
+            .on('keyup.DT cut.DT paste.DT input.DT search.DT', function () {
+                dtApi.search(neutralizeAccent(this.value)).draw();
+            });
+    })
+    .DataTable({
+        data: convertedData.data,
+        columns: columns,
+        columnDefs: [{ type: 'natural-nohtml', targets: '_all' }],
+        destroy: true, // Modern equivalent of bDestroy
+        hideEmptyCols: true,
+        layout: {
+            top1Start: 'pageLength',
+            top1: {
+                buttons: [
+                    { extend: 'spacer', style: 'bar', text: '' },
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        download: 'open'
+                    }
+                ]
+            }
+        },
+        lengthMenu: [[10, 25, 100, 250, 500, 1000, -1], [10, 25, 100, 250, 500, 1000, "All"]],
+        ordering: true,
+        order: [],
+        paging: paging,
+        pagingType: "input"
+    });
 	if(highlight!=""){
 		res=table.page.jumpToData(highlight,highlightcol)
 		console.log(res)
