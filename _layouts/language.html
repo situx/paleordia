@@ -9,59 +9,47 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-SELECT ?description ?value ?valueUrl
+SELECT ?description ?value
 WHERE {
-  BIND(wd:${ q } AS ?language)
-  {
-    BIND(1 AS ?order)
-    BIND("Language" AS ?description)
-    ?language rdfs:label ?value_string .
-    FILTER (LANG(?value_string) = 'en')
-    BIND(COALESCE(?value_string, ?q) AS ?value)
-  }
-  UNION
   {
     SELECT
-      (2 AS ?order)
-      ("Number of lexemes" AS ?description)
-      (COUNT(*) AS ?value)
-    {
-      [] dct:language wd:${ q } .
-      BIND(1 AS ?dummy)
+      (SAMPLE(?label) AS ?langLabel)
+      (SAMPLE(?speakers) AS ?speakerCount)
+      (COUNT(DISTINCT ?lexeme) AS ?lexemeCount)
+      (COUNT(DISTINCT ?sense) AS ?senseCount)
+      (COUNT(DISTINCT ?form) AS ?formCount)
+    WHERE {
+      BIND(wd:${ q } AS ?language)
+      OPTIONAL {
+        ?language rdfs:label ?label .
+        FILTER(LANG(?label) = "en")
+      }
+      OPTIONAL {
+        ?language wdt:P1098 ?speakers .
+      }
+      OPTIONAL {
+        ?lexeme dct:language ?language .
+        OPTIONAL { ?lexeme ontolex:sense ?sense . }
+        OPTIONAL { ?lexeme ontolex:lexicalForm ?form . }
+      }
     }
-    GROUP BY ?dummy
   }
-  UNION
-  {
-    SELECT
-      (3 AS ?order)
-      ("Number of senses" AS ?description)
-      (COUNT(*) AS ?value)
-    {
-      [] ^ontolex:sense / dct:language wd:${ q } .
-      BIND(1 AS ?dummy)
-    }
-    GROUP BY ?dummy
+  VALUES (?order ?description) {
+    (1 "Language")
+    (2 "Number of lexemes")
+    (3 "Number of senses")
+    (4 "Number of forms")
+    (10 "Number of speakers")
   }
-  UNION
-  {
-    SELECT
-      (4 AS ?order)
-      ("Number of forms" AS ?description)
-      (COUNT(*) AS ?value)
-    {
-      [] ^ontolex:lexicalForm / dct:language wd:${ q } .
-      BIND(1 AS ?dummy)
-    }
-    GROUP BY ?dummy
-  }
-  UNION
-  {
-    BIND(10 AS ?order)
-    BIND("Number of speakers" AS ?description)
-    ?language wdt:P1098 ?value .
-  }
-} 
+  BIND(
+    IF(?order = 1, ?langLabel,
+    IF(?order = 2, ?lexemeCount,
+    IF(?order = 3, ?senseCount,
+    IF(?order = 4, ?formCount,
+    ?speakerCount)))) AS ?value
+  )
+  FILTER(BOUND(?value))
+}
 ORDER BY ?order
 `;
   
