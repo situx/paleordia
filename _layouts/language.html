@@ -96,6 +96,7 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
   }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+ORDER BY ?lexemeLabel
 `
 
 
