@@ -232,12 +232,12 @@ SELECT ?reference ?referenceLabel (COUNT(?lexeme) AS ?number_of_lexemes) WHERE {
   {
 	?lexeme wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLabel .
+    FILTER(lang(?referenceLabel)="en")
   }UNION{
+      ?idpropp wikibase:propertyType wikibase:ExternalId ; rdfs:label ?referenceLabel ; wikibase:directClaim ?reference  .
       ?lexeme ?reference ?id . 
-      ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
-      ?idpropp rdfs:label ?referenceLabel
+    FILTER(lang(?referenceLabel)="en")
   }
-  FILTER(lang(?referenceLabel)="en")
 }
 GROUP BY ?reference ?referenceLabel
 ORDER BY DESC(?number_of_lexemes)
