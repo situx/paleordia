@@ -77,14 +77,10 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) 
 (GROUP_CONCAT(DISTINCT ?sensee; SEPARATOR = " // ") AS ?senses)
 (GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel)
-?lexical_category ?lexical_categoryLabel WITH {
-  SELECT ?lexeme WHERE {
+?lexical_category ?lexical_categoryLabel WHERE {
   ?lexeme rdf:type ontolex:LexicalEntry;
-    dct:language wd:${ q } .
-  }
-  } AS %i WHERE {
-      INCLUDE %i 
-   ?lexeme wikibase:lemma ?lexemeLab ;
+    dct:language wd:${ q } ;
+    wikibase:lemma ?lexemeLab ;
 	wikibase:lexicalCategory ?lexical_category.
   ?lexical_category rdfs:label ?lexical_categoryLabel.
   FILTER(LANG(?lexical_categoryLabel) = "en")
@@ -112,7 +108,6 @@ SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexeme
   }
 }
 GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
-LIMIT 15000
 `
 
 
