@@ -183,22 +183,21 @@ lexemesSparql =`
 `
 
 reflistSparql=`
-SELECT DISTINCT ?reference ?referenceLabel ?referenceLabel2 (COUNT(?reference) AS ?amount) WHERE {
-	?charclass wdt:P361 wd:Q401 .
+SELECT DISTINCT ?reference ?referenceLabel (COUNT(?reference) AS ?amount) WHERE {
+	?charclass wdt:P361 wd:${ q } .
 	?character wdt:P31 ?charclass .
 	FILTER NOT EXISTS {?character wdt:P31 wd:Q118867680 .} 
 	{
 	?character wdt:P1343 ?reference .
 	?reference rdfs:label ?referenceLabel .
-	}UNION{
-      ?character ?reference ?id . 
-      ?idpropp wikibase:directClaim ?reference ; wikibase:propertyType wikibase:ExternalId .
-      ?idpropp rdfs:label ?referenceLabel
+    FILTER (LANG(?referenceLabel) = 'en')
+	}UNION{    
+      ?idpropp wikibase:propertyType wikibase:ExternalId ; wikibase:directClaim ?reference ; rdfs:label ?referenceLabel .
+      FILTER (LANG(?referenceLabel) = 'en')
+      ?character ?reference ?id .   
     }	
-	OPTIONAL { ?reference wdt:P1813 ?referenceSN . BIND(CONCAT(" (",?referenceSN, ")") AS ?referenceLabel2)}
-	FILTER (LANG(?referenceLabel) = 'en')
   }
-  GROUP BY ?reference ?referenceLabel ?referenceLabel2
+  GROUP BY ?reference ?referenceLabel
   ORDER BY DESC(xsd:integer(?amount)) 
 `
 
