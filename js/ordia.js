@@ -501,7 +501,8 @@ function sparqlToDataTable(sparql, element, options={}) {
 	}
     //
 	
-    var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
+    //var post_data = "query=" + encodeURIComponent(sparql) + '&format=json'
+	var post_data = { query: sparql, format: 'json'};
     if(desc!=""){
 	$(element).append(
 	    '<caption><a href="https://query.wikidata.org/#' + 
