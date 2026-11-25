@@ -482,9 +482,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 	}
 	
 	url = new URL(window.location.href);
-	var post_url = "https://query.wikidata.org/sparql";
-	if (url.searchParams.has('qlever')) {
-		var post_url = "https://qlever.dev/api/wikidata";
+	var post_url = "https://query-next.wikidata.org/sparql";
+	if (url.searchParams.has('noqlever')) {
+		var post_url = "https://query.wikidata.org/sparql";
 	}
     //
 	
