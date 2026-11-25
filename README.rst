@@ -6,7 +6,7 @@ PaleOrdia modifies the tool Ordia (https://ordia.toolforge.org/) to be represent
 While the tool was modified with languages written in the cuneiform script as a focus, its codebase has been written language-agnostic.
 
 To test PaleOrdia, simply go to the GitHub page of this repository.
-
+ 
    
 License
 -------
