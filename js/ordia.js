@@ -415,6 +415,19 @@ function entityToLabel(entity, language='en') {
     return entity['id']
 }
 
+function postAjax(url, data) {
+  return $.ajax({
+    url: url,
+    type: 'POST',
+    data: data,
+    headers: { 'Accept': 'application/sparql-results+json' },
+    beforeSend: function(xhr) {
+      xhr.overrideMimeType('application/sparql-results+json; charset=utf-8');
+    },
+    dataType: 'json'
+  });
+}
+
 
 function sparqlDataToSimpleData(response) {
     // Convert long JSON data from from SPARQL endpoint to short form
@@ -498,7 +511,9 @@ function sparqlToDataTable(sparql, element, options={}) {
 	    '<caption><a href="https://query.wikidata.org/#' + 
 		encodeURIComponent(sparql) +'" target="_blank">Edit on query.Wikidata.org</a></caption>');
 	}
-       $.post(post_url, post_data).done(function(response) {
+
+	
+    postAjax(post_url, post_data).done(function(response) {
 	if(pBar!="" && pBarLabel!=""){
 	    $("#"+pBarLabel).html("Loading... (Processing response)")
 	}
