@@ -420,9 +420,9 @@ function postAjax(url, data) {
     url: url,
     type: 'POST',
     data: data,
-    headers: { 'Accept': 'application/sparql-results+json' },
+    headers: { 'Accept': 'application/sparql-results+json;charset=utf-8' },
     beforeSend: function(xhr) {
-      xhr.overrideMimeType('application/sparql-results+json; charset=utf-8');
+      xhr.overrideMimeType('application/sparql-results+json;charset=utf-8');
     },
     dataType: 'json'
   });
