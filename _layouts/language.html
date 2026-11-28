@@ -64,10 +64,8 @@ PREFIX wd: <http://www.wikidata.org/entity/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT ?lexeme        
-(CONCAT(
-         GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // "),
-         SAMPLE(COALESCE(?lexDictHtml, ""))
-       ) AS ?lexemeLabel) 
+(GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // ") AS ?lexemeLabel) 
+?lexemeLabel2
 (GROUP_CONCAT(DISTINCT STR(?sensee); SEPARATOR = " // ") AS ?senses)
 (GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel)
 ?lexical_category ?lexical_categoryLabel WHERE {
@@ -93,7 +91,7 @@ SELECT ?lexeme
   }
   BIND(IF(BOUND(?lexDictNames) && ?lexDictNames != "", 
           CONCAT(" <details class='dict-details' style='display:inline;'><summary style='cursor:pointer;color:#666;'>[!]</summary> <small class='dict-qual'>", ?lexDictNames, "</small></details>"), 
-          "") AS ?lexDictHtml)
+          "") AS ?lexemeLabel2)
   OPTIONAL {
     ?lexeme ontolex:sense ?senseitem.   
     OPTIONAL {
