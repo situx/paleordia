@@ -52,8 +52,76 @@ WHERE {
 }
 ORDER BY ?order
 `;
-  
- lexemesSparql = `
+
+lexemesSparql=`
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?lexeme        
+(CONCAT(
+         GROUP_CONCAT(DISTINCT ?lexemeLab; SEPARATOR = " // "),
+         SAMPLE(COALESCE(?lexDictHtml, ""))
+       ) AS ?lexemeLabel) 
+(GROUP_CONCAT(DISTINCT STR(?sensee); SEPARATOR = " // ") AS ?senses)
+(GROUP_CONCAT(DISTINCT ?senselabel; SEPARATOR = " // ") AS ?sensesLabel)
+?lexical_category ?lexical_categoryLabel WHERE {
+  ?lexeme rdf:type ontolex:LexicalEntry;
+    dct:language wd:${ q } ;
+    wikibase:lemma ?lexemeLab ;
+	wikibase:lexicalCategory ?lexical_category.
+  ?lexical_category rdfs:label ?lexical_categoryLabel.
+  FILTER(LANG(?lexical_categoryLabel) = "en")
+  OPTIONAL {
+    SELECT ?lexeme (GROUP_CONCAT(DISTINCT ?dictEntry; SEPARATOR = ", ") AS ?lexDictNames) WHERE {
+      ?lexeme p:P1343 ?stmt .
+      ?stmt pq:P1810 ?namedAs .
+      
+      OPTIONAL {
+        ?stmt ps:P1343 / wdt:P1813 ?shortName .
+      }
+      
+      BIND(COALESCE(?shortName, "") AS ?dictPrefix)
+      BIND(IF(?dictPrefix != "", CONCAT(?dictPrefix, ": ", ?namedAs), STR(?namedAs)) AS ?dictEntry)
+    }
+    GROUP BY ?lexeme
+  }
+  BIND(IF(BOUND(?lexDictNames) && ?lexDictNames != "", 
+          CONCAT(" <details class='dict-details' style='display:inline;'><summary style='cursor:pointer;color:#666;'>[!]</summary> <small class='dict-qual'>", ?lexDictNames, "</small></details>"), 
+          "") AS ?lexDictHtml)
+  OPTIONAL {
+    ?lexeme ontolex:sense ?senseitem.   
+    OPTIONAL {
+      ?senseitem wdt:P5137|wdt:P9970 ?sense.
+      ?sense rdfs:label ?senseLab.
+      FILTER(LANG(?senseLab)="en")
+	  BIND(COALESCE(STRAFTER(STR(?sense), "http://www.wikidata.org/entity/"), "") AS ?sensse)
+      BIND(COALESCE(STRAFTER(STR(?senseitem), "http://www.wikidata.org/entity/"), "") AS ?sensel)
+    }
+	OPTIONAL {
+		FILTER("${ displaylang }"!="en")
+		?senseitem skos:definition ?glosss.
+		FILTER(LANG(?glosss)="${ displaylang }")
+		BIND(CONCAT(?glosss,"@${ displaylang }") AS ?gloss)
+	}
+	OPTIONAL {
+		?senseitem skos:definition ?gloss.
+		FILTER(LANG(?gloss)="en")
+	}
+	BIND(COALESCE(?sense, "#") AS ?sensee)
+    BIND(CONCAT(?gloss, COALESCE(CONCAT(" [", ?senseLab, " (", ?sensse, ")", "] <a target='_blank' href='../ls/?l=",STRAFTER(STR(?lexeme), "http://www.wikidata.org/entity/"),"&s=",STRAFTER(STR(?sensel),"-"),"&qLabel=",STR(?senseLab),"'>&#8599;</a>"),"")) AS ?senselabel)
+  }
+}
+GROUP BY ?lexeme ?lexical_category ?lexical_categoryLabel
+ORDER BY ?lexemeLabel
+`
+	
+ lexemesSparql_ = `
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dct: <http://purl.org/dc/terms/>
